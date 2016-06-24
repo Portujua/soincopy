@@ -13,6 +13,25 @@
 
 		$scope.buscar_status = 0;
 
+		$scope.estados = [
+			{
+				val: 0,
+				nombre: "Pendientes"
+			},
+			{
+				val: 1,
+				nombre: "Aprobadas"
+			},
+			{
+				val: -1,
+				nombre: "Rechazadas"
+			},
+			{
+				val: 2,
+				nombre: "Inactivas"
+			}
+		];
+
 		$scope.init_agregarguia = function(){
 			$scope.agregarguia_titulo = "";
 			$scope.agregarguia_carrera = "";

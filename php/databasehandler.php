@@ -6,7 +6,7 @@
         */
 
         // local, main, test
-        private $connect_to = "main";
+        private $connect_to = "local";
 
 		private $db;
 
