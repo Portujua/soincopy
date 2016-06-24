@@ -262,3 +262,15 @@ comment 'modifica una guia'
 begin
 	update Guia set titulo=titulo_, seccion=seccion_, comentario=comentario_, pdf=pdf_, profesor=profesor_, materia=materia_, entregada_por=entregada_por_, recibida_por=recibida_por_, numero_hojas=numero_hojas_, numero_paginas=numero_paginas_ where codigo=codigo_;
 end//
+
+create procedure cambiar_estado_guia(in status_ int, in codigo_ varchar(20))
+begin
+	declare status_previo_ int;
+
+	set status_previo_ = (select status from Guia where codigo=codigo_);
+
+	update Guia set status=status_ where codigo=codigo_;
+
+	insert into Cambio_de_Status (guia, status_previo, status_nuevo, fecha)
+	values ((select id from Guia where codigo=codigo_), status_previo_, status_, now());
+end//

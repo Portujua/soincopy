@@ -445,7 +445,7 @@
         public function cambiar_estado($post)
         {
             $query = $this->db->prepare("
-                update Guia set status=:status where codigo=:codigo
+                call cambiar_estado_guia(:status, :codigo);
             ");
 
             $query->execute(array(
