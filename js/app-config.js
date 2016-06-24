@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("gcg", ["ngRoute"]);
+	var app = angular.module("soincopy", ["ngRoute", "angular.filter"]);
 
 	app.filter('setDecimal', function ($filter) {
 	    return function (input, places) {

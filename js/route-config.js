@@ -1,21 +1,18 @@
 (function(){
-	angular.module("gcg").config(function($routeProvider){
+	angular.module("soincopy").config(function($routeProvider){
 		$routeProvider
-			.when("/home", {
-				templateUrl : "views/home.html"
+			.when("/inicio", {
+				templateUrl : "views/inicio.html"
 			})
-			.when("/aboutus", {
-				templateUrl : "views/aboutus.html"
+			.when("/agregarguia", {
+				templateUrl : "views/guias/agregar.html"
 			})
-			.when("/ourpeople", {
-				templateUrl : "views/ourpeople.html"
+			.when("/buscarguias", {
+				templateUrl : "views/guias/buscar.html"
 			})
-			.when("/contact", {
-				templateUrl : "views/contact.html"
+			.when("/modificarguia/:codigo", {
+				templateUrl : "views/guias/modificar.html"
 			})
-			.when("/clients", {
-				templateUrl : "views/clients.html"
-			})
-			.otherwise({redirectTo : "/home"});
+			.otherwise({redirectTo : "/inicio"});
 	});
 }());

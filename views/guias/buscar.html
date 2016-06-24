@@ -1,0 +1,55 @@
+<div class="buscar" ng-controller="Guia">
+	<div class="alert alert-info" role="alert">
+		<strong>Nota:</strong> haz click en el código de una guía para modificarla
+	</div>
+	
+	Ver guías con status de 
+	<select ng-model="buscar_status" ng-change="cargar_guias()">
+		<option value="0">Pendientes</option>
+		<option value="1">Aprobadas</option>
+		<option value="-1">Rechazadas</option>
+		<option value="2">Inactivas</option>
+	</select>
+	<br/>
+
+	Buscar <input type="text" ng-model="buscador" placeholder="Ej. 19393, Pedro Perez, 19/03/2016, etc." data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
+
+	<script>
+		$(document).ready(function(){
+		    $('[data-toggle="tooltip"]').tooltip(); 
+		});
+	</script>
+
+	<p ng-hide="guias">Cargando guías..</p>
+
+	<table class="table table-stripped" ng-init="cargar_guias()" ng-show="guias">
+		<thead>
+			<th class="text-center">Código</th>
+			<th class="text-center">Título</th>
+			<th class="text-center">Profesor</th>
+			<th class="text-center">Sección</th>
+			<th class="text-center">Entregada por</th>
+			<th class="text-center">Recibida por</th>
+			<th class="text-center">Fecha de entrega</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="g in guias" 
+				ng-if="!buscador || 
+						g.codigo.indexOf(buscador) != -1 ||
+						g.titulo.indexOf(buscador) != -1 ||
+						g.profesor.nombre_completo.indexOf(buscador) != -1 ||
+						g.seccion.indexOf(buscador) != -1 ||
+						g.entregada_por.nombre_completo.indexOf(buscador) != -1 ||
+						g.recibida_por.nombre_completo.indexOf(buscador) != -1 ||
+						g.fecha.indexOf(buscador) != -1">
+				<td class="text-center"><a class="badge" href="./#/modificarguia/{{g.codigo}}">{{ g.codigo }}</a></td>
+				<td class="text-center">{{ g.titulo }}</td>
+				<td class="text-center">{{ g.profesor.nombre_completo }}</td>
+				<td class="text-center">{{ g.seccion }}</td>
+				<td class="text-center">{{ g.entregada_por.nombre_completo }}</td>
+				<td class="text-center">{{ g.recibida_por.nombre_completo }}</td>
+				<td class="text-center">{{ g.fecha }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,74 @@
+<div class="agregar_guia" ng-controller="Guia">
+	<h2>Agregar guía</h2>
+
+	<div class="register-form" ng-init="init_agregarguia()">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Título (*)</p>
+			<input type="text" ng-model="agregarguia_titulo" maxlength="128" placeholder="Título" />
+		</div>
+
+		<div class="fila" ng-init="cargar_materias()">
+			<p>Carreras (*)</p>
+			<select ng-model="agregarguia_carrera" ng-show="materias" ng-change="agregarguia_materia = '';">
+				<option ng-repeat="c in materias | unique: 'carrera'">{{ c.carrera }}</option>
+			</select>
+
+			<span ng-hide="materias">Cargando...</span>
+		</div>
+
+		<div class="fila">
+			<p>Materias (*)</p>
+			<select ng-model="agregarguia_materia" ng-show="agregarguia_carrera">
+				<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" value="{{ m.id }}">{{ m.nombre }}</option>
+			</select>
+
+			<span ng-hide="agregarguia_carrera">Seleccione una carrera</span>
+		</div>
+
+		<div class="fila" ng-init="cargar_profesores()">
+			<p>Profesor (*)</p>
+			<select ng-model="agregarguia_profesor" ng-show="profesores">
+				<option ng-repeat="p in profesores" value="{{ p.id }}">{{ p.nombre_completo }}</option>
+			</select>
+
+			<span ng-hide="profesores">Cargando...</span>
+		</div>
+
+		<div class="fila">
+			<p>Sección (*)</p>
+			<input type="text" ng-model="agregarguia_seccion" maxlength="12" placeholder="Sección" />
+		</div>
+
+		<div class="fila">
+			<p>Comentario</p>
+			<textarea ng-model="agregarguia_comentario" placeholder="Escriba un comentario.."></textarea>
+		</div>
+
+		<div class="fila" ng-init="cargar_personal()">
+			<p>Recibido por (*)</p>
+			<select ng-model="agregarguia_recibida_por" ng-show="personal">
+				<option ng-repeat="p in personal" value="{{ p.id }}">{{ p.nombre_completo }}</option>
+			</select>
+
+			<span ng-hide="personal">Cargando...</span>
+		</div>
+
+		<div class="fila">
+			<p>PDF (*)</p>
+			<input type="file" ng-hide="upload_progress" />
+			<button class="btn-upload btn btn-primary" ng-hide="upload_progress" ng-click="subir_pdf();">Subir</button>
+
+			<div class="progress" ng-show="upload_progress">
+				<div class="progress-bar" role="progressbar" aria-valuenow="{{ upload_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ upload_progress }}%">
+					{{ upload_progress }}%
+				</div>
+			</div>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary btn-lg" ng-click="agregar_guia()">Añadir</button>
+		</div>
+	</div>
+</div>

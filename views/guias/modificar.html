@@ -1,0 +1,86 @@
+<div class="modificar" ng-controller="Guia">
+	<div class="zona_alertas"></div>
+
+	<h2>
+		Guía {{ guia.codigo }} 
+		<small>
+			Estado: <span class="status-{{ guia.status_str }}">{{ guia.status_str }}</span>
+
+			<small>
+				<div class="btn-group">
+					<button class="btn btn-info btn-xs" ng-show="guia.status != 2" ng-click="cambiar_estado(2)">Desactivar</button>
+					<button class="btn btn-danger btn-xs" ng-show="guia.status != -1" ng-click="cambiar_estado(-1)">Rechazar</button>
+					<button class="btn btn-success btn-xs" ng-show="guia.status != 1" ng-click="cambiar_estado(1)">Aprobar</button>
+				</div>
+			</small>
+		</small>
+	</h2>
+
+	<div class="register-form" ng-show="guia">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Título (*)</p>
+			<input type="text" ng-model="guia.titulo" maxlength="128" placeholder="Título" />
+		</div>
+
+		<div class="fila" ng-init="cargar_materias()">
+			<p>Carreras (*)</p>
+			<select ng-options="c for c in carreras" ng-model="guia.carrera_nombre" ng-show="carreras" ng-change="guia.materia = '';"></select>
+
+			<span ng-hide="materias">Cargando...</span>
+		</div>
+
+		<div class="fila">
+			<p>Materias (*)</p>
+			<select ng-options="c.id as c.nombre for c in materias | filter: {carrera: guia.carrera_nombre}" ng-model="guia.materia" ng-show="materias"></select>
+
+			<span ng-hide="guia.carrera_nombre">Seleccione una carrera</span>
+		</div>
+
+		<div class="fila" ng-init="cargar_profesores()">
+			<p>Profesor (*)</p>
+			<select ng-options="c.id as c.nombre_completo for c in profesores" ng-model="guia.profesor_id" ng-show="profesores"></select>
+
+			<span ng-hide="profesores">Cargando...</span>
+		</div>
+
+		<div class="fila">
+			<p>Sección (*)</p>
+			<input type="text" ng-model="guia.seccion" maxlength="12" placeholder="Sección" />
+		</div>
+
+		<div class="fila">
+			<p>Comentario</p>
+			<textarea ng-model="guia.comentario" placeholder="Escriba un comentario.."></textarea>
+		</div>
+
+		<div class="fila" ng-init="cargar_personal()">
+			<p>Recibido por (*)</p>
+			<select ng-options="c.id as c.nombre_completo for c in personal" ng-model="guia.recibida_por_id" ng-show="personal"></select>
+
+			<span ng-hide="personal">Cargando...</span>
+		</div>
+
+		<div class="fila" ng-hide="guia.pdf">
+			<p>PDF (*)</p>
+			<input type="file" ng-hide="upload_progress" />
+			<button class="btn-upload btn btn-primary" ng-hide="upload_progress" ng-click="subir_pdf();">Subir</button>
+
+			<div class="progress" ng-show="upload_progress">
+				<div class="progress-bar" role="progressbar" aria-valuenow="{{ upload_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ upload_progress }}%">
+					{{ upload_progress }}%
+				</div>
+			</div>
+		</div>
+
+		<div class="fila" ng-show="guia.pdf">
+			<p><a href="../soincopy_files/guias/{{ guia.pdf }}" target="_blank">Ver PDF</a></p>
+			<button class="btn btn-danger" ng-click="eliminar_pdf()">Eliminar PDF</button>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary btn-lg" ng-click="modificar_guia()">Guardar cambios</button>
+		</div>
+	</div>
+</div>
