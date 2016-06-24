@@ -260,8 +260,5 @@ end//
 create procedure modificar_guia(in codigo_ varchar(20), in titulo_ varchar(128), in seccion_ varchar(12), in comentario_ text, in pdf_ varchar(128), in profesor_ int, in materia_ int, in entregada_por_ varchar(128), in recibida_por_ int, in numero_hojas_ int, in numero_paginas_ int)
 comment 'modifica una guia'
 begin
-	declare last_id int;
-
-	update Guia set titulo=titulo_, seccion=seccion_, comentario=comentario_, pdf=pdf_, profesor=profesor_, materia=materia_, entregada_por=entregada_por_, recibida_por=recibida_por_, numero_hojas=numero_hojas_, numero_paginas=numero_paginas_
-	where codigo=codigo_;
+	update Guia set titulo=titulo_, seccion=seccion_, comentario=comentario_, pdf=pdf_, profesor=profesor_, materia=materia_, entregada_por=entregada_por_, recibida_por=recibida_por_, numero_hojas=numero_hojas_, numero_paginas=numero_paginas_ where codigo=codigo_;
 end//

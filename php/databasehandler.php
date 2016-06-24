@@ -6,7 +6,7 @@
         */
 
         // local, main, test
-        private $connect_to = "local";
+        private $connect_to = "main";
 
 		private $db;
 
@@ -22,7 +22,7 @@
             {
                 $this->username = "salazars_eduardo";
                 $this->password = "21115476";
-                $this->dsn = "mysql:dbname=salazars_cucab;host=localhost";
+                $this->dsn = "mysql:dbname=salazars_soincopy;host=localhost";
             }
             elseif ($this->connect_to == "test")
             {

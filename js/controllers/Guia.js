@@ -174,7 +174,7 @@
 			var formData = new FormData();
     		formData.append(file.name, file);
 
-    		$scope.upload_progress = 0;
+    		$scope.upload_progress = 1;
 
 			$.ajax({
 			    url: "php/carga.php?action=upload",
@@ -185,7 +185,7 @@
 			    contentType: false,
 			    beforeSend: function(){
 			    	$scope.safeApply(function(){
-		    			$scope.upload_progress = 0;
+		    			$scope.upload_progress = 1;
 		    		});
 
 		    		$(".progress-bar").addClass("progress-bar-striped").addClass("active");
