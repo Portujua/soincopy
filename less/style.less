@@ -176,3 +176,33 @@ button {
 	width: 100vw - @navbar_width;
 	padding: 50px 30px;
 }
+
+.login {
+	width: 400px;
+	margin: 0 auto;
+	padding: 20px 25px;
+	margin-top: 50px;
+
+	.login_alert {
+		color: red;
+	}
+
+	input {
+		width: 100%;
+		padding: 6px 10px;
+		background-color: white;
+		border: none;
+		border-bottom: 1px solid #ccc;
+		border-radius: 5px;
+		outline: none !important;
+		margin-bottom: 25px;
+
+		&:focus {
+			border-bottom: 1px solid #333;
+		}
+	}
+
+	button {
+		width: 100% !important;
+	}
+}

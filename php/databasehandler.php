@@ -6,7 +6,7 @@
         */
 
         // local, main, test
-        private $connect_to = "local";
+        private $connect_to = "main";
 
 		private $db;
 
@@ -250,6 +250,28 @@
 
 
         /* Funciones nuevas aqui abajo */
+        public function login($post)
+        {
+            $query = $this->db->prepare("
+                select u.id as id, u.usuario as usuario, p.*
+                from Usuario as u, Permisos as p
+                where u.id=p.usuario and u.usuario=:username and u.contrasena=:password
+                limit 1
+            ");
+
+            $query->execute(array(
+                ":username" => $post['username'],
+                ":password" => $post['password']
+            ));
+
+            $u = $query->fetchAll();
+
+            if (count($u) > 0)
+                return json_encode($u[0]);
+            else
+                return json_encode(array("error" => 1));
+        }
+
         public function cargar_materias($post)
         {
             $query = $this->db->prepare("call obtener_todas_las_materias()");

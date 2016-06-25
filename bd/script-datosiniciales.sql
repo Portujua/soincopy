@@ -37,3 +37,9 @@ call agregar_profesor("Profesor", null, "Dos", null, "1123456789", "xxxxxxxx");
 
 call agregar_personal("Eduardo", "Jose", "Lorenzo", null);
 call agregar_personal("Christian", null, "Leon", null);
+
+insert into Usuario (usuario, contrasena) values ("admin", "admin");
+insert into Usuario (usuario, contrasena) values ("solobuscar", "solobuscar");
+
+insert into Permisos (anadir_guias, buscar_guias, modificar_guias, usuario) values (1, 1, 1, 1);
+insert into Permisos (anadir_guias, buscar_guias, modificar_guias, usuario) values (0, 1, 0, 2);

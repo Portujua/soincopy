@@ -91,6 +91,23 @@ create table Cambio_de_Status (
 	foreign key (usuario) references Personal(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Usuario (
+	id int not null auto_increment,
+	usuario varchar(32) not null,
+	contrasena varchar(32) not null,
+	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+create table Permisos (
+	id int not null auto_increment,
+	anadir_guias tinyint(1) default 0,
+	buscar_guias tinyint(1) default 0,
+	modificar_guias tinyint(1) default 0,
+	usuario int not null,
+	primary key(id),
+	foreign key (usuario) references Usuario(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

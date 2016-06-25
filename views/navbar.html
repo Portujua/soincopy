@@ -2,11 +2,11 @@
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias">Guías</p>
 
 	<div class="guias collapse" aria-expanded="false">
-		<a href="./#/agregarguia">
+		<a href="./#/agregarguia" ng-show="$parent.login_info.anadir_guias == 1">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/buscarguias">
+		<a href="./#/buscarguias"  ng-show="$parent.login_info.buscar_guias == 1">
 			<p>Buscar</p>
 		</a>
 	</div>

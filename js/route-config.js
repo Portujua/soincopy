@@ -1,6 +1,9 @@
 (function(){
 	angular.module("soincopy").config(function($routeProvider){
 		$routeProvider
+			.when("/login", {
+				templateUrl : "views/login.html"
+			})
 			.when("/inicio", {
 				templateUrl : "views/inicio.html"
 			})
@@ -13,6 +16,6 @@
 			.when("/modificarguia/:codigo", {
 				templateUrl : "views/guias/modificar.html"
 			})
-			.otherwise({redirectTo : "/inicio"});
+			.otherwise({redirectTo : "/login"});
 	});
 }());
