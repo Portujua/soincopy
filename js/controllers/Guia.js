@@ -333,7 +333,7 @@
 			    success: function(data){
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
-			        		$location.path("/pendientes");
+			        		$location.path("/buscarguias");
 			        	})
 			    }
 			});
