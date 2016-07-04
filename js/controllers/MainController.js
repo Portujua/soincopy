@@ -11,6 +11,15 @@
 		    }
 		};
 
+		$scope.login_user = "admin";
+		$scope.login_password = "admin";
+
+		if (typeof $scope.login_info == "undefined")
+		{
+			console.log("Not logged in");
+			$location.path("/login");
+		}
+
 		$scope.login = function(){
 			var username = $scope.login_user ? $scope.login_user : "";
 			var password = $scope.login_password ? $scope.login_password : "";

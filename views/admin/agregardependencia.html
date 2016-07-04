@@ -1,0 +1,16 @@
+<div class="agregar agregar_personal" ng-controller="Admin">
+	<h2>Agregar dependencia</h2>
+
+	<div class="register-form">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Nombre (*)</p>
+			<input type="text" ng-model="agregardependencia_nombre" maxlength="64" placeholder="Ej. Escuela de Ingeniería Informática" />
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" ng-click="registrar_dependencia()">Añadir</button>
+		</div>
+	</div>
+</div>

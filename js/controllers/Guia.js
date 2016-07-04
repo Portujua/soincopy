@@ -38,6 +38,8 @@
 			}
 		];
 
+		$scope.periodos = ["1er", "2do", "3er", "4to", "5to", "6to", "7mo", "8vo", "9no", "10mo"];
+
 		$scope.init_agregarguia = function(){
 			$scope.agregarguia_titulo = "";
 			$scope.agregarguia_carrera = "";
@@ -62,12 +64,19 @@
 
 			        	// Creo solo las carreras
 			        	var cs = [];
+			        	var carreras = [];
 
 			        	for (var i = 0; i < json.length; i++)
 			        		if (cs.indexOf(json[i].carrera) == -1)
+			        		{
 			        			cs.push(json[i].carrera);
+			        			carreras.push({
+			        				nombre: json[i].carrera,
+			        				id: json[i].carrera_id
+			        			});
+			        		}
 
-			        	$scope.carreras = cs;
+			        	$scope.carreras = carreras;
 			        })
 			    }
 			});
@@ -216,6 +225,7 @@
 		    		$(".progress-bar").addClass("progress-bar-striped").addClass("active");
 			    },
 			    uploadProgress: function(event, position, total, percentComplete) {
+			    	console.log(event, position, total, percentComplete)
 					$scope.safeApply(function(){
 						$scope.upload_progress = percentComplete;
 					})
@@ -295,6 +305,12 @@
 				return;
 			}
 
+			var tipo = null;
+
+			if ($scope.agregarguia_tipo)
+				if ($scope.agregarguia_tipo != "-1")
+					tipo = $scope.agregarguia_tipo;
+
 			var post = {
 				titulo: $scope.agregarguia_titulo,
 				materia: $scope.agregarguia_materia,
@@ -305,7 +321,8 @@
 				recibida_por: $scope.agregarguia_recibida_por,
 				pdf: $scope.agregarguia_pdf,
 				hojas: $scope.agregarguia_hojas,
-				paginas: $scope.agregarguia_paginas
+				paginas: $scope.agregarguia_paginas,
+				tipo: tipo
 			};
 
 			$.ajax({

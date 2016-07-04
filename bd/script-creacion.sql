@@ -58,6 +58,12 @@ create table Materia (
 	foreign key (profesor) references Profesor(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;*/
 
+create table Dependencia(
+	id int not null auto_increment,
+	nombre varchar(64) not null,
+	primary key(id)
+);
+
 create table Guia (
 	id int not null auto_increment,
 	codigo varchar(20),
@@ -70,9 +76,10 @@ create table Guia (
 	materia int,
 	entregada_por varchar(128) not null comment 'Puede ser un nombre de una persona nueva o si es un numero es el id del profesor que la entrego',
 	recibida_por int not null comment 'Foranea a personal',
-	fecha_anadida date,
+	fecha_anadida datetime,
 	numero_hojas int,
 	numero_paginas int,
+	tipo varchar(32) comment 'Si es articulo, revista, etc',
 	primary key(id), unique(codigo),
 	foreign key (profesor) references Profesor(id),
 	foreign key (materia) references Materia(id),
@@ -103,6 +110,7 @@ create table Permisos (
 	anadir_guias tinyint(1) default 0,
 	buscar_guias tinyint(1) default 0,
 	modificar_guias tinyint(1) default 0,
+	anadir_orden tinyint(1) default 0,
 	usuario int not null,
 	primary key(id),
 	foreign key (usuario) references Usuario(id)
@@ -111,22 +119,28 @@ create table Permisos (
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
-select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha from Guia where status=0;
+select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha, time_format(fecha_anadida, '%h:%i:%s %p') as hora
+from Guia where status=0;
 
 create view Lista_Rechazadas as
-select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha from Guia where status=-1;
+select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha, time_format(fecha_anadida, '%h:%i:%s %p') as hora
+from Guia where status=-1;
 
 create view Lista_Aprobadas as
-select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha from Guia where status=1;
+select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha, time_format(fecha_anadida, '%h:%i:%s %p') as hora
+from Guia where status=1;
 
 create view Lista_Inactivas as
-select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha from Guia where status=2;
+select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha, time_format(fecha_anadida, '%h:%i:%s %p') as hora
+from Guia where status=2;
 
 create view Lista_Devueltas as
-select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha from Guia where status=3;
+select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha, time_format(fecha_anadida, '%h:%i:%s %p') as hora
+from Guia where status=3;
 
 create view Lista_Todas as
-select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha from Guia;
+select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha, time_format(fecha_anadida, '%h:%i:%s %p') as hora
+from Guia;
 
 
 
@@ -187,7 +201,7 @@ end//
 create procedure obtener_todas_las_materias()
 comment 'Obtener materias'
 begin
-	select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo
+	select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera
 	from Materia as m, Car_Per as cp, Carrera as c, Periodo as p
 	where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id
 	order by m.nombre asc;
@@ -244,13 +258,13 @@ begin
 	select id from Guia order by id desc limit 1;
 end//
 
-create procedure agregar_guia(in titulo_ varchar(128), in seccion_ varchar(12), in comentario_ text, in pdf_ varchar(128), in profesor_ int, in materia_ int, in entregada_por_ varchar(128), in recibida_por_ int, in numero_hojas_ int, in numero_paginas_ int)
+create procedure agregar_guia(in titulo_ varchar(128), in seccion_ varchar(12), in comentario_ text, in pdf_ varchar(128), in profesor_ int, in materia_ int, in entregada_por_ varchar(128), in recibida_por_ int, in numero_hojas_ int, in numero_paginas_ int, in tipo_ varchar(32))
 comment 'Añade una guia (para uso en la aplicacion porque asigna el codigo al id)'
 begin
 	declare last_id int;
 
-	insert into Guia (titulo, seccion, comentario, pdf, profesor, materia, entregada_por, recibida_por, numero_hojas, numero_paginas, fecha_anadida)
-	values (titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, curdate());
+	insert into Guia (titulo, seccion, comentario, pdf, profesor, materia, entregada_por, recibida_por, numero_hojas, numero_paginas, fecha_anadida, tipo)
+	values (titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, curdate(), tipo_);
 
 	set last_id = (select id from Guia order by id desc limit 1);
 

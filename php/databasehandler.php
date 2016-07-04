@@ -6,7 +6,7 @@
         */
 
         // local, main, test
-        private $connect_to = "main";
+        private $connect_to = "local";
 
 		private $db;
 
@@ -288,6 +288,16 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_dependencias($post)
+        {
+            $query = $this->db->prepare("
+                select * from Dependencia
+            ");
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_personal($post)
         {
             $query = $this->db->prepare("call obtener_personal()");
@@ -430,7 +440,7 @@
         {
             try 
             {
-                $query = $this->db->prepare("call agregar_guia(:titulo, :seccion, :comentario, :pdf, :profesor, :materia, :entregada_por, :recibida_por, :nro_hojas, :nro_paginas)");
+                $query = $this->db->prepare("call agregar_guia(:titulo, :seccion, :comentario, :pdf, :profesor, :materia, :entregada_por, :recibida_por, :nro_hojas, :nro_paginas, :tipo)");
 
                 $query->execute(array(
                     ":titulo" => $post['titulo'],
@@ -442,7 +452,70 @@
                     ":entregada_por" => $post['entregada_por'],
                     ":recibida_por" => $post['recibida_por'],
                     ":nro_hojas" => $post['hojas'],
-                    ":nro_paginas" => $post['paginas']
+                    ":nro_paginas" => $post['paginas'],
+                    ":tipo" => isset($post['tipo']) ? $post['tipo'] : null
+                ));
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function agregar_profesor($post)
+        {
+            try 
+            {
+                $query = $this->db->prepare("call agregar_profesor(:nombre, :snombre, :apellido, :sapellido, :cedula, :tlfs)");
+
+                $query->execute(array(
+                    ":nombre" => $post['nombre'],
+                    ":apellido" => $post['apellido'],
+                    ":snombre" => isset($post['snombre']) ? $post['snombre'] : null,
+                    ":sapellido" => isset($post['sapellido']) ? $post['sapellido'] : null,
+                    ":cedula" => isset($post['cedula']) ? $post['cedula'] : null,
+                    ":tlfs" => isset($post['tlfs']) ? $post['tlfs'] : null
+                ));
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function agregar_dependencia($post)
+        {
+            try 
+            {
+                $query = $this->db->prepare("insert into Dependencia (nombre) values (:nombre)");
+
+                $query->execute(array(
+                    ":nombre" => $post['nombre']
+                ));
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function agregar_personal($post)
+        {
+            try 
+            {
+                $query = $this->db->prepare("call agregar_personal(:nombre, :snombre, :apellido, :sapellido)");
+
+                $query->execute(array(
+                    ":nombre" => $post['nombre'],
+                    ":apellido" => $post['apellido'],
+                    ":snombre" => isset($post['snombre']) ? $post['snombre'] : null,
+                    ":sapellido" => isset($post['sapellido']) ? $post['sapellido'] : null
                 ));
 
                 return "ok";

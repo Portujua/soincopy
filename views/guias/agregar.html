@@ -11,17 +11,46 @@
 
 		<div class="fila" ng-init="cargar_materias()">
 			<p>Carreras (*)</p>
-			<select ng-model="agregarguia_carrera" ng-show="materias" ng-change="agregarguia_materia = '';">
-				<option ng-repeat="c in materias | unique: 'carrera'">{{ c.carrera }}</option>
+			<select ng-model="agregarguia_carrera" ng-show="carreras" ng-change="agregarguia_materia = '';">
+				<option ng-repeat="c in carreras">{{ c.nombre }}</option>
 			</select>
 
-			<span ng-hide="materias">Cargando...</span>
+			<span ng-hide="carreras">Cargando...</span>
 		</div>
 
 		<div class="fila">
 			<p>Materias (*)</p>
 			<select ng-model="agregarguia_materia" ng-show="agregarguia_carrera">
-				<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" value="{{ m.id }}">{{ m.nombre }}</option>
+				<optgroup label="1er semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 1" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="2do semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 2" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="3er semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 3" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="4to semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 4" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="5to semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 5" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="6to semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 6" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="7mo semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 7" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="8vo semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 8" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="9no semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 9" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+				<optgroup label="10mo semestre">
+					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 10" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
 			</select>
 
 			<span ng-hide="agregarguia_carrera">Seleccione una carrera</span>
@@ -39,6 +68,15 @@
 		<div class="fila">
 			<p>Sección (*)</p>
 			<input type="text" ng-model="agregarguia_seccion" maxlength="12" placeholder="Sección" />
+		</div>
+
+		<div class="fila">
+			<p>Tipo</p>
+			<select ng-model="agregarguia_tipo">
+				<option value="-1">----- NO APLICA -----</option>
+				<option>Artículo</option>
+				<option>Revista</option>
+			</select>
 		</div>
 
 		<div class="fila">
@@ -68,7 +106,7 @@
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary btn-lg" ng-click="agregar_guia()">Añadir</button>
+			<button class="btn btn-primary" ng-click="agregar_guia()">Añadir</button>
 		</div>
 	</div>
 </div>

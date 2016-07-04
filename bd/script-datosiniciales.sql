@@ -36,7 +36,7 @@ call agregar_profesor("Profesor", null, "Uno", null, "0123456789", "xxxxxxxx");
 call agregar_profesor("Profesor", null, "Dos", null, "1123456789", "xxxxxxxx");
 
 call agregar_personal("Eduardo", "Jose", "Lorenzo", null);
-call agregar_personal("Christian", null, "Leon", null);
+call agregar_personal("Empleado", null, "Prueba", null);
 
 insert into Usuario (usuario, contrasena) values ("admin", "admin");
 insert into Usuario (usuario, contrasena) values ("solobuscar", "solobuscar");

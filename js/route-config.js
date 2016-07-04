@@ -16,6 +16,25 @@
 			.when("/modificarguia/:codigo", {
 				templateUrl : "views/guias/modificar.html"
 			})
+
+
+			// Ordenes
+			.when("/agregarorden", {
+				templateUrl : "views/ordenes/agregar.html"
+			})
+
+
+
+			// Admin
+			.when("/agregarprofesor", {
+				templateUrl : "views/admin/agregarprofesor.html"
+			})
+			.when("/agregarpersonal", {
+				templateUrl : "views/admin/agregarpersonal.html"
+			})
+			.when("/agregardependencia", {
+				templateUrl : "views/admin/agregardependencia.html"
+			})
 			.otherwise({redirectTo : "/login"});
 	});
 }());

@@ -1,0 +1,31 @@
+<div class="agregar agregar_personal" ng-controller="Admin">
+	<h2>Agregar personal</h2>
+
+	<div class="register-form">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Nombre (*)</p>
+			<input type="text" ng-model="agregarpersonal_nombre" maxlength="32" placeholder="Nombre" />
+		</div>
+
+		<div class="fila">
+			<p>Segundo Nombre</p>
+			<input type="text" ng-model="agregarpersonal_snombre" maxlength="32" placeholder="Segundo nombre" />
+		</div>
+
+		<div class="fila">
+			<p>Apellido (*)</p>
+			<input type="text" ng-model="agregarpersonal_apellido" maxlength="32" placeholder="Apellido" />
+		</div>
+
+		<div class="fila">
+			<p>Segundo Apellido</p>
+			<input type="text" ng-model="agregarpersonal_sapellido" maxlength="32" placeholder="Segundo apellido" />
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" ng-click="registrar_personal()">Añadir</button>
+		</div>
+	</div>
+</div>

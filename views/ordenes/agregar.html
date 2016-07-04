@@ -1,0 +1,68 @@
+<div class="agregar agregar_orden" ng-controller="Orden">
+	<h2>Agregar orden</h2>
+	
+	<div class="register-form">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Título (*)</p>
+			<input type="text" ng-model="agregarorden_titulo" maxlength="128" placeholder="Título" />
+		</div>
+
+		<div class="fila" ng-init="cargar_materias()">
+			<p>A servicio de (*)</p>
+			<select ng-model="agregarorden_carrera" ng-show="materias" ng-change="agregarorden_materia = '';" ng-options="c.carrera_id as c.nombre for c in carreras">
+				<option ng-options="c in carreras">{{ c.carrera }}</option>
+			</select>
+
+			<span ng-hide="materias">Cargando...</span>
+		</div>
+
+		<div class="fila" ng-init="cargar_dependencias()">
+			<p>Dependencia</p>
+			<select ng-model="agregarguia_dependencia" ng-show="dependencias">
+				<option ng-repeat="p in dependencias" value="{{ p.id }}">{{ p.nombre }}</option>
+			</select>
+
+			<span ng-hide="dependencias">Cargando...</span>
+		</div>
+
+		<div class="fila">
+			<p>Nro. Copias (*)</p>
+			<input type="text" />
+		</div>
+
+		<div class="fila">
+			<p>Nro. Originales (*)</p>
+			<input type="text" />
+		</div>
+
+		<div class="fila">
+			<p>Tamaño</p>
+
+			<select>
+				<option>Carta</option>
+				<option>Oficio</option>
+			</select>
+		</div>
+
+		<div class="fila">
+			<p>Para destinarlo a</p>
+
+			<select>
+				<option>----- NO APLICA -----</option>
+				<option>Operación del Dpto.</option>
+				<option>Venta en librería</option>
+			</select>
+		</div>
+
+		<div class="fila">
+			<p>Observaciones</p>
+			<textarea></textarea>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary">Añadir</button>
+		</div>
+	</div>
+</div>
