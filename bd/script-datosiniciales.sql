@@ -31,9 +31,8 @@ call agregar_materia("Calculo 2", "Ingeniería Civil", 2);
 call agregar_materia("Calculo 3", "Ingeniería Civil", 3);
 call agregar_materia("Calculo 4", "Ingeniería Civil", 4);
 
-call agregar_profesor("Marcos", "Gabriel", "Salazar", "Seijas", "123456789", "0412 300 1280");
-call agregar_profesor("Profesor", null, "Uno", null, "0123456789", "xxxxxxxx");
-call agregar_profesor("Profesor", null, "Dos", null, "1123456789", "xxxxxxxx");
+call agregar_profesor("Marcos", "Gabriel", "Salazar", "Seijas", "123456789", "0412 300 1280", null);
+call agregar_profesor("Profesor", null, "Uno", null, "0123456789", "xxxxxxxx", null);
 
 call agregar_personal("Eduardo", "Jose", "Lorenzo", null);
 call agregar_personal("Empleado", null, "Prueba", null);

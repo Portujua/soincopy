@@ -56,6 +56,38 @@
 			    }
 			});
 		}
+
+		$scope.registrar_orden = function(){
+			if (!$scope.agregardependencia_nombre)
+			{
+				alert("Debe llenar los campos obligatorios.");
+				return;
+			}
+
+			if ($scope.agregardependencia_nombre.length == 0)
+			{
+				alert("Debe llenar los campos obligatorios.");
+				return;
+			}
+
+			var nombre = $scope.agregardependencia_nombre;
+
+			$.ajax({
+			    url: "php/run.php?fn=agregar_dependencia",
+			    type: "POST",
+			    data: {
+			    	nombre: nombre
+			    },
+			    beforeSend: function(){},
+			    success: function(data){
+			    	console.log(data)
+			        if (data == "ok")
+			        	$scope.safeApply(function(){
+			        		$location.path("/inicio");
+			        	})
+			    }
+			});
+		}
 	};
 
 	angular.module("soincopy").controller("Orden", Orden);

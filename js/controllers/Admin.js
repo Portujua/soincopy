@@ -65,37 +65,6 @@
 			});
 		}
 
-		$scope.registrar_dependencia = function(){
-			if (!$scope.agregardependencia_nombre)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
-
-			if ($scope.agregardependencia_nombre.length == 0)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
-
-			var nombre = $scope.agregardependencia_nombre;
-
-			$.ajax({
-			    url: "php/run.php?fn=agregar_dependencia",
-			    type: "POST",
-			    data: {
-			    	nombre: nombre
-			    },
-			    beforeSend: function(){},
-			    success: function(data){
-			        if (data == "ok")
-			        	$scope.safeApply(function(){
-			        		$location.path("/inicio");
-			        	})
-			    }
-			});
-		}
-
 		$scope.registrar_carrera = function(){
 			if (!$scope.agregarcarrera_nombre || !$scope.agregarcarrera_tipo)
 			{

@@ -11,18 +11,29 @@
 
 		<div class="fila" ng-init="cargar_materias()">
 			<p>A servicio de (*)</p>
-			<select ng-model="agregarorden_carrera" ng-show="materias" ng-change="agregarorden_materia = '';" ng-options="c.carrera_id as c.nombre for c in carreras">
-				<option ng-options="c in carreras">{{ c.carrera }}</option>
+			<select ng-model="agregarorden_carrera" ng-show="materias" ng-change="agregarorden_materia = '';">
+				<option ng-repeat="c in carreras" value="{{c.id}}">{{ c.nombre }}</option>
 			</select>
 
 			<span ng-hide="materias">Cargando...</span>
 		</div>
 
 		<div class="fila" ng-init="cargar_dependencias()">
-			<p>Dependencia</p>
-			<select ng-model="agregarguia_dependencia" ng-show="dependencias">
+			<p>Dependencia (*) <span class="badge" ng-hide="agregarorden_agregardependencia" ng-click="agregarorden_agregardependencia = 1" title="Añadir nueva dependencia">+</span></p>
+
+			<select ng-model="agregarorden_dependencia" ng-show="dependencias" ng-hide="agregarorden_agregardependencia">
 				<option ng-repeat="p in dependencias" value="{{ p.id }}">{{ p.nombre }}</option>
 			</select>
+			<br/>
+
+			<div class="agregar_orden" ng-show="agregarorden_agregardependencia">
+				<h2>Agregar dependencia</h2>
+
+				<div class="fila">
+					<p>Nombre</p>
+					<input type="text" ng-model="agregardependencia_nombre" maxlength="64" placeholder="Ej. Escuela de Ingeniería Informática" />
+				</div>
+			</div>
 
 			<span ng-hide="dependencias">Cargando...</span>
 		</div>
@@ -62,7 +73,7 @@
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary">Añadir</button>
+			<button class="btn btn-primary" ng-click="registrar_orden()">Añadir</button>
 		</div>
 	</div>
 </div>
