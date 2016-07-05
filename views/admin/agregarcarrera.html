@@ -1,0 +1,24 @@
+<div class="agregar agregar_carrera" ng-controller="Admin">
+	<h2>Agregar carrera</h2>
+
+	<div class="register-form">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Nombre (*)</p>
+			<input type="text" ng-model="agregarcarrera_nombre" maxlength="64" placeholder="Ej. Ingeniería Informática" />
+		</div>
+
+		<div class="fila">
+			<p>Tipo (*)</p>
+			<select ng-model="agregarcarrera_tipo">
+				<option>Semestral</option>
+				<option>Anual</option>
+			</select>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" ng-click="registrar_carrera()">Añadir</button>
+		</div>
+	</div>
+</div>

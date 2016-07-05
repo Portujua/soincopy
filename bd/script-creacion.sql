@@ -185,8 +185,10 @@ end//
 create procedure obtener_carreras()
 comment 'Obtener carreras'
 begin
-	select id, nombre
-	from Carrera
+	select c.id as id, c.nombre as nombre, count(cp.id) as nro_periodos
+	from Carrera as c, Car_Per as cp
+	where cp.carrera=c.id
+	group by c.id
 	order by nombre asc;
 end//
 

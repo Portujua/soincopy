@@ -26,8 +26,11 @@
 
 
 			// Admin
-			.when("/agregarprofesor", {
-				templateUrl : "views/admin/agregarprofesor.html"
+			.when("/agregarcarrera", {
+				templateUrl : "views/admin/agregarcarrera.html"
+			})
+			.when("/agregarmateria", {
+				templateUrl : "views/admin/agregarmateria.html"
 			})
 			.when("/agregarpersonal", {
 				templateUrl : "views/admin/agregarpersonal.html"

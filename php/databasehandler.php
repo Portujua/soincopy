@@ -280,6 +280,14 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_carreras($post)
+        {
+            $query = $this->db->prepare("call obtener_carreras()");
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_profesores($post)
         {
             $query = $this->db->prepare("call obtener_profesores()");
@@ -521,6 +529,45 @@
 
                 $query->execute(array(
                     ":nombre" => $post['nombre']
+                ));
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function agregar_carrera($post)
+        {
+            try 
+            {
+                $query = $this->db->prepare("call agregar_carrera(:nombre, :tipo)");
+
+                $query->execute(array(
+                    ":nombre" => $post['nombre'],
+                    ":tipo" => $post['tipo']
+                ));
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function agregar_materia($post)
+        {
+            try 
+            {
+                $query = $this->db->prepare("call agregar_materia(:nombre, :carrera, :periodo)");
+
+                $query->execute(array(
+                    ":nombre" => $post['nombre'],
+                    ":carrera" => $post['carrera'],
+                    ":periodo" => $post['periodo']
                 ));
 
                 return "ok";

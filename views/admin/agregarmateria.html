@@ -1,0 +1,30 @@
+<div class="agregar agregar_materia" ng-controller="Admin">
+	<h2>Agregar materia</h2>
+
+	<div class="register-form">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Nombre (*)</p>
+			<input type="text" ng-model="agregarmateria_nombre" maxlength="64" placeholder="Ej. Cálculo 1" />
+		</div>
+
+		<div class="fila" ng-init="cargar_carreras()">
+			<p>Carrera (*)</p>
+			<select ng-model="agregarmateria_carrera">
+				<option ng-repeat="c in carreras" value="{{$index}}">{{ c.nombre }}</option>
+			</select>
+		</div>
+
+		<div class="fila" ng-show="agregarmateria_carrera">
+			<p>Período (*)</p>
+			<select ng-model="agregarmateria_periodo">
+				<option ng-repeat="p in periodos" ng-if="p <= carreras[agregarmateria_carrera].nro_periodos">{{ p }}</option>
+			</select>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" ng-click="registrar_materia()">Añadir</button>
+		</div>
+	</div>
+</div>
