@@ -11,47 +11,6 @@
 		    }
 		};
 
-		$scope.registrar_profesor = function(){
-			if (!$scope.agregarprofesor_nombre || !$scope.agregarprofesor_apellido)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
-
-			if ($scope.agregarprofesor_nombre.length == 0 || $scope.agregarprofesor_apellido.length == 0)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
-
-			var nombre = $scope.agregarprofesor_nombre;
-			var apellido = $scope.agregarprofesor_apellido;
-			var snombre = $scope.agregarprofesor_snombre;
-			var sapellido = $scope.agregarprofesor_sapellido;
-			var cedula = $scope.agregarprofesor_cedula;
-			var tlfs = $scope.agregarprofesor_tlfs;
-
-			$.ajax({
-			    url: "php/run.php?fn=agregar_profesor",
-			    type: "POST",
-			    data: {
-			    	nombre: nombre,
-			    	apellido: apellido,
-			    	snombre: snombre,
-			    	sapellido: sapellido,
-			    	cedula: cedula,
-			    	tlfs: tlfs
-			    },
-			    beforeSend: function(){},
-			    success: function(data){
-			        if (data == "ok")
-			        	$scope.safeApply(function(){
-			        		$location.path("/inicio");
-			        	})
-			    }
-			});
-		}
-
 		$scope.registrar_personal = function(){
 			if (!$scope.agregarpersonal_nombre || !$scope.agregarpersonal_apellido)
 			{

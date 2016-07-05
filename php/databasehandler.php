@@ -440,6 +440,31 @@
         {
             try 
             {
+                $id_prof = -1;
+
+                if (isset($post['nuevo_prof']))
+                {
+                    $p = array(
+                        "nombre" => $post['nuevo_prof']['nombre'],
+                        "apellido" => $post['nuevo_prof']['apellido'],
+                        "snombre" => isset($post['nuevo_prof']['snombre']) ? $post['nuevo_prof']['snombre'] : null,
+                        "sapellido" => isset($post['nuevo_prof']['sapellido']) ? $post['nuevo_prof']['sapellido'] : null,
+                        "cedula" => isset($post['nuevo_prof']['cedula']) ? $post['nuevo_prof']['cedula'] : null,
+                        "tlfs" => isset($post['nuevo_prof']['tlfs']) ? $post['nuevo_prof']['tlfs'] : null,
+                        "email" => isset($post['nuevo_prof']['email']) ? $post['nuevo_prof']['email'] : null
+                    );
+
+                    $this->agregar_profesor($p);
+
+                    $q = $this->db->prepare("select id from Profesor order by id desc limit 1");
+                    $q->execute();
+
+                    $id_prof = $q->fetchAll();
+                    $id_prof = $id_prof[0]['id'];
+                }
+                else
+                    $id_prof = $post['profesor'];
+
                 $query = $this->db->prepare("call agregar_guia(:titulo, :seccion, :comentario, :pdf, :profesor, :materia, :entregada_por, :recibida_por, :nro_hojas, :nro_paginas, :tipo)");
 
                 $query->execute(array(
@@ -447,7 +472,7 @@
                     ":seccion" => $post['seccion'],
                     ":comentario" => isset($post['comentario']) ? $post['comentario'] : null,
                     ":pdf" => $post['pdf'],
-                    ":profesor" => $post['profesor'],
+                    ":profesor" => $id_prof,
                     ":materia" => $post['materia'],
                     ":entregada_por" => $post['entregada_por'],
                     ":recibida_por" => $post['recibida_por'],
@@ -468,7 +493,7 @@
         {
             try 
             {
-                $query = $this->db->prepare("call agregar_profesor(:nombre, :snombre, :apellido, :sapellido, :cedula, :tlfs)");
+                $query = $this->db->prepare("call agregar_profesor(:nombre, :snombre, :apellido, :sapellido, :cedula, :tlfs, :email)");
 
                 $query->execute(array(
                     ":nombre" => $post['nombre'],
@@ -476,7 +501,8 @@
                     ":snombre" => isset($post['snombre']) ? $post['snombre'] : null,
                     ":sapellido" => isset($post['sapellido']) ? $post['sapellido'] : null,
                     ":cedula" => isset($post['cedula']) ? $post['cedula'] : null,
-                    ":tlfs" => isset($post['tlfs']) ? $post['tlfs'] : null
+                    ":tlfs" => isset($post['tlfs']) ? $post['tlfs'] : null,
+                    ":email" => isset($post['email']) ? $post['email'] : null
                 ));
 
                 return "ok";

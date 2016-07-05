@@ -293,7 +293,7 @@
 		}
 
 		$scope.agregar_guia = function(){
-			if ($scope.agregarguia_titulo.length == 0 || $scope.agregarguia_materia.length == 0 || $scope.agregarguia_profesor.length == 0 || $scope.agregarguia_seccion.length == 0 || $scope.agregarguia_recibida_por.length == 0)
+			if ($scope.agregarguia_titulo.length == 0 || $scope.agregarguia_materia.length == 0 || $scope.agregarguia_seccion.length == 0 || $scope.agregarguia_recibida_por.length == 0)
 			{
 				alert("Debe llenar todos los campos obligatorios");
 				return;
@@ -304,6 +304,39 @@
 				alert("Debe cargar el archivo PDF antes de agregar la guía");
 				return;
 			}
+
+			var nuevo_prof = null;
+
+			if ($scope.agregarguia_agregarprofesor)
+			{
+				if (!$scope.agregarprofesor_nombre || !$scope.agregarprofesor_apellido)
+				{
+					alert("Debe llenar los campos obligatorios del nuevo profesor.");
+					return;
+				}
+
+				if ($scope.agregarprofesor_nombre.length == 0 || $scope.agregarprofesor_apellido.length == 0)
+				{
+					alert("Debe llenar los campos obligatorios del nuevo profesor.");
+					return;
+				}
+
+				nuevo_prof = {
+					nombre: $scope.agregarprofesor_nombre,
+					apellido: $scope.agregarprofesor_apellido,
+					snombre: $scope.agregarprofesor_snombre,
+					sapellido: $scope.agregarprofesor_sapellido,
+					cedula: $scope.agregarprofesor_cedula,
+					tlfs: $scope.agregarprofesor_tlfs,
+					email: $scope.agregarprofesor_email
+				};
+			}
+			else
+				if (!$scope.agregarguia_profesor)
+				{
+					alert("Debe cargar el archivo PDF antes de agregar la guía");
+					return;
+				}
 
 			var tipo = null;
 
@@ -322,7 +355,8 @@
 				pdf: $scope.agregarguia_pdf,
 				hojas: $scope.agregarguia_hojas,
 				paginas: $scope.agregarguia_paginas,
-				tipo: tipo
+				tipo: tipo,
+				nuevo_prof: nuevo_prof
 			};
 
 			$.ajax({
@@ -331,6 +365,7 @@
 			    data: post,
 			    beforeSend: function(){},
 			    success: function(data){
+			    	console.log(data)
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
 			        		$location.path("/buscarguias");

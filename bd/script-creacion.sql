@@ -29,6 +29,7 @@ create table Profesor (
 	segundo_apellido varchar(32),
 	cedula varchar(32),
 	telefono varchar(64),
+	email varchar(64),
 	primary key(id), unique(cedula)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
@@ -253,7 +254,7 @@ create procedure agregar_guia_(in codigo_ varchar(20), in titulo_ varchar(128), 
 comment 'Añade una guia (para carga masiva porque incluye el codigo como parametro'
 begin
 	insert into Guia (codigo, titulo, seccion, comentario, pdf, profesor, materia, entregada_por, recibida_por, numero_hojas, numero_paginas, fecha_anadida)
-	values (codigo_, titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, curdate());
+	values (codigo_, titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, now());
 
 	select id from Guia order by id desc limit 1;
 end//
@@ -264,7 +265,7 @@ begin
 	declare last_id int;
 
 	insert into Guia (titulo, seccion, comentario, pdf, profesor, materia, entregada_por, recibida_por, numero_hojas, numero_paginas, fecha_anadida, tipo)
-	values (titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, curdate(), tipo_);
+	values (titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, now(), tipo_);
 
 	set last_id = (select id from Guia order by id desc limit 1);
 
@@ -273,11 +274,13 @@ begin
 	select last_id;
 end//
 
-create procedure agregar_profesor(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32), in cedula_ varchar(32), in telefono_ varchar(64))
+create procedure agregar_profesor(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32), in cedula_ varchar(32), in telefono_ varchar(64), in email_ varchar(64))
 comment 'añade un profesor'
 begin
-	insert into Profesor (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono)
-	values (nombre_, segundo_nombre_, apellido_, segundo_apellido_, cedula_, telefono_);
+	insert into Profesor (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email)
+	values (nombre_, segundo_nombre_, apellido_, segundo_apellido_, cedula_, telefono_, email_);
+
+	select id from Profesor order by id desc limit 1;
 end//
 
 create procedure agregar_personal(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32))

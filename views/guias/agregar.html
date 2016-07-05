@@ -57,12 +57,54 @@
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
-			<p>Profesor (*)</p>
-			<select ng-model="agregarguia_profesor" ng-show="profesores">
+			<p>Profesor (*) <span class="badge" ng-hide="agregarguia_agregarprofesor" ng-click="agregarguia_agregarprofesor = 1" title="Añadir nuevo profesor">+</span></p>
+			<select ng-hide="agregarguia_agregarprofesor" ng-model="agregarguia_profesor" ng-show="profesores">
 				<option ng-repeat="p in profesores" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 
 			<span ng-hide="profesores">Cargando...</span>
+
+			<div ng-show="agregarguia_agregarprofesor" class="agregar_profesor">
+				<br/>
+				<h2 style="margin-top: 0px;">Agregar profesor</h2>
+				
+				<p><small>(*) Campos obligatorios</small></p>
+
+				<div class="fila">
+					<p>Nombre (*)</p>
+					<input type="text" ng-model="agregarprofesor_nombre" maxlength="32" placeholder="Nombre" />
+				</div>
+
+				<div class="fila">
+					<p>Segundo Nombre</p>
+					<input type="text" ng-model="agregarprofesor_snombre" maxlength="32" placeholder="Segundo nombre" />
+				</div>
+
+				<div class="fila">
+					<p>Apellido (*)</p>
+					<input type="text" ng-model="agregarprofesor_apellido" maxlength="32" placeholder="Apellido" />
+				</div>
+
+				<div class="fila">
+					<p>Segundo Apellido</p>
+					<input type="text" ng-model="agregarprofesor_sapellido" maxlength="32" placeholder="Segundo apellido" />
+				</div>
+
+				<div class="fila">
+					<p>Cédula</p>
+					<input type="text" ng-model="agregarprofesor_cedula" maxlength="32" placeholder="Cédula" />
+				</div>
+
+				<div class="fila">
+					<p>Correo electrónico</p>
+					<input type="text" ng-model="agregarprofesor_email" maxlength="64" placeholder="Email" />
+				</div>
+
+				<div class="fila">
+					<p>Teléfonos de contacto</p>
+					<input type="text" ng-model="agregarprofesor_tlfs" maxlength="64" />
+				</div>
+			</div>
 		</div>
 
 		<div class="fila">
