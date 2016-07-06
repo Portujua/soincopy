@@ -27,6 +27,12 @@
 			})
 
 
+			// Plan de estudios
+			.when("/agregarplandeestudios", {
+				templateUrl : "views/plandeestudios/agregar.html"
+			})
+
+
 
 			// Admin
 			.when("/agregarcarrera", {

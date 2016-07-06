@@ -364,7 +364,7 @@
         {
             unlink("../../soincopy_files/guias_web/" . $post['file']);
             $query = $this->db->prepare("
-                delete from Guia_Web where id=:id
+                update Guia_Web set revisada=1 where id=:id
             ");
 
             $query->execute(array(
@@ -377,6 +377,7 @@
             $query = $this->db->prepare("
                 select *, date_format(fecha, '%d/%m/%Y') as fecha_arreglada, time_format(fecha, '%h:%i:%s %p') as hora
                 from Guia_Web
+                where revisada=0
                 order by fecha desc
             ");
 

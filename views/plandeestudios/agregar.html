@@ -1,0 +1,42 @@
+<div class="agregar_guia" ng-controller="PlanDeEstudios">
+	<h2>Agregar plan de estudios</h2>
+
+	<div class="register-form">
+		<div class="fila" ng-init="cargar_carreras()">
+			<p>Carreras (*)</p>
+			<select ng-show="carreras">
+				<option ng-repeat="c in carreras">{{ c.nombre }}</option>
+			</select>
+
+			<span ng-hide="carreras">Cargando...</span>
+		</div>
+
+		<div class="fila">
+			<p>Tipo (*)</p>
+			
+			<select>
+				<option>Semestral</option>
+				<option>Anual</option>
+			</select>
+		</div>
+
+		<div class="fila">
+			<p>Versión (*)</p>
+			<input type="text" maxlength="128" placeholder="Ej. Pensum 2005" />
+		</div>
+
+		<div class="fila">
+			<p>Archivos (*)</p>
+			<input type="file" multiple />
+		</div>
+
+		<div class="fila">
+			<p>Comentario</p>
+			<textarea placeholder="Escriba un comentario.."></textarea>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary">Añadir</button>
+		</div>
+	</div>
+</div>
