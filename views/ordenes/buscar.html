@@ -1,0 +1,49 @@
+<div class="buscar buscar_guia_web" ng-controller="Guia">
+	<div class="alert alert-danger" role="alert">
+		Al abrir una guía esta se <strong>ELIMINARÁ DEL SISTEMA Y NO PODRÁ SER ACCEDIDA NUEVAMENTE</strong>
+	</div>
+
+	Buscar <input type="text" ng-model="buscador" placeholder="Ej. 19393, Pedro Perez, 19/03/2016, etc." data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
+
+	<script>
+		$(document).ready(function(){
+		    $('[data-toggle="tooltip"]').tooltip(); 
+		});
+	</script>
+
+	<br/>
+	<button class="btn btn-primary" ng-click="cargar_guias_web()">Refrescar</button>
+	<br/><br/>
+
+	<p ng-hide="guias_web">Cargando guías..</p>
+
+	<table class="table table-stripped" ng-init="cargar_guias_web()" ng-show="guias_web">
+		<thead>
+			<th class="text-center">Nombre completo</th>
+			<th class="text-center">Email</th>
+			<th class="text-center">Teléfono</th>
+			<th class="text-center">Motivo</th>
+			<th class="text-center">Comentarios</th>
+			<th class="text-center">Fecha de envío</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="g in guias_web"
+				ng-click="ver_guia_web(g)"
+				ng-if="!buscador || 
+						g.nombre_completo.indexOf(buscador) != -1 ||
+						g.email.indexOf(buscador) != -1 ||
+						g.tlf.indexOf(buscador) != -1 ||
+						g.motivo.indexOf(buscador) != -1 ||
+						g.comentarios.indexOf(buscador) != -1 ||
+						g.fecha_arreglada.indexOf(buscador) != -1 ||
+						g.hora.indexOf(buscador) != -1">
+				<td class="text-center">{{ g.nombre_completo }}</td>
+				<td class="text-center">{{ g.email }}</td>
+				<td class="text-center">{{ g.tlf }}</td>
+				<td class="text-center">{{ g.motivo }}</td>
+				<td class="text-center">{{ g.comentarios }}</td>
+				<td class="text-center">{{ g.fecha_arreglada }} a las {{ g.hora }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

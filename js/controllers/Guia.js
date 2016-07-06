@@ -128,6 +128,22 @@
 			});
 		}
 
+		$scope.cargar_guias_web = function(){
+			$scope.guias_web = null;
+
+			$.ajax({
+			    url: "php/run.php?fn=cargar_guias_web",
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	$scope.guias_web = $.parseJSON(data);
+			        })
+			    }
+			});
+		}
+
 		$scope.cargar_guia = function(){
 			$scope.guia = null;
 
@@ -372,6 +388,29 @@
 			        	})
 			    }
 			});
+		}
+
+		$scope.borrar_guia_web = function(g){
+			$.ajax({
+			    url: "php/run.php?fn=borrar_guia_web",
+			    type: "POST",
+			    data: {id:g.id, file:g.archivo},
+			    beforeSend: function(){},
+			    success: function(data){
+			        
+			    }
+			});
+		}
+
+		$scope.ver_guia_web = function(g){
+			if (confirm("Una vez abierto el archivo se borrará del sistema y más nunca podrá acceder a el de nuevo. ¿Está seguro que desea abrirlo en este momento?"))
+			{
+				window.open("http://" + window.location.hostname + "/soincopy_files/guias_web/" + g.archivo);
+
+				$timeout(function(){
+					$scope.borrar_guia_web(g);
+				}, 5000);
+			}
 		}
 
 		$scope.modificar_guia = function(){

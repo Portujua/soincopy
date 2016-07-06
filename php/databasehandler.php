@@ -360,6 +360,31 @@
             return $d;
         }
 
+        public function borrar_guia_web($post)
+        {
+            unlink("../../soincopy_files/guias_web/" . $post['file']);
+            $query = $this->db->prepare("
+                delete from Guia_Web where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id']
+            ));
+        }
+
+        public function cargar_guias_web($post)
+        {
+            $query = $this->db->prepare("
+                select *, date_format(fecha, '%d/%m/%Y') as fecha_arreglada, time_format(fecha, '%h:%i:%s %p') as hora
+                from Guia_Web
+                order by fecha desc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_guias($post)
         {
             $query = $this->db->prepare("select * from Lista_Todas where status=:status order by id desc");

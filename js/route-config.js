@@ -22,6 +22,9 @@
 			.when("/agregarorden", {
 				templateUrl : "views/ordenes/agregar.html"
 			})
+			.when("/buscar_web", {
+				templateUrl : "views/ordenes/buscar.html"
+			})
 
 
 
