@@ -1,7 +1,8 @@
 @navbar_width: 20vw;
+@bg_navbar: #2a2a2a;
 
 * {
-	font-family: "Verdana" !important;
+	font-family: "Arial" !important;
 	transition: all .2s linear;
 	font-size: 11px;
 }
@@ -42,21 +43,27 @@ button {
 	width: @navbar_width;
 	height: 100vh;
 	padding: 20px 10px;
-	background-color: #ddd;
+	background-color: @bg_navbar;
+
+	img {
+		max-width: 100%;
+		min-width: 100%;
+		margin-bottom: 25px;
+	}
 
 	a {
 		text-decoration: none;
 
 		p {
 			text-decoration: none;
-			color: black;
+			color: #eee;
 			border-radius: 5px;
 			padding: 5px 8px;
 
 			&:hover {
-				color: black;
+				color: #eee;
 				text-decoration: none;
-				background-color: #ccc;
+				background-color: @bg_navbar - #101010;
 			}
 		}
 	}
@@ -66,9 +73,11 @@ button {
 	font-size: 14px;
 	width: @navbar_width;
 	margin-left: -11px;
+	color: #eee;
+	background-color: @bg_navbar - #202020;
 	padding: 5px 10px;
-	background-color: #aaa;
 	cursor: pointer;
+	font-family: "Tahoma";
 }
 
 .progress {
@@ -81,6 +90,7 @@ button {
 
 h2 {
 	font-size: 14px;
+	font-family: "Tahoma" !important;
 }
 
 .register-form {
