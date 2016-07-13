@@ -10,6 +10,8 @@
 
 		private $db;
 
+        private $session_duration = 5 * 60;
+
         public function __construct()
         {
             if ($this->connect_to == "local")
@@ -250,6 +252,25 @@
 
 
         /* Funciones nuevas aqui abajo */
+        public function actualizar_hora_sesion()
+        {
+            @session_start();
+            $_SESSION['login_time'] = time();
+        }
+
+        public function session_expired()
+        {
+            @session_start();
+
+            if (!isset($_SESSION['login_time']))
+                return true;
+
+            if (time() - $_SESSION['login_time'] > $this->session_duration)
+                return true;
+
+            return false;
+        }
+
         public function login($post)
         {
             $query = $this->db->prepare("
@@ -269,7 +290,8 @@
             if (count($u) > 0)
             {
                 @session_start();
-                $_SESSION[$post['username']] = "active";
+                $_SESSION['login_username'] = $post['username'];
+                $this->actualizar_hora_sesion();
 
                 return json_encode($u[0]);
             }
