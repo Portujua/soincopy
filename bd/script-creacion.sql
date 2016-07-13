@@ -117,6 +117,16 @@ create table Permisos (
 	foreign key (usuario) references Usuario(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Log_Vista_Guias (
+	id int not null auto_increment,
+	fecha datetime not null,
+	username varchar(32) not null,
+	resultado varchar(32) not null,
+	archivo varchar(64) not null,
+	errores varchar(32) not null,
+	primary key(id)
+);
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
@@ -142,6 +152,12 @@ from Guia where status=3;
 create view Lista_Todas as
 select *, date_format(fecha_anadida, "%d/%m/%Y") as fecha, time_format(fecha_anadida, '%h:%i:%s %p') as hora
 from Guia;
+
+create view Log_Vista_Guias_Errores as
+select *, date_format(fecha, "%d/%m/%Y") as fecha_, time_format(fecha, '%h:%i:%s %p') as hora
+from Log_Vista_Guias
+where resultado!='ok'
+order by fecha desc;
 
 
 

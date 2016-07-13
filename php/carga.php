@@ -26,6 +26,7 @@
             $fileName = str_replace('=', '', $fileName);
             $fileName = str_replace(':', '', $fileName);
             $fileName = str_replace('?', '', $fileName);
+            $fileName = str_replace('+', '', $fileName);
             $fileName = str_replace('\'', '', $fileName);
             
             $completeFilePath = $filePath . $fileName . ".pdf";

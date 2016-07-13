@@ -40,6 +40,14 @@
 
 		$scope.periodos = ["1er", "2do", "3er", "4to", "5to", "6to", "7mo", "8vo", "9no", "10mo"];
 
+		$scope.ver_pdf = function(url){
+			window.open(
+				"php/pdf.php?u=" + $scope.$parent.login_info.username +
+				"&f=" + url,
+				"_blank",
+				"menubar=no,status=no,toolbar=no");
+		}
+
 		$scope.init_agregarguia = function(){
 			$scope.agregarguia_titulo = "";
 			$scope.agregarguia_carrera = "";

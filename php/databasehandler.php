@@ -253,7 +253,7 @@
         public function login($post)
         {
             $query = $this->db->prepare("
-                select u.id as id, u.usuario as usuario, p.*
+                select u.id as id, u.usuario as username, p.*
                 from Usuario as u, Permisos as p
                 where u.id=p.usuario and u.usuario=:username and u.contrasena=:password
                 limit 1
@@ -267,7 +267,12 @@
             $u = $query->fetchAll();
 
             if (count($u) > 0)
+            {
+                @session_start();
+                $_SESSION[$post['username']] = "active";
+
                 return json_encode($u[0]);
+            }
             else
                 return json_encode(array("error" => 1));
         }
@@ -476,7 +481,7 @@
             {
                 $id_prof = -1;
 
-                if (isset($post['nuevo_prof']))
+                if ($post['nuevo_prof'] != null)
                 {
                     $p = array(
                         "nombre" => $post['nuevo_prof']['nombre'],
@@ -498,6 +503,12 @@
                 }
                 else
                     $id_prof = $post['profesor'];
+
+                if ($id_prof == -1)
+                {
+                    echo "Error (id_profesor)";
+                    return;
+                }
 
                 $query = $this->db->prepare("call agregar_guia(:titulo, :seccion, :comentario, :pdf, :profesor, :materia, :entregada_por, :recibida_por, :nro_hojas, :nro_paginas, :tipo)");
 
@@ -668,6 +679,30 @@
                     ":recibida_por" => $post['recibida_por'],
                     ":nro_hojas" => $post['hojas'],
                     ":nro_paginas" => $post['paginas']
+                ));
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function registrar_vista_guia($username, $archivo, $resultado, $errores)
+        {
+            try 
+            {
+                $query = $this->db->prepare("
+                    insert into Log_Vista_Guias (fecha, username, resultado, errores, archivo)
+                    values (now(), :username, :resultado, :errores, :archivo)
+                ");
+
+                $query->execute(array(
+                    ":username" => $username,
+                    ":resultado" => $resultado,
+                    ":errores" => $errores,
+                    ":archivo" => $archivo
                 ));
 
                 return "ok";

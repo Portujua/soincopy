@@ -43,6 +43,20 @@
 			    }
 			});
 		}
+
+		$scope.unset_session = function(){
+			$.ajax({
+			    url: "php/unset.php",
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        
+			    }
+			});
+		}
+
+		$scope.unset_session();
 	};
 
 	angular.module("soincopy").controller("MainController", MainController);
