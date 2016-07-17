@@ -415,7 +415,7 @@
             $query = $this->db->prepare("
                 select *
                 from Permiso
-                order by nombre asc
+                order by id asc
             ");
             $query->execute();
 
