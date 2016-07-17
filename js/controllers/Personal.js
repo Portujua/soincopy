@@ -89,7 +89,7 @@
 			    	console.log(data)
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
-			        		$location.path("/inicio");
+			        		$location.path("/personal");
 			        	})
 			    }
 			});
