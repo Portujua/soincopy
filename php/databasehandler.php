@@ -857,47 +857,46 @@
 
         public function agregar_personal($post)
         {
-            try 
+            $query = $this->db->prepare("
+                insert into Personal (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado)
+                values (:nombre, :snombre, :apellido, :sapellido, :cedula, :telefono, :email, :usuario, :contrasena, now())
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":apellido" => $post['apellido'],
+                ":snombre" => $post['snombre'],
+                ":sapellido" => $post['sapellido'],
+                ":cedula" => $post['cedula'],
+                ":telefono" => $post['telefono'],
+                ":email" => $post['email'],
+                ":usuario" => $post['usuario'],
+                ":contrasena" => $post['contrasena']
+            ));
+
+            $uid = $this->db->lastInsertId();
+
+            // Añado los permisos
+            $permisos = explode("]", $post['permisos']);
+
+            foreach ($permisos as $p_)
             {
+                $p = str_replace("[", "", $p_);
+
+                if (strlen($p) == 0) continue;
+
                 $query = $this->db->prepare("
-                    insert into Personal (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado)
-                    values (:nombre, :snombre, :apellido, :sapellido, :cedula, :telefono, :email, :usuario, :contrasena, now())
+                    insert into Permiso_Asignado (permiso, usuario)
+                    values (:pid, :uid)
                 ");
 
                 $query->execute(array(
-                    ":nombre" => $post['nombre'],
-                    ":apellido" => $post['apellido'],
-                    ":snombre" => $post['snombre'],
-                    ":sapellido" => $post['sapellido'],
-                    ":cedula" => $post['cedula'],
-                    ":telefono" => $post['telefono'],
-                    ":email" => $post['email'],
-                    ":usuario" => $post['usuario'],
-                    ":contrasena" => $post['contrasena']
+                    ":pid" => $p,
+                    ":uid" => $uid
                 ));
-
-                $uid = $this->db->lastInsertId();
-
-                // Añado los permisos
-                for ($i = 0; $i < strlen($post['permisos']); $i++)
-                {
-                    $query = $this->db->prepare("
-                        insert into Permiso_Asignado (permiso, usuario)
-                        values (:pid, :uid)
-                    ");
-
-                    $query->execute(array(
-                        ":pid" => $post['permisos'][$i],
-                        ":uid" => $uid
-                    ));
-                }
-
-                return "ok";
             }
-            catch (Exception $e)
-            {
-                return "error";
-            }
+
+            return "ok";
         }
 
         public function editar_carrera($post)
