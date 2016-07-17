@@ -390,7 +390,11 @@
 
         public function cargar_profesores($post)
         {
-            $query = $this->db->prepare("call obtener_profesores()");
+            $query = $this->db->prepare("
+                select id, nombre, apellido, cedula, telefono, concat(nombre, ' ', apellido) as nombre_completo, estado, email
+                from Profesor
+                order by nombre asc;
+            ");
             $query->execute();
 
             return json_encode($query->fetchAll());
@@ -414,6 +418,18 @@
 
             $query->execute(array(
                 ":pid" => $post['pid'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_profesor($post)
+        {
+            $query = $this->db->prepare("
+                update Profesor set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
                 ":estado" => $post['estado']
             ));
         }
@@ -892,6 +908,32 @@
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
+                ":id" => $post['id']
+            ));
+        }
+
+        public function editar_profesor($post)
+        {
+            $query = $this->db->prepare("
+                update Profesor set 
+                    nombre=:nombre,
+                    segundo_nombre=:segundo_nombre,
+                    apellido=:apellido,
+                    segundo_apellido=:segundo_apellido,
+                    email=:email,
+                    cedula=:cedula,
+                    telefono=:telefono
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":segundo_nombre" => $post['segundo_nombre'],
+                ":apellido" => $post['apellido'],
+                ":segundo_apellido" => $post['segundo_apellido'],
+                ":email" => $post['email'],
+                ":cedula" => $post['cedula'],
+                ":telefono" => $post['telefono'],
                 ":id" => $post['id']
             ));
         }

@@ -31,6 +31,7 @@ create table Profesor (
 	cedula varchar(32),
 	telefono varchar(64),
 	email varchar(64),
+	estado tinyint(1) default 1,
 	primary key(id), unique(cedula)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 

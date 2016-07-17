@@ -59,7 +59,7 @@
 		<div class="fila" ng-init="cargar_profesores()">
 			<p>Profesor (*) <span class="badge" ng-hide="agregarguia_agregarprofesor" ng-click="agregarguia_agregarprofesor = 1" title="Añadir nuevo profesor">+</span></p>
 			<select ng-hide="agregarguia_agregarprofesor" ng-model="agregarguia_profesor" ng-show="profesores">
-				<option ng-repeat="p in profesores" value="{{ p.id }}">{{ p.nombre_completo }}</option>
+				<option ng-repeat="p in profesores" ng-if="p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 
 			<span ng-hide="profesores">Cargando...</span>

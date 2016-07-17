@@ -47,6 +47,15 @@
 
 
 
+			.when("/profesores", {
+				templateUrl : "views/admin/profesores.html"
+			})
+			.when("/profesores/editar/:id", {
+				templateUrl : "views/admin/editarprofesor.html"
+			})
+
+
+
 
 			.when("/carreras", {
 				templateUrl : "views/admin/carreras.html"
