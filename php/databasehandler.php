@@ -337,10 +337,34 @@
 
         public function cargar_carreras($post)
         {
-            $query = $this->db->prepare("call obtener_carreras()");
-            $query->execute();
+            $query = $this->db->prepare("
+                select c.id as id, c.nombre as nombre, c.estado as estado
+                from Carrera as c
+                order by c.nombre asc
+            ");
 
-            return json_encode($query->fetchAll());
+            $query->execute();
+            $carreras = $query->fetchAll();
+
+            for ($i = 0; $i < count($carreras); $i++)
+            {
+                $query = $this->db->prepare("
+                    select p.tipo as tipo
+                    from Car_Per as cp, Periodo as p
+                    where cp.periodo=p.id and cp.carrera=:cid
+                    limit 1
+                ");
+
+                $query->execute(array(
+                    ":cid" => $carreras[$i]['id']
+                ));
+
+                $tipo = $query->fetchAll();
+                $tipo = $tipo[0]['tipo'];
+                $carreras[$i]['tipo'] = $tipo;
+            }
+
+            return json_encode($carreras);
         }
 
         public function cargar_profesores($post)
@@ -369,6 +393,18 @@
 
             $query->execute(array(
                 ":pid" => $post['pid'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_carrera($post)
+        {
+            $query = $this->db->prepare("
+                update Carrera set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
                 ":estado" => $post['estado']
             ));
         }
@@ -761,6 +797,18 @@
             {
                 return "error";
             }
+        }
+
+        public function editar_carrera($post)
+        {
+            $query = $this->db->prepare("
+                update Carrera set nombre=:nombre where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":id" => $post['id']
+            ));
         }
 
         public function editar_personal($post)

@@ -9,10 +9,10 @@
 			<input type="text" ng-model="agregarguia_titulo" maxlength="128" placeholder="Título" />
 		</div>
 
-		<div class="fila" ng-init="cargar_materias()">
+		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carreras (*)</p>
 			<select ng-model="agregarguia_carrera" ng-show="carreras" ng-change="agregarguia_materia = '';">
-				<option ng-repeat="c in carreras">{{ c.nombre }}</option>
+				<option ng-repeat="c in carreras" ng-if="c.estado == 1">{{ c.nombre }}</option>
 			</select>
 
 			<span ng-hide="carreras">Cargando...</span>

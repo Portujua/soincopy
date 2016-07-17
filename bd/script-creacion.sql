@@ -1,6 +1,7 @@
 create table Carrera (
 	id int not null auto_increment,
 	nombre varchar(64) not null,
+	estado tinyint(1) default 1,
 	primary key(id), unique(nombre)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 

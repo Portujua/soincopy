@@ -58,6 +58,20 @@
 			$scope.agregarguia_recibida_por = "";
 		}
 
+		$scope.cargar_carreras = function(){
+			$.ajax({
+			    url: "php/run.php?fn=cargar_carreras",
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	$scope.carreras = $.parseJSON(data);
+			        })
+			    }
+			});
+		}
+
 		$scope.cargar_materias = function(){
 			$.ajax({
 			    url: "php/run.php?fn=cargar_materias",

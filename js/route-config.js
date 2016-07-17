@@ -46,9 +46,20 @@
 			})
 
 
-			.when("/agregarcarrera", {
+
+
+			.when("/carreras", {
+				templateUrl : "views/admin/carreras.html"
+			})
+			.when("/carreras/agregar", {
 				templateUrl : "views/admin/agregarcarrera.html"
 			})
+			.when("/carreras/editar/:id", {
+				templateUrl : "views/admin/agregarcarrera.html"
+			})
+
+
+			
 			.when("/agregarmateria", {
 				templateUrl : "views/admin/agregarmateria.html"
 			})
