@@ -4,7 +4,8 @@
 	</p>
 
 	<p>
-		Buscar materia <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" />
+		Buscar materia <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" /> 
+		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
 	</p>
 
 	<table class="table table-stripped table-fixed-style" ng-init="cargar_materias()">
@@ -17,8 +18,10 @@
 		<tbody>
 			<tr ng-repeat="p in materias" 
 				ng-if="
-					p.nombre.indexOf(busqueda) != -1 ||
-					p.carrera.indexOf(busqueda) != -1
+					(p.nombre.indexOf(busqueda) != -1 ||
+					p.carrera.indexOf(busqueda) != -1)
+
+					&& (solo_activos == false || p.estado == 1)
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }}">
 				<td ng-show="$parent.login_info.materias_editar || $parent.login_info.materias_deshabilitar" class="text-center">
