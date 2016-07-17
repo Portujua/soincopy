@@ -489,7 +489,7 @@
                 $permisos = $query->fetchAll();
 
                 foreach ($permisos as $p)
-                    $ret[$i]["permisos"] .= $p['id'];
+                    $ret[$i]["permisos"] .= "[" . $p['id'] . "]";
             }
 
             return json_encode($ret);

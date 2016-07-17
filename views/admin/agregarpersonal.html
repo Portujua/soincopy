@@ -48,7 +48,7 @@
 		</div>
 
 		<h3 ng-init="cargar_permisos(); personal_nuevo.permisos = '';">Permisos</h3>
-		<p ng-repeat="p in permisos" ng-click="cambiar_permiso(p.id)" class="permiso {{ personal_nuevo.permisos.indexOf(p.id) == -1 ? '' : 'bg-success' }}">
+		<p ng-repeat="p in permisos" ng-click="cambiar_permiso(p.id)" class="permiso {{ personal_nuevo.permisos.indexOf('[' + p.id + ']') == -1 ? '' : 'bg-success' }}">
 			{{ p.descripcion }}
 		</p>
 

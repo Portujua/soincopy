@@ -58,15 +58,16 @@
 		}
 
 		$scope.cambiar_permiso = function(pid){
-			if ($scope.personal_nuevo.permisos.indexOf(pid) == -1)
-				$scope.personal_nuevo.permisos += pid;
+			if ($scope.personal_nuevo.permisos.indexOf("[" + pid + "]") == -1)
+				$scope.personal_nuevo.permisos += "[" + pid + "]";
 			else
 			{
 				var permisos = "";
+				var actuales = $scope.personal_nuevo.permisos.split(']');
 
-				for (var i = 0; i < $scope.personal_nuevo.permisos.length; i++)
-					if ($scope.personal_nuevo.permisos[i] != pid)
-						permisos += $scope.personal_nuevo.permisos[i];
+				for (var i = 0; i < actuales.length; i++)
+					if (actuales[i].substring(1) != pid)
+						permisos += "[" + actuales[i].substring(1) + "]";
 
 				$scope.personal_nuevo.permisos = permisos;
 			}
