@@ -35,14 +35,22 @@
 
 
 			// Admin
+			.when("/personal", {
+				templateUrl : "views/admin/personal.html"
+			})
+			.when("/personal/agregar", {
+				templateUrl : "views/admin/agregarpersonal.html"
+			})
+			.when("/personal/editar/:id", {
+				templateUrl : "views/admin/agregarpersonal.html"
+			})
+
+
 			.when("/agregarcarrera", {
 				templateUrl : "views/admin/agregarcarrera.html"
 			})
 			.when("/agregarmateria", {
 				templateUrl : "views/admin/agregarmateria.html"
-			})
-			.when("/agregarpersonal", {
-				templateUrl : "views/admin/agregarpersonal.html"
 			})
 			.when("/agregardependencia", {
 				templateUrl : "views/admin/agregardependencia.html"

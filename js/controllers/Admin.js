@@ -28,43 +28,6 @@
 			});
 		}
 
-		$scope.registrar_personal = function(){
-			if (!$scope.agregarpersonal_nombre || !$scope.agregarpersonal_apellido)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
-
-			if ($scope.agregarpersonal_nombre.length == 0 || $scope.agregarpersonal_apellido.length == 0)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
-
-			var nombre = $scope.agregarpersonal_nombre;
-			var apellido = $scope.agregarpersonal_apellido;
-			var snombre = $scope.agregarpersonal_snombre;
-			var sapellido = $scope.agregarpersonal_sapellido;
-
-			$.ajax({
-			    url: "php/run.php?fn=agregar_personal",
-			    type: "POST",
-			    data: {
-			    	nombre: nombre,
-			    	apellido: apellido,
-			    	snombre: snombre,
-			    	sapellido: sapellido
-			    },
-			    beforeSend: function(){},
-			    success: function(data){
-			        if (data == "ok")
-			        	$scope.safeApply(function(){
-			        		$location.path("/inicio");
-			        	})
-			    }
-			});
-		}
-
 		$scope.registrar_carrera = function(){
 			if (!$scope.agregarcarrera_nombre || !$scope.agregarcarrera_tipo)
 			{

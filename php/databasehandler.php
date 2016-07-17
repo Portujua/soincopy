@@ -274,9 +274,9 @@
         public function login($post)
         {
             $query = $this->db->prepare("
-                select u.id as id, u.usuario as username, p.*
-                from Usuario as u, Permisos as p
-                where u.id=p.usuario and u.usuario=:username and u.contrasena=:password
+                select u.id as id, u.usuario as username, u.nombre as nombre, u.apellido as apellido, u.cedula as cedula, u.email as email, u.telefono as tlf
+                from Personal as u
+                where u.usuario=:username and u.contrasena=:password and u.estado=1
                 limit 1
             ");
 
@@ -289,11 +289,39 @@
 
             if (count($u) > 0)
             {
+                /* Obtengo los permisos */
+                $user = $u[0];
+
+                $query = $this->db->prepare("
+                    select nombre
+                    from Permiso_Asignado as pa, Permiso as p
+                    where pa.permiso=p.id and pa.usuario=:uid
+                ");
+
+                $query->execute(array(
+                    ":uid" => $user['id']
+                ));
+
+                $permisos = $query->fetchAll();
+
+                foreach ($permisos as $p)
+                    $user[$p['nombre']] = 1;
+
+                /* Setteo la sesion y registro el login */
                 @session_start();
                 $_SESSION['login_username'] = $post['username'];
                 $this->actualizar_hora_sesion();
 
-                return json_encode($u[0]);
+                $query = $this->db->prepare("
+                    insert into Log_Login (fecha, username)
+                    values (now(), :username)
+                ");
+
+                $query->execute(array(
+                    ":username" => $post['username']
+                ));
+
+                return json_encode($user);
             }
             else
                 return json_encode(array("error" => 1));
@@ -333,9 +361,62 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cambiar_estado_personal($post)
+        {
+            $query = $this->db->prepare("
+                update Personal set estado=:estado where id=:pid
+            ");
+
+            $query->execute(array(
+                ":pid" => $post['pid'],
+                ":estado" => $post['estado']
+            ));
+        }
+
         public function cargar_personal($post)
         {
-            $query = $this->db->prepare("call obtener_personal()");
+            $query = $this->db->prepare("
+                select *, concat(nombre, ' ', apellido) as nombre_completo
+                from Personal
+                order by nombre asc
+            ");
+
+            $query->execute();
+            $ret = $query->fetchAll();
+
+            /* Permisos */
+            for ($i = 0; $i < count($ret); $i++)
+            {
+                $ret[$i]["permisos"] = "";
+                $ret[$i]["snombre"] = $ret[$i]["segundo_nombre"];
+                $ret[$i]["sapellido"] = $ret[$i]["segundo_apellido"];
+
+                $query = $this->db->prepare("
+                    select p.id as id
+                    from Permiso_Asignado as pa, Permiso as p
+                    where pa.permiso=p.id and usuario=:usuario
+                ");
+
+                $query->execute(array(
+                    ":usuario" => $ret[$i]['id']
+                ));
+
+                $permisos = $query->fetchAll();
+
+                foreach ($permisos as $p)
+                    $ret[$i]["permisos"] .= $p['id'];
+            }
+
+            return json_encode($ret);
+        }
+
+        public function cargar_permisos($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Permiso
+                order by nombre asc
+            ");
             $query->execute();
 
             return json_encode($query->fetchAll());
@@ -641,14 +722,100 @@
         {
             try 
             {
-                $query = $this->db->prepare("call agregar_personal(:nombre, :snombre, :apellido, :sapellido)");
+                $query = $this->db->prepare("
+                    insert into Personal (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado)
+                    values (:nombre, :snombre, :apellido, :sapellido, :cedula, :telefono, :email, :usuario, :contrasena, now())
+                ");
 
                 $query->execute(array(
                     ":nombre" => $post['nombre'],
                     ":apellido" => $post['apellido'],
-                    ":snombre" => isset($post['snombre']) ? $post['snombre'] : null,
-                    ":sapellido" => isset($post['sapellido']) ? $post['sapellido'] : null
+                    ":snombre" => $post['snombre'],
+                    ":sapellido" => $post['sapellido'],
+                    ":cedula" => $post['cedula'],
+                    ":telefono" => $post['telefono'],
+                    ":email" => $post['email'],
+                    ":usuario" => $post['usuario'],
+                    ":contrasena" => $post['contrasena']
                 ));
+
+                $uid = $this->db->lastInsertId();
+
+                // Añado los permisos
+                for ($i = 0; $i < strlen($post['permisos']); $i++)
+                {
+                    $query = $this->db->prepare("
+                        insert into Permiso_Asignado (permiso, usuario)
+                        values (:pid, :uid)
+                    ");
+
+                    $query->execute(array(
+                        ":pid" => $post['permisos'][$i],
+                        ":uid" => $uid
+                    ));
+                }
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function editar_personal($post)
+        {
+            try 
+            {
+                $query = $this->db->prepare("
+                    update Personal set 
+                        nombre=:nombre,
+                        segundo_nombre=:snombre,
+                        apellido=:apellido,
+                        segundo_apellido=:sapellido,
+                        cedula=:cedula,
+                        telefono=:telefono,
+                        email=:email,
+                        usuario=:usuario,
+                        contrasena=:contrasena
+                    where id=:id
+                ");
+
+                $query->execute(array(
+                    ":nombre" => $post['nombre'],
+                    ":apellido" => $post['apellido'],
+                    ":snombre" => $post['snombre'],
+                    ":sapellido" => $post['sapellido'],
+                    ":cedula" => $post['cedula'],
+                    ":telefono" => $post['telefono'],
+                    ":email" => $post['email'],
+                    ":usuario" => $post['usuario'],
+                    ":contrasena" => $post['contrasena'],
+                    ":id" => $post['id']
+                ));
+
+                // Borro los permisos
+                $query = $this->db->prepare("
+                    delete from Permiso_Asignado where usuario=:uid
+                ");
+
+                $query->execute(array(
+                    ":uid" => $post['id']
+                ));
+
+                // Añado los permisos
+                for ($i = 0; $i < strlen($post['permisos']); $i++)
+                {
+                    $query = $this->db->prepare("
+                        insert into Permiso_Asignado (permiso, usuario)
+                        values (:pid, :uid)
+                    ");
+
+                    $query->execute(array(
+                        ":pid" => $post['permisos'][$i],
+                        ":uid" => $post['id']
+                    ));
+                }
 
                 return "ok";
             }

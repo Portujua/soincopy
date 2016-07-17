@@ -39,6 +39,13 @@ create table Personal (
 	segundo_nombre varchar(32),
 	apellido varchar(32) not null,
 	segundo_apellido varchar(32),
+	cedula varchar(32),
+	telefono varchar(128),
+	email varchar(128),
+	usuario varchar(32) not null,
+	contrasena varchar(32) not null,
+	fecha_creado datetime,
+	estado tinyint(1) default 1,
 	primary key(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
@@ -99,23 +106,23 @@ create table Cambio_de_Status (
 	foreign key (usuario) references Personal(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
-create table Usuario (
+create table Permiso (
 	id int not null auto_increment,
-	usuario varchar(32) not null,
-	contrasena varchar(32) not null,
+	nombre varchar(32) not null,
+	descripcion varchar(128) not null,
 	primary key(id)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+);
 
-create table Permisos (
+create table Permiso_Asignado (
 	id int not null auto_increment,
-	anadir_guias tinyint(1) default 0,
-	buscar_guias tinyint(1) default 0,
-	modificar_guias tinyint(1) default 0,
-	anadir_orden tinyint(1) default 0,
+	permiso int not null,
 	usuario int not null,
 	primary key(id),
-	foreign key (usuario) references Usuario(id)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+	unique(permiso, usuario),
+	foreign key (permiso) references Permiso(id),
+	foreign key (usuario) references Personal(id)
+);
+
 
 create table Log_Vista_Guias (
 	id int not null auto_increment,
@@ -124,6 +131,13 @@ create table Log_Vista_Guias (
 	resultado varchar(32) not null,
 	archivo varchar(64) not null,
 	errores varchar(32) not null,
+	primary key(id)
+);
+
+create table Log_Login (
+	id int not null auto_increment,
+	fecha datetime not null,
+	username varchar(32) not null,
 	primary key(id)
 );
 
@@ -299,13 +313,6 @@ begin
 	values (nombre_, segundo_nombre_, apellido_, segundo_apellido_, cedula_, telefono_, email_);
 
 	select id from Profesor order by id desc limit 1;
-end//
-
-create procedure agregar_personal(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32))
-comment 'añade un profesor'
-begin
-	insert into Personal (nombre, segundo_nombre, apellido, segundo_apellido)
-	values (nombre_, segundo_nombre_, apellido_, segundo_apellido_);
 end//
 
 

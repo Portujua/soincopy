@@ -132,7 +132,7 @@
 		<div class="fila" ng-init="cargar_personal()">
 			<p>Recibido por (*)</p>
 			<select ng-model="agregarguia_recibida_por" ng-show="personal">
-				<option ng-repeat="p in personal" value="{{ p.id }}">{{ p.nombre_completo }}</option>
+				<option ng-repeat="p in personal" ng-if="p.id > 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 
 			<span ng-hide="personal">Cargando...</span>

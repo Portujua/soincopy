@@ -1,31 +1,60 @@
-<div class="agregar agregar_personal" ng-controller="Admin">
-	<h2>Agregar personal</h2>
-
+<form class="agregar agregar_personal" ng-controller="Personal" ng-submit="registrar_personal()">
 	<div class="register-form">
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
+			<p>Usuario (*)</p>
+			<input type="text" ng-model="personal_nuevo.usuario" maxlength="32" placeholder="Usuario" required />
+		</div>
+
+		<div class="fila">
+			<p>Contraseña (*)</p>
+			<input type="password" ng-model="personal_nuevo.contrasena" maxlength="32" required placeholder="Contraseña" />
+		</div>
+
+		<div class="fila">
 			<p>Nombre (*)</p>
-			<input type="text" ng-model="agregarpersonal_nombre" maxlength="32" placeholder="Nombre" />
+			<input type="text" ng-model="personal_nuevo.nombre" maxlength="32" required placeholder="Nombre" />
 		</div>
 
 		<div class="fila">
 			<p>Segundo Nombre</p>
-			<input type="text" ng-model="agregarpersonal_snombre" maxlength="32" placeholder="Segundo nombre" />
+			<input type="text" ng-model="personal_nuevo.snombre" ng-init="personal_nuevo.snombre = ''" maxlength="32" placeholder="Segundo nombre" />
 		</div>
 
 		<div class="fila">
 			<p>Apellido (*)</p>
-			<input type="text" ng-model="agregarpersonal_apellido" maxlength="32" placeholder="Apellido" />
+			<input type="text" ng-model="personal_nuevo.apellido" maxlength="32" required placeholder="Apellido" />
 		</div>
 
 		<div class="fila">
 			<p>Segundo Apellido</p>
-			<input type="text" ng-model="agregarpersonal_sapellido" maxlength="32" placeholder="Segundo apellido" />
+			<input type="text" ng-model="personal_nuevo.sapellido" ng-init="personal_nuevo.sapellido = ''" maxlength="32" placeholder="Segundo apellido" />
 		</div>
 
+		<div class="fila">
+			<p>Cédula</p>
+			<input type="text" ng-model="personal_nuevo.cedula" ng-init="personal_nuevo.cedula = ''" maxlength="32" placeholder="Cédula" />
+		</div>
+
+		<div class="fila">
+			<p>Correo electrónico</p>
+			<input type="text" ng-model="personal_nuevo.email" ng-init="personal_nuevo.email = ''" maxlength="128" placeholder="Email" />
+		</div>
+
+		<div class="fila">
+			<p>Teléfono</p>
+			<input type="text" ng-model="personal_nuevo.telefono" ng-init="personal_nuevo.telefono = ''" maxlength="128" placeholder="Teléfono" />
+		</div>
+
+		<h3 ng-init="cargar_permisos(); personal_nuevo.permisos = '';">Permisos</h3>
+		<p ng-repeat="p in permisos" ng-click="cambiar_permiso(p.id)" class="permiso {{ personal_nuevo.permisos.indexOf(p.id) == -1 ? '' : 'bg-success' }}">
+			{{ p.descripcion }}
+		</p>
+
+
 		<div class="fila text-center">
-			<button class="btn btn-primary" ng-click="registrar_personal()">Añadir</button>
+			<button type="submit" class="btn btn-primary">Finalizar</button>
 		</div>
 	</div>
-</div>
+</form>
