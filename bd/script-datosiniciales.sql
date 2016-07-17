@@ -32,6 +32,8 @@ insert into Permiso (nombre, descripcion) values ("materias_deshabilitar", "Podr
 insert into Permiso (nombre, descripcion) values ("profesores_agregar", "Podrá añadir nuevos profesores al sistema");
 insert into Permiso (nombre, descripcion) values ("profesores_editar", "Podrá editar cualquier información de un profesor disponible en el sistema");
 insert into Permiso (nombre, descripcion) values ("profesores_deshabilitar", "Podrá habilitar y deshabilitar profesores disponibles en el sistema");
+insert into Permiso (nombre, descripcion) values ("ver_ordenes_web", "Podrá ver las ordenes generadas vía web");
+insert into Permiso (nombre, descripcion) values ("plandeestudios_agregar", "Podrá añadir planes de estudio al sistema");
 
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "admin", "admin");
@@ -54,3 +56,5 @@ insert into Permiso_Asignado (permiso, usuario) values (14, 1);
 insert into Permiso_Asignado (permiso, usuario) values (15, 1);
 insert into Permiso_Asignado (permiso, usuario) values (16, 1);
 insert into Permiso_Asignado (permiso, usuario) values (17, 1);
+insert into Permiso_Asignado (permiso, usuario) values (18, 1);
+insert into Permiso_Asignado (permiso, usuario) values (19, 1);
