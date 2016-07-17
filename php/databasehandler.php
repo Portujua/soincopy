@@ -10,7 +10,7 @@
 
 		private $db;
 
-        private $session_duration = 5 * 60;
+        private $session_duration = 300;
 
         public function __construct()
         {
