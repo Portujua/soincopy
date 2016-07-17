@@ -25,11 +25,11 @@
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias">Guías</p>
 
 	<div class="guias collapse" aria-expanded="false">
-		<a href="./#/agregarguia" ng-show="$parent.login_info.anadir_guias == 1">
+		<a href="./#/agregarguia" ng-show="$parent.login_info.anadir_guias">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/buscarguias"  ng-show="$parent.login_info.buscar_guias == 1">
+		<a href="./#/buscarguias"  ng-show="$parent.login_info.buscar_guias">
 			<p>Buscar</p>
 		</a>
 	</div>
@@ -37,13 +37,13 @@
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".ordenes">Ordenes</p>
 
 	<div class="ordenes collapse" aria-expanded="false">
-		<a href="./#/agregarorden">
+		<a href="./#/agregarorden" ng-show="$parent.login_info.anadir_orden">
 			<p>Agregar</p>
 		</a>
 
 		<hr/>
 
-		<a href="./#/buscar_web">
+		<a href="./#/buscar_web" ng-show="$parent.login_info.ver_ordenes_web">
 			<p>Ver ordenes web</p>
 		</a>
 	</div>
@@ -51,7 +51,7 @@
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".plandeestudio">Plan de Estudio</p>
 
 	<div class="plandeestudio collapse" aria-expanded="false">
-		<a href="./#/agregarplandeestudios">
+		<a href="./#/agregarplandeestudios" ng-show="$parent.login_info.plandeestudios_agregar">
 			<p>Agregar</p>
 		</a>
 	</div>
