@@ -26,6 +26,9 @@ insert into Permiso (nombre, descripcion) values ("personal_deshabilitar", "Podr
 insert into Permiso (nombre, descripcion) values ("carreras_agregar", "Podrá añadir nuevas carreras al sistema");
 insert into Permiso (nombre, descripcion) values ("carreras_editar", "Podrá editar cualquier información de una carrera disponible en el sistema");
 insert into Permiso (nombre, descripcion) values ("carreras_deshabilitar", "Podrá habilitar y deshabilitar carreras disponibles en el sistema");
+insert into Permiso (nombre, descripcion) values ("materias_agregar", "Podrá añadir nuevas materias al sistema");
+insert into Permiso (nombre, descripcion) values ("materias_editar", "Podrá editar cualquier información de una materia disponible en el sistema");
+insert into Permiso (nombre, descripcion) values ("materias_deshabilitar", "Podrá habilitar y deshabilitar materias disponibles en el sistema");
 
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "admin", "admin");

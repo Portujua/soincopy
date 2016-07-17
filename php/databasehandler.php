@@ -327,9 +327,30 @@
                 return json_encode(array("error" => 1));
         }
 
+        public function cargar_materias_carrera($post)
+        {
+            $query = $this->db->prepare("
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id
+                from Materia as m, Car_Per as cp, Carrera as c, Periodo as p
+                where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and c.id=:cid and m.estado=1
+                order by m.nombre asc
+            ");
+
+            $query->execute(array(
+                ":cid" => $post['cid']
+            ));
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_materias($post)
         {
-            $query = $this->db->prepare("call obtener_todas_las_materias()");
+            $query = $this->db->prepare("
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id
+                from Materia as m, Car_Per as cp, Carrera as c, Periodo as p
+                where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id
+                order by m.nombre asc
+            ");
             $query->execute();
 
             return json_encode($query->fetchAll());
@@ -397,6 +418,18 @@
             ));
         }
 
+        public function cambiar_estado_materia($post)
+        {
+            $query = $this->db->prepare("
+                update Materia set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
         public function cambiar_estado_carrera($post)
         {
             $query = $this->db->prepare("
@@ -407,6 +440,22 @@
                 ":id" => $post['id'],
                 ":estado" => $post['estado']
             ));
+        }
+
+        public function cargar_periodos($post)
+        {
+            $query = $this->db->prepare("
+                select cp.id as id, p.numero as periodo, p.tipo as tipo
+                from Car_Per as cp, Periodo as p
+                where cp.periodo=p.id and cp.carrera=:cid
+                order by p.numero asc
+            ");
+
+            $query->execute(array(
+                ":cid" => $post['cid']
+            ));
+
+            return json_encode($query->fetchAll());
         }
 
         public function cargar_personal($post)
@@ -738,12 +787,48 @@
         {
             try 
             {
-                $query = $this->db->prepare("call agregar_materia(:nombre, :carrera, :periodo)");
+                $query = $this->db->prepare("
+                    insert into Materia (nombre, dictada_en) 
+                    values (:nombre, (
+                        select cp.id 
+                        from Car_Per as cp, Carrera as c, Periodo as p
+                        where cp.carrera=c.id and cp.periodo=p.id and c.id=:carrera and p.id=:periodo
+                    ))
+                ");
 
                 $query->execute(array(
                     ":nombre" => $post['nombre'],
                     ":carrera" => $post['carrera'],
                     ":periodo" => $post['periodo']
+                ));
+
+                return "ok";
+            }
+            catch (Exception $e)
+            {
+                return "error";
+            }
+        }
+
+        public function editar_materia($post)
+        {
+            try 
+            {
+                $query = $this->db->prepare("
+                    update Materia set 
+                        nombre=:nombre, 
+                        dictada_en=(
+                            select cp.id 
+                            from Car_Per as cp, Carrera as c, Periodo as p
+                            where cp.carrera=c.id and cp.periodo=p.id and c.id=:carrera and p.id=:periodo)
+                    where id=:id
+                ");
+
+                $query->execute(array(
+                    ":nombre" => $post['nombre'],
+                    ":carrera" => $post['carrera_id'],
+                    ":periodo" => $post['periodo_id'],
+                    ":id" => $post['id']
                 ));
 
                 return "ok";

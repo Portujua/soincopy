@@ -11,8 +11,8 @@
 
 		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carreras (*)</p>
-			<select ng-model="agregarguia_carrera" ng-show="carreras" ng-change="agregarguia_materia = '';">
-				<option ng-repeat="c in carreras" ng-if="c.estado == 1">{{ c.nombre }}</option>
+			<select ng-model="agregarguia_carrera" ng-show="carreras" ng-change="cargar_materias()">
+				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 
 			<span ng-hide="carreras">Cargando...</span>
@@ -22,34 +22,34 @@
 			<p>Materias (*)</p>
 			<select ng-model="agregarguia_materia" ng-show="agregarguia_carrera">
 				<optgroup label="1er período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 1" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 1" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="2do período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 2" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 2" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="3er período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 3" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 3" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="4to período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 4" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 4" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="5to período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 5" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 5" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="6to período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 6" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 6" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="7mo período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 7" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 7" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="8vo período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 8" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 8" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="9no período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 9" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 9" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				<optgroup label="10mo período">
-					<option ng-repeat="m in materias | filter:{carrera: agregarguia_carrera}" ng-if="m.periodo == 10" value="{{ m.id }}">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias | filter:{carrera_id: agregarguia_carrera}" ng-if="m.periodo == 10" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 			</select>
 

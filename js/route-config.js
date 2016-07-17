@@ -59,10 +59,18 @@
 			})
 
 
-			
-			.when("/agregarmateria", {
+			.when("/materias", {
+				templateUrl : "views/admin/materias.html"
+			})
+			.when("/materias/agregar", {
 				templateUrl : "views/admin/agregarmateria.html"
 			})
+			.when("/materias/editar/:id", {
+				templateUrl : "views/admin/editarmateria.html"
+			})
+
+
+			
 			.when("/agregardependencia", {
 				templateUrl : "views/admin/agregardependencia.html"
 			})

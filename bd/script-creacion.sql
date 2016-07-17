@@ -54,6 +54,7 @@ create table Materia (
 	id int not null auto_increment,
 	nombre varchar(64) not null,
 	dictada_en int not null comment 'Foranea a la N a N entre periodo y carrera',
+	estado tinyint(1) default 1,
 	primary key(id),
 	foreign key (dictada_en) references Car_Per(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;

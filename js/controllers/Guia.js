@@ -73,32 +73,18 @@
 		}
 
 		$scope.cargar_materias = function(){
+			var cid = $scope.agregarguia_carrera;
+
 			$.ajax({
-			    url: "php/run.php?fn=cargar_materias",
+			    url: "php/run.php?fn=cargar_materias_carrera",
 			    type: "POST",
-			    data: {},
+			    data: {cid:cid},
 			    beforeSend: function(){},
 			    success: function(data){
 			    	var json = $.parseJSON(data);
 
 			        $scope.safeApply(function(){
 			        	$scope.materias = json;
-
-			        	// Creo solo las carreras
-			        	var cs = [];
-			        	var carreras = [];
-
-			        	for (var i = 0; i < json.length; i++)
-			        		if (cs.indexOf(json[i].carrera) == -1)
-			        		{
-			        			cs.push(json[i].carrera);
-			        			carreras.push({
-			        				nombre: json[i].carrera,
-			        				id: json[i].carrera_id
-			        			});
-			        		}
-
-			        	$scope.carreras = carreras;
 			        })
 			    }
 			});
