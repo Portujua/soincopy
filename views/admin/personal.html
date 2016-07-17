@@ -19,7 +19,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="p in personal" 
-					ng-if="p.id > 1 && (
+					ng-if="p.id > 1 && p.id != $parent.login_info.id && (
 						p.nombre_completo.indexOf(busqueda) != -1 ||
 						p.cedula.indexOf(busqueda) != -1 ||
 						p.telefono.indexOf(busqueda) != -1 ||
