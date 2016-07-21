@@ -22,6 +22,15 @@ create table Car_Per (
 	foreign key (carrera) references Carrera(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Mencion (
+	id int not null auto_increment,
+	nombre varchar(64) not null,
+	estado tinyint(1) default 1,
+	carrera int not null,
+	primary key(id),
+	foreign key (carrera) references Carrera(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 create table Profesor (
 	id int not null auto_increment,
 	nombre varchar(32) not null,

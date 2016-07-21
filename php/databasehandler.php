@@ -356,6 +356,19 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_menciones()
+        {
+            $query = $this->db->prepare("
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, c.id as cid, m.estado as estado
+                from Mencion as m, Carrera as c
+                where m.carrera=c.id
+                order by c.nombre asc
+            ");
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_carreras($post)
         {
             $query = $this->db->prepare("
@@ -824,6 +837,39 @@
             {
                 return "error";
             }
+        }
+
+        public function agregar_mencion($post)
+        {
+            $query = $this->db->prepare("
+                insert into Mencion (nombre, carrera) 
+                values (:nombre, :carrera)
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":carrera" => $post['carrera']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_mencion($post)
+        {
+            $query = $this->db->prepare("
+                update Mencion set 
+                    nombre=:nombre, 
+                    carrera=:carrera
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":carrera" => $post['cid'],
+                ":id" => $post['id']
+            ));
+
+            return "ok";
         }
 
         public function editar_materia($post)

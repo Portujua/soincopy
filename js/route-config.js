@@ -68,6 +68,21 @@
 			})
 
 
+
+
+			.when("/menciones", {
+				templateUrl : "views/admin/menciones.html"
+			})
+			.when("/menciones/agregar", {
+				templateUrl : "views/admin/agregarmencion.html"
+			})
+			.when("/menciones/editar/:id", {
+				templateUrl : "views/admin/agregarmencion.html"
+			})
+
+
+
+
 			.when("/materias", {
 				templateUrl : "views/admin/materias.html"
 			})
