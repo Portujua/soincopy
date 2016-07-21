@@ -17,6 +17,11 @@
 			<select ng-model="materia.periodo" required ng-options="p.id as (p.periodo + (p.tipo == 'Anual' ? ' año' : ' semestre')) for p in periodos"></select>
 		</div>
 
+		<div class="fila" ng-init="cargar_tipos()">
+			<p>Tipo (*)</p>
+			<select ng-model="materia.tipo" ng-init="materia.tipo = 1;" required ng-options="c.id as c.nombre disable when c.estado == 0 for c in tipos"></select>
+		</div>
+
 		<div class="fila text-center">
 			<button class="btn btn-primary" type="submit">Finalizar</button>
 		</div>

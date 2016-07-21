@@ -15,6 +15,8 @@ insert into Periodo (tipo, numero) values ("Anual", 3);
 insert into Periodo (tipo, numero) values ("Anual", 4);
 insert into Periodo (tipo, numero) values ("Anual", 5);
 
+insert into Tipo_Materia(nombre) values ("Normal");
+
 insert into Permiso (nombre, descripcion) values ("anadir_guias", "Podrá añadir nuevas guías al sistema");
 insert into Permiso (nombre, descripcion) values ("buscar_guias", "Podrá consultar las guías disponibles en el sistema");
 insert into Permiso (nombre, descripcion) values ("modificar_guias", "Podrá modificar cualquier información de una guía disponible en el sistema");
@@ -26,7 +28,7 @@ insert into Permiso (nombre, descripcion) values ("personal_deshabilitar", "Podr
 insert into Permiso (nombre, descripcion) values ("carreras_agregar", "Podrá añadir nuevas carreras al sistema");
 insert into Permiso (nombre, descripcion) values ("carreras_editar", "Podrá editar cualquier información de una carrera disponible en el sistema");
 insert into Permiso (nombre, descripcion) values ("carreras_deshabilitar", "Podrá habilitar y deshabilitar carreras disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("materias_agregar", "Podrá añadir nuevas materias al sistema");
+insert into Permiso (nombre, descripcion) values ("materias_agregar", "Podrá añadir nuevas materias al sistema así como nuevos tipos de materia");
 insert into Permiso (nombre, descripcion) values ("materias_editar", "Podrá editar cualquier información de una materia disponible en el sistema");
 insert into Permiso (nombre, descripcion) values ("materias_deshabilitar", "Podrá habilitar y deshabilitar materias disponibles en el sistema");
 insert into Permiso (nombre, descripcion) values ("profesores_agregar", "Podrá añadir nuevos profesores al sistema");

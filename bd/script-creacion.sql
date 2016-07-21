@@ -60,13 +60,22 @@ create table Personal (
 	primary key(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Tipo_Materia (
+	id int not null auto_increment,
+	nombre varchar(32) not null,
+	estado tinyint(1) default 1,
+	primary key(id)
+);
+
 create table Materia (
 	id int not null auto_increment,
 	nombre varchar(64) not null,
 	dictada_en int not null comment 'Foranea a la N a N entre periodo y carrera',
 	estado tinyint(1) default 1,
+	tipo int default 1 comment '1 es el id de NORMAL',
 	primary key(id),
-	foreign key (dictada_en) references Car_Per(id)
+	foreign key (dictada_en) references Car_Per(id),
+	foreign key (tipo) references Tipo_Materia(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 /*create table Materia_Dictada (

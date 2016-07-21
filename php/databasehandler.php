@@ -330,9 +330,9 @@
         public function cargar_materias_carrera($post)
         {
             $query = $this->db->prepare("
-                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id
-                from Materia as m, Car_Per as cp, Carrera as c, Periodo as p
-                where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and c.id=:cid and m.estado=1
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
+                from Materia as m, Car_Per as cp, Carrera as c, Periodo as p, Tipo_Materia as t
+                where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and m.tipo=t.id and c.id=:cid and m.estado=1
                 order by m.nombre asc
             ");
 
@@ -346,9 +346,9 @@
         public function cargar_materias($post)
         {
             $query = $this->db->prepare("
-                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id
-                from Materia as m, Car_Per as cp, Carrera as c, Periodo as p
-                where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
+                from Materia as m, Car_Per as cp, Carrera as c, Periodo as p, Tipo_Materia as t
+                where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and m.tipo=t.id
                 order by m.nombre asc
             ");
             $query->execute();
@@ -399,6 +399,19 @@
             }
 
             return json_encode($carreras);
+        }
+
+        public function cargar_tipos_materias($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Tipo_Materia
+                order by id asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
         }
 
         public function cargar_profesores($post)
@@ -817,8 +830,8 @@
             try 
             {
                 $query = $this->db->prepare("
-                    insert into Materia (nombre, dictada_en) 
-                    values (:nombre, (
+                    insert into Materia (nombre, tipo, dictada_en) 
+                    values (:nombre, :tipo, (
                         select cp.id 
                         from Car_Per as cp, Carrera as c, Periodo as p
                         where cp.carrera=c.id and cp.periodo=p.id and c.id=:carrera and p.id=:periodo
@@ -828,7 +841,8 @@
                 $query->execute(array(
                     ":nombre" => $post['nombre'],
                     ":carrera" => $post['carrera'],
-                    ":periodo" => $post['periodo']
+                    ":periodo" => $post['periodo'],
+                    ":tipo" => $post['tipo']
                 ));
 
                 return "ok";
@@ -878,7 +892,8 @@
             {
                 $query = $this->db->prepare("
                     update Materia set 
-                        nombre=:nombre, 
+                        nombre=:nombre,
+                        tipo=:tipo, 
                         dictada_en=(
                             select cp.id 
                             from Car_Per as cp, Carrera as c, Periodo as p
@@ -890,6 +905,7 @@
                     ":nombre" => $post['nombre'],
                     ":carrera" => $post['carrera_id'],
                     ":periodo" => $post['periodo_id'],
+                    ":tipo" => $post['tipo_id'],
                     ":id" => $post['id']
                 ));
 

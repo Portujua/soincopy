@@ -58,6 +58,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.materias = $.parseJSON(data);
+			        	console.log($scope.materias)
 			        })
 			    }
 			});
@@ -72,6 +73,20 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.carreras = $.parseJSON(data);
+			        })
+			    }
+			});
+		}
+
+		$scope.cargar_tipos = function(){
+			$.ajax({
+			    url: "php/run.php?fn=cargar_tipos_materias",
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	$scope.tipos = $.parseJSON(data);
 			        })
 			    }
 			});
