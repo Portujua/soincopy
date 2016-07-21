@@ -333,7 +333,7 @@
                 select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
                 from Materia as m, Car_Per as cp, Carrera as c, Periodo as p, Tipo_Materia as t
                 where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and m.tipo=t.id and c.id=:cid and m.estado=1
-                order by m.nombre asc
+                order by p.numero asc
             ");
 
             $query->execute(array(
@@ -349,14 +349,14 @@
                 select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
                 from Materia as m, Car_Per as cp, Carrera as c, Periodo as p, Tipo_Materia as t
                 where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and m.tipo=t.id
-                order by m.nombre asc
+                order by p.numero asc
             ");
             $query->execute();
 
             return json_encode($query->fetchAll());
         }
 
-        public function cargar_menciones()
+        public function cargar_menciones($post)
         {
             $query = $this->db->prepare("
                 select m.id as id, m.nombre as nombre, c.nombre as carrera, c.id as cid, m.estado as estado
@@ -365,6 +365,22 @@
                 order by c.nombre asc
             ");
             $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
+        public function cargar_menciones_de($post)
+        {
+            $query = $this->db->prepare("
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, c.id as cid, m.estado as estado
+                from Mencion as m, Carrera as c
+                where m.carrera=c.id and c.id=:cid
+                order by c.nombre asc
+            ");
+
+            $query->execute(array(
+                ":cid" => $post['cid']
+            ));
 
             return json_encode($query->fetchAll());
         }
@@ -621,6 +637,60 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_planes_de_estudio($post)
+        {
+            $query = $this->db->prepare("
+                select date_format(pe.fecha, '%d/%m/%Y') as fecha, time_format(pe.fecha, '%h:%i:%s %p') as hora, pe.id as id, pe.titulo as titulo, c.id as carrera_id, c.nombre as carrera, pe.mencion as mencion_id, pe.materia as materia_id, pe.tipo as tipo, pe.pdf as pdf, pe.paginas as paginas, pe.hojas as hojas
+                from Plan_de_Estudio as pe, Carrera as c
+                where pe.carrera=c.id
+                order by pe.fecha desc
+            ");
+
+            $query->execute();
+            $planes = $query->fetchAll();
+
+            for ($i = 0; $i < count($planes); $i++)
+            {
+                // Pego la mencion
+                $m = array();
+
+                if ($planes[$i]['mencion_id'] != null)
+                {
+                    $query = $this->db->prepare("
+                        select nombre
+                        from Mencion
+                        where id=:mid
+                    ");
+
+                    $query->execute(array(
+                        ":mid" => $planes[$i]['mencion_id']
+                    ));
+
+                    $m = $query->fetchAll();
+                }
+
+                $planes[$i]['mencion'] = count($m) > 0 ? $m[0]['nombre'] : null;
+
+                // Pego la materia
+                $query = $this->db->prepare("
+                    select m.nombre as nombre
+                    from Materia as m, Car_Per as cp, Carrera as c
+                    where m.dictada_en=cp.id and cp.carrera=c.id
+                    and c.id=:cid
+                ");
+
+                $query->execute(array(
+                    ":cid" => $planes[$i]['carrera_id']
+                ));
+
+                $m = $query->fetchAll();
+
+                $planes[$i]['materia'] = count($m) > 0 ? $m[0]['nombre'] : null;
+            }
+
+            return json_encode($planes);
+        }
+
         public function cargar_guias($post)
         {
             $query = $this->db->prepare("select * from Lista_Todas where status=:status order by id desc");
@@ -786,6 +856,37 @@
             {
                 return "error";
             }
+        }
+
+        public function agregar_plan_de_estudio($post)
+        {
+            $mencion_campo = "";
+            $mencion_valor = "";
+
+            if (isset($post['mencion']))
+                if ($post['mencion'] != -1)
+                {
+                    $mencion_campo = ", mencion";
+                    $mencion_valor = ", '".$post['mencion']."'";
+                }
+
+            $query = $this->db->prepare("
+                insert into Plan_de_Estudio (titulo, carrera, materia, tipo, comentario, pdf, paginas, hojas, fecha".$mencion_campo.")
+                values (:titulo, :carrera, :materia, :tipo, :comentario, :pdf, :paginas, :hojas, now()".$mencion_valor.")
+            ");
+
+            $query->execute(array(
+                ":titulo" => $post['titulo'],
+                ":carrera" => $post['carrera'],
+                ":tipo" => $post['tipo'],
+                ":comentario" => $post['comentario'],
+                ":pdf" => $post['pdf'],
+                ":paginas" => $post['paginas'],
+                ":hojas" => $post['hojas'],
+                ":materia" => isset($post['materia']) ? $post['materia'] : null
+            ));
+
+            return "ok";
         }
 
         public function agregar_dependencia($post)

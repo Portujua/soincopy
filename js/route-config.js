@@ -31,6 +31,9 @@
 			.when("/agregarplandeestudios", {
 				templateUrl : "views/plandeestudios/agregar.html"
 			})
+			.when("/planesdeestudio", {
+				templateUrl : "views/plandeestudios/buscar.html"
+			})
 
 
 

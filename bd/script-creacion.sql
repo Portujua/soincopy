@@ -162,6 +162,24 @@ create table Log_Login (
 	primary key(id)
 );
 
+create table Plan_de_Estudio (
+	id int not null auto_increment,
+	titulo varchar(128) not null,
+	carrera int not null,
+	mencion int comment 'Solo si es un plan para una carrera.. Si es -1 no es de ninguna mencion',
+	materia int comment 'Solo si es un plan para una materia',
+	tipo varchar(32) not null,
+	comentario text,
+	pdf varchar(256) not null,
+	paginas int,
+	hojas int,
+	fecha datetime,
+	primary key(id),
+	foreign key (carrera) references Carrera(id),
+	foreign key (mencion) references Mencion(id),
+	foreign key (materia) references Materia(id)
+);
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

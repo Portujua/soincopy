@@ -11,6 +11,12 @@
 
     $filePath = "../../soincopy_files/guias/";
 
+    if (isset($_GET['tipo']))
+    {
+        if ($_GET['tipo'] == "plan")
+            $filePath = "../../soincopy_files/planesdeestudio/";
+    }
+
     if ($_GET['action'] == "upload")
     {
     	$ret = array();

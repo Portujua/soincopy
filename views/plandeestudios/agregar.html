@@ -1,42 +1,103 @@
-<div class="agregar_guia" ng-controller="PlanDeEstudios">
+<form class="agregar_guia" ng-controller="PlanDeEstudios" ng-submit="registrar_plan()">
 	<h2>Agregar plan de estudios</h2>
 
 	<div class="register-form">
-		<div class="fila" ng-init="cargar_carreras()">
-			<p>Carreras (*)</p>
-			<select ng-show="carreras">
-				<option ng-repeat="c in carreras">{{ c.nombre }}</option>
-			</select>
-
-			<span ng-hide="carreras">Cargando...</span>
+		<div class="fila" ng-hide="plan.para">
+			<button type="button" class="btn btn-link btn-lg" ng-click="plan.para = 'Materia';">Materia</button>
+			<button type="button" class="btn btn-link btn-lg" ng-click="plan.para = 'Carrera';">Carrera</button>
 		</div>
 
-		<div class="fila">
-			<p>Tipo (*)</p>
-			
-			<select>
-				<option>Semestral</option>
-				<option>Anual</option>
-			</select>
+		<div ng-if="plan.para == 'Carrera'">
+			<div class="fila">
+				<p>Título (*)</p>
+				<input ng-model="plan.titulo" type="text" required maxlength="128" />
+			</div>
+
+			<div class="fila" ng-init="cargar_carreras()">
+				<p>Carreras (*)</p>
+				<select ng-model="plan.carrera" required ng-change="cargar_menciones()" ng-options="c.id as c.nombre for c in carreras"></select>
+			</div>
+
+			<div class="fila" ng-show="menciones.length > 1">
+				<p>Mención (*)</p>
+				<select ng-model="plan.mencion" ng-init="plan.mencion = -1;" ng-options="c.id as c.nombre for c in menciones"></select>
+			</div>
+
+			<div class="fila">
+				<p>Tipo (*)</p>
+				
+				<select ng-model="plan.tipo" ng-init="plan.tipo = 'Semestral';" ng-options="t as t for t in tipos"></select>
+			</div>
+
+			<div class="fila">
+				<p>PDF (*)</p>
+				<input type="file" ng-hide="upload_progress" />
+				<button type="button" class="btn-upload btn btn-primary" ng-hide="upload_progress" ng-click="subir_pdf();">Subir</button>
+
+				<div class="progress" ng-show="upload_progress">
+					<div class="progress-bar" role="progressbar" aria-valuenow="{{ upload_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ upload_progress }}%">
+						{{ upload_progress }}%
+					</div>
+				</div>
+			</div>
+
+			<div class="fila">
+				<p>Comentario</p>
+				<textarea ng-model="plan.comentario" placeholder="Escriba un comentario.."></textarea>
+			</div>
 		</div>
 
-		<div class="fila">
-			<p>Versión (*)</p>
-			<input type="text" maxlength="128" placeholder="Ej. Pensum 2005" />
+
+
+
+
+
+
+
+
+
+		<div ng-if="plan.para == 'Materia'">
+			<div class="fila">
+				<p>Título (*)</p>
+				<input ng-model="plan.titulo" type="text" required maxlength="128" />
+			</div>
+
+			<div class="fila" ng-init="cargar_carreras()">
+				<p>Carreras (*)</p>
+				<select ng-model="plan.carrera" required ng-change="cargar_materias()" ng-options="c.id as c.nombre for c in carreras"></select>
+			</div>
+
+			<div class="fila">
+				<p>Materia (*)</p>
+				<select ng-model="plan.materia" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : ' año')) for c in materias"></select>
+			</div>
+
+			<div class="fila">
+				<p>Tipo (*)</p>
+				
+				<select ng-model="plan.tipo" ng-init="plan.tipo = 'Semestral';" ng-options="t as t for t in tipos"></select>
+			</div>
+
+			<div class="fila">
+				<p>PDF (*)</p>
+				<input type="file" ng-hide="upload_progress" />
+				<button type="button" class="btn-upload btn btn-primary" ng-hide="upload_progress" ng-click="subir_pdf();">Subir</button>
+
+				<div class="progress" ng-show="upload_progress">
+					<div class="progress-bar" role="progressbar" aria-valuenow="{{ upload_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ upload_progress }}%">
+						{{ upload_progress }}%
+					</div>
+				</div>
+			</div>
+
+			<div class="fila">
+				<p>Comentario</p>
+				<textarea ng-model="plan.comentario" placeholder="Escriba un comentario.."></textarea>
+			</div>
 		</div>
 
-		<div class="fila">
-			<p>Archivos (*)</p>
-			<input type="file" multiple />
-		</div>
-
-		<div class="fila">
-			<p>Comentario</p>
-			<textarea placeholder="Escriba un comentario.."></textarea>
-		</div>
-
-		<div class="fila text-center">
-			<button class="btn btn-primary disabled">Añadir</button>
+		<div class="fila text-center" ng-show="plan.para">
+			<button type="submit" class="btn btn-primary">Finalizar</button>
 		</div>
 	</div>
-</div>
+</form>
