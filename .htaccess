@@ -1,5 +1,3 @@
-ServerAdmin ejlorenzo19@gmail.com
-
 # Poner UTF8 en todos los .html
 AddCharset UTF-8 .html
 
