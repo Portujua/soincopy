@@ -124,6 +124,10 @@ h2 {
 			&:focus {
 				border-bottom: 1px solid #333;
 			}
+
+			&.ng-invalid { border-bottom: 1px solid red !important; }
+			&.ng-valid { border-bottom: 1px solid green !important; }
+			&.ng-pristine { border-bottom: 1px solid #ccc !important; }
 		}
 
 		input[type=file] {
