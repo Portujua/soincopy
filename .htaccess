@@ -1,1 +1,11 @@
+AddCharset UTF-8 .html
+
 ErrorDocument 404 /soincopy/404.html
+
+<Files ~ “^.*\.([Hh][Tt][Aa])”>
+order allow,deny
+deny from all
+satisfy all
+</Files>
+
+RewriteEngine on
