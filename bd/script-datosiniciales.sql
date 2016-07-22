@@ -16,6 +16,8 @@ insert into Periodo (tipo, numero) values ("Anual", 4);
 insert into Periodo (tipo, numero) values ("Anual", 5);
 
 insert into Tipo_Materia(nombre) values ("Normal");
+insert into Tipo_Materia(nombre) values ("Electiva");
+insert into Tipo_Materia(nombre) values ("Seminario");
 
 insert into Permiso (nombre, descripcion) values ("anadir_guias", "Podrá añadir nuevas guías al sistema");
 insert into Permiso (nombre, descripcion) values ("buscar_guias", "Podrá consultar las guías disponibles en el sistema");
