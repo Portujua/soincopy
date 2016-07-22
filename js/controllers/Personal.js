@@ -13,7 +13,7 @@
 
 		$scope.cargar_datos_personal = function(id){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_personal",
+			    url: "api/personal",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -31,7 +31,7 @@
 
 		$scope.cargar_personal = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_personal",
+			    url: "api/personal",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -45,7 +45,7 @@
 
 		$scope.cargar_permisos = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_permisos",
+			    url: "api/permisos",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},

@@ -16,7 +16,7 @@
 
 		$scope.cargar_carrera = function(id){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_carreras",
+			    url: "api/carreras",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -34,7 +34,7 @@
 
 		$scope.cargar_carreras = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_carreras",
+			    url: "api/carreras",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},

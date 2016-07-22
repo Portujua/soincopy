@@ -60,7 +60,7 @@
 
 		$scope.cargar_carreras = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_carreras",
+			    url: "api/carreras",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -76,9 +76,9 @@
 			var cid = $scope.agregarguia_carrera;
 
 			$.ajax({
-			    url: "php/run.php?fn=cargar_materias_carrera",
+			    url: "api/materias/" + cid,
 			    type: "POST",
-			    data: {cid:cid},
+			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
 			    	var json = $.parseJSON(data);
@@ -92,7 +92,7 @@
 
 		$scope.cargar_profesores = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_profesores",
+			    url: "api/profesores",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -106,7 +106,7 @@
 
 		$scope.cargar_personal = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_personal",
+			    url: "api/personal",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -124,9 +124,9 @@
 			var status = $scope.buscar_status;
 
 			$.ajax({
-			    url: "php/run.php?fn=cargar_guias",
+			    url: "api/guias/" + status,
 			    type: "POST",
-			    data: {status:status},
+			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
@@ -140,7 +140,7 @@
 			$scope.guias_web = null;
 
 			$.ajax({
-			    url: "php/run.php?fn=cargar_guias_web",
+			    url: "api/guias/web",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -158,9 +158,9 @@
 			var codigo = $scope.modificar_codigo;
 
 			$.ajax({
-			    url: "php/run.php?fn=cargar_guia",
+			    url: "api/guia/" + codigo,
 			    type: "POST",
-			    data: {codigo:codigo},
+			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
 			    	console.log($.parseJSON(data))

@@ -16,7 +16,7 @@
 
 		$scope.cargar_profesor = function(id){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_profesores",
+			    url: "api/profesores",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -34,7 +34,7 @@
 
 		$scope.cargar_profesores = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_profesores",
+			    url: "api/profesores",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},

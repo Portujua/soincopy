@@ -15,7 +15,7 @@
 
 		$scope.cargar_materia = function(id){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_materias",
+			    url: "api/materias",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -37,9 +37,9 @@
 			var cid = $scope.materia.carrera_id ? $scope.materia.carrera_id : $scope.materia.carrera;
 
 			$.ajax({
-			    url: "php/run.php?fn=cargar_periodos",
+			    url: "api/periodos/" + cid,
 			    type: "POST",
-			    data: {cid:cid},
+			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
@@ -51,7 +51,7 @@
 
 		$scope.cargar_materias = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_materias",
+			    url: "api/materias",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -66,7 +66,7 @@
 
 		$scope.cargar_carreras = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_carreras",
+			    url: "api/carreras",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -80,7 +80,7 @@
 
 		$scope.cargar_tipos = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_tipos_materias",
+			    url: "api/materias/tipos",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},

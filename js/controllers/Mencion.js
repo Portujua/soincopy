@@ -15,7 +15,7 @@
 
 		$scope.cargar_mencion = function(id){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_menciones",
+			    url: "api/menciones",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -33,7 +33,7 @@
 
 		$scope.cargar_menciones = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_menciones",
+			    url: "api/menciones",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
@@ -47,7 +47,7 @@
 
 		$scope.cargar_carreras = function(){
 			$.ajax({
-			    url: "php/run.php?fn=cargar_carreras",
+			    url: "api/carreras",
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
