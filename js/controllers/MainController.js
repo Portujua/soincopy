@@ -24,24 +24,24 @@
 			var username = $scope.login_user ? $scope.login_user : "";
 			var password = $scope.login_password ? $scope.login_password : "";
 
-			$.ajax({
-			    url: "php/run.php?fn=login",
-			    type: "POST",
-			    data: {username:username, password:password},
-			    beforeSend: function(){},
-			    success: function(data){
-			        var json = $.parseJSON(data);
-			        console.log(json)
+			$http({
+				method: 'POST',
+				url: "php/run.php?fn=login", 
+				data: $.param({username:username, password:password}),
+				headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+			}).then(function(obj){
+				console.log(obj)
 
-			        if (json.error)
-			        	$(".login_alert").removeClass("hidden");
-			        else
-			        	$scope.safeApply(function(){
-			        		$scope.login_info = json;
-			        		$location.path("/inicio");
-			        	})
-			    }
-			});
+				var data = obj.data;
+
+				if (data.error)
+					$(".login_alert").removeClass("hidden");
+				else
+				{
+					$scope.login_info = data;
+			        $location.path("/inicio");
+				}
+			})
 		}
 
 		$scope.unset_session = function(){
