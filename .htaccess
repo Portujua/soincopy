@@ -1,7 +1,10 @@
+# Poner UTF8 en todos los .html
 AddCharset UTF-8 .html
 
+# Pagina de 404 not found
 ErrorDocument 404 /soincopy/404.html
 
+# Prohibir acceso a .htaccess
 <Files ~ “^.*\.([Hh][Tt][Aa])”>
 order allow,deny
 deny from all
@@ -9,3 +12,25 @@ satisfy all
 </Files>
 
 RewriteEngine on
+
+# Prohibir acceso a carpeta bd
+RewriteRule ^bd.*$ /soincopy/ [R=301,L]
+
+# Reglas para la API
+RewriteRule ^api/personal$ /soincopy/php/run.php?fn=cargar_personal [QSA,L]
+RewriteRule ^api/carreras$ /soincopy/php/run.php?fn=cargar_carreras [QSA,L]
+RewriteRule ^api/materias$ /soincopy/php/run.php?fn=cargar_materias [QSA,L]
+RewriteRule ^api/menciones$ /soincopy/php/run.php?fn=cargar_menciones [QSA,L]
+RewriteRule ^api/materias/tipos$ /soincopy/php/run.php?fn=cargar_tipos_materias [QSA,L]
+RewriteRule ^api/profesores$ /soincopy/php/run.php?fn=cargar_profesores [QSA,L]
+RewriteRule ^api/dependencias$ /soincopy/php/run.php?fn=cargar_dependencias [QSA,L]
+RewriteRule ^api/permisos$ /soincopy/php/run.php?fn=cargar_permisos [QSA,L]
+RewriteRule ^api/guias/web$ /soincopy/php/run.php?fn=cargar_guias_web [QSA,L]
+RewriteRule ^api/planesDeEstudio$ /soincopy/php/run.php?fn=cargar_planes_de_estudio [QSA,L]
+
+RewriteRule ^api/guias/(.+)$ /soincopy/php/run.php?fn=cargar_guias&status=$1 [QSA,L]
+RewriteRule ^api/guia/(.+)$ /soincopy/php/run.php?fn=cargar_guia&codigo=$1 [QSA,L]
+RewriteRule ^api/materias/(.+)$ /soincopy/php/run.php?fn=cargar_materias_carrera&cid=$1 [QSA,L]
+RewriteRule ^api/menciones/(.+)$ /soincopy/php/run.php?fn=cargar_menciones_de&cid=$1 [QSA,L]
+RewriteRule ^api/periodos/(.+)$ /soincopy/php/run.php?fn=cargar_periodos&cid=$1 [QSA,L]
+RewriteRule ^api/profesor/(.+)$ /soincopy/php/run.php?fn=cargar_profesor&id=$1 [QSA,L]
