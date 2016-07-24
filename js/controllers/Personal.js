@@ -110,14 +110,14 @@
 		}
 
 		$scope.cambiar_estado = function(id, estado){
-			$.confirm({
+			/*$.confirm({
 				title: 'Confirmar acción',
 				content: '¿Está seguro que desea añadir a <strong>' + $scope.personal_nuevo.nombre + ' ' + $scope.personal_nuevo.apellido + '</strong>?',
 				confirm: function(){
 					
 				},
 				cancel: function(){}
-			});
+			});*/
 			
 			$.ajax({
 			    url: "php/run.php?fn=cambiar_estado_personal",
