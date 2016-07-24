@@ -1,9 +1,9 @@
 <div class="personal seccion" ng-controller="Personal">
 	<p>
-		<a href="./#/personal/agregar" class="btn btn-link" ng-show="$parent.login_info.personal_agregar">Agregar personal</a>
+		<a href="./#/personal/agregar" class="btn btn-link" ng-show="loginService.getCurrentUser().personal_agregar">Agregar personal</a>
 	</p>
 
-	<div ng-show="$parent.login_info.personal_ver">	
+	<div ng-show="loginService.getCurrentUser().personal_ver">	
 		<p>
 			Buscar personal <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" /> 
 			<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
@@ -11,7 +11,7 @@
 
 		<table class="table table-stripped table-fixed-style" ng-init="cargar_personal()">
 			<thead>
-				<th ng-show="$parent.login_info.personal_editar || $parent.login_info.personal_deshabilitar">&nbsp;</th>
+				<th ng-show="loginService.getCurrentUser().personal_editar || loginService.getCurrentUser().personal_deshabilitar">&nbsp;</th>
 				<th class="text-center">Nombre</th>
 				<th class="text-center">Cédula</th>
 				<th class="text-center">Teléfono</th>
@@ -20,7 +20,7 @@
 			</thead>
 			<tbody>
 				<tr ng-repeat="p in personal" 
-					ng-if="p.id > 1 && p.id != $parent.login_info.id && (
+					ng-if="p.id > 1 && p.id != loginService.getCurrentUser().id && (
 						p.nombre_completo.indexOf(busqueda) != -1 ||
 						p.cedula.indexOf(busqueda) != -1 ||
 						p.telefono.indexOf(busqueda) != -1 ||
@@ -29,14 +29,14 @@
 					&& (solo_activos == false || p.estado == 1)
 					"
 					class="{{ p.estado == 0 ? 'bg-danger' : '' }}">
-					<td ng-show="$parent.login_info.personal_editar || $parent.login_info.personal_deshabilitar" class="text-center">
+					<td ng-show="loginService.getCurrentUser().personal_editar || loginService.getCurrentUser().personal_deshabilitar" class="text-center">
 						<div class="btn-group">
-							<a ng-show="$parent.login_info.personal_editar" href="./#/personal/editar/{{ p.id }}">
+							<a ng-show="loginService.getCurrentUser().personal_editar" href="./#/personal/editar/{{ p.id }}">
 								<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
 							</a>
 
-							<span ng-click="cambiar_estado(p.id, 0)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="$parent.login_info.personal_deshabilitar && p.estado == 1" title="Deshabilitar" style="color: #c9302c !important;"></span>
-							<span ng-click="cambiar_estado(p.id, 1)" class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="$parent.login_info.personal_deshabilitar && p.estado == 0" title="Habilitar" style="color: #449d44 !important;"></span>
+							<span ng-click="cambiar_estado(p.id, 0)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="loginService.getCurrentUser().personal_deshabilitar && p.estado == 1" title="Deshabilitar" style="color: #c9302c !important;"></span>
+							<span ng-click="cambiar_estado(p.id, 1)" class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="loginService.getCurrentUser().personal_deshabilitar && p.estado == 0" title="Habilitar" style="color: #449d44 !important;"></span>
 						</div>
 					</td>
 					<td class="text-center">{{ p.nombre_completo }}</td>

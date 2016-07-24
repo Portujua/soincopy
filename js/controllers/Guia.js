@@ -13,12 +13,6 @@
 
 		$scope.buscar_status = 0;
 
-		if (typeof $scope.$parent.login_info == "undefined")
-		{
-			console.log("Not logged in");
-			$location.path("/login");
-		}
-
 		$scope.estados = [
 			{
 				val: 0,

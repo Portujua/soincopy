@@ -68,7 +68,7 @@
 
 	<body>
 		<div class="container-fluid" ng-controller="MainController">
-			<div ng-include="'views/navbar.html'" ng-show="login_info"></div>
+			<div ng-include="'views/navbar.html'" ng-show="loginService.isLoggedIn()"></div>
 
 			<div ng-view style="margin-left: -15px;"></div>
 		</div>

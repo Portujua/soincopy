@@ -1,6 +1,6 @@
 <div class="navbar">
 	<img src="img/LOGOTIPO 370X99.png" />
-	<p style="color: white;"><strong>{{ $parent.login_info.nombre + " " + $parent.login_info.apellido }}</strong> <span class="glyphicon glyphicon-off pull-right" onclick="window.location.reload()" style="color: #c9302c !important;" aria-hidden="true" title="Cerrar sesión"></span></p>
+	<p style="color: white;"><strong>{{ loginService.getCurrentUser().nombre + " " + loginService.getCurrentUser().apellido }}</strong> <span class="glyphicon glyphicon-off pull-right" onclick="window.location.reload()" style="color: #c9302c !important;" aria-hidden="true" title="Cerrar sesión"></span></p>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".admin">Sistema interno</p>
 
@@ -29,11 +29,11 @@
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias">Guías</p>
 
 	<div class="guias collapse" aria-expanded="false">
-		<a href="./#/agregarguia" ng-show="$parent.login_info.anadir_guias">
+		<a href="./#/agregarguia" ng-show="loginService.getCurrentUser().anadir_guias">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/buscarguias"  ng-show="$parent.login_info.buscar_guias">
+		<a href="./#/buscarguias"  ng-show="loginService.getCurrentUser().buscar_guias">
 			<p>Buscar</p>
 		</a>
 	</div>
@@ -41,13 +41,13 @@
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".ordenes">Ordenes</p>
 
 	<div class="ordenes collapse" aria-expanded="false">
-		<a href="./#/agregarorden" ng-show="$parent.login_info.anadir_orden">
+		<a href="./#/agregarorden" ng-show="loginService.getCurrentUser().anadir_orden">
 			<p>Agregar</p>
 		</a>
 
 		<hr/>
 
-		<a href="./#/buscar_web" ng-show="$parent.login_info.ver_ordenes_web">
+		<a href="./#/buscar_web" ng-show="loginService.getCurrentUser().ver_ordenes_web">
 			<p>Ver ordenes web</p>
 		</a>
 	</div>
@@ -55,11 +55,11 @@
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".plandeestudio">Plan de Estudio</p>
 
 	<div class="plandeestudio collapse" aria-expanded="false">
-		<a href="./#/agregarplandeestudios" ng-show="$parent.login_info.plandeestudios_agregar">
+		<a href="./#/agregarplandeestudios" ng-show="loginService.getCurrentUser().plandeestudios_agregar">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/planesdeestudio" ng-show="$parent.login_info.plandeestudios_buscar">
+		<a href="./#/planesdeestudio" ng-show="loginService.getCurrentUser().plandeestudios_buscar">
 			<p>Buscar</p>
 		</a>
 	</div>

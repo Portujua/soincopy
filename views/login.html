@@ -1,8 +1,8 @@
 <div class="login">
 	<p class="login_alert hidden">Usuario o contraseña incorrecta</p>
 
-	<input type="text" ng-model="$parent.login_user" placeholder="Usuario" />
-	<input type="password" ng-model="$parent.login_password" placeholder="Contraseña" />
+	<input type="text" ng-model="login_form.username" placeholder="Usuario" />
+	<input type="password" ng-model="login_form.password" placeholder="Contraseña" />
 
 	<button class="btn btn-primary" ng-click="login()">Entrar</button>
 </div>

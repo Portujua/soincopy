@@ -1,6 +1,6 @@
 <div class="seccion" ng-controller="Materia">
 	<p>
-		<a href="./#/materias/agregar" class="btn btn-link" ng-show="$parent.login_info.materias_agregar">Agregar materia</a>
+		<a href="./#/materias/agregar" class="btn btn-link" ng-show="loginService.getCurrentUser().materias_agregar">Agregar materia</a>
 	</p>
 
 	<p>
@@ -10,7 +10,7 @@
 
 	<table class="table table-stripped table-fixed-style" ng-init="cargar_materias()">
 		<thead>
-			<th ng-show="$parent.login_info.materias_editar || $parent.login_info.materias_deshabilitar">&nbsp;</th>
+			<th ng-show="loginService.getCurrentUser().materias_editar || loginService.getCurrentUser().materias_deshabilitar">&nbsp;</th>
 			<th class="text-center">Nombre</th>
 			<th class="text-center">Dictada en</th>
 			<th class="text-center">Estado</th>
@@ -24,14 +24,14 @@
 					&& (solo_activos == false || p.estado == 1)
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }}">
-				<td ng-show="$parent.login_info.materias_editar || $parent.login_info.materias_deshabilitar" class="text-center">
+				<td ng-show="loginService.getCurrentUser().materias_editar || loginService.getCurrentUser().materias_deshabilitar" class="text-center">
 					<div class="btn-group">
-						<a ng-show="$parent.login_info.materias_editar" href="./#/materias/editar/{{ p.id }}">
+						<a ng-show="loginService.getCurrentUser().materias_editar" href="./#/materias/editar/{{ p.id }}">
 							<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
 						</a>
 
-						<span ng-click="cambiar_estado(p.id, 0)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="$parent.login_info.materias_deshabilitar && p.estado == 1" title="Deshabilitar" style="color: #c9302c !important;"></span>
-						<span ng-click="cambiar_estado(p.id, 1)" class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="$parent.login_info.materias_deshabilitar && p.estado == 0" title="Habilitar" style="color: #449d44 !important;"></span>
+						<span ng-click="cambiar_estado(p.id, 0)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="loginService.getCurrentUser().materias_deshabilitar && p.estado == 1" title="Deshabilitar" style="color: #c9302c !important;"></span>
+						<span ng-click="cambiar_estado(p.id, 1)" class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="loginService.getCurrentUser().materias_deshabilitar && p.estado == 0" title="Habilitar" style="color: #449d44 !important;"></span>
 					</div>
 				</td>
 				<td class="text-center">{{ p.nombre }}</td>

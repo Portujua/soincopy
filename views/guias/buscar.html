@@ -37,8 +37,8 @@
 						g.entregada_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.recibida_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.fecha.indexOf(buscador) != -1">
-				<td class="text-center" ng-if="$parent.login_info.modificar_guias == 1"><a class="badge" href="./#/modificarguia/{{g.codigo}}">{{ g.codigo }}</a></td>
-				<td class="text-center" ng-if="$parent.login_info.modificar_guias == 0"><span class="badge">{{ g.codigo }}</span></td>
+				<td class="text-center" ng-if="loginService.getCurrentUser().modificar_guias == 1"><a class="badge" href="./#/modificarguia/{{g.codigo}}">{{ g.codigo }}</a></td>
+				<td class="text-center" ng-if="loginService.getCurrentUser().modificar_guias == 0"><span class="badge">{{ g.codigo }}</span></td>
 				<td class="text-center">{{ g.titulo }}</td>
 				<td class="text-center">{{ g.profesor.nombre_completo }}</td>
 				<td class="text-center">{{ g.seccion }}</td>
