@@ -1,7 +1,13 @@
 (function(){
-	var MainController = function($scope, $http, $location, $routeParams, $timeout, $window, LoginService, AlertService)
+	var MainController = function($scope, $http, $location, $routeParams, $interval, $timeout, $window, LoginService, AlertService)
 	{		
 		$scope.loginService = LoginService;
+		$scope.enInicio = true;
+
+		$interval(function(){
+			$scope.enInicio = window.location.hash.indexOf("inicio") != -1;
+			console.log("Df")
+		}, 500);
 
 		if (window.location.port != 8080)
 			$scope.login_form = {
