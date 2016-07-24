@@ -1,30 +1,8 @@
 <div class="navbar">
 	<img src="img/LOGOTIPO 370X99.png" />
+	<p style="color: white; text-align: center; margin-left: -10px; font-size: 14px;">ORIGINALES</p>
+
 	<p style="color: white;"><strong>{{ loginService.getCurrentUser().nombre + " " + loginService.getCurrentUser().apellido }}</strong> <span class="glyphicon glyphicon-off pull-right" onclick="window.location.reload()" style="color: #c9302c !important;" aria-hidden="true" title="Cerrar sesión"></span></p>
-
-	<p class="titulo_seccion" data-toggle="collapse" data-target=".admin">Sistema interno</p>
-
-	<div class="admin collapse" aria-expanded="false">
-		<a href="./#/personal">
-			<p>Personal</p>
-		</a>
-
-		<a href="./#/profesores">
-			<p>Profesores</p>
-		</a>
-
-		<a href="./#/carreras">
-			<p>Carreras</p>
-		</a>
-
-		<a href="./#/menciones">
-			<p>Menciones</p>
-		</a>
-
-		<a href="./#/materias">
-			<p>Materias</p>
-		</a>
-	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias">Guías</p>
 
@@ -61,6 +39,30 @@
 
 		<a href="./#/planesdeestudio" ng-show="loginService.getCurrentUser().plandeestudios_buscar">
 			<p>Buscar</p>
+		</a>
+	</div>
+
+	<p class="titulo_seccion" data-toggle="collapse" data-target=".admin">Administración</p>
+
+	<div class="admin collapse" aria-expanded="false">
+		<a href="./#/personal">
+			<p>Personal</p>
+		</a>
+
+		<a href="./#/profesores">
+			<p>Profesores</p>
+		</a>
+
+		<a href="./#/carreras">
+			<p>Carreras</p>
+		</a>
+
+		<a href="./#/menciones">
+			<p>Menciones</p>
+		</a>
+
+		<a href="./#/materias">
+			<p>Materias</p>
 		</a>
 	</div>
 </div>
