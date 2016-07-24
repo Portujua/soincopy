@@ -84,12 +84,10 @@
 			<input type="text" ng-model="agregarguia_seccion" maxlength="12" placeholder="Sección" />
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo</p>
-			<select ng-model="agregarguia_tipo">
-				<option value="-1">----- NO APLICA -----</option>
-				<option>Artículo</option>
-				<option>Revista</option>
+			<select ng-model="agregarguia_tipo" name="tipo" ng-options="t.id as t.nombre for t in tipos" ng-minlength=1>
+				<option value="">----- NO APLICA -----</option>
 			</select>
 		</div>
 

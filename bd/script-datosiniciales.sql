@@ -19,6 +19,10 @@ insert into Tipo_Materia(nombre) values ("Normal");
 insert into Tipo_Materia(nombre) values ("Electiva");
 insert into Tipo_Materia(nombre) values ("Seminario");
 
+insert into Tipo_Guia(nombre) values ("Libro");
+insert into Tipo_Guia(nombre) values ("Revista");
+insert into Tipo_Guia(nombre) values ("Varios");
+
 insert into Permiso (nombre, descripcion) values ("anadir_guias", "Podrá añadir nuevas guías al sistema");
 insert into Permiso (nombre, descripcion) values ("buscar_guias", "Podrá consultar las guías disponibles en el sistema");
 insert into Permiso (nombre, descripcion) values ("modificar_guias", "Podrá modificar cualquier información de una guía disponible en el sistema");

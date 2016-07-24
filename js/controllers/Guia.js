@@ -58,6 +58,20 @@
 			$scope.agregarguia_recibida_por = "";
 		}
 
+		$scope.cargar_tipos = function(){
+			$.ajax({
+			    url: "api/guias/tipos",
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	$scope.tipos = $.parseJSON(data);
+			        })
+			    }
+			});
+		}
+
 		$scope.cargar_materias = function(){
 			var cid = $scope.guia ? $scope.guia.carrera_id : $scope.agregarguia_carrera;
 

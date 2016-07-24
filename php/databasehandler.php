@@ -430,6 +430,19 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_tipos_guias($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Tipo_Guia
+                order by id asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_profesores($post)
         {
             $query = $this->db->prepare("

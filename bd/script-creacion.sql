@@ -93,6 +93,12 @@ create table Dependencia(
 	primary key(id)
 );
 
+create table Tipo_Guia (
+	id int not null auto_increment,
+	nombre varchar(32) not null,
+	primary key(id)
+);
+
 create table Guia (
 	id int not null auto_increment,
 	codigo varchar(20),
@@ -108,11 +114,12 @@ create table Guia (
 	fecha_anadida datetime,
 	numero_hojas int,
 	numero_paginas int,
-	tipo varchar(32) comment 'Si es articulo, revista, etc',
+	tipo int,
 	primary key(id), unique(codigo),
 	foreign key (profesor) references Profesor(id),
 	foreign key (materia) references Materia(id),
-	foreign key (recibida_por) references Personal(id)
+	foreign key (recibida_por) references Personal(id),
+	foreign key (tipo) references Tipo_Guia(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Cambio_de_Status (
