@@ -43,6 +43,7 @@ insert into Permiso (nombre, descripcion) values ("profesores_deshabilitar", "Po
 insert into Permiso (nombre, descripcion) values ("ver_ordenes_web", "Podrá ver las ordenes generadas vía web");
 insert into Permiso (nombre, descripcion) values ("plandeestudios_agregar", "Podrá añadir planes de estudio al sistema");
 insert into Permiso (nombre, descripcion) values ("plandeestudios_buscar", "Podrá buscar planes de estudio disponibles en el sistema");
+insert into Permiso (nombre, descripcion) values ("plandeestudios_modificar", "Podrá modificar planes de estudio disponibles en el sistema");
 
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "admin", "admin");

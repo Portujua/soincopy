@@ -35,7 +35,47 @@
 			},
 			getCurrentUser: function(){
 				return current_user;
-			}
+			},
+			menuGuias: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.anadir_guias || current_user.buscar_guias || current_user.modificar_guias;
+			},
+			menuOrdenes: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.anadir_orden || current_user.ver_ordenes_web;
+			},
+			menuPensum: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.plandeestudios_agregar || current_user.plandeestudios_buscar || current_user.plandeestudios_modificar;
+			},
+			menuAdminPersonal: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.personal_ver || current_user.personal_agregar || current_user.personal_editar || current_user.personal_deshabilitar;
+			},
+			menuAdminProfesores: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.profesores_agregar || current_user.profesores_editar || current_user.profesores_deshabilitar;
+			},
+			menuAdminCarreras: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.carreras_agregar || current_user.carreras_editar || current_user.carreras_deshabilitar;
+			},
+			menuAdminMaterias: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.materias_agregar || current_user.materias_editar || current_user.materias_deshabilitar;
+			},
+			menuAdmin: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias();
+			},
 		};
 	})
 }());

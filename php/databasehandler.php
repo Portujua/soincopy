@@ -1112,64 +1112,63 @@
 
         public function editar_personal($post)
         {
-            try 
+            $query = $this->db->prepare("
+                update Personal set 
+                    nombre=:nombre,
+                    segundo_nombre=:snombre,
+                    apellido=:apellido,
+                    segundo_apellido=:sapellido,
+                    cedula=:cedula,
+                    telefono=:telefono,
+                    email=:email,
+                    usuario=:usuario,
+                    contrasena=:contrasena
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":apellido" => $post['apellido'],
+                ":snombre" => isset($post['snombre']) ? $post['snombre'] : null,
+                ":sapellido" => isset($post['sapellido']) ? $post['sapellido'] : null,
+                ":cedula" => isset($post['cedula']) ? $post['cedula'] : null,
+                ":telefono" => isset($post['telefono']) ? $post['telefono'] : null,
+                ":email" => isset($post['email']) ? $post['email'] : null,
+                ":usuario" => $post['usuario'],
+                ":contrasena" => $post['contrasena'],
+                ":id" => $post['id']
+            ));
+
+            // Borro los permisos
+            $query = $this->db->prepare("
+                delete from Permiso_Asignado where usuario=:uid
+            ");
+
+            $query->execute(array(
+                ":uid" => $post['id']
+            ));
+
+            // Añado los permisos
+            $permisos = explode("]", $post['permisos']);
+
+            foreach ($permisos as $p_)
             {
+                $p = str_replace("[", "", $p_);
+
+                if (strlen($p) == 0) continue;
+
                 $query = $this->db->prepare("
-                    update Personal set 
-                        nombre=:nombre,
-                        segundo_nombre=:snombre,
-                        apellido=:apellido,
-                        segundo_apellido=:sapellido,
-                        cedula=:cedula,
-                        telefono=:telefono,
-                        email=:email,
-                        usuario=:usuario,
-                        contrasena=:contrasena
-                    where id=:id
+                    insert into Permiso_Asignado (permiso, usuario)
+                    values (:pid, :uid)
                 ");
 
                 $query->execute(array(
-                    ":nombre" => $post['nombre'],
-                    ":apellido" => $post['apellido'],
-                    ":snombre" => $post['snombre'],
-                    ":sapellido" => $post['sapellido'],
-                    ":cedula" => $post['cedula'],
-                    ":telefono" => $post['telefono'],
-                    ":email" => $post['email'],
-                    ":usuario" => $post['usuario'],
-                    ":contrasena" => $post['contrasena'],
-                    ":id" => $post['id']
-                ));
-
-                // Borro los permisos
-                $query = $this->db->prepare("
-                    delete from Permiso_Asignado where usuario=:uid
-                ");
-
-                $query->execute(array(
+                    ":pid" => $p,
                     ":uid" => $post['id']
                 ));
-
-                // Añado los permisos
-                for ($i = 0; $i < strlen($post['permisos']); $i++)
-                {
-                    $query = $this->db->prepare("
-                        insert into Permiso_Asignado (permiso, usuario)
-                        values (:pid, :uid)
-                    ");
-
-                    $query->execute(array(
-                        ":pid" => $post['permisos'][$i],
-                        ":uid" => $post['id']
-                    ));
-                }
-
-                return "ok";
             }
-            catch (Exception $e)
-            {
-                return "error";
-            }
+
+            return "ok";
         }
 
         public function eliminar_pdf($pdf)

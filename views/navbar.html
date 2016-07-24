@@ -4,7 +4,10 @@
 
 	<p style="color: white;"><strong>{{ loginService.getCurrentUser().nombre + " " + loginService.getCurrentUser().apellido }}</strong> <span class="glyphicon glyphicon-off pull-right" ng-click="logout()" style="color: #c9302c !important;" aria-hidden="true" title="Cerrar sesión"></span></p>
 
-	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias">Guías</p>
+	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias"
+		ng-show="loginService.menuGuias()">
+		Guías
+	</p>
 
 	<div class="guias collapse" aria-expanded="false">
 		<a href="./#/agregarguia" ng-show="loginService.getCurrentUser().anadir_guias">
@@ -16,7 +19,10 @@
 		</a>
 	</div>
 
-	<p class="titulo_seccion" data-toggle="collapse" data-target=".ordenes">Ordenes</p>
+	<p class="titulo_seccion" data-toggle="collapse" data-target=".ordenes"
+		ng-show="loginService.menuOrdenes()">
+		Ordenes
+	</p>
 
 	<div class="ordenes collapse" aria-expanded="false">
 		<a href="./#/agregarorden" ng-show="loginService.getCurrentUser().anadir_orden">
@@ -30,7 +36,10 @@
 		</a>
 	</div>
 
-	<p class="titulo_seccion" data-toggle="collapse" data-target=".plandeestudio">Programas y Pensum</p>
+	<p class="titulo_seccion" data-toggle="collapse" data-target=".plandeestudio"
+		ng-show="loginService.menuPensum()">
+		Programas y Pensum
+	</p>
 
 	<div class="plandeestudio collapse" aria-expanded="false">
 		<a href="./#/agregarplandeestudios" ng-show="loginService.getCurrentUser().plandeestudios_agregar">
@@ -47,26 +56,29 @@
 	<div class="controlequipo collapse" aria-expanded="false">
 	</div>
 
-	<p class="titulo_seccion" data-toggle="collapse" data-target=".admin">Administración</p>
+	<p class="titulo_seccion" data-toggle="collapse" data-target=".admin"
+		ng-show="loginService.menuAdmin()">
+		Administración
+	</p>
 
 	<div class="admin collapse" aria-expanded="false">
-		<a href="./#/personal">
+		<a href="./#/personal" ng-show="loginService.menuAdminPersonal()">
 			<p>Personal</p>
 		</a>
 
-		<a href="./#/profesores">
+		<a href="./#/profesores" ng-show="loginService.menuAdminProfesores()">
 			<p>Profesores</p>
 		</a>
 
-		<a href="./#/carreras">
+		<a href="./#/carreras" ng-show="loginService.menuAdminCarreras()">
 			<p>Carreras</p>
 		</a>
 
-		<a href="./#/menciones">
+		<a href="./#/menciones" ng-show="loginService.menuAdminCarreras()">
 			<p>Menciones</p>
 		</a>
 
-		<a href="./#/materias">
+		<a href="./#/materias" ng-show="loginService.menuAdminMaterias()">
 			<p>Materias</p>
 		</a>
 	</div>
