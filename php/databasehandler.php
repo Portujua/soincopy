@@ -795,61 +795,68 @@
 
         public function agregar_guia($post)
         {
-            try 
+            $json = array();
+
+            /*$id_prof = -1;
+
+            if ($post['nuevo_prof'] != null)
             {
-                $id_prof = -1;
+                $p = array(
+                    "nombre" => $post['nuevo_prof']['nombre'],
+                    "apellido" => $post['nuevo_prof']['apellido'],
+                    "snombre" => isset($post['nuevo_prof']['snombre']) ? $post['nuevo_prof']['snombre'] : null,
+                    "sapellido" => isset($post['nuevo_prof']['sapellido']) ? $post['nuevo_prof']['sapellido'] : null,
+                    "cedula" => isset($post['nuevo_prof']['cedula']) ? $post['nuevo_prof']['cedula'] : null,
+                    "tlfs" => isset($post['nuevo_prof']['tlfs']) ? $post['nuevo_prof']['tlfs'] : null,
+                    "email" => isset($post['nuevo_prof']['email']) ? $post['nuevo_prof']['email'] : null
+                );
 
-                if ($post['nuevo_prof'] != null)
-                {
-                    $p = array(
-                        "nombre" => $post['nuevo_prof']['nombre'],
-                        "apellido" => $post['nuevo_prof']['apellido'],
-                        "snombre" => isset($post['nuevo_prof']['snombre']) ? $post['nuevo_prof']['snombre'] : null,
-                        "sapellido" => isset($post['nuevo_prof']['sapellido']) ? $post['nuevo_prof']['sapellido'] : null,
-                        "cedula" => isset($post['nuevo_prof']['cedula']) ? $post['nuevo_prof']['cedula'] : null,
-                        "tlfs" => isset($post['nuevo_prof']['tlfs']) ? $post['nuevo_prof']['tlfs'] : null,
-                        "email" => isset($post['nuevo_prof']['email']) ? $post['nuevo_prof']['email'] : null
-                    );
+                $this->agregar_profesor($p);
 
-                    $this->agregar_profesor($p);
+                $q = $this->db->prepare("select id from Profesor order by id desc limit 1");
+                $q->execute();
 
-                    $q = $this->db->prepare("select id from Profesor order by id desc limit 1");
-                    $q->execute();
-
-                    $id_prof = $q->fetchAll();
-                    $id_prof = $id_prof[0]['id'];
-                }
-                else
-                    $id_prof = $post['profesor'];
-
-                if ($id_prof == -1)
-                {
-                    echo "Error (id_profesor)";
-                    return;
-                }
-
-                $query = $this->db->prepare("call agregar_guia(:titulo, :seccion, :comentario, :pdf, :profesor, :materia, :entregada_por, :recibida_por, :nro_hojas, :nro_paginas, :tipo)");
-
-                $query->execute(array(
-                    ":titulo" => $post['titulo'],
-                    ":seccion" => $post['seccion'],
-                    ":comentario" => isset($post['comentario']) ? $post['comentario'] : null,
-                    ":pdf" => $post['pdf'],
-                    ":profesor" => $id_prof,
-                    ":materia" => $post['materia'],
-                    ":entregada_por" => $post['entregada_por'],
-                    ":recibida_por" => $post['recibida_por'],
-                    ":nro_hojas" => $post['hojas'],
-                    ":nro_paginas" => $post['paginas'],
-                    ":tipo" => isset($post['tipo']) ? $post['tipo'] : null
-                ));
-
-                return "ok";
+                $id_prof = $q->fetchAll();
+                $id_prof = $id_prof[0]['id'];
             }
-            catch (Exception $e)
+            else
+                $id_prof = $post['profesor'];
+
+            if ($id_prof == -1)
             {
-                return "error";
-            }
+                echo "Error (id_profesor)";
+                return;
+            }*/
+
+            $query = $this->db->prepare("
+                insert into Guia (titulo, seccion, comentario, profesor, materia, entregada_por, recibida_por, fecha_anadida, tipo)
+                values (:titulo, :seccion, :comentario, :profesor, :materia, :entregada_por, :recibida_por, now(), :tipo);
+            ");
+
+            $query->execute(array(
+                ":titulo" => $post['titulo'],
+                ":seccion" => $post['seccion'],
+                ":comentario" => isset($post['comentario']) ? $post['comentario'] : null,
+                ":profesor" => $post['profesor'],
+                ":materia" => $post['materia'],
+                ":entregada_por" => $post['recibida_por'],
+                ":recibida_por" => $post['recibida_por'],
+                ":tipo" => isset($post['tipo']) ? $post['tipo'] : null
+            ));
+
+            $json['status'] = "ok";
+            $json['id_guia'] = $this->db->lastInsertId();
+
+            // Le asigno el ID al codigo
+            $query = $this->db->prepare("
+                update Guia set codigo=:id where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $json['id_guia']
+            ));
+
+            return json_encode($json);
         }
 
         public function agregar_profesor($post)

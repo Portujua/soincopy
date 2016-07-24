@@ -6,7 +6,6 @@
 
 		$interval(function(){
 			$scope.enInicio = window.location.hash.indexOf("inicio") != -1;
-			console.log("Df")
 		}, 500);
 
 		if (window.location.port != 8080)

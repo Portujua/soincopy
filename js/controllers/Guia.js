@@ -1,5 +1,5 @@
 (function(){
-	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -13,6 +13,7 @@
 		};
 
 		$scope.buscar_status = 0;
+		$scope.estaAnadiendo = window.location.hash.indexOf('agregarguia') != -1;
 
 		$scope.estados = [
 			{
@@ -42,20 +43,10 @@
 
 		$scope.ver_pdf = function(url){
 			window.open(
-				"php/pdf.php?u=" + $scope.$parent.login_info.username +
+				"php/pdf.php?u=" + LoginService.getCurrentUser().username +
 				"&f=" + url,
 				"_blank",
 				"menubar=no,status=no,toolbar=no");
-		}
-
-		$scope.init_agregarguia = function(){
-			$scope.agregarguia_titulo = "";
-			$scope.agregarguia_carrera = "";
-			$scope.agregarguia_materia = "";
-			$scope.agregarguia_profesor = "";
-			$scope.agregarguia_seccion = "";
-			$scope.agregarguia_comentario = "";
-			$scope.agregarguia_recibida_por = "";
 		}
 
 		$scope.cargar_tipos = function(){
@@ -254,19 +245,13 @@
 		}
 
 		$scope.agregar_guia = function(){
-			if ($scope.agregarguia_titulo.length == 0 || $scope.agregarguia_materia.length == 0 || $scope.agregarguia_seccion.length == 0 || $scope.agregarguia_recibida_por.length == 0)
-			{
-				alert("Debe llenar todos los campos obligatorios");
-				return;
-			}
-
-			if (parseInt($(".progress-bar").html()) != 100)
+			/*if (parseInt($(".progress-bar").html()) != 100)
 			{
 				alert("Debe cargar el archivo PDF antes de agregar la guía");
 				return;
-			}
+			}*/
 
-			var nuevo_prof = null;
+			/*var nuevo_prof = null;
 
 			if ($scope.agregarguia_agregarprofesor)
 			{
@@ -303,22 +288,9 @@
 
 			if ($scope.agregarguia_tipo)
 				if ($scope.agregarguia_tipo != "-1")
-					tipo = $scope.agregarguia_tipo;
+					tipo = $scope.agregarguia_tipo;*/
 
-			var post = {
-				titulo: $scope.agregarguia_titulo,
-				materia: $scope.agregarguia_materia,
-				profesor: $scope.agregarguia_profesor,
-				seccion: $scope.agregarguia_seccion,
-				comentario: $scope.agregarguia_comentario,
-				entregada_por: $scope.agregarguia_profesor,
-				recibida_por: $scope.agregarguia_recibida_por,
-				pdf: $scope.agregarguia_pdf,
-				hojas: $scope.agregarguia_hojas,
-				paginas: $scope.agregarguia_paginas,
-				tipo: tipo,
-				nuevo_prof: nuevo_prof
-			};
+			var post = $scope.guia;
 
 			$.confirm({
 				title: 'Confirmar acción',
@@ -328,9 +300,11 @@
 					    url: "php/run.php?fn=agregar_guia",
 					    type: "POST",
 					    data: post,
+					    dataType: "json",
 					    beforeSend: function(){},
 					    success: function(data){
-					        if (data == "ok")
+					    	console.log(data)
+					        if (data.status == "ok")
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess("Guía añadida con éxito");
 					        		$location.path("/buscarguias");

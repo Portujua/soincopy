@@ -1,40 +1,34 @@
-<div class="agregar_guia" ng-controller="Guia">
-	<h2>Agregar guía</h2>
-
-	<div class="register-form" ng-init="init_agregarguia()">
+<form class="agregar_guia" name="agregar" ng-controller="Guia" ng-submit="agregar_guia()" novalidate>
+	<div class="register-form">
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
 			<p>Título (*)</p>
-			<input type="text" ng-model="agregarguia_titulo" maxlength="128" placeholder="Título" />
+			<input type="text" name="titulo" ng-minlength=1 ng-maxlength=128 ng-model="guia.titulo" placeholder="Título" required />
 		</div>
 
 		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carreras (*)</p>
-			<select ng-model="agregarguia_carrera" ng-show="carreras" ng-change="cargar_materias()">
+			<select ng-model="guia.carrera" name="carrera" ng-show="carreras" ng-change="cargar_materias()" required>
 				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
-
-			<span ng-hide="carreras">Cargando...</span>
 		</div>
 
 		<div class="fila">
 			<p>Materias (*)</p>
-			<select ng-model="agregarguia_materia" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : ' año')) for c in materias"></select>
+			<select ng-model="guia.materia" name="materia" ng-show="guia.carrera" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : ' año')) for c in materias"></select>
 
-			<span ng-hide="agregarguia_carrera">Seleccione una carrera</span>
+			<span ng-hide="guia.carrera">Seleccione una carrera</span>
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
-			<p>Profesor (*) <span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="agregarguia_agregarprofesor" ng-click="agregarguia_agregarprofesor = 1" title="Añadir nuevo profesor">+</span></p>
-			<select ng-hide="agregarguia_agregarprofesor" ng-model="agregarguia_profesor" ng-show="profesores">
+			<p>Profesor (*) <!--<span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="guia.agregarprofesor = 1" title="Añadir nuevo profesor">+</span>--></p>
+			<select ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required>
 				<option ng-repeat="p in profesores" ng-if="p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 
-			<span ng-hide="profesores">Cargando...</span>
-
-			<br/><br/>
-			<div ng-show="agregarguia_agregarprofesor" class="agregar_profesor" style="margin-left: 50px;">
+			<!--<br/><br/>
+			<div ng-show="guia.agregarprofesor" class="agregar_profesor" style="margin-left: 50px;">
 				<br/>
 				<h2 style="margin-top: 0px; cursor: pointer;" data-toggle="collapse" data-target=".agregar_prof_en_guia">Nuevo profesor</h2>
 				
@@ -76,39 +70,37 @@
 						<input type="text" ng-model="agregarprofesor_tlfs" maxlength="64" />
 					</div>
 				</div>
-			</div>
+			</div>-->
 		</div>
 
 		<div class="fila">
 			<p>Sección (*)</p>
-			<input type="text" ng-model="agregarguia_seccion" maxlength="12" placeholder="Sección" />
+			<input type="text" name="seccion" ng-minlength=1 ng-maxlength=12 ng-model="guia.seccion" placeholder="Sección" required />
 		</div>
 
 		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo</p>
-			<select ng-model="agregarguia_tipo" name="tipo" ng-options="t.id as t.nombre for t in tipos" ng-minlength=1>
+			<select ng-model="guia.tipo" name="tipo" ng-options="t.id as t.nombre for t in tipos">
 				<option value="">----- NO APLICA -----</option>
 			</select>
 		</div>
 
 		<div class="fila">
 			<p>Comentario</p>
-			<textarea ng-model="agregarguia_comentario" placeholder="Escriba un comentario.."></textarea>
+			<textarea ng-model="guia.comentario" name="comentario" placeholder="Escriba un comentario.."></textarea>
 		</div>
 
 		<div class="fila" ng-init="cargar_personal()">
 			<p>Recibido por (*)</p>
-			<select ng-model="agregarguia_recibida_por" ng-show="personal">
+			<select ng-model="guia.recibida_por" name="recibido_por" ng-show="personal" required ng-minlength=1>
 				<option ng-repeat="p in personal" ng-if="p.id > 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
-
-			<span ng-hide="personal">Cargando...</span>
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-if="!estaAnadiendo">
 			<p>PDF (*)</p>
-			<input type="file" ng-hide="upload_progress" />
-			<button class="btn-upload btn btn-primary" ng-hide="upload_progress" ng-click="subir_pdf();">Subir</button>
+			<input name="pdf" type="file" ng-hide="upload_progress" />
+			<button type="button" class="btn-upload btn btn-primary" ng-hide="upload_progress" ng-click="subir_pdf();">Subir</button>
 
 			<div class="progress" ng-show="upload_progress">
 				<div class="progress-bar" role="progressbar" aria-valuenow="{{ upload_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ upload_progress }}%">
@@ -118,7 +110,7 @@
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary" ng-click="agregar_guia()">Añadir</button>
+			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid">Añadir</button>
 		</div>
 	</div>
-</div>
+</form>
