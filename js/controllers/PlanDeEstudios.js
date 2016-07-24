@@ -25,6 +25,10 @@
 		SoincopyService.getCarreras($scope);
 		SoincopyService.getMaterias($scope);
 
+		$scope.cargar_materias = function(){
+			SoincopyService.getMaterias($scope, $scope.plan.carrera);
+		}
+
 		$scope.cargar_planes = function(){
 			$.ajax({
 			    url: "php/run.php?fn=cargar_planes_de_estudio",
