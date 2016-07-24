@@ -346,7 +346,7 @@
         public function cargar_materias($post)
         {
             $query = $this->db->prepare("
-                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, cp.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
                 from Materia as m, Car_Per as cp, Carrera as c, Periodo as p, Tipo_Materia as t
                 where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and m.tipo=t.id
                 order by p.numero asc
@@ -934,30 +934,18 @@
 
         public function agregar_materia($post)
         {
-            try 
-            {
-                $query = $this->db->prepare("
-                    insert into Materia (nombre, tipo, dictada_en) 
-                    values (:nombre, :tipo, (
-                        select cp.id 
-                        from Car_Per as cp, Carrera as c, Periodo as p
-                        where cp.carrera=c.id and cp.periodo=p.id and c.id=:carrera and p.id=:periodo
-                    ))
-                ");
+            $query = $this->db->prepare("
+                insert into Materia (nombre, tipo, dictada_en) 
+                values (:nombre, :tipo, :periodo)
+            ");
 
-                $query->execute(array(
-                    ":nombre" => $post['nombre'],
-                    ":carrera" => $post['carrera'],
-                    ":periodo" => $post['periodo'],
-                    ":tipo" => $post['tipo']
-                ));
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":periodo" => $post['periodo'],
+                ":tipo" => $post['tipo']
+            ));
 
-                return "ok";
-            }
-            catch (Exception $e)
-            {
-                return "error";
-            }
+            return "ok";
         }
 
         public function agregar_mencion($post)
@@ -1001,16 +989,12 @@
                     update Materia set 
                         nombre=:nombre,
                         tipo=:tipo, 
-                        dictada_en=(
-                            select cp.id 
-                            from Car_Per as cp, Carrera as c, Periodo as p
-                            where cp.carrera=c.id and cp.periodo=p.id and c.id=:carrera and p.id=:periodo)
+                        dictada_en=:periodo
                     where id=:id
                 ");
 
                 $query->execute(array(
                     ":nombre" => $post['nombre'],
-                    ":carrera" => $post['carrera_id'],
                     ":periodo" => $post['periodo_id'],
                     ":tipo" => $post['tipo_id'],
                     ":id" => $post['id']

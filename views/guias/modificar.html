@@ -1,6 +1,4 @@
 <div class="modificar" ng-controller="Guia">
-	<div class="zona_alertas"></div>
-
 	<h2>
 		Guía {{ guia.codigo }} 
 		<small>
@@ -26,16 +24,14 @@
 
 		<div class="fila" ng-init="cargar_materias()">
 			<p>Carreras (*)</p>
-			<select ng-options="c for c in carreras" ng-model="guia.carrera_nombre" ng-show="carreras" ng-change="guia.materia = '';"></select>
-
-			<span ng-hide="materias">Cargando...</span>
+			<select ng-options="c.id as c.nombre for c in carreras" ng-model="guia.carrera_id" ng-change="cargar_materias()"></select>
 		</div>
 
 		<div class="fila">
 			<p>Materias (*)</p>
-			<select ng-options="c.id as c.nombre for c in materias | filter: {carrera: guia.carrera_nombre}" ng-model="guia.materia" ng-show="materias"></select>
+			<select ng-options="c.id as c.nombre for c in materias" ng-model="guia.materia" ng-show="materias"></select>
 
-			<span ng-hide="guia.carrera_nombre">Seleccione una carrera</span>
+			<span ng-hide="guia.carrera_id">Seleccione una carrera</span>
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
@@ -57,7 +53,7 @@
 
 		<div class="fila" ng-init="cargar_personal()">
 			<p>Recibido por (*)</p>
-			<select ng-options="c.id as c.nombre_completo for c in personal" ng-model="guia.recibida_por_id" ng-show="personal"></select>
+			<select ng-options="c.id as c.nombre_completo for c in personal | filter: quitarAdmin" ng-model="guia.recibida_por_id" ng-show="personal"></select>
 
 			<span ng-hide="personal">Cargando...</span>
 		</div>

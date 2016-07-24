@@ -71,12 +71,15 @@
 				msg = "Materia modificada con éxito";
 			}
 
+			console.log(post);
+
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,
 			    type: "POST",
 			    data: post,
 			    beforeSend: function(){},
 			    success: function(data){
+			    	console.log(data)
 		        	$scope.safeApply(function(){
 		        		AlertService.showSuccess(msg);
 		        		$location.path("/materias");

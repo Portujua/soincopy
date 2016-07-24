@@ -59,9 +59,9 @@
 		}
 
 		$scope.cargar_materias = function(){
-			var cid = $scope.agregarguia_carrera;
+			var cid = $scope.guia ? $scope.guia.carrera_id : $scope.agregarguia_carrera;
 
-			SoincopyService.getMaterias($scope, $scope.agregarguia_carrera);
+			SoincopyService.getMaterias($scope, cid);
 		}
 
 		$scope.cargar_guias = function(){
@@ -83,7 +83,6 @@
 			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
-			    	console.log($.parseJSON(data))
 			        $scope.safeApply(function(){
 			        	$scope.guia = $.parseJSON(data);
 			        	$scope.guia_aux = $.parseJSON(data);
@@ -309,7 +308,6 @@
 			    data: post,
 			    beforeSend: function(){},
 			    success: function(data){
-			    	console.log(data)
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
 			        		AlertService.showSuccess("Guía añadida con éxito");
@@ -364,7 +362,7 @@
 				comentario: $scope.guia.comentario,
 				entregada_por: $scope.guia.entregada_por_id,
 				recibida_por: $scope.guia.recibida_por_id,
-				pdf: $scope.guia.pdf_,
+				pdf: $scope.guia.pdf_ ? $scope.guia.pdf_ : $scope.guia.pdf,
 				hojas: $scope.guia.numero_hojas,
 				paginas: $scope.guia.numero_paginas
 			};
@@ -379,10 +377,16 @@
 			        	$scope.safeApply(function(){
 			        		AlertService.showSuccess("Guía modificada con éxito");
 
-			        		$scope.guia.pdf = $scope.guia.pdf_;
+			        		if ($scope.guia.pdf_)
+			        			$scope.guia.pdf = $scope.guia.pdf_;
 			        	})
 			    }
 			});
+		}
+
+		$scope.quitarAdmin = function(i){
+			if (i.id != 1)
+				return i;
 		}
 
 		if ($routeParams.codigo)
