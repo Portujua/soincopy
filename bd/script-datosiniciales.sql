@@ -69,3 +69,4 @@ insert into Permiso_Asignado (permiso, usuario) values (17, 1);
 insert into Permiso_Asignado (permiso, usuario) values (18, 1);
 insert into Permiso_Asignado (permiso, usuario) values (19, 1);
 insert into Permiso_Asignado (permiso, usuario) values (20, 1);
+insert into Permiso_Asignado (permiso, usuario) values (21, 1);
