@@ -77,7 +77,6 @@
 			    data: post,
 			    beforeSend: function(){},
 			    success: function(data){
-			    	console.log(data)
 		        	$scope.safeApply(function(){
 		        		AlertService.showSuccess(msg);
 		        		$location.path("/materias");
