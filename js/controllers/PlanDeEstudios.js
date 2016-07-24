@@ -34,7 +34,6 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.planes = $.parseJSON(data);
-			        	console.log($scope.planes)
 			        })
 			    }
 			});
@@ -158,9 +157,6 @@
 				fn = "editar_plan_de_estudio";
 				msg = "Plan de estudios modificado con éxito";
 			}
-
-			console.log(plan)
-			return;
 
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,
