@@ -1,5 +1,5 @@
 (function(){
-	angular.module("soincopy").config(function($routeProvider){
+	angular.module("soincopy").config(function($routeProvider, $locationProvider){
 		$routeProvider
 			.when("/login", {
 				templateUrl : "views/login.html"
