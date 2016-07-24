@@ -1,5 +1,6 @@
 (function(){
-	var Profesor = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
+	var Profesor = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -14,36 +15,10 @@
 		$scope.tipos_de_profesor = ["Semestral", "Anual"];
 		$scope.editar = $routeParams.id;
 
+		SoincopyService.getProfesores($scope);
+
 		$scope.cargar_profesor = function(id){
-			$.ajax({
-			    url: "api/profesores",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
-
-			        	for (var i = 0; i < json.length; i++)
-			        		if (json[i].id == id)
-			        			$scope.profesor = json[i];
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_profesores = function(){
-			$.ajax({
-			    url: "api/profesores",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.profesores = $.parseJSON(data);
-			        })
-			    }
-			});
+			SoincopyService.getProfesor($scope, id);
 		}
 
 		$scope.registrar_profesor = function(){

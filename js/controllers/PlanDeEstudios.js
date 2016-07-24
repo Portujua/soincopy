@@ -1,5 +1,6 @@
 (function(){
-	var PlanDeEstudios = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
+	var PlanDeEstudios = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -21,6 +22,9 @@
 			}
 		];
 
+		SoincopyService.getCarreras($scope);
+		SoincopyService.getMaterias($scope);
+
 		$scope.cargar_planes = function(){
 			$.ajax({
 			    url: "php/run.php?fn=cargar_planes_de_estudio",
@@ -31,36 +35,6 @@
 			        $scope.safeApply(function(){
 			        	$scope.planes = $.parseJSON(data);
 			        	console.log($scope.planes)
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_carreras = function(){
-			$.ajax({
-			    url: "php/run.php?fn=cargar_carreras",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.carreras = $.parseJSON(data);
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_materias = function(){
-			var cid = $scope.plan.carrera;
-
-			$.ajax({
-			    url: "php/run.php?fn=cargar_materias_carrera",
-			    type: "POST",
-			    data: {cid:cid},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.materias = $.parseJSON(data);
 			        })
 			    }
 			});
@@ -184,6 +158,9 @@
 				fn = "editar_plan_de_estudio";
 				msg = "Plan de estudios modificado con éxito";
 			}
+
+			console.log(plan)
+			return;
 
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,

@@ -1,5 +1,6 @@
 (function(){
-	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
+	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {

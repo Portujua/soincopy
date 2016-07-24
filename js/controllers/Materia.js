@@ -1,5 +1,6 @@
 (function(){
-	var Materia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
+	var Materia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -13,23 +14,18 @@
 
 		$scope.editar = $routeParams.id;
 
+		SoincopyService.getCarreras($scope);
+		SoincopyService.getMaterias($scope);
+
 		$scope.cargar_materia = function(id){
-			$.ajax({
-			    url: "api/materias",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
+			$http.get("api/materias").then(function(obj){
+				var json = obj.data;
 
-			        	for (var i = 0; i < json.length; i++)
-			        		if (json[i].id == id)
-			        			$scope.materia = json[i];
+				for (var i = 0; i < json.length; i++)
+	        		if (json[i].id == id)
+	        			$scope.materia = json[i];
 
-			        	$scope.cargar_periodos();
-			        })
-			    }
+	        	$scope.cargar_periodos();
 			});
 		}
 
@@ -44,35 +40,6 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.periodos = $.parseJSON(data);
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_materias = function(){
-			$.ajax({
-			    url: "api/materias",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.materias = $.parseJSON(data);
-			        	console.log($scope.materias)
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_carreras = function(){
-			$.ajax({
-			    url: "api/carreras",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.carreras = $.parseJSON(data);
 			        })
 			    }
 			});

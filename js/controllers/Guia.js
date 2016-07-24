@@ -1,5 +1,6 @@
 (function(){
-	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
+	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -34,6 +35,11 @@
 
 		$scope.periodos = ["1er", "2do", "3er", "4to", "5to", "6to", "7mo", "8vo", "9no", "10mo"];
 
+		SoincopyService.getCarreras($scope);
+		SoincopyService.getMaterias($scope);
+		SoincopyService.getProfesores($scope);
+		SoincopyService.getPersonal($scope);
+
 		$scope.ver_pdf = function(url){
 			window.open(
 				"php/pdf.php?u=" + $scope.$parent.login_info.username +
@@ -52,98 +58,18 @@
 			$scope.agregarguia_recibida_por = "";
 		}
 
-		$scope.cargar_carreras = function(){
-			$.ajax({
-			    url: "api/carreras",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.carreras = $.parseJSON(data);
-			        })
-			    }
-			});
-		}
-
 		$scope.cargar_materias = function(){
 			var cid = $scope.agregarguia_carrera;
 
-			$.ajax({
-			    url: "api/materias/" + cid,
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			    	var json = $.parseJSON(data);
-
-			        $scope.safeApply(function(){
-			        	$scope.materias = json;
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_profesores = function(){
-			$.ajax({
-			    url: "api/profesores",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.profesores = $.parseJSON(data);
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_personal = function(){
-			$.ajax({
-			    url: "api/personal",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.personal = $.parseJSON(data);
-			        })
-			    }
-			});
+			SoincopyService.getMaterias($scope, $scope.agregarguia_carrera);
 		}
 
 		$scope.cargar_guias = function(){
-			$scope.guias = null;
-
-			var status = $scope.buscar_status;
-
-			$.ajax({
-			    url: "api/guias/" + status,
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.guias = $.parseJSON(data);
-			        })
-			    }
-			});
+			SoincopyService.getGuias($scope, $scope.buscar_status);
 		}
 
 		$scope.cargar_guias_web = function(){
-			$scope.guias_web = null;
-
-			$.ajax({
-			    url: "api/guias/web",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.guias_web = $.parseJSON(data);
-			        })
-			    }
-			});
+			SoincopyService.getGuiasWeb($scope);
 		}
 
 		$scope.cargar_guia = function(){

@@ -1,5 +1,6 @@
 (function(){
-	var Mencion = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
+	var Mencion = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -13,50 +14,12 @@
 
 		$scope.editar = $routeParams.id;
 
+		SoincopyService.getCarreras($scope);
+		SoincopyService.getCarreras($scope);
+		SoincopyService.getMenciones($scope);
+
 		$scope.cargar_mencion = function(id){
-			$.ajax({
-			    url: "api/menciones",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
-
-			        	for (var i = 0; i < json.length; i++)
-			        		if (json[i].id == id)
-			        			$scope.mencion = json[i];
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_menciones = function(){
-			$.ajax({
-			    url: "api/menciones",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.menciones = $.parseJSON(data);
-			        })
-			    }
-			});
-		}
-
-		$scope.cargar_carreras = function(){
-			$.ajax({
-			    url: "api/carreras",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.carreras = $.parseJSON(data);
-			        })
-			    }
-			});
+			SoincopyService.getMencion($scope, id);
 		}
 
 		$scope.registrar_mencion = function(){
