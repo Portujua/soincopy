@@ -75,6 +75,8 @@
 
 		$scope.cargar_guias_web = function(){
 			SoincopyService.getGuiasWeb($scope);
+
+			$timeout($scope.cargar_guias_web, 5000);
 		}
 
 		$scope.cargar_guia = function(){
