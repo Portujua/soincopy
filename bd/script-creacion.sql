@@ -187,6 +187,20 @@ create table Plan_de_Estudio (
 	foreign key (materia) references Materia(id)
 );
 
+create table Guia_Web (
+	id int not null auto_increment,
+	archivo varchar(128) not null,
+	tipo_archivo varchar(32) not null,
+	nombre_completo varchar(128) not null,
+	email varchar(64),
+	tlf varchar(64),
+	motivo text,
+	comentarios text,
+	revisada tinyint(1) default 0,
+	fecha datetime,
+	primary key(id)
+);
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
