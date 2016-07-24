@@ -22,6 +22,17 @@
 			LoginService.login($scope.login_form);
 		}
 
+		$scope.logout = function(){
+			$.confirm({
+				title: '',
+				content: '¿Está seguro que desea salir del sistema?',
+				confirm: function(){
+					window.location.reload();
+				},
+				cancel: function(){}
+			});
+		}
+
 		$scope.unset_session = function(){
 			LoginService.logout();
 		}

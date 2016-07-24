@@ -2,7 +2,7 @@
 	<img src="img/LOGOTIPO 370X99.png" />
 	<p style="color: white; text-align: center; margin-left: -10px; font-size: 14px;">ORIGINALES</p>
 
-	<p style="color: white;"><strong>{{ loginService.getCurrentUser().nombre + " " + loginService.getCurrentUser().apellido }}</strong> <span class="glyphicon glyphicon-off pull-right" onclick="window.location.reload()" style="color: #c9302c !important;" aria-hidden="true" title="Cerrar sesión"></span></p>
+	<p style="color: white;"><strong>{{ loginService.getCurrentUser().nombre + " " + loginService.getCurrentUser().apellido }}</strong> <span class="glyphicon glyphicon-off pull-right" ng-click="logout()" style="color: #c9302c !important;" aria-hidden="true" title="Cerrar sesión"></span></p>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias">Guías</p>
 
