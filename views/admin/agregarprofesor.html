@@ -1,40 +1,44 @@
-<div class="agregar_profesor" ng-controller="Admin">
-	<br/>
-	<h2>Agregar profesor</h2>
-	
+<form class="seccion agregar" ng-controller="Profesor" ng-submit="registrar_profesor()">	
 	<p><small>(*) Campos obligatorios</small></p>
+	
+	<div class="register-form">
+		<div class="fila">
+			<p>Nombre (*)</p>
+			<input type="text" ng-model="profesor.nombre" maxlength="32" placeholder="Nombre" required />
+		</div>
 
-	<div class="fila">
-		<p>Nombre (*)</p>
-		<input type="text" ng-model="agregarprofesor_nombre" maxlength="32" placeholder="Nombre" />
-	</div>
+		<div class="fila">
+			<p>Segundo Nombre</p>
+			<input type="text" ng-model="profesor.segundo_nombre" maxlength="32" placeholder="Segundo nombre" />
+		</div>
 
-	<div class="fila">
-		<p>Segundo Nombre</p>
-		<input type="text" ng-model="agregarprofesor_snombre" maxlength="32" placeholder="Segundo nombre" />
-	</div>
+		<div class="fila">
+			<p>Apellido (*)</p>
+			<input type="text" ng-model="profesor.apellido" maxlength="32" placeholder="Apellido" required />
+		</div>
 
-	<div class="fila">
-		<p>Apellido (*)</p>
-		<input type="text" ng-model="agregarprofesor_apellido" maxlength="32" placeholder="Apellido" />
-	</div>
+		<div class="fila">
+			<p>Segundo Apellido</p>
+			<input type="text" ng-model="profesor.segundo_apellido" maxlength="32" placeholder="Segundo apellido" />
+		</div>
 
-	<div class="fila">
-		<p>Segundo Apellido</p>
-		<input type="text" ng-model="agregarprofesor_sapellido" maxlength="32" placeholder="Segundo apellido" />
-	</div>
+		<div class="fila">
+			<p>Correo electrónico</p>
+			<input type="text" ng-model="profesor.email" maxlength="32" placeholder="Email" />
+		</div>
 
-	<div class="fila">
-		<p>Cédula</p>
-		<input type="text" ng-model="agregarprofesor_cedula" maxlength="32" placeholder="Cédula" />
-	</div>
+		<div class="fila">
+			<p>Cédula</p>
+			<input type="text" ng-model="profesor.cedula" maxlength="32" placeholder="Cédula" />
+		</div>
 
-	<div class="fila">
-		<p>Teléfonos de contacto</p>
-		<input type="text" ng-model="agregarprofesor_tlfs" maxlength="64" />
-	</div>
+		<div class="fila">
+			<p>Teléfonos de contacto</p>
+			<input type="text" ng-model="profesor.telefono" maxlength="64" />
+		</div>
 
-	<div class="fila text-center">
-		<button class="btn btn-primary" ng-click="registrar_profesor()">Añadir</button>
+		<div class="fila text-center">
+			<button class="btn btn-primary" type="submit">Finalizar</button>
+		</div>
 	</div>
-</div>
+</form>

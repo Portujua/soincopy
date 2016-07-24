@@ -53,8 +53,11 @@
 			.when("/profesores", {
 				templateUrl : "views/admin/profesores.html"
 			})
+			.when("/profesores/agregar", {
+				templateUrl : "views/admin/agregarprofesor.html"
+			})
 			.when("/profesores/editar/:id", {
-				templateUrl : "views/admin/editarprofesor.html"
+				templateUrl : "views/admin/agregarprofesor.html"
 			})
 
 
