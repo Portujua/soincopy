@@ -147,32 +147,42 @@
 		$scope.registrar_plan = function(){
 			if (parseInt($(".progress-bar").html()) != 100)
 			{
-				alert("Debe cargar el archivo PDF antes de agregar el plan de estudios");
+				$.alert({
+					title: "Error",
+					content: "Debe cargar el archivo PDF antes de agregar el plan de estudios"
+				});
 				return;
 			}
 
-			var plan = $scope.plan;
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir este programa o pensum?',
+				confirm: function(){
+					var plan = $scope.plan;
 
-			var fn = "agregar_plan_de_estudio";
-			var msg = "Plan de estudios añadido con éxito";
+					var fn = "agregar_plan_de_estudio";
+					var msg = "Plan de estudios añadido con éxito";
 
-			if ($routeParams.id)
-			{
-				fn = "editar_plan_de_estudio";
-				msg = "Plan de estudios modificado con éxito";
-			}
+					if ($routeParams.id)
+					{
+						fn = "editar_plan_de_estudio";
+						msg = "Plan de estudios modificado con éxito";
+					}
 
-			$.ajax({
-			    url: "php/run.php?fn=" + fn,
-			    type: "POST",
-			    data: plan,
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	AlertService.showSuccess(msg);
-			        	$location.path("/planesdeestudio");
-			        })
-			    }
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: plan,
+					    beforeSend: function(){},
+					    success: function(data){
+					        $scope.safeApply(function(){
+					        	AlertService.showSuccess(msg);
+					        	$location.path("/planesdeestudio");
+					        })
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 	};

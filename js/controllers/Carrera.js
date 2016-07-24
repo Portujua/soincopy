@@ -22,28 +22,35 @@
 		}
 
 		$scope.registrar_carrera = function(){
-			var post = $scope.carrera;
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir la carrera <strong>' + $scope.carrera.nombre + '</strong>?',
+				confirm: function(){
+					var post = $scope.carrera;
 
-			var fn = "agregar_carrera";
-			var msg = "Carrera añadida con éxito";
+					var fn = "agregar_carrera";
+					var msg = "Carrera añadida con éxito";
 
-			if ($routeParams.id)
-			{
-				fn = "editar_carrera";
-				msg = "Carrera modificada con éxito";
-			}
+					if ($routeParams.id)
+					{
+						fn = "editar_carrera";
+						msg = "Carrera modificada con éxito";
+					}
 
-			$.ajax({
-			    url: "php/run.php?fn=" + fn,
-			    type: "POST",
-			    data: post,
-			    beforeSend: function(){},
-			    success: function(data){
-		        	$scope.safeApply(function(){
-		        		$location.path("/carreras");
-		        		AlertService.showSuccess(msg);
-		        	})
-			    }
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+				        	$scope.safeApply(function(){
+				        		$location.path("/carreras");
+				        		AlertService.showSuccess(msg);
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 

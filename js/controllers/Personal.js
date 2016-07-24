@@ -75,34 +75,50 @@
 		}
 
 		$scope.registrar_personal = function(){
-			var post = $scope.personal_nuevo;
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir a <strong>' + $scope.personal_nuevo.nombre + ' ' + $scope.personal_nuevo.apellido + '</strong>?',
+				confirm: function(){
+					var post = $scope.personal_nuevo;
 
-			var fn = "agregar_personal";
-			var msg = "Personal añadido con éxito";
+					var fn = "agregar_personal";
+					var msg = "Personal añadido con éxito";
 
-			if ($routeParams.id)
-			{
-				fn = "editar_personal";
-				msg = "Personal modificado con éxito";
-			}
+					if ($routeParams.id)
+					{
+						fn = "editar_personal";
+						msg = "Personal modificado con éxito";
+					}
 
-			$.ajax({
-			    url: "php/run.php?fn=" + fn,
-			    type: "POST",
-			    data: post,
-			    beforeSend: function(){},
-			    success: function(data){
-			    	console.log(data)
-			        if (data == "ok")
-			        	$scope.safeApply(function(){
-			        		AlertService.showSuccess(msg);
-			        		$location.path("/personal");
-			        	})
-			    }
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+					    	console.log(data)
+					        if (data == "ok")
+					        	$scope.safeApply(function(){
+					        		AlertService.showSuccess(msg);
+					        		$location.path("/personal");
+					        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 
 		$scope.cambiar_estado = function(id, estado){
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir a <strong>' + $scope.personal_nuevo.nombre + ' ' + $scope.personal_nuevo.apellido + '</strong>?',
+				confirm: function(){
+					
+				},
+				cancel: function(){}
+			});
+			
 			$.ajax({
 			    url: "php/run.php?fn=cambiar_estado_personal",
 			    type: "POST",

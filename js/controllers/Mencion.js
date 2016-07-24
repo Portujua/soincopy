@@ -23,29 +23,36 @@
 		}
 
 		$scope.registrar_mencion = function(){
-			var post = $scope.mencion;
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir esta mención?',
+				confirm: function(){
+					var post = $scope.mencion;
 
-			var fn = "agregar_mencion";
-			var msg = "Mención añadida con éxito";
+					var fn = "agregar_mencion";
+					var msg = "Mención añadida con éxito";
 
-			if ($routeParams.id)
-			{
-				fn = "editar_mencion";
-				msg = "Mención modificada con éxito";
-			}
+					if ($routeParams.id)
+					{
+						fn = "editar_mencion";
+						msg = "Mención modificada con éxito";
+					}
 
-			$.ajax({
-			    url: "php/run.php?fn=" + fn,
-			    type: "POST",
-			    data: post,
-			    beforeSend: function(){},
-			    success: function(data){
-			    	console.log(data)
-		        	$scope.safeApply(function(){
-		        		AlertService.showSuccess(msg);
-		        		$location.path("/menciones");
-		        	})
-			    }
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+					    	console.log(data)
+				        	$scope.safeApply(function(){
+				        		AlertService.showSuccess(msg);
+				        		$location.path("/menciones");
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 

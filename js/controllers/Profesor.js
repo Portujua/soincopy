@@ -22,28 +22,35 @@
 		}
 
 		$scope.registrar_profesor = function(){
-			var post = $scope.profesor;
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir a <strong>' + $scope.profesor.nombre + ' ' + $scope.profesor.apellido + '</strong>?',
+				confirm: function(){
+					var post = $scope.profesor;
 
-			var fn = "agregar_profesor";
-			var msg = "Profesor añadido con éxito";
+					var fn = "agregar_profesor";
+					var msg = "Profesor añadido con éxito";
 
-			if ($routeParams.id)
-			{
-				fn = "editar_profesor";
-				msg = "Profesor modificado con éxito";
-			}
+					if ($routeParams.id)
+					{
+						fn = "editar_profesor";
+						msg = "Profesor modificado con éxito";
+					}
 
-			$.ajax({
-			    url: "php/run.php?fn=" + fn,
-			    type: "POST",
-			    data: post,
-			    beforeSend: function(){},
-			    success: function(data){
-		        	$scope.safeApply(function(){
-		        		AlertService.showSuccess(msg);
-		        		$location.path("/profesores");
-		        	})
-			    }
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+				        	$scope.safeApply(function(){
+				        		AlertService.showSuccess(msg);
+				        		$location.path("/profesores");
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 

@@ -92,30 +92,34 @@
 		}
 
 		$scope.eliminar_pdf = function(){
-			if (!confirm("Está seguro que desea eliminar el PDF?\nADVERTENCIA: UNA VEZ ELIMINADO NO PODRÁ RECUPERARSE"))
-				return;
+			$.confirm({
+				title: '¡ATENCIÓN!',
+				content: '¿Está seguro que desea eliminar el PDF?<br/><strong>ADVERTENCIA: UNA VEZ ELIMINADO NO PODRÁ RECUPERARSE</strong>',
+				confirm: function(){
+					var pdf = $scope.guia.pdf;
 
-			var pdf = $scope.guia.pdf;
-
-			$.ajax({
-			    url: "php/carga.php?action=delete",
-			    type: "POST",
-			    data: {file:pdf},
-			    beforeSend: function(){},
-			    success: function(data){
-			        if (data == "ok")
-			        {
-			        	$scope.safeApply(function(){
-			        		$scope.guia.pdf = null;
-			        		$scope.upload_progress = 0;
-			        	})
-			        }
-			        else
-			        {
-			        	alert("Ha ocurrido un error eliminando el archivo.");
-			        	console.log(data);
-			        }
-			    }
+					$.ajax({
+					    url: "php/carga.php?action=delete",
+					    type: "POST",
+					    data: {file:pdf},
+					    beforeSend: function(){},
+					    success: function(data){
+					        if (data == "ok")
+					        {
+					        	$scope.safeApply(function(){
+					        		$scope.guia.pdf = null;
+					        		$scope.upload_progress = 0;
+					        	})
+					        }
+					        else
+					        {
+					        	alert("Ha ocurrido un error eliminando el archivo.");
+					        	console.log(data);
+					        }
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 
@@ -302,18 +306,25 @@
 				nuevo_prof: nuevo_prof
 			};
 
-			$.ajax({
-			    url: "php/run.php?fn=agregar_guia",
-			    type: "POST",
-			    data: post,
-			    beforeSend: function(){},
-			    success: function(data){
-			        if (data == "ok")
-			        	$scope.safeApply(function(){
-			        		AlertService.showSuccess("Guía añadida con éxito");
-			        		$location.path("/buscarguias");
-			        	})
-			    }
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir esta guía?',
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=agregar_guia",
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+					        if (data == "ok")
+					        	$scope.safeApply(function(){
+					        		AlertService.showSuccess("Guía añadida con éxito");
+					        		$location.path("/buscarguias");
+					        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 
@@ -330,14 +341,18 @@
 		}
 
 		$scope.ver_guia_web = function(g){
-			if (confirm("Una vez abierto el archivo se borrará del sistema y más nunca podrá acceder a el de nuevo. ¿Está seguro que desea abrirlo en este momento?"))
-			{
-				window.open("http://" + window.location.hostname + "/soincopy_files/guias_web/" + g.archivo);
+			$.confirm({
+				title: '¡ATENCIÓN!',
+				content: 'Una vez abierto el archivo se borrará del sistema y más nunca podrá acceder a el de nuevo. <strong>¿Está seguro que desea abrirlo en este momento?</strong>',
+				confirm: function(){
+					window.open("http://" + window.location.hostname + "/soincopy_files/guias_web/" + g.archivo);
 
-				$timeout(function(){
-					$scope.borrar_guia_web(g);
-				}, 5000);
-			}
+					$timeout(function(){
+						$scope.borrar_guia_web(g);
+					}, 5000);
+				},
+				cancel: function(){}
+			});
 		}
 
 		$scope.modificar_guia = function(){
@@ -367,20 +382,27 @@
 				paginas: $scope.guia.numero_paginas
 			};
 
-			$.ajax({
-			    url: "php/run.php?fn=modificar_guia",
-			    type: "POST",
-			    data: post,
-			    beforeSend: function(){},
-			    success: function(data){
-			        if (data == "ok")
-			        	$scope.safeApply(function(){
-			        		AlertService.showSuccess("Guía modificada con éxito");
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea modificar esta guía?',
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=modificar_guia",
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+					        if (data == "ok")
+					        	$scope.safeApply(function(){
+					        		AlertService.showSuccess("Guía modificada con éxito");
 
-			        		if ($scope.guia.pdf_)
-			        			$scope.guia.pdf = $scope.guia.pdf_;
-			        	})
-			    }
+					        		if ($scope.guia.pdf_)
+					        			$scope.guia.pdf = $scope.guia.pdf_;
+					        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 

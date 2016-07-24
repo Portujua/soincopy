@@ -44,21 +44,28 @@
 
 			var nombre = $scope.agregardependencia_nombre;
 
-			$.ajax({
-			    url: "php/run.php?fn=agregar_dependencia",
-			    type: "POST",
-			    data: {
-			    	nombre: nombre
-			    },
-			    beforeSend: function(){},
-			    success: function(data){
-			    	console.log(data)
-			        if (data == "ok")
-			        	$scope.safeApply(function(){
-			        		AlertService.showSuccess("Orden añadida con éxito");
-			        		$location.path("/inicio");
-			        	})
-			    }
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir esta orden?',
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=agregar_dependencia",
+					    type: "POST",
+					    data: {
+					    	nombre: nombre
+					    },
+					    beforeSend: function(){},
+					    success: function(data){
+					    	console.log(data)
+					        if (data == "ok")
+					        	$scope.safeApply(function(){
+					        		AlertService.showSuccess("Orden añadida con éxito");
+					        		$location.path("/inicio");
+					        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 	};

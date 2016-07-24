@@ -60,31 +60,36 @@
 		}
 
 		$scope.registrar_materia = function(){
-			var post = $scope.materia;
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir esta materia?',
+				confirm: function(){
+					var post = $scope.materia;
 
-			var fn = "agregar_materia";
-			var msg = "Materia añadida con éxito";
+					var fn = "agregar_materia";
+					var msg = "Materia añadida con éxito";
 
-			if ($routeParams.id)
-			{
-				fn = "editar_materia";
-				msg = "Materia modificada con éxito";
-			}
+					if ($routeParams.id)
+					{
+						fn = "editar_materia";
+						msg = "Materia modificada con éxito";
+					}
 
-			console.log(post);
-
-			$.ajax({
-			    url: "php/run.php?fn=" + fn,
-			    type: "POST",
-			    data: post,
-			    beforeSend: function(){},
-			    success: function(data){
-			    	console.log(data)
-		        	$scope.safeApply(function(){
-		        		AlertService.showSuccess(msg);
-		        		$location.path("/materias");
-		        	})
-			    }
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+					    	console.log(data)
+				        	$scope.safeApply(function(){
+				        		AlertService.showSuccess(msg);
+				        		$location.path("/materias");
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 
