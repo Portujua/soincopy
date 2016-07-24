@@ -1,5 +1,5 @@
 (function(){
-	var Materia = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Materia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -96,9 +96,13 @@
 			var post = $scope.materia;
 
 			var fn = "agregar_materia";
+			var msg = "Materia añadida con éxito";
 
 			if ($routeParams.id)
+			{
 				fn = "editar_materia";
+				msg = "Materia modificada con éxito";
+			}
 
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,
@@ -108,6 +112,7 @@
 			    success: function(data){
 			    	console.log(data)
 		        	$scope.safeApply(function(){
+		        		AlertService.showSuccess(msg);
 		        		$location.path("/materias");
 		        	})
 			    }

@@ -1,5 +1,5 @@
 (function(){
-	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -83,6 +83,7 @@
 			    	console.log(data)
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
+			        		AlertService.showSuccess("Orden añadida con éxito");
 			        		$location.path("/inicio");
 			        	})
 			    }

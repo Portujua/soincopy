@@ -1,5 +1,5 @@
 (function(){
-	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -386,6 +386,7 @@
 			    	console.log(data)
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
+			        		AlertService.showSuccess("Guía añadida con éxito");
 			        		$location.path("/buscarguias");
 			        	})
 			    }
@@ -450,7 +451,7 @@
 			    success: function(data){
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
-			        		$(".zona_alertas").html('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La guía ha sido modificada con éxito</div>');
+			        		AlertService.showSuccess("Guía modificada con éxito");
 
 			        		$scope.guia.pdf = $scope.guia.pdf_;
 			        	})

@@ -1,5 +1,5 @@
 (function(){
-	var Profesor = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Profesor = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -50,9 +50,13 @@
 			var post = $scope.profesor;
 
 			var fn = "agregar_profesor";
+			var msg = "Profesor añadido con éxito";
 
 			if ($routeParams.id)
+			{
 				fn = "editar_profesor";
+				msg = "Profesor modificado con éxito";
+			}
 
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,
@@ -61,6 +65,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 		        	$scope.safeApply(function(){
+		        		AlertService.showSuccess(msg);
 		        		$location.path("/profesores");
 		        	})
 			    }

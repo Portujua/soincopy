@@ -1,5 +1,5 @@
 (function(){
-	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -77,9 +77,13 @@
 			var post = $scope.personal_nuevo;
 
 			var fn = "agregar_personal";
+			var msg = "Personal añadido con éxito";
 
 			if ($routeParams.id)
+			{
 				fn = "editar_personal";
+				msg = "Personal modificado con éxito";
+			}
 
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,
@@ -90,6 +94,7 @@
 			    	console.log(data)
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
+			        		AlertService.showSuccess(msg);
 			        		$location.path("/personal");
 			        	})
 			    }

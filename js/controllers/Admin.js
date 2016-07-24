@@ -1,5 +1,5 @@
 (function(){
-	var Admin = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Admin = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -55,6 +55,7 @@
 			    success: function(data){
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
+			        		AlertService.showSuccess("Carrera registrada con éxito");
 			        		$location.path("/inicio");
 			        	})
 			    }
@@ -90,6 +91,7 @@
 			    success: function(data){
 			        if (data == "ok")
 			        	$scope.safeApply(function(){
+			        		AlertService.showSuccess("Materia registrada con éxito");
 			        		$location.path("/inicio");
 			        	})
 			    }

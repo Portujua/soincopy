@@ -1,5 +1,5 @@
 (function(){
-	var PlanDeEstudios = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var PlanDeEstudios = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -176,13 +176,23 @@
 
 			var plan = $scope.plan;
 
+			var fn = "agregar_plan_de_estudio";
+			var msg = "Plan de estudios añadido con éxito";
+
+			if ($routeParams.id)
+			{
+				fn = "editar_plan_de_estudio";
+				msg = "Plan de estudios modificado con éxito";
+			}
+
 			$.ajax({
-			    url: "php/run.php?fn=agregar_plan_de_estudio",
+			    url: "php/run.php?fn=" + fn,
 			    type: "POST",
 			    data: plan,
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
+			        	AlertService.showSuccess(msg);
 			        	$location.path("/planesdeestudio");
 			        })
 			    }

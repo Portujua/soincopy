@@ -1,16 +1,6 @@
 (function(){
-	var MainController = function($scope, $http, $location, $routeParams, $timeout, $window, LoginService){		
-		$scope.safeApply = function(fn) {
-		    var phase = this.$root.$$phase;
-		    if(phase == '$apply' || phase == '$digest') {
-		        if(fn && (typeof(fn) === 'function')) {
-		          fn();
-		        }
-		    } else {
-		       this.$apply(fn);
-		    }
-		};
-
+	var MainController = function($scope, $http, $location, $routeParams, $timeout, $window, LoginService, AlertService)
+	{		
 		$scope.loginService = LoginService;
 
 		if (window.location.port != 8080)

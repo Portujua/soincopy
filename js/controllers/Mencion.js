@@ -1,5 +1,5 @@
 (function(){
-	var Mencion = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Mencion = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -63,9 +63,13 @@
 			var post = $scope.mencion;
 
 			var fn = "agregar_mencion";
+			var msg = "Mención añadida con éxito";
 
 			if ($routeParams.id)
+			{
 				fn = "editar_mencion";
+				msg = "Mención modificada con éxito";
+			}
 
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,
@@ -75,6 +79,7 @@
 			    success: function(data){
 			    	console.log(data)
 		        	$scope.safeApply(function(){
+		        		AlertService.showSuccess(msg);
 		        		$location.path("/menciones");
 		        	})
 			    }

@@ -1,5 +1,5 @@
 (function(){
-	var Carrera = function($scope, $http, $location, $routeParams, $timeout, $window){		
+	var Carrera = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService){		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
 		    if(phase == '$apply' || phase == '$digest') {
@@ -50,9 +50,13 @@
 			var post = $scope.carrera;
 
 			var fn = "agregar_carrera";
+			var msg = "Carrera añadida con éxito";
 
 			if ($routeParams.id)
+			{
 				fn = "editar_carrera";
+				msg = "Carrera modificada con éxito";
+			}
 
 			$.ajax({
 			    url: "php/run.php?fn=" + fn,
@@ -62,6 +66,7 @@
 			    success: function(data){
 		        	$scope.safeApply(function(){
 		        		$location.path("/carreras");
+		        		AlertService.showSuccess(msg);
 		        	})
 			    }
 			});
