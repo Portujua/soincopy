@@ -672,18 +672,23 @@
                 $planes[$i]['mencion'] = count($m) > 0 ? $m[0]['nombre'] : null;
 
                 // Pego la materia
-                $query = $this->db->prepare("
-                    select m.nombre as nombre
-                    from Materia as m, Car_Per as cp, Carrera as c
-                    where m.dictada_en=cp.id and cp.carrera=c.id
-                    and c.id=:cid
-                ");
+                $m = array();
+                
+                if ($planes[$i]['materia_id'] != null)
+                {
+                    $query = $this->db->prepare("
+                        select m.nombre as nombre
+                        from Materia as m, Car_Per as cp, Carrera as c
+                        where m.dictada_en=cp.id and cp.carrera=c.id
+                        and c.id=:cid
+                    ");
 
-                $query->execute(array(
-                    ":cid" => $planes[$i]['carrera_id']
-                ));
+                    $query->execute(array(
+                        ":cid" => $planes[$i]['carrera_id']
+                    ));
 
-                $m = $query->fetchAll();
+                    $m = $query->fetchAll();
+                }
 
                 $planes[$i]['materia'] = count($m) > 0 ? $m[0]['nombre'] : null;
             }
@@ -871,8 +876,8 @@
                 }
 
             $query = $this->db->prepare("
-                insert into Plan_de_Estudio (titulo, carrera, materia, tipo, comentario, pdf, paginas, hojas, fecha".$mencion_campo.")
-                values (:titulo, :carrera, :materia, :tipo, :comentario, :pdf, :paginas, :hojas, now()".$mencion_valor.")
+                insert into Plan_de_Estudio (titulo, carrera, materia, tipo, comentario, pdf, paginas, hojas, para, fecha".$mencion_campo.")
+                values (:titulo, :carrera, :materia, :tipo, :comentario, :pdf, :paginas, :hojas, :para, now()".$mencion_valor.")
             ");
 
             $query->execute(array(
@@ -883,6 +888,7 @@
                 ":pdf" => $post['pdf'],
                 ":paginas" => $post['paginas'],
                 ":hojas" => $post['hojas'],
+                ":para" => $post['para'],
                 ":materia" => isset($post['materia']) ? $post['materia'] : null
             ));
 
