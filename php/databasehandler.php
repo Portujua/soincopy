@@ -430,6 +430,22 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_productos($post)
+        {
+            $query = $this->db->prepare("
+                select p.nombre as nombre, p.id as id, d.nombre as departamento, d.id as did
+                from Producto as p, Departamento as d
+                where p.departamento=d.id and d.id=:did
+                order by p.nombre asc
+            ");
+
+            $query->execute(array(
+                ":did" => $post['did']
+            ));
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_tipos_guias($post)
         {
             $query = $this->db->prepare("

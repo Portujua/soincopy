@@ -42,3 +42,4 @@ RewriteRule ^api/materias/(.+)$ /soincopy/php/run.php?fn=cargar_materias_carrera
 RewriteRule ^api/menciones/(.+)$ /soincopy/php/run.php?fn=cargar_menciones_de&cid=$1 [QSA,L]
 RewriteRule ^api/periodos/(.+)$ /soincopy/php/run.php?fn=cargar_periodos&cid=$1 [QSA,L]
 RewriteRule ^api/profesor/(.+)$ /soincopy/php/run.php?fn=cargar_profesor&id=$1 [QSA,L]
+RewriteRule ^api/productos/(.+)$ /soincopy/php/run.php?fn=cargar_productos&did=$1 [QSA,L]

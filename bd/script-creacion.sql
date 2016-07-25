@@ -201,6 +201,20 @@ create table Guia_Web (
 	primary key(id)
 );
 
+create table Departamento (
+	id int not null auto_increment,
+	nombre varchar(32) not null,
+	primary key(id)
+);
+
+create table Producto (
+	id int not null auto_increment,
+	nombre varchar(64) not null,
+	departamento int not null comment 'El departamento donde es ofrecido este producto',
+	primary key(id),
+	foreign key (departamento) references Departamento(id)
+);
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

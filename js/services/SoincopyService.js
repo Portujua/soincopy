@@ -109,7 +109,15 @@
 				$http.get("api/guias/web").then(function(obj){
 					s.guias_web = obj.data;
 				});
-			}
+			},
+
+
+
+			getProductosOriginales: function(s){
+				$http.get("api/productos/1").then(function(obj){
+					s.productos = obj.data;
+				});
+			},
 		};
 	})
 }());

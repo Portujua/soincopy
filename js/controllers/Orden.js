@@ -14,6 +14,7 @@
 
 		SoincopyService.getCarreras($scope);
 		SoincopyService.getMaterias($scope);
+		SoincopyService.getProductosOriginales($scope);
 
 		$scope.cargar_dependencias = function(){
 			$.ajax({
@@ -30,19 +31,11 @@
 		}
 
 		$scope.registrar_orden = function(){
-			if (!$scope.agregardependencia_nombre)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
+			console.log("Registrando orden...")
+			var post = $scope.orden;
 
-			if ($scope.agregardependencia_nombre.length == 0)
-			{
-				alert("Debe llenar los campos obligatorios.");
-				return;
-			}
-
-			var nombre = $scope.agregardependencia_nombre;
+			console.log($scope.orden)
+			return;
 
 			$.confirm({
 				title: 'Confirmar acción',
@@ -51,9 +44,7 @@
 					$.ajax({
 					    url: "php/run.php?fn=agregar_dependencia",
 					    type: "POST",
-					    data: {
-					    	nombre: nombre
-					    },
+					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
 					    	console.log(data)

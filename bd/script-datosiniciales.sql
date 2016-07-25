@@ -23,6 +23,32 @@ insert into Tipo_Guia(nombre) values ("Libro");
 insert into Tipo_Guia(nombre) values ("Revista");
 insert into Tipo_Guia(nombre) values ("Varios");
 
+insert into Departamento(nombre) values ("Originales");
+insert into Departamento(nombre) values ("Diseño");	
+
+insert into Producto (nombre, departamento) values ("Imp. Color Carta", 1);
+insert into Producto (nombre, departamento) values ("Imp. Color Oficio", 1);
+insert into Producto (nombre, departamento) values ("Imp. Color D/C", 1);
+insert into Producto (nombre, departamento) values ("Imp. Color D/C con Cartulina", 1);
+insert into Producto (nombre, departamento) values ("Copia Color Carta", 1);
+insert into Producto (nombre, departamento) values ("Copia Color Oficio", 1);
+insert into Producto (nombre, departamento) values ("Copia Color D/C", 1);
+insert into Producto (nombre, departamento) values ("Copia B/N Carta (LIBRO)", 1);
+insert into Producto (nombre, departamento) values ("Copia B/N Profesores", 1);
+insert into Producto (nombre, departamento) values ("Copia B/N Oficio", 1);
+insert into Producto (nombre, departamento) values ("Copia B/N D/C", 1);
+insert into Producto (nombre, departamento) values ("Imp. B/N Carta", 1);
+insert into Producto (nombre, departamento) values ("Imp. B/N Oficio", 1);
+insert into Producto (nombre, departamento) values ("Imp. B/N D/C", 1);
+insert into Producto (nombre, departamento) values ("Transp. B/N Imp.", 1);
+insert into Producto (nombre, departamento) values ("Transp. Color Imp.", 1);
+insert into Producto (nombre, departamento) values ("Transp. Color Copia", 1);
+insert into Producto (nombre, departamento) values ("Cartulina A", 1);
+insert into Producto (nombre, departamento) values ("Plastificado", 1);
+insert into Producto (nombre, departamento) values ("Encuadernación", 1);
+insert into Producto (nombre, departamento) values ("Digitalización Color", 1);
+insert into Producto (nombre, departamento) values ("Digitalización B/N", 1);
+
 insert into Permiso (nombre, descripcion) values ("anadir_guias", "Podrá añadir nuevas guías al sistema");
 insert into Permiso (nombre, descripcion) values ("buscar_guias", "Podrá consultar las guías disponibles en el sistema");
 insert into Permiso (nombre, descripcion) values ("modificar_guias", "Podrá modificar cualquier información de una guía disponible en el sistema");
