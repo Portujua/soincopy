@@ -1263,6 +1263,22 @@
                 return "error";
             }
         }
+
+        public function puede_ver_guias($username)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Personal as p, Permiso_Asignado as pa, Permiso as pe
+                where pa.usuario=p.id and pa.permiso=pe.id
+                and p.usuario=:username and pe.nombre='buscar_guias'
+            ");
+
+            $query->execute(array(
+                ":username" => $username
+            ));
+
+            return $query->rowCount() > 0;
+        }
         
 	}
 ?>

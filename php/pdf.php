@@ -21,17 +21,20 @@
 			{
 				if ($_SESSION['login_username'] == $_GET['u'] && !$dbh->session_expired())
 				{
-					header('Content-Type: application/pdf');
-					$fp = fopen($base . $_GET['f'], "rb");
-					$fsize = filesize($base . $_GET['f']);
-					$contents = fread($fp, $fsize);
+					if ($dbh->puede_ver_guias($_GET['u']))
+					{
+						header('Content-Type: application/pdf');
+						$fp = fopen($base . $_GET['f'], "rb");
+						$fsize = filesize($base . $_GET['f']);
+						$contents = fread($fp, $fsize);
 
-					echo $contents;
+						echo $contents;
 
-					$log_resultado = "ok";
+						$log_resultado = "ok";
 
-					$dbh->registrar_vista_guia($log_username, $log_archivo, $log_resultado, $log_errores);
-					die();
+						$dbh->registrar_vista_guia($log_username, $log_archivo, $log_resultado, $log_errores);
+						die();
+					}
 				}
 			}
 	}
@@ -72,6 +75,13 @@
 		echo "Error #6: La sesión ha expirado</br>";
 		$log_errores .= "6";
 	}
+
+	if (isset($_GET['u']))
+		if (!$dbh->puede_ver_guias($_GET['u']))
+		{
+			echo "Error #7: Permisos insuficientes</br>";
+			$log_errores .= "7";
+		}
 
 	$dbh->registrar_vista_guia($log_username, $log_archivo, $log_resultado, $log_errores);
 	die();
