@@ -44,27 +44,27 @@
 
 	if (!isset($_GET['u']))
 	{
-		echo "Error #1</br>";
+		echo "Error #1: Debe especificar un usuario</br>";
 		$log_errores .= "1";
 	}
 	if (!isset($_GET['f']))
 	{
-		echo "Error #2</br>";
+		echo "Error #2: Debe especificar un archivo</br>";
 		$log_errores .= "2";
 	}
 	if (!file_exists($base . $_GET['f']))
 	{
-		echo "Error #3</br>";
+		echo "Error #3: Archivo no válido</br>";
 		$log_errores .= "3";
 	}
 	if (!isset($_SESSION['login_username']))
 	{
-		echo "Error #4</br>";
+		echo "Error #4: Debe iniciar sesión primero</br>";
 		$log_errores .= "4";
 	}
 	if (!isset($_SESSION['login_time']))
 	{
-		echo "Error #5</br>";
+		echo "Error #5: Tiempo de sesión no válido</br>";
 		$log_errores .= "5";
 	}
 	if ($dbh->session_expired())
