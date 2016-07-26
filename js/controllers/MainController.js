@@ -26,7 +26,7 @@
 				title: '',
 				content: '¿Está seguro que desea salir del sistema?',
 				confirm: function(){
-					window.location.reload();
+					LoginService.logout();
 				},
 				cancel: function(){}
 			});

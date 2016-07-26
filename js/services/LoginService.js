@@ -7,7 +7,9 @@
 				return current_user != null; 
 			},
 			logout: function(){
-				$http.get("php/unset.php");
+				$http.get("php/unset.php").then(function(){
+					window.location.reload();
+				});
 			},
 			login: function(loginData){
 				var promise =  $http({
