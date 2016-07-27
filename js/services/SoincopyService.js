@@ -128,6 +128,18 @@
 					s.dependencias = obj.data;
 				});
 			},
+			getDependencia: function(s, id){
+				$http.get("api/dependencias").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.dependencia = json[i];
+							return;
+						}
+				});
+			},
 
 
 

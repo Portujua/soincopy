@@ -93,6 +93,18 @@
 
 
 
+			.when("/dependencias", {
+				templateUrl : "views/admin/dependencias/dependencias.html"
+			})
+			.when("/dependencias/agregar", {
+				templateUrl : "views/admin/dependencias/agregar.html"
+			})
+			.when("/dependencias/editar/:id", {
+				templateUrl : "views/admin/dependencias/agregar.html"
+			})
+
+
+
 
 			.when("/menciones", {
 				templateUrl : "views/admin/menciones.html"

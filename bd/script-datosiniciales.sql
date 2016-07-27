@@ -79,6 +79,10 @@ insert into Permiso (nombre, descripcion) values ("ordenes_editar", "Podrá edit
 insert into Permiso (nombre, descripcion) values ("ordenes_deshabilitar", "Podrá habilitar y deshabilitar ordenes disponibles en el sistema");
 insert into Permiso (nombre, descripcion) values ("ordenes_ver", "Podrá consultar las ordenes existentes en el sistema");
 
+insert into Permiso (nombre, descripcion) values ("dependencias_agregar", "Podrá añadir nuevas dependencias al sistema");
+insert into Permiso (nombre, descripcion) values ("dependencias_editar", "Podrá editar cualquier información de una dependencia disponible en el sistema");
+insert into Permiso (nombre, descripcion) values ("dependencias_deshabilitar", "Podrá habilitar y deshabilitar dependencias disponibles en el sistema");
+
 
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "admin", "admin");
@@ -112,3 +116,6 @@ insert into Permiso_Asignado (permiso, usuario) values (25, 1);
 insert into Permiso_Asignado (permiso, usuario) values (26, 1);
 insert into Permiso_Asignado (permiso, usuario) values (27, 1);
 insert into Permiso_Asignado (permiso, usuario) values (28, 1);
+insert into Permiso_Asignado (permiso, usuario) values (29, 1);
+insert into Permiso_Asignado (permiso, usuario) values (30, 1);
+insert into Permiso_Asignado (permiso, usuario) values (31, 1);

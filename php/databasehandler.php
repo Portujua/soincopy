@@ -547,6 +547,18 @@
             ));
         }
 
+        public function cambiar_estado_dependencia($post)
+        {
+            $query = $this->db->prepare("
+                update Dependencia set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
         public function cambiar_estado_orden($post)
         {
             $query = $this->db->prepare("
@@ -1158,6 +1170,22 @@
         {
             $query = $this->db->prepare("
                 update Departamento_UCAB set 
+                    nombre=:nombre
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":id" => $post['id']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_dependencia($post)
+        {
+            $query = $this->db->prepare("
+                update Dependencia set 
                     nombre=:nombre
                 where id=:id
             ");
