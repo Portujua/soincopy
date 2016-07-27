@@ -61,7 +61,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	SoincopyService.getDepartamentosUCAB($scope);
+			        	SoincopyService.getDependencias($scope);
 			        })
 			    }
 			});
