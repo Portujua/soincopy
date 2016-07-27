@@ -9,7 +9,7 @@
 
 		<div class="fila">
 			<p>A servicio de (*)</p>
-			<select ng-model="orden.dpto_ucab" name="dpto_ucab" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
+			<select ng-model="orden.dpto_ucab" name="dpto_ucab" ng-options="c.id as c.nombre for c in departamentos | quitarDeshabilitados" required ng-minlength=1></select>
 
 
 		</div>
@@ -17,7 +17,7 @@
 		<div class="fila">
 			<p>Dependencia (*)<!-- <span class="badge" ng-hide="orden.agregardependencia" ng-click="orden.agregardependencia = 1" title="Añadir nueva dependencia">+</span>--></p>
 
-			<select ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias" name="dependencia" required ng-minlength=1></select>
+			<select ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia" required ng-minlength=1></select>
 			<br/>
 
 			<!--<div class="agregar_orden" ng-if="orden.agregardependencia">
