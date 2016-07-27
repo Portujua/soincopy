@@ -307,6 +307,22 @@
                 foreach ($permisos as $p)
                     $user[$p['nombre']] = 1;
 
+                /* Obtengo la ultima conexion */
+                $query = $this->db->prepare("
+                    select date_format(fecha, '%d/%m/%Y') as fecha, time_format(fecha, '%h:%i:%s %p') as hora
+                    from Log_Login
+                    where username=:username
+                    order by fecha desc
+                    limit 1
+                ");
+
+                $query->execute(array(
+                    ":username" => $post['username']
+                ));
+
+                $ult = $query->fetchAll();
+                $user['ultima_visita'] = $ult[0];
+
                 /* Setteo la sesion y registro el login */
                 @session_start();
                 $_SESSION['login_username'] = $post['username'];
