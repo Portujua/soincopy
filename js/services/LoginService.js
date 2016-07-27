@@ -73,10 +73,15 @@
 
 				return current_user.materias_agregar || current_user.materias_editar || current_user.materias_deshabilitar;
 			},
+			menuAdminDepartamentosUCAB: function(){
+				if (!this.isLoggedIn()) return false;
+
+				return current_user.dptoucab_agregar || current_user.dptoucab_editar || current_user.dptoucab_deshabilitar;
+			},
 			menuAdmin: function(){
 				if (!this.isLoggedIn()) return false;
 
-				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias();
+				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB();
 			},
 		};
 	})

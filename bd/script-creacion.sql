@@ -215,6 +215,32 @@ create table Producto (
 	foreign key (departamento) references Departamento(id)
 );
 
+create table Departamento_UCAB (
+	id int not null auto_increment,
+	nombre varchar(64) not null,
+	estado tinyint(1) default 1,
+	primary key(id)
+);
+
+create table Orden (
+	id int not null auto_increment,
+	numero varchar(32) not null,
+	dpto_ucab int not null,
+	dependencia int not null,
+	nro_copias int not null,
+	nro_originales int not null,
+	producto int not null,
+	destino varchar(128) not null,
+	fecha_inicio date not null,
+	fecha_fin date not null,
+	observaciones text,
+	estado tinyint(1) default 1,
+	primary key(id),
+	foreign key (dpto_ucab) references Departamento_UCAB(id),
+	foreign key (dependencia) references Dependencia(id),
+	foreign key (producto) references Producto(id)
+);
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

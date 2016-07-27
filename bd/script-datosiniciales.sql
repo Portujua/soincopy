@@ -71,6 +71,15 @@ insert into Permiso (nombre, descripcion) values ("plandeestudios_agregar", "Pod
 insert into Permiso (nombre, descripcion) values ("plandeestudios_buscar", "Podrá buscar planes de estudio disponibles en el sistema");
 insert into Permiso (nombre, descripcion) values ("plandeestudios_modificar", "Podrá modificar planes de estudio disponibles en el sistema");
 
+insert into Permiso (nombre, descripcion) values ("dptoucab_agregar", "Podrá añadir nuevos departamentos de la UCAB al sistema");
+insert into Permiso (nombre, descripcion) values ("dptoucab_editar", "Podrá editar cualquier información de un departamento de la UCAB disponible en el sistema");
+insert into Permiso (nombre, descripcion) values ("dptoucab_deshabilitar", "Podrá habilitar y deshabilitar departamentos de la UCAB disponibles en el sistema");
+insert into Permiso (nombre, descripcion) values ("ordenes_agregar", "Podrá generar nuevas ordenes en el sistema");
+insert into Permiso (nombre, descripcion) values ("ordenes_editar", "Podrá editar cualquier información de una orden disponible en el sistema");
+insert into Permiso (nombre, descripcion) values ("ordenes_deshabilitar", "Podrá habilitar y deshabilitar ordenes disponibles en el sistema");
+insert into Permiso (nombre, descripcion) values ("ordenes_ver", "Podrá consultar las ordenes existentes en el sistema");
+
+
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "admin", "admin");
 
@@ -96,3 +105,10 @@ insert into Permiso_Asignado (permiso, usuario) values (18, 1);
 insert into Permiso_Asignado (permiso, usuario) values (19, 1);
 insert into Permiso_Asignado (permiso, usuario) values (20, 1);
 insert into Permiso_Asignado (permiso, usuario) values (21, 1);
+insert into Permiso_Asignado (permiso, usuario) values (22, 1);
+insert into Permiso_Asignado (permiso, usuario) values (23, 1);
+insert into Permiso_Asignado (permiso, usuario) values (24, 1);
+insert into Permiso_Asignado (permiso, usuario) values (25, 1);
+insert into Permiso_Asignado (permiso, usuario) values (26, 1);
+insert into Permiso_Asignado (permiso, usuario) values (27, 1);
+insert into Permiso_Asignado (permiso, usuario) values (28, 1);

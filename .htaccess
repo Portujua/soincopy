@@ -32,6 +32,7 @@ RewriteRule ^api/materias/tipos$ /soincopy/php/run.php?fn=cargar_tipos_materias 
 RewriteRule ^api/guias/tipos$ /soincopy/php/run.php?fn=cargar_tipos_guias [QSA,L]
 RewriteRule ^api/profesores$ /soincopy/php/run.php?fn=cargar_profesores [QSA,L]
 RewriteRule ^api/dependencias$ /soincopy/php/run.php?fn=cargar_dependencias [QSA,L]
+RewriteRule ^api/departamentos/ucab$ /soincopy/php/run.php?fn=cargar_departamentos_ucab [QSA,L]
 RewriteRule ^api/permisos$ /soincopy/php/run.php?fn=cargar_permisos [QSA,L]
 RewriteRule ^api/guias/web$ /soincopy/php/run.php?fn=cargar_guias_web [QSA,L]
 RewriteRule ^api/planesDeEstudio$ /soincopy/php/run.php?fn=cargar_planes_de_estudio [QSA,L]

@@ -75,6 +75,18 @@
 
 
 
+			.when("/departamentos/ucab", {
+				templateUrl : "views/admin/departamentos_ucab/departamentos.html"
+			})
+			.when("/departamentos/ucab/agregar", {
+				templateUrl : "views/admin/departamentos_ucab/agregar.html"
+			})
+			.when("/departamentos/ucab/editar/:id", {
+				templateUrl : "views/admin/departamentos_ucab/agregar.html"
+			})
+
+
+
 
 			.when("/menciones", {
 				templateUrl : "views/admin/menciones.html"

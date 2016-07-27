@@ -118,6 +118,27 @@
 					s.productos = obj.data;
 				});
 			},
+
+
+
+
+			getDepartamentosUCAB: function(s){
+				$http.get("api/departamentos/ucab").then(function(obj){
+					s.departamentos = obj.data;
+				});
+			},
+			getDepartamentoUCAB: function(s, id){
+				$http.get("api/departamentos/ucab").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.departamento = json[i];
+							return;
+						}
+				});
+			},
 		};
 	})
 }());

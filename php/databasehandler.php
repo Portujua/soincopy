@@ -462,6 +462,19 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_departamentos_ucab($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Departamento_UCAB
+                order by nombre asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_tipos_guias($post)
         {
             $query = $this->db->prepare("
@@ -505,6 +518,18 @@
 
             $query->execute(array(
                 ":pid" => $post['pid'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_departamento_ucab($post)
+        {
+            $query = $this->db->prepare("
+                update Departamento_UCAB set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
                 ":estado" => $post['estado']
             ));
         }
@@ -984,6 +1009,20 @@
             }
         }
 
+        public function agregar_departamento_ucab($post)
+        {
+            $query = $this->db->prepare("
+                insert into Departamento_UCAB (nombre)
+                values (:nombre)
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre']
+            ));
+
+            return "ok";
+        }
+
         public function agregar_materia($post)
         {
             $query = $this->db->prepare("
@@ -1027,6 +1066,22 @@
             $query->execute(array(
                 ":nombre" => $post['nombre'],
                 ":carrera" => $post['cid'],
+                ":id" => $post['id']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_departamento_ucab($post)
+        {
+            $query = $this->db->prepare("
+                update Departamento_UCAB set 
+                    nombre=:nombre
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
                 ":id" => $post['id']
             ));
 
