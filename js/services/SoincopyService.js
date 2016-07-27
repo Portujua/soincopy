@@ -122,6 +122,16 @@
 
 
 
+
+			getDependencias: function(s){
+				$http.get("api/dependencias").then(function(obj){
+					s.dependencias = obj.data;
+				});
+			},
+
+
+
+
 			getDepartamentosUCAB: function(s){
 				$http.get("api/departamentos/ucab").then(function(obj){
 					s.departamentos = obj.data;
@@ -135,6 +145,34 @@
 						if (json[i].id == id)
 						{
 							s.departamento = json[i];
+							return;
+						}
+				});
+			},
+
+
+
+
+
+			getOrdenes: function(s){
+				$http.get("api/ordenes").then(function(obj){
+					s.ordenes = obj.data;
+				});
+			},
+			getOrden: function(s, id){
+				$http.get("api/ordenes").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							json[i].fecha_inicio = new Date(json[i].fecha_inicio);
+							json[i].fecha_fin = new Date(json[i].fecha_fin);
+							json[i].nro_copias = parseInt(json[i].nro_copias);
+							json[i].nro_originales = parseInt(json[i].nro_originales);
+							json[i].producto = json[i].pid;
+							json[i].dependencia = json[i].did;
+							s.orden = json[i];
 							return;
 						}
 				});

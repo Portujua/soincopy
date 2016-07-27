@@ -1,49 +1,69 @@
-<div class="buscar buscar_guia_web" ng-controller="Guia">
-	<div class="alert alert-danger" role="alert">
-		Al abrir una guía esta se <strong>ELIMINARÁ DEL SISTEMA Y NO PODRÁ SER ACCEDIDA NUEVAMENTE</strong>
+<div class="seccion" ng-controller="Orden">
+
+	<div ng-show="loginService.getCurrentUser().ordenes_ver">
+		Buscar <input type="text" class="input_busqueda" ng-model="buscador" ng-init="buscador = ''" placeholder="Use cualquier campo para buscar" data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" /> 
+		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
+		<input type="checkbox" style="margin-left: 20px;" ng-model="solo_expiradas" ng-init="solo_expiradas = false;" /> Ver expiradas
+
+		<script>
+			$(document).ready(function(){
+			    $('[data-toggle="tooltip"]').tooltip(); 
+			});
+		</script>
+
+		<br/><br/>
+
+		<table class="table table-stripped">
+			<thead>
+				<th ng-show="loginService.getCurrentUser().ordenes_editar || loginService.getCurrentUser().ordenes_deshabilitar">&nbsp;</th>
+				<th class="text-center">Número</th>
+				<th class="text-center">A servicio de</th>
+				<th class="text-center">Dependencia</th>
+				<th class="text-center"># Copias</th>
+				<th class="text-center"># Originales</th>
+				<th class="text-center">Producto</th>
+				<th class="text-center">Destino</th>
+				<th class="text-center">Fecha</th>
+				<th class="text-center">Observaciones</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="o in ordenes"
+					ng-if="
+						(o.numero.indexOf(buscador) != -1 ||
+						o.departamento.indexOf(buscador) != -1 ||
+						o.dependencia.indexOf(buscador) != -1 ||
+						o.nro_copias.indexOf(buscador) != -1 ||
+						o.nro_originales.indexOf(buscador) != -1 ||
+						o.producto.indexOf(buscador) != -1 ||
+						o.destino.indexOf(buscador) != -1 ||
+						o.fechas_str.indexOf(buscador) != -1 ||
+						o.observaciones.indexOf(buscador) != -1)
+
+						&& (solo_activos == false || o.estado == 1)
+
+						&& (solo_expiradas == false || o.expirada == 1)"
+					class="{{ o.estado == 0 ? 'bg-danger' : (o.expirada == 1 ? 'bg-warning' : '') }}">
+					<td ng-show="loginService.getCurrentUser().ordenes_editar || loginService.getCurrentUser().ordenes_deshabilitar" class="text-center">
+						<div class="btn-group">
+							<a ng-show="loginService.getCurrentUser().ordenes_editar" href="./#/ordenes/editar/{{ o.id }}">
+								<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
+							</a>
+
+							<span ng-click="cambiar_estado(o.id, 0)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="loginService.getCurrentUser().ordenes_deshabilitar && o.estado == 1" title="Deshabilitar" style="color: #c9302c !important;"></span>
+							<span ng-click="cambiar_estado(o.id, 1)" class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="loginService.getCurrentUser().ordenes_deshabilitar && o.estado == 0" title="Habilitar" style="color: #449d44 !important;"></span>
+						</div>
+					</td>
+					<td class="text-center">{{ o.numero }}</td>
+					<td class="text-center">{{ o.departamento }}</td>
+					<td class="text-center">{{ o.dependencia }}</td>
+					<td class="text-center">{{ o.nro_copias }}</td>
+					<td class="text-center">{{ o.nro_originales }}</td>
+					<td class="text-center">{{ o.producto }}</td>
+					<td class="text-center">{{ o.destino }}</td>
+					<td class="text-center">{{ o.fechas_str }}</td>
+					<td class="text-center">{{ o.observaciones }}</td>
+				</tr>
+			</tbody>
+		</table>
 	</div>
-
-	Buscar <input type="text" ng-model="buscador" placeholder="Ej. 19393, Pedro Perez, 19/03/2016, etc." data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
-
-	<script>
-		$(document).ready(function(){
-		    $('[data-toggle="tooltip"]').tooltip(); 
-		});
-	</script>
-
-	<!--<br/>
-	<button class="btn btn-primary" ng-click="cargar_guias_web()">Refrescar</button>-->
-	<br/><br/>
-
-	<p ng-hide="guias_web">Cargando guías..</p>
-
-	<table class="table table-stripped" ng-init="cargar_guias_web()" ng-show="guias_web">
-		<thead>
-			<th class="text-center">Nombre completo</th>
-			<th class="text-center">Email</th>
-			<th class="text-center">Teléfono</th>
-			<th class="text-center">Motivo</th>
-			<th class="text-center">Comentarios</th>
-			<th class="text-center">Fecha de envío</th>
-		</thead>
-		<tbody>
-			<tr ng-repeat="g in guias_web"
-				ng-click="ver_guia_web(g)"
-				ng-if="!buscador || 
-						g.nombre_completo.indexOf(buscador) != -1 ||
-						g.email.indexOf(buscador) != -1 ||
-						g.tlf.indexOf(buscador) != -1 ||
-						g.motivo.indexOf(buscador) != -1 ||
-						g.comentarios.indexOf(buscador) != -1 ||
-						g.fecha_arreglada.indexOf(buscador) != -1 ||
-						g.hora.indexOf(buscador) != -1">
-				<td class="text-center">{{ g.nombre_completo }}</td>
-				<td class="text-center">{{ g.email }}</td>
-				<td class="text-center">{{ g.tlf }}</td>
-				<td class="text-center">{{ g.motivo }}</td>
-				<td class="text-center">{{ g.comentarios }}</td>
-				<td class="text-center">{{ g.fecha_arreglada }} a las {{ g.hora }}</td>
-			</tr>
-		</tbody>
-	</table>
 </div>

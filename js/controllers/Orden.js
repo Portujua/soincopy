@@ -12,37 +12,37 @@
 		    }
 		};
 
-		SoincopyService.getCarreras($scope);
-		SoincopyService.getMaterias($scope);
+		$scope.editar = $routeParams.id;
+
+		SoincopyService.getOrdenes($scope);
+		SoincopyService.getDependencias($scope);
+		SoincopyService.getDepartamentosUCAB($scope);
 		SoincopyService.getProductosOriginales($scope);
 
-		$scope.cargar_dependencias = function(){
-			$.ajax({
-			    url: "php/run.php?fn=cargar_dependencias",
-			    type: "POST",
-			    data: {},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	$scope.dependencias = $.parseJSON(data);
-			        })
-			    }
-			});
+		$scope.cargar_orden = function(id){
+			SoincopyService.getOrden($scope, id);
 		}
 
 		$scope.registrar_orden = function(){
-			console.log("Registrando orden...")
-			var post = $scope.orden;
-
-			console.log($scope.orden)
-			return;
-
 			$.confirm({
 				title: 'Confirmar acción',
 				content: '¿Está seguro que desea añadir esta orden?',
 				confirm: function(){
+					var post = $scope.orden;
+					post.fecha_inicio_ = post.fecha_inicio.toJSON().slice(0,10);
+					post.fecha_fin_ = post.fecha_fin.toJSON().slice(0,10);
+
+					var fn = "agregar_orden";
+					var msg = "Orden añadida con éxito";
+
+					if ($routeParams.id)
+					{
+						fn = "editar_orden";
+						msg = "Orden modificada con éxito";
+					}
+
 					$.ajax({
-					    url: "php/run.php?fn=agregar_dependencia",
+					    url: "php/run.php?fn=" + fn,
 					    type: "POST",
 					    data: post,
 					    beforeSend: function(){},
@@ -58,6 +58,25 @@
 				},
 				cancel: function(){}
 			});
+		}
+
+		$scope.cambiar_estado = function(id, estado){
+			$.ajax({
+			    url: "php/run.php?fn=cambiar_estado_orden",
+			    type: "POST",
+			    data: {id:id, estado:estado},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	SoincopyService.getOrdenes($scope);
+			        })
+			    }
+			});
+		}
+
+		if ($routeParams.id)
+		{
+			$scope.cargar_orden($routeParams.id);
 		}
 	};
 

@@ -7,47 +7,49 @@
 			<input type="text" ng-model="orden.numero" name="numero" ng-minlength=1 ng-maxlength=128 placeholder="Número de orden" />
 		</div>
 
-		<div class="fila" ng-init="cargar_materias()">
+		<div class="fila">
 			<p>A servicio de (*)</p>
-			<select ng-model="orden.carrera" name="carrera" ng-change="cargar_materias()" ng-options="c.id as c.nombre for c in carreras" required ng-minlength=1></select>
+			<select ng-model="orden.dpto_ucab" name="dpto_ucab" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
+
+
 		</div>
 
-		<div class="fila" ng-init="cargar_dependencias()">
-			<p>Dependencia (*) <span class="badge" ng-hide="orden.agregardependencia" ng-click="orden.agregardependencia = 1" title="Añadir nueva dependencia">+</span></p>
+		<div class="fila">
+			<p>Dependencia (*)<!-- <span class="badge" ng-hide="orden.agregardependencia" ng-click="orden.agregardependencia = 1" title="Añadir nueva dependencia">+</span>--></p>
 
-			<select ng-model="orden.dependencia" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias" name="dependencia" required ng-minlength=1></select>
+			<select ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias" name="dependencia" required ng-minlength=1></select>
 			<br/>
 
-			<div class="agregar_orden" ng-if="orden.agregardependencia">
+			<!--<div class="agregar_orden" ng-if="orden.agregardependencia">
 				<h2>Agregar dependencia</h2>
 
 				<div class="fila">
 					<p>Nombre</p>
 					<input type="text" ng-model="orden.dependencia_nombre" ng-maxlength=64 ng-minlength=1 name="dependencia_nombre" placeholder="Ej. Escuela de Ingeniería Informática" required />
 				</div>
-			</div>
+			</div>-->
 		</div>
 
 		<div class="fila">
 			<p>Nro. Copias (*)</p>
-			<input type="number" ng-model="orden.nro_copias" name="nro_copias" ng-minlength=1 required />
+			<input type="number" string-to-number ng-model="orden.nro_copias" name="nro_copias" ng-minlength=1 required />
 		</div>
 
 		<div class="fila">
 			<p>Nro. Originales (*)</p>
-			<input type="number" name="nro_originales" ng-model="orden.nro_originales" ng-minlength=1 required />
+			<input type="number" string-to-number name="nro_originales" ng-model="orden.nro_originales" ng-minlength=1 required />
 		</div>
 
 		<div class="fila">
 			<p>Producto</p>
 
-			<select ng-model="orden.producto" ng-options="p.id as p.nombre for p in productos" name="producto" ng-minlength=1 required></select>
+			<select ng-model="orden.producto" ng-init="orden.producto = orden.pid;" ng-options="p.id as p.nombre for p in productos" name="producto" ng-minlength=1 required></select>
 		</div>
 
 		<div class="fila">
 			<p>Para destinarlo a</p>
 
-			<select ng-model="orden.destinado_a" name="destinado_a" ng-minlength=1 required>
+			<select ng-model="orden.destino" name="destino" ng-minlength=1 required>
 				<option>----- NO APLICA -----</option>
 				<option>Operación del Dpto.</option>
 				<option>Cuenta abierta</option>

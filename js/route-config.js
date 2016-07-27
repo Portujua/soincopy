@@ -19,11 +19,17 @@
 
 
 			// Ordenes
-			.when("/agregarorden", {
+			.when("/ordenes", {
+				templateUrl : "views/ordenes/buscar.html"
+			})
+			.when("/ordenes/agregar", {
+				templateUrl : "views/ordenes/agregar.html"
+			})
+			.when("/ordenes/editar/:id", {
 				templateUrl : "views/ordenes/agregar.html"
 			})
 			.when("/buscar_web", {
-				templateUrl : "views/ordenes/buscar.html"
+				templateUrl : "views/ordenes/buscar_web.html"
 			})
 
 

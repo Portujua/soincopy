@@ -26,8 +26,12 @@
 	</p>
 
 	<div class="ordenes collapse" aria-expanded="false">
-		<a href="./#/agregarorden" ng-show="loginService.getCurrentUser().anadir_orden">
+		<a href="./#/ordenes/agregar" ng-show="loginService.getCurrentUser().anadir_orden">
 			<p>Agregar</p>
+		</a>
+
+		<a href="./#/ordenes" ng-show="loginService.getCurrentUser().ordenes_ver">
+			<p>Buscar</p>
 		</a>
 
 		<hr/>

@@ -500,6 +500,19 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_ordenes($post)
+        {
+            $query = $this->db->prepare("
+                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.nro_copias as nro_copias, o.nro_originales as nro_originales, p.nombre as producto, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, p.id as pid
+                from Orden as o, Departamento_UCAB as du, Dependencia as d, Producto as p
+                where o.dpto_ucab=du.id and o.dependencia=d.id and o.producto=p.id
+                order by o.id desc
+            ");
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_dependencias($post)
         {
             $query = $this->db->prepare("
@@ -526,6 +539,18 @@
         {
             $query = $this->db->prepare("
                 update Departamento_UCAB set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_orden($post)
+        {
+            $query = $this->db->prepare("
+                update Orden set estado=:estado where id=:id
             ");
 
             $query->execute(array(
@@ -1018,6 +1043,63 @@
 
             $query->execute(array(
                 ":nombre" => $post['nombre']
+            ));
+
+            return "ok";
+        }
+
+        public function agregar_orden($post)
+        {
+            $query = $this->db->prepare("
+                insert into Orden (numero, dpto_ucab, dependencia, nro_copias, nro_originales, producto, destino, fecha_inicio, fecha_fin, observaciones)
+                values (:numero, :dpto_ucab, :dependencia, :nro_copias, :nro_originales, :producto, :destino, :fecha_inicio, :fecha_fin, :observaciones)
+            ");
+
+            $query->execute(array(
+                ":numero" => $post['numero'],
+                ":dpto_ucab" => $post['dpto_ucab'],
+                ":dependencia" => $post['dependencia'],
+                ":nro_copias" => $post['nro_copias'],
+                ":nro_originales" => $post['nro_originales'],
+                ":producto" => $post['producto'],
+                ":destino" => $post['destino'],
+                ":fecha_inicio" => $post['fecha_inicio_'],
+                ":fecha_fin" => $post['fecha_fin_'],
+                ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null
+            ));
+
+            return "ok";
+        }
+
+        public function editar_orden($post)
+        {
+            $query = $this->db->prepare("
+                update Orden set 
+                    numero=:numero, 
+                    dpto_ucab=:dpto_ucab, 
+                    dependencia=:dependencia, 
+                    nro_copias=:nro_copias, 
+                    nro_originales=:nro_originales, 
+                    producto=:producto, 
+                    destino=:destino, 
+                    fecha_inicio=:fecha_inicio, 
+                    fecha_fin=:fecha_fin, 
+                    observaciones=:observaciones
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":numero" => $post['numero'],
+                ":dpto_ucab" => $post['dpto_ucab'],
+                ":dependencia" => $post['dependencia'],
+                ":nro_copias" => $post['nro_copias'],
+                ":nro_originales" => $post['nro_originales'],
+                ":producto" => $post['producto'],
+                ":destino" => $post['destino'],
+                ":fecha_inicio" => $post['fecha_inicio_'],
+                ":fecha_fin" => $post['fecha_fin_'],
+                ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
+                ":id" => $post['id']
             ));
 
             return "ok";
