@@ -309,10 +309,10 @@
 
                 /* Obtengo la ultima conexion */
                 $query = $this->db->prepare("
-                    select date_format(fecha, '%d/%m/%Y') as fecha, time_format(fecha, '%h:%i:%s %p') as hora
-                    from Log_Login
+                    select date_format(l.fecha, '%d/%m/%Y') as fecha, time_format(l.fecha, '%h:%i:%s %p') as hora
+                    from Log_Login as l
                     where username=:username
-                    order by fecha desc
+                    order by l.fecha desc
                     limit 1
                 ");
 
