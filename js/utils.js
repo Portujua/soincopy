@@ -16,5 +16,3 @@ function check_sesion()
 
 	setTimeout("check_sesion()", 5000);
 }
-
-check_sesion();

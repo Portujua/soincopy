@@ -17,6 +17,8 @@
 		if (!LoginService.isLoggedIn())
 			$location.path("/login");
 
+		LoginService.startTimer();
+
 		$scope.login = function(){
 			LoginService.login($scope.login_form);
 		}
