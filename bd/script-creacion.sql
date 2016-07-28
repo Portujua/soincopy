@@ -135,11 +135,21 @@ create table Cambio_de_Status (
 	foreign key (usuario) references Personal(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Permiso_Categoria (
+	id int not null auto_increment,
+	nombre varchar(32) not null,
+	descripcion varchar(128),
+	primary key(id)
+);
+
 create table Permiso (
 	id int not null auto_increment,
 	nombre varchar(32) not null,
 	descripcion varchar(128) not null,
-	primary key(id)
+	riesgo int default 0,
+	categoria int not null,
+	primary key(id),
+	foreign key (categoria) references Permiso_Categoria(id)
 );
 
 create table Permiso_Asignado (

@@ -14,4 +14,18 @@
 	    	return out;
 	    };
 	});
+
+	app.filter('soloCategorias', function () {
+	    return function (items_) {
+	    	if (!items_) return null;
+
+	    	var items = [];
+
+			for (var i = 0; i < items_.length; i++)
+				if ($.inArray(items_[i].categoria, items) == -1)
+					items.push(items_[i].categoria);
+
+			return items;
+	    };
+	});
 }());

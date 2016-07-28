@@ -663,9 +663,10 @@
         public function cargar_permisos($post)
         {
             $query = $this->db->prepare("
-                select *
-                from Permiso
-                order by id asc
+                select p.id as id, p.nombre as nombre, p.descripcion as descripcion, p.riesgo as riesgo, pc.nombre as categoria
+                from Permiso as p, Permiso_Categoria as pc
+                where p.categoria=pc.id
+                order by pc.id asc
             ");
             $query->execute();
 

@@ -58,19 +58,44 @@
 			});
 		}
 
-		$scope.cambiar_permiso = function(pid){
-			if ($scope.personal_nuevo.permisos.indexOf("[" + pid + "]") == -1)
-				$scope.personal_nuevo.permisos += "[" + pid + "]";
+		$scope.cambiar_permiso = function(pid, riesgo){
+			if (riesgo >= 7 && $scope.personal_nuevo.permisos.indexOf("[" + pid + "]") == -1)
+			{
+				$.confirm({
+					title: "Confirme su acción",
+					content: "Este permiso tiene un nivel de riesgo de " + riesgo + " sobre 10, <strong>¿está seguro que desea asignar este permiso?</strong>",
+					confirm: function(){
+						if ($scope.personal_nuevo.permisos.indexOf("[" + pid + "]") == -1)
+							$scope.personal_nuevo.permisos += "[" + pid + "]";
+						else
+						{
+							var permisos = "";
+							var actuales = $scope.personal_nuevo.permisos.split(']');
+
+							for (var i = 0; i < actuales.length; i++)
+								if (actuales[i].substring(1) != pid)
+									permisos += "[" + actuales[i].substring(1) + "]";
+
+							$scope.personal_nuevo.permisos = permisos;
+						}
+					}
+				})
+			}
 			else
 			{
-				var permisos = "";
-				var actuales = $scope.personal_nuevo.permisos.split(']');
+				if ($scope.personal_nuevo.permisos.indexOf("[" + pid + "]") == -1)
+					$scope.personal_nuevo.permisos += "[" + pid + "]";
+				else
+				{
+					var permisos = "";
+					var actuales = $scope.personal_nuevo.permisos.split(']');
 
-				for (var i = 0; i < actuales.length; i++)
-					if (actuales[i].substring(1) != pid)
-						permisos += "[" + actuales[i].substring(1) + "]";
+					for (var i = 0; i < actuales.length; i++)
+						if (actuales[i].substring(1) != pid)
+							permisos += "[" + actuales[i].substring(1) + "]";
 
-				$scope.personal_nuevo.permisos = permisos;
+					$scope.personal_nuevo.permisos = permisos;
+				}
 			}
 		}
 

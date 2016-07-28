@@ -54,9 +54,15 @@
 		</div>
 
 		<h3 ng-init="cargar_permisos(); personal_nuevo.permisos = '';">Permisos</h3>
-		<p ng-repeat="p in permisos" ng-click="cambiar_permiso(p.id)" class="permiso {{ personal_nuevo.permisos.indexOf('[' + p.id + ']') == -1 ? '' : 'bg-success' }}">
-			{{ p.descripcion }}
-		</p>
+
+		<div class="categoria_permiso" ng-repeat="categoria in permisos | soloCategorias">
+			<h4>{{ categoria }}</h4>
+
+			<p ng-repeat="p in permisos" ng-if="p.categoria == categoria" ng-click="cambiar_permiso(p.id, p.riesgo)" class="permiso {{ personal_nuevo.permisos.indexOf('[' + p.id + ']') == -1 ? '' : 'bg-success' }}"  style="border: 1px solid {{ p.riesgo < 4 ? '#449d44' : (p.riesgo < 8 ? '#ec971f' : '#c9302c') }}">
+				<span style="color: {{ p.riesgo < 4 ? '#449d44' : (p.riesgo < 8 ? '#ec971f' : '#c9302c') }}">Nivel de riesgo: {{ p.riesgo }} / 10</span><br/>
+				<span>{{ p.descripcion }}</span>
+			</p>
+		</div>
 
 
 		<div class="fila text-center">

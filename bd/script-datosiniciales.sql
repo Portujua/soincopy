@@ -49,41 +49,52 @@ insert into Producto (nombre, departamento) values ("Encuadernación", 1);
 insert into Producto (nombre, departamento) values ("Digitalización Color", 1);
 insert into Producto (nombre, departamento) values ("Digitalización B/N", 1);
 
-insert into Permiso (nombre, descripcion) values ("anadir_guias", "Podrá añadir nuevas guías al sistema");
-insert into Permiso (nombre, descripcion) values ("buscar_guias", "Podrá consultar las guías disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("modificar_guias", "Podrá modificar cualquier información de una guía disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("anadir_orden", "Podrá generar ordenes");
-insert into Permiso (nombre, descripcion) values ("personal_ver", "Podrá consultar el personal existente en el sistema");
-insert into Permiso (nombre, descripcion) values ("personal_agregar", "Podrá añadir nuevo personal al sistema");
-insert into Permiso (nombre, descripcion) values ("personal_editar", "Podrá editar cualquier información de un personal disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("personal_deshabilitar", "Podrá habilitar y deshabilitar personal disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("carreras_agregar", "Podrá añadir nuevas carreras al sistema");
-insert into Permiso (nombre, descripcion) values ("carreras_editar", "Podrá editar cualquier información de una carrera disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("carreras_deshabilitar", "Podrá habilitar y deshabilitar carreras disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("materias_agregar", "Podrá añadir nuevas materias al sistema así como nuevos tipos de materia");
-insert into Permiso (nombre, descripcion) values ("materias_editar", "Podrá editar cualquier información de una materia disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("materias_deshabilitar", "Podrá habilitar y deshabilitar materias disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("profesores_agregar", "Podrá añadir nuevos profesores al sistema");
-insert into Permiso (nombre, descripcion) values ("profesores_editar", "Podrá editar cualquier información de un profesor disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("profesores_deshabilitar", "Podrá habilitar y deshabilitar profesores disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("ver_ordenes_web", "Podrá ver las ordenes generadas vía web");
-insert into Permiso (nombre, descripcion) values ("plandeestudios_agregar", "Podrá añadir planes de estudio al sistema");
-insert into Permiso (nombre, descripcion) values ("plandeestudios_buscar", "Podrá buscar planes de estudio disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("plandeestudios_modificar", "Podrá modificar planes de estudio disponibles en el sistema");
+insert into Permiso_Categoria (nombre) values ("Guías");
+insert into Permiso_Categoria (nombre) values ("Ordenes");
+insert into Permiso_Categoria (nombre) values ("Programas y Pensum");
+insert into Permiso_Categoria (nombre) values ("Personal");
+insert into Permiso_Categoria (nombre) values ("Profesores");
+insert into Permiso_Categoria (nombre) values ("Carreras");
+insert into Permiso_Categoria (nombre) values ("Menciones");
+insert into Permiso_Categoria (nombre) values ("Materias");
+insert into Permiso_Categoria (nombre) values ("Departamentos UCAB");
+insert into Permiso_Categoria (nombre) values ("Dependencias");
 
-insert into Permiso (nombre, descripcion) values ("dptoucab_agregar", "Podrá añadir nuevos departamentos de la UCAB al sistema");
-insert into Permiso (nombre, descripcion) values ("dptoucab_editar", "Podrá editar cualquier información de un departamento de la UCAB disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("dptoucab_deshabilitar", "Podrá habilitar y deshabilitar departamentos de la UCAB disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("ordenes_agregar", "Podrá generar nuevas ordenes en el sistema");
-insert into Permiso (nombre, descripcion) values ("ordenes_editar", "Podrá editar cualquier información de una orden disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("ordenes_deshabilitar", "Podrá habilitar y deshabilitar ordenes disponibles en el sistema");
-insert into Permiso (nombre, descripcion) values ("ordenes_ver", "Podrá consultar las ordenes existentes en el sistema");
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("anadir_guias", "Podrá añadir nuevas guías al sistema", 4, 1);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("buscar_guias", "Podrá consultar las guías disponibles en el sistema", 1, 2);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("modificar_guias", "Podrá modificar cualquier información de una guía disponible en el sistema", 6, 1);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("anadir_orden", "Podrá generar ordenes", 4, 2);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("personal_ver", "Podrá consultar el personal existente en el sistema", 0, 4);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("personal_agregar", "Podrá añadir nuevo personal al sistema", 4, 4);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("personal_editar", "Podrá editar cualquier información de un personal disponible en el sistema", 6, 4);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("personal_deshabilitar", "Podrá habilitar y deshabilitar personal disponible en el sistema", 3, 4);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("carreras_agregar", "Podrá añadir nuevas carreras al sistema", 4, 6);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("carreras_editar", "Podrá editar cualquier información de una carrera disponible en el sistema", 5, 6);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("carreras_deshabilitar", "Podrá habilitar y deshabilitar carreras disponibles en el sistema", 4, 6);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("materias_agregar", "Podrá añadir nuevas materias al sistema así como nuevos tipos de materia", 4, 8);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("materias_editar", "Podrá editar cualquier información de una materia disponible en el sistema", 5, 8);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("materias_deshabilitar", "Podrá habilitar y deshabilitar materias disponibles en el sistema", 3, 8);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("profesores_agregar", "Podrá añadir nuevos profesores al sistema", 4, 5);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("profesores_editar", "Podrá editar cualquier información de un profesor disponible en el sistema", 6, 5);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("profesores_deshabilitar", "Podrá habilitar y deshabilitar profesores disponibles en el sistema", 3, 5);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ver_ordenes_web", "Podrá ver las ordenes generadas vía web", 10, 2);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("plandeestudios_agregar", "Podrá añadir planes de estudio al sistema", 4, 3);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("plandeestudios_buscar", "Podrá buscar planes de estudio disponibles en el sistema", 0, 3);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("plandeestudios_modificar", "Podrá modificar planes de estudio disponibles en el sistema", 6, 3);
 
-insert into Permiso (nombre, descripcion) values ("dependencias_agregar", "Podrá añadir nuevas dependencias al sistema");
-insert into Permiso (nombre, descripcion) values ("dependencias_editar", "Podrá editar cualquier información de una dependencia disponible en el sistema");
-insert into Permiso (nombre, descripcion) values ("dependencias_deshabilitar", "Podrá habilitar y deshabilitar dependencias disponibles en el sistema");
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dptoucab_agregar", "Podrá añadir nuevos departamentos de la UCAB al sistema", 3, 9);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dptoucab_editar", "Podrá editar cualquier información de un departamento de la UCAB disponible en el sistema", 4, 9);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dptoucab_deshabilitar", "Podrá habilitar y deshabilitar departamentos de la UCAB disponibles en el sistema", 3, 9);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_agregar", "Podrá generar nuevas ordenes en el sistema", 6, 2);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_editar", "Podrá editar cualquier información de una orden disponible en el sistema", 8, 2);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_deshabilitar", "Podrá habilitar y deshabilitar ordenes disponibles en el sistema", 7, 2);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_ver", "Podrá consultar las ordenes existentes en el sistema", 1, 2);
 
-insert into Permiso (nombre, descripcion) values ("eliminar_pdf_guias", "Podrá eliminar el archivo PDF de una guía disponible en el sistema");
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dependencias_agregar", "Podrá añadir nuevas dependencias al sistema", 3, 10);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dependencias_editar", "Podrá editar cualquier información de una dependencia disponible en el sistema", 3, 10);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dependencias_deshabilitar", "Podrá habilitar y deshabilitar dependencias disponibles en el sistema", 3, 10);
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("eliminar_pdf_guias", "Podrá eliminar el archivo PDF de una guía disponible en el sistema", 10, 1);
 
 
 
