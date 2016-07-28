@@ -21,6 +21,9 @@
 					window.location.reload();
 				});
 			},
+			updateSessionTime: function(){
+				$http.get("php/run.php?fn=actualizar_hora_sesion");
+			},
 			login: function(loginData){
 				$http({
 					method: 'POST',
@@ -68,6 +71,11 @@
 									
 									if (pwd != $localStorage.user.password)
 										loginService.logout();
+									else
+										loginService.updateSessionTime();
+								},
+								cancel: function(){
+									loginService.logout();
 								}
 							});
 						}
