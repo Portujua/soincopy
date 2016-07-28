@@ -63,7 +63,6 @@ insert into Permiso_Categoria (nombre) values ("Dependencias");
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("anadir_guias", "Podrá añadir nuevas guías al sistema", 4, 1);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("buscar_guias", "Podrá consultar las guías disponibles en el sistema", 2, 1);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("modificar_guias", "Podrá modificar cualquier información de una guía disponible en el sistema", 6, 1);
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("anadir_orden", "Podrá generar ordenes", 4, 2);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("personal_ver", "Podrá consultar el personal existente en el sistema", 0, 4);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("personal_agregar", "Podrá añadir nuevo personal al sistema", 4, 4);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("personal_editar", "Podrá editar cualquier información de un personal disponible en el sistema", 6, 4);
