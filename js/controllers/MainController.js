@@ -19,6 +19,19 @@
 
 		LoginService.startTimer();
 
+		$scope.cerrar_seccion = function(){
+			if (window.location.hash.indexOf("editar") != -1 || window.location.hash.indexOf("agregar") != -1)
+				$.confirm({
+					title: "Confirmar acción",
+					content: "Todo los cambios serán descartados, <strong>¿está seguro que desea cerrar esta ventana?</strong>",
+					confirm: function(){
+						$location.path("/inicio");
+					}
+				})
+			else
+				$location.path("/inicio");
+		}
+
 		$scope.login = function(){
 			LoginService.login($scope.login_form);
 		}
