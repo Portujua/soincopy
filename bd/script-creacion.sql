@@ -238,9 +238,6 @@ create table Orden (
 	numero varchar(32) not null,
 	dpto_ucab int not null,
 	dependencia int not null,
-	nro_copias int not null,
-	nro_originales int not null,
-	producto int not null,
 	destino varchar(128) not null,
 	fecha_inicio date not null,
 	fecha_fin date not null,
@@ -250,8 +247,21 @@ create table Orden (
 	primary key(id),
 	foreign key (dpto_ucab) references Departamento_UCAB(id),
 	foreign key (dependencia) references Dependencia(id),
-	foreign key (producto) references Producto(id),
 	foreign key (creado_por) references Personal(id)
+);
+
+create table Orden_Producto (
+	id int not null auto_increment,
+	orden int not null,
+	producto int not null,
+	cantidad int not null comment 'Cantidad del producto.. en caso de ser copias seria nro_copias*nro_originales',
+	nro_copias int,
+	nro_originales int,
+	precio_unitario float not null,
+	precio_total float not null,
+	primary key(id),
+	foreign key (orden) references Orden(id),
+	foreign key (producto) references Producto(id)
 );
 
 
