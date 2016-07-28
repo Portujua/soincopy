@@ -503,7 +503,7 @@
         public function cargar_ordenes($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.nro_copias as nro_copias, o.nro_originales as nro_originales, p.nombre as producto, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, p.id as pid
+                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.nro_copias as nro_copias, o.nro_originales as nro_originales, p.nombre as producto, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin and curdate()>o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, p.id as pid
                 from Orden as o, Departamento_UCAB as du, Dependencia as d, Producto as p
                 where o.dpto_ucab=du.id and o.dependencia=d.id and o.producto=p.id
                 order by o.id desc
