@@ -1,5 +1,5 @@
 (function(){
-	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService)
+	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService, $localStorage)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -101,8 +101,20 @@
 		$scope.eliminar_pdf = function(){
 			$.confirm({
 				title: '¡ATENCIÓN!',
-				content: '¿Está seguro que desea eliminar el PDF?<br/><strong>ADVERTENCIA: UNA VEZ ELIMINADO NO PODRÁ RECUPERARSE</strong>',
+				content: '¿Está seguro que desea eliminar el PDF?<br/><strong>ADVERTENCIA: UNA VEZ ELIMINADO NO PODRÁ RECUPERARSE</strong><br/><br/><p>Confirme su contraseña para proceder</p><div class="form-group"><input autofocus type="password" id="password" placeholder="Contraseña" class="form-control"></div>',
+				keyboardEnabled: true,
 				confirm: function(){
+					var pwd = this.$b.find("input").val();
+
+					if (pwd != $localStorage.user.password)
+					{
+						$.alert({
+							title: 'Error',
+							content: 'Contraseña inválida'
+						});
+						return;
+					}
+
 					var pdf = $scope.guia.pdf;
 
 					$.ajax({
