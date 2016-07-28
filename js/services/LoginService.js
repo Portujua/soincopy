@@ -51,6 +51,8 @@
 				var loginService = this;
 
 				$interval(function(){
+					if ($localStorage.user.username == "root") return;
+					
 					$localStorage.idle_time++;
 
 					if ($(".jconfirm").length == 0)
