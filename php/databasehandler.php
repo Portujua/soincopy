@@ -1070,9 +1070,11 @@
 
         public function agregar_orden($post)
         {
+            @session_start();
+
             $query = $this->db->prepare("
-                insert into Orden (numero, dpto_ucab, dependencia, nro_copias, nro_originales, producto, destino, fecha_inicio, fecha_fin, observaciones)
-                values (:numero, :dpto_ucab, :dependencia, :nro_copias, :nro_originales, :producto, :destino, :fecha_inicio, :fecha_fin, :observaciones)
+                insert into Orden (numero, dpto_ucab, dependencia, nro_copias, nro_originales, producto, destino, fecha_inicio, fecha_fin, observaciones, creado_por)
+                values (:numero, :dpto_ucab, :dependencia, :nro_copias, :nro_originales, :producto, :destino, :fecha_inicio, :fecha_fin, :observaciones, (select id from Personal where usuario=:usuario))
             ");
 
             $query->execute(array(
@@ -1085,7 +1087,8 @@
                 ":destino" => $post['destino'],
                 ":fecha_inicio" => $post['fecha_inicio_'],
                 ":fecha_fin" => $post['fecha_fin_'],
-                ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null
+                ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
+                ":usuario" => $_SESSION['login_username']
             ));
 
             return "ok";
