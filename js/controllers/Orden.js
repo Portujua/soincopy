@@ -51,7 +51,7 @@
 					        if (data == "ok")
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess("Orden añadida con éxito");
-					        		$location.path("/inicio");
+					        		$location.path("/ordenes");
 					        	})
 					    }
 					});
