@@ -21,7 +21,7 @@
 			{
 				if ($_SESSION['login_username'] == $_GET['u'] && !$dbh->session_expired())
 				{
-					if ($dbh->puede_ver_guias($_GET['u']))
+					if ($dbh->puede_ver_guias($_GET['u']) || $_GET['u'] == "root")
 					{
 						header('Content-Type: application/pdf');
 						$fp = fopen($base . $_GET['f'], "rb");
