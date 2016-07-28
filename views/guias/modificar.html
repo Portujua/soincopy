@@ -2,8 +2,6 @@
 	<h2>
 		Guía {{ guia.codigo }} 
 		<small>
-			Estado: <span class="status-{{ guia.status_str }}">{{ guia.status_str }}</span>
-
 			<small>
 				<div class="btn-group">
 					<button class="btn btn-info btn-xs" ng-show="guia.status != 2" ng-click="cambiar_estado(2)">Desactivar</button>
@@ -13,6 +11,7 @@
 			</small>
 		</small>
 	</h2>
+	<p><span style="font-size: 16px; font-weight: bold; letter-spacing: 2px;" class="status-{{ guia.status_str }}">{{ guia.status_str }}</span></p>
 
 	<div class="register-form" ng-show="guia">
 		<p><small>(*) Campos obligatorios</small></p>
