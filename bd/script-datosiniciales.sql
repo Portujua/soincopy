@@ -83,6 +83,8 @@ insert into Permiso (nombre, descripcion) values ("dependencias_agregar", "Podr�
 insert into Permiso (nombre, descripcion) values ("dependencias_editar", "Podrá editar cualquier información de una dependencia disponible en el sistema");
 insert into Permiso (nombre, descripcion) values ("dependencias_deshabilitar", "Podrá habilitar y deshabilitar dependencias disponibles en el sistema");
 
+insert into Permiso (nombre, descripcion) values ("eliminar_pdf_guias", "Podrá eliminar el archivo PDF de una guía disponible en el sistema");
+
 
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "admin", "admin");
@@ -119,3 +121,4 @@ insert into Permiso_Asignado (permiso, usuario) values (28, 1);
 insert into Permiso_Asignado (permiso, usuario) values (29, 1);
 insert into Permiso_Asignado (permiso, usuario) values (30, 1);
 insert into Permiso_Asignado (permiso, usuario) values (31, 1);
+insert into Permiso_Asignado (permiso, usuario) values (32, 1);

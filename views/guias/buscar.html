@@ -19,6 +19,7 @@
 
 	<table class="table table-stripped" ng-init="cargar_guias()" ng-show="guias">
 		<thead>
+			<th>&nbsp;</th>
 			<th class="text-center">Código</th>
 			<th class="text-center">Título</th>
 			<th class="text-center">Profesor</th>
@@ -37,8 +38,16 @@
 						g.entregada_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.recibida_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.fecha.indexOf(buscador) != -1">
-				<td class="text-center" ng-if="loginService.getCurrentUser().modificar_guias == 1"><a class="badge" href="./#/modificarguia/{{g.codigo}}">{{ g.codigo }}</a></td>
-				<td class="text-center" ng-if="loginService.getCurrentUser().modificar_guias == 0"><span class="badge">{{ g.codigo }}</span></td>
+				<td class="text-center">
+					<div class="btn-group">
+						<a ng-show="loginService.getCurrentUser().modificar_guias" href="./#/modificarguia/{{g.codigo}}">
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
+						</a>
+
+						<a ng-show="g.pdf" target="_blank" href="" ng-click="ver_pdf(g.pdf)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+					</div>
+				</td>
+				<td class="text-center">{{ g.codigo }}</td>
 				<td class="text-center">{{ g.titulo }}</td>
 				<td class="text-center">{{ g.profesor.nombre_completo }}</td>
 				<td class="text-center">{{ g.seccion }}</td>

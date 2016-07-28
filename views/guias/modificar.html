@@ -72,7 +72,7 @@
 
 		<div class="fila" ng-show="guia.pdf">
 			<p><a href="" ng-click="ver_pdf(guia.pdf)">Ver PDF</a></p>
-			<button class="btn btn-danger" ng-click="eliminar_pdf()">Eliminar PDF</button>
+			<button ng-if="loginService.getCurrentUser().eliminar_pdf_guias" class="btn btn-danger" ng-click="eliminar_pdf()">Eliminar PDF</button>
 		</div>
 
 		<div class="fila text-center">
