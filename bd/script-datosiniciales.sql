@@ -15,6 +15,8 @@ insert into Periodo (tipo, numero) values ("Anual", 3);
 insert into Periodo (tipo, numero) values ("Anual", 4);
 insert into Periodo (tipo, numero) values ("Anual", 5);
 
+insert into Periodo (tipo, numero) values ("Otros", 99);
+
 insert into Tipo_Materia(nombre) values ("Normal");
 insert into Tipo_Materia(nombre) values ("Electiva");
 insert into Tipo_Materia(nombre) values ("Seminario");

@@ -380,6 +380,8 @@ begin
 		insert into Car_Per (periodo, carrera) values (14, last_id);
 		insert into Car_Per (periodo, carrera) values (15, last_id);
 	end if;
+
+	insert into Car_Per (periodo, carrera) values (16, last_id);
 end//
 
 create procedure agregar_materia(in nombre_materia varchar(64), in nombre_carrera varchar(64), in periodo int)

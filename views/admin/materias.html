@@ -35,7 +35,7 @@
 					</div>
 				</td>
 				<td class="text-center">{{ p.nombre }}</td>
-				<td class="text-center">{{ p.periodo }} {{ p.tipo_carrera == 'Semestral' ? ' semestre' : ' año' }} de {{ p.carrera }}</td>
+				<td class="text-center">{{ p.periodo }} {{ p.tipo_carrera == 'Semestral' ? ' semestre' : (p.tipo_carrera == 'Anual' ? ' año' : '') }} de {{ p.carrera }}</td>
 				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
 			</tr>
 		</tbody>

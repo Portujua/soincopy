@@ -14,7 +14,7 @@
 
 		<div class="fila">
 			<p>Período (*)</p>
-			<select ng-model="materia.periodo" required ng-options="p.id as (p.periodo + (p.tipo == 'Anual' ? ' año' : ' semestre')) for p in periodos"></select>
+			<select ng-model="materia.periodo" required ng-options="p.id as (p.periodo + (p.tipo == 'Anual' ? ' año' : (p.tipo == 'Semestral' ? ' semestre' : ''))) for p in periodos"></select>
 		</div>
 
 		<div class="fila" ng-init="cargar_tipos()">

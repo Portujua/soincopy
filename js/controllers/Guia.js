@@ -64,9 +64,15 @@
 		}
 
 		$scope.cargar_materias = function(){
-			var cid = $scope.guia ? $scope.guia.carrera_id : $scope.agregarguia_carrera;
-
-			SoincopyService.getMaterias($scope, cid);
+			try 
+			{
+				var cid = $scope.guia.carrera_id ? $scope.guia.carrera_id : $scope.guia.carrera;
+				SoincopyService.getMaterias($scope, cid);
+			}
+			catch(ex)
+			{
+				$timeout($scope.cargar_materias, 200);
+			}
 		}
 
 		$scope.cargar_guias = function(){

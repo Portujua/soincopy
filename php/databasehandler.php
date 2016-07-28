@@ -353,7 +353,7 @@
         public function cargar_materias_carrera($post)
         {
             $query = $this->db->prepare("
-                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, (case when p.numero=99 then 'Otro' else p.numero end) as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, p.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
                 from Materia as m, Car_Per as cp, Carrera as c, Periodo as p, Tipo_Materia as t
                 where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and m.tipo=t.id and c.id=:cid and m.estado=1
                 order by p.numero asc
@@ -369,7 +369,7 @@
         public function cargar_materias($post)
         {
             $query = $this->db->prepare("
-                select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, cp.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
+                select m.id as id, m.nombre as nombre, c.nombre as carrera, (case when p.numero=99 then 'Otro' else p.numero end) as periodo, c.id as carrera_id, p.tipo as tipo_carrera, m.estado as estado, cp.id as periodo_id, t.nombre as tipo, t.nombre as tipo_nombre, t.id as tipo_id
                 from Materia as m, Car_Per as cp, Carrera as c, Periodo as p, Tipo_Materia as t
                 where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id and m.tipo=t.id
                 order by p.numero asc
@@ -617,7 +617,7 @@
         public function cargar_periodos($post)
         {
             $query = $this->db->prepare("
-                select cp.id as id, p.numero as periodo, p.tipo as tipo
+                select cp.id as id, (case when p.numero=99 then 'Otro' else p.numero end) as periodo, p.tipo as tipo
                 from Car_Per as cp, Periodo as p
                 where cp.periodo=p.id and cp.carrera=:cid
                 order by p.numero asc

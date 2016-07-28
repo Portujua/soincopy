@@ -9,14 +9,14 @@
 
 		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carreras (*)</p>
-			<select ng-model="guia.carrera" name="carrera" ng-show="carreras" ng-change="cargar_materias()" required>
+			<select ng-model="guia.carrera" name="carrera" ng-change="cargar_materias()" required>
 				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 
 		<div class="fila">
 			<p>Materias (*)</p>
-			<select ng-model="guia.materia" name="materia" ng-show="guia.carrera" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : ' año')) for c in materias"></select>
+			<select ng-model="guia.materia" name="materia" ng-show="guia.carrera" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias"></select>
 
 			<span ng-hide="guia.carrera">Seleccione una carrera</span>
 		</div>

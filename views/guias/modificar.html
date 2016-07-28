@@ -28,7 +28,7 @@
 
 		<div class="fila">
 			<p>Materias (*)</p>
-			<select ng-options="c.id as c.nombre for c in materias" ng-model="guia.materia" ng-show="materias"></select>
+			<select ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias" ng-model="guia.materia" ng-show="materias"></select>
 
 			<span ng-hide="guia.carrera_id">Seleccione una carrera</span>
 		</div>
