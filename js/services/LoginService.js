@@ -3,7 +3,7 @@
 		if (typeof $localStorage.user == 'undefined')
 			delete $localStorage.idle_time;
 
-		$localStorage.session_time = $localStorage.session_time ? $localStorage.session_time : 300;
+		$localStorage.session_time = 300;
 		$localStorage.idle_time = $localStorage.idle_time ? $localStorage.idle_time : 0;
 
 		window.onmousemove = function(){ $localStorage.idle_time = 0; };
