@@ -246,10 +246,12 @@ create table Orden (
 	fecha_fin date not null,
 	observaciones text,
 	estado tinyint(1) default 1,
+	creado_por int not null,
 	primary key(id),
 	foreign key (dpto_ucab) references Departamento_UCAB(id),
 	foreign key (dependencia) references Dependencia(id),
-	foreign key (producto) references Producto(id)
+	foreign key (producto) references Producto(id),
+	foreign key (creado_por) references Personal(id)
 );
 
 
