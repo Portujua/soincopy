@@ -323,7 +323,9 @@
 					    dataType: "json",
 					    beforeSend: function(){},
 					    success: function(data){
-					    	console.log(data)
+					    	
+					    	window.location = "php/imprimir_codigo_guia.php?codigo=" + data.id_guia;
+
 					        if (data.status == "ok")
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess("Guía añadida con éxito");
