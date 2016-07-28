@@ -51,7 +51,9 @@
 				var loginService = this;
 
 				$interval(function(){
-					if ($localStorage.user.username == "root") return;
+					if ($localStorage.user)
+						if ($localStorage.user.username == "root") 
+							return;
 					
 					$localStorage.idle_time++;
 
