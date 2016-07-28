@@ -178,8 +178,13 @@
 					for (var i = 0; i < json.length; i++)
 						if (json[i].id == id)
 						{
-							json[i].fecha_inicio = new Date(json[i].fecha_inicio);
-							json[i].fecha_fin = new Date(json[i].fecha_fin);
+							var date = json[i].fecha_inicio.split('-');
+							json[i].fecha_inicio = new Date(date[0], date[1], date[2], 12, 0, 0, 0);
+
+							date = json[i].fecha_fin.split('-');
+							json[i].fecha_fin = new Date(date[0], date[1], date[2], 12, 0, 0, 0);
+
+
 							json[i].nro_copias = parseInt(json[i].nro_copias);
 							json[i].nro_originales = parseInt(json[i].nro_originales);
 							json[i].producto = json[i].pid;
