@@ -98,37 +98,3 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("eliminar_p
 
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "root", "root21115476*");
-
-
-insert into Permiso_Asignado (permiso, usuario) values (1, 1);
-insert into Permiso_Asignado (permiso, usuario) values (2, 1);
-insert into Permiso_Asignado (permiso, usuario) values (3, 1);
-insert into Permiso_Asignado (permiso, usuario) values (4, 1);
-insert into Permiso_Asignado (permiso, usuario) values (5, 1);
-insert into Permiso_Asignado (permiso, usuario) values (6, 1);
-insert into Permiso_Asignado (permiso, usuario) values (7, 1);
-insert into Permiso_Asignado (permiso, usuario) values (8, 1);
-insert into Permiso_Asignado (permiso, usuario) values (9, 1);
-insert into Permiso_Asignado (permiso, usuario) values (10, 1);
-insert into Permiso_Asignado (permiso, usuario) values (11, 1);
-insert into Permiso_Asignado (permiso, usuario) values (12, 1);
-insert into Permiso_Asignado (permiso, usuario) values (13, 1);
-insert into Permiso_Asignado (permiso, usuario) values (14, 1);
-insert into Permiso_Asignado (permiso, usuario) values (15, 1);
-insert into Permiso_Asignado (permiso, usuario) values (16, 1);
-insert into Permiso_Asignado (permiso, usuario) values (17, 1);
-insert into Permiso_Asignado (permiso, usuario) values (18, 1);
-insert into Permiso_Asignado (permiso, usuario) values (19, 1);
-insert into Permiso_Asignado (permiso, usuario) values (20, 1);
-insert into Permiso_Asignado (permiso, usuario) values (21, 1);
-insert into Permiso_Asignado (permiso, usuario) values (22, 1);
-insert into Permiso_Asignado (permiso, usuario) values (23, 1);
-insert into Permiso_Asignado (permiso, usuario) values (24, 1);
-insert into Permiso_Asignado (permiso, usuario) values (25, 1);
-insert into Permiso_Asignado (permiso, usuario) values (26, 1);
-insert into Permiso_Asignado (permiso, usuario) values (27, 1);
-insert into Permiso_Asignado (permiso, usuario) values (28, 1);
-insert into Permiso_Asignado (permiso, usuario) values (29, 1);
-insert into Permiso_Asignado (permiso, usuario) values (30, 1);
-insert into Permiso_Asignado (permiso, usuario) values (31, 1);
-insert into Permiso_Asignado (permiso, usuario) values (32, 1);

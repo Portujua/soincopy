@@ -90,50 +90,70 @@
 			menuGuias: function(){
 				if (!this.isLoggedIn()) return false;
 
+				if ($localStorage.user.username == "root") return true;
+
 				return $localStorage.user.anadir_guias || $localStorage.user.buscar_guias || $localStorage.user.modificar_guias;
 			},
 			menuOrdenes: function(){
 				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
 
 				return $localStorage.user.anadir_orden || $localStorage.user.ver_ordenes_web;
 			},
 			menuPensum: function(){
 				if (!this.isLoggedIn()) return false;
 
+				if ($localStorage.user.username == "root") return true;
+
 				return $localStorage.user.plandeestudios_agregar || $localStorage.user.plandeestudios_buscar || $localStorage.user.plandeestudios_modificar;
 			},
 			menuAdminPersonal: function(){
 				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
 
 				return $localStorage.user.personal_ver || $localStorage.user.personal_agregar || $localStorage.user.personal_editar || $localStorage.user.personal_deshabilitar;
 			},
 			menuAdminProfesores: function(){
 				if (!this.isLoggedIn()) return false;
 
+				if ($localStorage.user.username == "root") return true;
+
 				return $localStorage.user.profesores_agregar || $localStorage.user.profesores_editar || $localStorage.user.profesores_deshabilitar;
 			},
 			menuAdminCarreras: function(){
 				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
 
 				return $localStorage.user.carreras_agregar || $localStorage.user.carreras_editar || $localStorage.user.carreras_deshabilitar;
 			},
 			menuAdminMaterias: function(){
 				if (!this.isLoggedIn()) return false;
 
+				if ($localStorage.user.username == "root") return true;
+
 				return $localStorage.user.materias_agregar || $localStorage.user.materias_editar || $localStorage.user.materias_deshabilitar;
 			},
 			menuAdminDepartamentosUCAB: function(){
 				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
 
 				return $localStorage.user.dptoucab_agregar || $localStorage.user.dptoucab_editar || $localStorage.user.dptoucab_deshabilitar;
 			},
 			menuAdminDependencias: function(){
 				if (!this.isLoggedIn()) return false;
 
+				if ($localStorage.user.username == "root") return true;
+
 				return $localStorage.user.dependencias_agregar || $localStorage.user.dependencias_editar || $localStorage.user.dependencias_deshabilitar;
 			},
 			menuAdmin: function(){
 				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
 
 				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias();
 			},
