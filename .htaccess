@@ -45,3 +45,6 @@ RewriteRule ^api/menciones/(.+)$ /soincopy/php/run.php?fn=cargar_menciones_de&ci
 RewriteRule ^api/periodos/(.+)$ /soincopy/php/run.php?fn=cargar_periodos&cid=$1 [QSA,L]
 RewriteRule ^api/profesor/(.+)$ /soincopy/php/run.php?fn=cargar_profesor&id=$1 [QSA,L]
 RewriteRule ^api/productos/(.+)$ /soincopy/php/run.php?fn=cargar_productos&did=$1 [QSA,L]
+
+RewriteRule ^api/check/orden/(.+)$ /soincopy/php/run.php?fn=check_nro_orden&nro=$1 [QSA,L]
+RewriteRule ^api/check/usuario/(.+)$ /soincopy/php/run.php?fn=check_usuario&username=$1 [QSA,L]

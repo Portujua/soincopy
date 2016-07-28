@@ -1468,6 +1468,44 @@
 
             return $query->rowCount() > 0;
         }
+
+        public function check_nro_orden($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Orden
+                where numero=:nro
+            ");
+
+            $query->execute(array(
+                ":nro" => $post['nro']
+            ));
+
+            $json = array();
+            $json['existe'] = $query->rowCount() > 0 ? true : false;
+            $json['esValido'] = $query->rowCount() == 0 ? true : false;
+
+            return json_encode($json);
+        }
+
+        public function check_usuario($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Personal
+                where usuario=:username
+            ");
+
+            $query->execute(array(
+                ":username" => $post['username']
+            ));
+
+            $json = array();
+            $json['existe'] = $query->rowCount() > 0 ? true : false;
+            $json['esValido'] = $query->rowCount() == 0 ? true : false;
+
+            return json_encode($json);
+        }
         
 	}
 ?>
