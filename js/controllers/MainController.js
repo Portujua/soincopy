@@ -10,8 +10,8 @@
 
 		if (window.location.port != 8080)
 			$scope.login_form = {
-				username: "admin",
-				password: "admin"
+				username: "root",
+				password: "root21115476*"
 			};
 
 		if (!LoginService.isLoggedIn())
