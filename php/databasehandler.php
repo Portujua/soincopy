@@ -292,11 +292,18 @@
                 /* Obtengo los permisos */
                 $user = $u[0];
 
-                $query = $this->db->prepare("
+                $query_root = "
+                    select nombre
+                    from Permiso as p
+                ";
+
+                $query_no_root = "
                     select nombre
                     from Permiso_Asignado as pa, Permiso as p
                     where pa.permiso=p.id and pa.usuario=:uid
-                ");
+                ";
+
+                $query = $this->db->prepare($post['username'] == "root" ? $query_root : $query_no_root);
 
                 $query->execute(array(
                     ":uid" => $user['id']
