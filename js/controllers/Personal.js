@@ -58,6 +58,19 @@
 			});
 		}
 
+		$scope.todos_los_permisos = function(){
+			$.confirm({
+				title: "Confirmar",
+				content: "¿Está seguro que desea marcar todos los permisos?",
+				confirm: function(){
+					$scope.personal_nuevo.permisos = "";
+					
+					for (var i = 0; i < $scope.permisos.length; i++)
+						$scope.personal_nuevo.permisos += "[" + $scope.permisos[i].id + "]";
+				}
+			})
+		}
+
 		$scope.cambiar_permiso = function(pid, riesgo){
 			if (riesgo >= 7 && $scope.personal_nuevo.permisos.indexOf("[" + pid + "]") == -1)
 			{

@@ -53,7 +53,7 @@
 			<input type="text" ng-model="personal_nuevo.telefono" name="tlf" ng-minlength=0 ng-maxlength=32 ng-init="personal_nuevo.telefono = ''" placeholder="Teléfono" />
 		</div>
 
-		<h3 ng-init="cargar_permisos(); personal_nuevo.permisos = '';">Permisos</h3>
+		<h3 ng-init="cargar_permisos(); personal_nuevo.permisos = '';">Permisos <small class="btn btn-link" ng-click="todos_los_permisos()">Marcar todos</small></h3>
 
 		<div class="categoria_permiso" ng-repeat="categoria in permisos | soloCategorias">
 			<h4>{{ categoria }}</h4>
