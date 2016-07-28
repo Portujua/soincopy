@@ -87,7 +87,7 @@ insert into Permiso (nombre, descripcion) values ("eliminar_pdf_guias", "Podrá 
 
 
 
-insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "admin", "admin");
+insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "root", "root21115476*");
 
 
 insert into Permiso_Asignado (permiso, usuario) values (1, 1);
