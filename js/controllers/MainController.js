@@ -16,6 +16,8 @@
 
 		if (!LoginService.isLoggedIn())
 			$location.path("/login");
+		else
+			$location.path("/inicio");
 
 		LoginService.startTimer();
 
