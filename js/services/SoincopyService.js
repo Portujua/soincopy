@@ -169,7 +169,6 @@
 			getOrdenes: function(s){
 				$http.get("api/ordenes").then(function(obj){
 					s.ordenes = obj.data;
-					console.log(obj.data)
 				});
 			},
 			getOrden: function(s, id){
