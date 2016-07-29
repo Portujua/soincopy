@@ -1436,23 +1436,26 @@
             $uid = $this->db->lastInsertId();
 
             // Añado los permisos
-            $permisos = explode("]", $post['permisos']);
-
-            foreach ($permisos as $p_)
+            if (isset($post['permisos']))
             {
-                $p = str_replace("[", "", $p_);
+                $permisos = explode("]", $post['permisos']);
 
-                if (strlen($p) == 0) continue;
+                foreach ($permisos as $p_)
+                {
+                    $p = str_replace("[", "", $p_);
 
-                $query = $this->db->prepare("
-                    insert into Permiso_Asignado (permiso, usuario)
-                    values (:pid, :uid)
-                ");
+                    if (strlen($p) == 0) continue;
 
-                $query->execute(array(
-                    ":pid" => $p,
-                    ":uid" => $uid
-                ));
+                    $query = $this->db->prepare("
+                        insert into Permiso_Asignado (permiso, usuario)
+                        values (:pid, :uid)
+                    ");
+
+                    $query->execute(array(
+                        ":pid" => $p,
+                        ":uid" => $uid
+                    ));
+                }
             }
 
             return "ok";

@@ -1,5 +1,5 @@
 (function(){
-	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -11,6 +11,8 @@
 		       this.$apply(fn);
 		    }
 		};
+
+		$scope.loginService = LoginService;
 
 		$scope.cargar_datos_personal = function(id){
 			$.ajax({
