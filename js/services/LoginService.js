@@ -170,19 +170,19 @@
 
 				return $localStorage.user.dependencias_agregar || $localStorage.user.dependencias_editar || $localStorage.user.dependencias_deshabilitar;
 			},
-			menuAdminClientes: function(){
+			menuAdminCuentaAbiertas: function(){
 				if (!this.isLoggedIn()) return false;
 
 				if ($localStorage.user.username == "root") return true;
 
-				return $localStorage.user.clientes_agregar || $localStorage.user.clientes_editar || $localStorage.user.clientes_deshabilitar;
+				return $localStorage.user.cuentaabiertas_agregar || $localStorage.user.cuentaabiertas_editar || $localStorage.user.cuentaabiertas_deshabilitar;
 			},
 			menuAdmin: function(){
 				if (!this.isLoggedIn()) return false;
 
 				if ($localStorage.user.username == "root") return true;
 
-				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminClientes();
+				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminCuentaAbiertas();
 			},
 			permisos: function(){
 				if (!this.isLoggedIn()) return false;

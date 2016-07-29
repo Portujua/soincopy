@@ -146,22 +146,25 @@
 
 
 
-			getClientes: function(s){
-				$http.get("api/clientes").then(function(obj){
-					s.clientes = obj.data;
+			getCuentaAbiertas: function(s){
+				$http.get("api/cuentaabiertas").then(function(obj){
+					s.cuentaabiertas = obj.data;
 				});
 			},
-			getCliente: function(s, id){
-				$http.get("api/clientes").then(function(obj){
+			getCuentaAbierta: function(s, id){
+				$http.get("api/cuentaabiertas").then(function(obj){
 					var json = obj.data;
 
 					for (var i = 0; i < json.length; i++)
 						if (json[i].id == id)
 						{
-							var date = json[i].vence.split('-');
-							json[i].vence = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]), 12, 0, 0, 0);
+							if (json[i].vence)
+							{
+								var date = json[i].vence.split('-');
+								json[i].vence = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]), 12, 0, 0, 0);
+							}
 
-							s.cliente = json[i];
+							s.cuentaabierta = json[i];
 							return;
 						}
 				});

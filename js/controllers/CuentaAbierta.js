@@ -1,5 +1,5 @@
 (function(){
-	var Cliente = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var CuentaAbierta = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -14,29 +14,29 @@
 
 		$scope.editar = $routeParams.id;
 
-		SoincopyService.getClientes($scope);
+		SoincopyService.getCuentaAbiertas($scope);
 
-		$scope.cargar_cliente = function(id){
-			SoincopyService.getCliente($scope, id);
+		$scope.cargar_cuentaabierta = function(id){
+			SoincopyService.getCuentaAbierta($scope, id);
 		}
 
-		$scope.registrar_cliente = function(){
+		$scope.registrar_cuentaabierta = function(){
 			$.confirm({
 				title: 'Confirmar acción',
-				content: '¿Está seguro que desea añadir el cliente <strong>' + $scope.cliente.nombre + '</strong>?',
+				content: '¿Está seguro que desea añadir la cuenta abierta <strong>' + $scope.cuentaabierta.nombre + '</strong>?',
 				confirm: function(){
-					var post = $scope.cliente;
+					var post = $scope.cuentaabierta;
 
 					if (post.vence)
 						post.vence_ = post.vence.toJSON().slice(0,10);
 
-					var fn = "agregar_cliente";
-					var msg = "Cliente añadido con éxito";
+					var fn = "agregar_cuentaabierta";
+					var msg = "Cuenta abierta añadido con éxito";
 
 					if ($routeParams.id)
 					{
-						fn = "editar_cliente";
-						msg = "Cliente modificado con éxito";
+						fn = "editar_cuentaabierta";
+						msg = "Cuenta abierta modificado con éxito";
 					}
 
 					$.ajax({
@@ -46,7 +46,7 @@
 					    beforeSend: function(){},
 					    success: function(data){
 				        	$scope.safeApply(function(){
-				        		$location.path("/clientes");
+				        		$location.path("/cuentaabiertas");
 				        		AlertService.showSuccess(msg);
 				        	})
 					    }
@@ -58,13 +58,13 @@
 
 		$scope.cambiar_estado = function(id, estado){
 			$.ajax({
-			    url: "php/run.php?fn=cambiar_estado_cliente",
+			    url: "php/run.php?fn=cambiar_estado_cuentaabierta",
 			    type: "POST",
 			    data: {id:id, estado:estado},
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	SoincopyService.getClientes($scope);
+			        	SoincopyService.getCuentaAbiertas($scope);
 			        })
 			    }
 			});
@@ -72,9 +72,9 @@
 
 		if ($routeParams.id)
 		{
-			$scope.cargar_cliente($routeParams.id);
+			$scope.cargar_cuentaabierta($routeParams.id);
 		}
 	};
 
-	angular.module("soincopy").controller("Cliente", Cliente);
+	angular.module("soincopy").controller("CuentaAbierta", CuentaAbierta);
 }());

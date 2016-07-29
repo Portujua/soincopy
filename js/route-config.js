@@ -105,14 +105,14 @@
 
 
 
-			.when("/clientes", {
-				templateUrl : "views/admin/clientes/clientes.html"
+			.when("/cuentaabiertas", {
+				templateUrl : "views/admin/cuentaabiertas/cuentaabiertas.html"
 			})
-			.when("/clientes/agregar", {
-				templateUrl : "views/admin/clientes/agregar.html"
+			.when("/cuentaabiertas/agregar", {
+				templateUrl : "views/admin/cuentaabiertas/agregar.html"
 			})
-			.when("/clientes/editar/:id", {
-				templateUrl : "views/admin/clientes/agregar.html"
+			.when("/cuentaabiertas/editar/:id", {
+				templateUrl : "views/admin/cuentaabiertas/agregar.html"
 			})
 
 

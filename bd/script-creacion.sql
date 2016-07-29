@@ -233,7 +233,7 @@ create table Departamento_UCAB (
 	primary key(id)
 );
 
-create table Cliente (
+create table CuentaAbierta (
 	id int not null auto_increment,
 	nombre varchar(128) not null,
 	vence date,
@@ -267,7 +267,7 @@ create table Orden (
 	foreign key (dpto_ucab) references Departamento_UCAB(id),
 	foreign key (dependencia) references Dependencia(id),
 	foreign key (creado_por) references Personal(id),
-	foreign key (destino) references Cliente(id),
+	foreign key (destino) references CuentaAbierta(id),
 	foreign key (cond_pago) references Condicion_Pago(id)
 );
 

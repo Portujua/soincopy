@@ -1,16 +1,16 @@
-<form class="agregar agregar_cliente" ng-controller="Cliente" ng-submit="registrar_cliente()">
+<form class="agregar agregar_cuentaabierta" ng-controller="CuentaAbierta" ng-submit="registrar_cuentaabierta()">
 	<div class="register-form">
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
 			<p>Nombre (*)</p>
-			<input type="text" ng-model="cliente.nombre" required ng-maxlength=128 ng-minlength=1 />
+			<input type="text" ng-model="cuentaabierta.nombre" required ng-maxlength=128 ng-minlength=1 />
 		</div>
 
 		<div class="fila">
 			<p>Fecha vencimiento</p>
 
-			<input type="date" name="vence" ng-model="cliente.vence" />
+			<input type="date" name="vence" ng-model="cuentaabierta.vence" />
 		</div>
 
 		<div class="fila text-center">

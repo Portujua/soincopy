@@ -38,7 +38,7 @@
 		<div class="fila">
 			<p>Cliente (*)</p>
 
-			<select ng-model="orden.destino" name="destino" ng-options="c.id as c.nombre for c in clientes | quitarDeshabilitados" ng-minlength=1 required></select>
+			<select ng-model="orden.destino" name="destino" ng-options="c.id as c.nombre for c in cuentaabiertas | quitarDeshabilitados" ng-minlength=1 required></select>
 		</div>
 
 		<div class="fila">

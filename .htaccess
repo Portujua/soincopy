@@ -38,7 +38,7 @@ RewriteRule ^api/ordenes$ /soincopy/php/run.php?fn=cargar_ordenes [QSA,L]
 RewriteRule ^api/guias/web$ /soincopy/php/run.php?fn=cargar_guias_web [QSA,L]
 RewriteRule ^api/planesDeEstudio$ /soincopy/php/run.php?fn=cargar_planes_de_estudio [QSA,L]
 RewriteRule ^api/condicionesdepago$ /soincopy/php/run.php?fn=cargar_condiciones_pago [QSA,L]
-RewriteRule ^api/clientes$ /soincopy/php/run.php?fn=cargar_clientes [QSA,L]
+RewriteRule ^api/cuentaabiertas$ /soincopy/php/run.php?fn=cargar_cuentaabiertas [QSA,L]
 
 RewriteRule ^api/guias/(.+)$ /soincopy/php/run.php?fn=cargar_guias&status=$1 [QSA,L]
 RewriteRule ^api/guia/(.+)$ /soincopy/php/run.php?fn=cargar_guia&codigo=$1 [QSA,L]

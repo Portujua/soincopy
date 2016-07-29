@@ -466,11 +466,11 @@
             return json_encode($query->fetchAll());
         }
 
-        public function cargar_clientes($post)
+        public function cargar_cuentaabiertas($post)
         {
             $query = $this->db->prepare("
                 select id, nombre, vence, estado, (case when vence is not null then date_format(vence, '%d/%m/%Y') else 'Nunca' end) as vence_el, (case when vence is not null then (curdate() > vence) else 0 end) as vencido
-                from Cliente
+                from CuentaAbierta
                 order by id asc
             ");
 
@@ -536,8 +536,8 @@
         public function cargar_ordenes($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin and curdate()>o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, o.procesada as procesada, c.nombre as cliente, c.id as destino, cp.nombre as condicion, cp.id as cond_pago
-                from Orden as o, Departamento_UCAB as du, Dependencia as d, Cliente as c, Condicion_Pago as cp
+                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin and curdate()>o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, o.procesada as procesada, c.nombre as cuentaabierta, c.id as destino, cp.nombre as condicion, cp.id as cond_pago
+                from Orden as o, Departamento_UCAB as du, Dependencia as d, CuentaAbierta as c, Condicion_Pago as cp
                 where o.dpto_ucab=du.id and o.dependencia=d.id and o.destino=c.id and o.cond_pago=cp.id
                 order by o.id desc
             ");
@@ -626,10 +626,10 @@
             ));
         }
 
-        public function cambiar_estado_cliente($post)
+        public function cambiar_estado_cuentaabierta($post)
         {
             $query = $this->db->prepare("
-                update Cliente set estado=:estado where id=:id
+                update CuentaAbierta set estado=:estado where id=:id
             ");
 
             $query->execute(array(
@@ -1289,10 +1289,10 @@
             return "ok";
         }
 
-        public function agregar_cliente($post)
+        public function agregar_cuentaabierta($post)
         {
             $query = $this->db->prepare("
-                insert into Cliente (nombre, vence)
+                insert into CuentaAbierta (nombre, vence)
                 values (:nombre, :vence)
             ");
 
@@ -1337,10 +1337,10 @@
             return "ok";
         }
 
-        public function editar_cliente($post)
+        public function editar_cuentaabierta($post)
         {
             $query = $this->db->prepare("
-                update Cliente set 
+                update CuentaAbierta set 
                     nombre=:nombre, 
                     vence=:vence
                 where id=:id
