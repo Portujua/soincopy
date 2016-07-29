@@ -75,6 +75,14 @@
 		}
 
 		$scope.actualizar_costo_unitario = function(index){
+			if (!$scope.productos)
+			{
+				$timeout(function(){
+					$scope.actualizar_costo_unitario(index);
+				}, 200);
+				return;
+			}
+
 			for (var i = 0; i < $scope.productos.length; i++)
 				if ($scope.productos[i].id == $scope.orden.productos[index].producto)
 					$scope.orden.productos[index].costo_unitario = parseFloat($scope.productos[i].costo_unitario);
