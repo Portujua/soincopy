@@ -74,6 +74,30 @@
 			});
 		}
 
+		$scope.actualizar_costo_unitario = function(index){
+			for (var i = 0; i < $scope.productos.length; i++)
+				if ($scope.productos[i].id == $scope.orden.productos[index].producto)
+					$scope.orden.productos[index].costo_unitario = parseFloat($scope.productos[i].costo_unitario);
+		}
+
+		$scope.anadir_producto = function(){
+			$scope.orden.productos.push({
+				nro_copias: 1,
+				nro_originales: 1,
+				costo_unitario: 0
+			})
+		}
+
+		$scope.eliminar_producto = function(index){
+			var aux = [];
+
+			for (var i = 0; i < $scope.orden.productos.length; i++)
+				if (i != index)
+					aux.push($scope.orden.productos[i]);
+
+			$scope.orden.productos = aux;
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_orden($routeParams.id);

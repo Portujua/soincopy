@@ -33,23 +33,7 @@
 		</div>
 
 		<div class="fila">
-			<p>Nro. Copias (*)</p>
-			<input type="number" string-to-number ng-model="orden.nro_copias" name="nro_copias" ng-minlength=1 required />
-		</div>
-
-		<div class="fila">
-			<p>Nro. Originales (*)</p>
-			<input type="number" string-to-number name="nro_originales" ng-model="orden.nro_originales" ng-minlength=1 required />
-		</div>
-
-		<div class="fila">
-			<p>Producto</p>
-
-			<select ng-model="orden.producto" ng-init="orden.producto = orden.pid;" ng-options="p.id as p.nombre for p in productos" name="producto" ng-minlength=1 required></select>
-		</div>
-
-		<div class="fila">
-			<p>Para destinarlo a</p>
+			<p>Para destinarlo a (*)</p>
 
 			<select ng-model="orden.destino" name="destino" ng-minlength=1 required>
 				<option>----- NO APLICA -----</option>
@@ -59,13 +43,13 @@
 		</div>
 
 		<div class="fila">
-			<p>Fecha inicio</p>
+			<p>Fecha inicio (*)</p>
 
 			<input type="date" name="fecha_inicio" ng-model="orden.fecha_inicio" required />
 		</div>
 
 		<div class="fila">
-			<p>Fecha fin</p>
+			<p>Fecha fin (*)</p>
 
 			<input type="date" ng-min="orden.fecha_inicio" name="fecha_fin" ng-model="orden.fecha_fin" required />
 		</div>
@@ -74,6 +58,43 @@
 			<p>Observaciones</p>
 			<textarea name="observaciones" ng-model="orden.observaciones"></textarea>
 		</div>
+
+		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small></h2>
+
+		<table class="table table-stripped" ng-init="orden.productos = orden.productos ? orden.productos : [];">
+			<thead>
+				<th>&nbsp;</th>
+				<th>Producto (*)</th>
+				<th># Copias (*)</th>
+				<th># Originales (*)</th>
+				<th>Cantidad</th>
+				<th>Costo unitario</th>
+				<th>Costo total</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="p in orden.productos">
+					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
+					<td>
+						<select name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
+					</td>
+					<td>
+						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="orden.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 />
+					</td>
+					<td>
+						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="orden.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 />
+					</td>
+					<td>
+						{{ orden.productos[$index].nro_copias * orden.productos[$index].nro_originales }}
+					</td>
+					<td ng-init="actualizar_costo_unitario($index)">
+						{{ orden.productos[$index].costo_unitario | currency:'Bs. ' }}
+					</td>
+					<td>
+						{{ (orden.productos[$index].costo_unitario * (orden.productos[$index].nro_copias * orden.productos[$index].nro_originales)) | currency:'Bs. ' }}
+					</td>
+				</tr>
+			</tbody>
+		</table>
 
 		<div class="fila text-center">
 			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid">Añadir</button>

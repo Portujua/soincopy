@@ -241,6 +241,7 @@ create table Orden (
 	destino varchar(128) not null,
 	fecha_inicio date not null,
 	fecha_fin date not null,
+	fecha_anadida datetime not null,
 	observaciones text,
 	estado tinyint(1) default 1,
 	creado_por int not null,
@@ -261,6 +262,15 @@ create table Orden_Producto (
 	precio_total float not null,
 	primary key(id),
 	foreign key (orden) references Orden(id),
+	foreign key (producto) references Producto(id)
+);
+
+create table Producto_Costo (
+	id int not null auto_increment,
+	producto int not null,
+	costo float not null,
+	fecha datetime not null,
+	primary key(id),
 	foreign key (producto) references Producto(id)
 );
 

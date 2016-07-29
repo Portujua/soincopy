@@ -169,6 +169,7 @@
 			getOrdenes: function(s){
 				$http.get("api/ordenes").then(function(obj){
 					s.ordenes = obj.data;
+					console.log(obj.data)
 				});
 			},
 			getOrden: function(s, id){
@@ -184,11 +185,14 @@
 							date = json[i].fecha_fin.split('-');
 							json[i].fecha_fin = new Date(date[0], date[1], date[2], 12, 0, 0, 0);
 
-
-							json[i].nro_copias = parseInt(json[i].nro_copias);
-							json[i].nro_originales = parseInt(json[i].nro_originales);
-							json[i].producto = json[i].pid;
 							json[i].dependencia = json[i].did;
+
+							for (var k = 0; k < json[i].productos.length; k++)
+							{
+								json[i].productos[k].nro_copias = parseInt(json[i].productos[k].copias);
+								json[i].productos[k].nro_originales = parseInt(json[i].productos[k].originales);
+							}
+
 							s.orden = json[i];
 							return;
 						}
