@@ -1,6 +1,7 @@
 <form class="login" ng-submit="login()">
 	<p class="login_alert hidden">Usuario o contraseña incorrecta</p>
 
+	<!-- Campos de mentira para engañar a chrome y que no haga el autofill -->
 	<input type="text" name="prevent_autofill" id="prevent_autofill" value="" style="display:none;" />
 	<input type="password" name="password_fake" id="password_fake" value="" style="display:none;" />
 
