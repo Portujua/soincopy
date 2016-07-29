@@ -100,3 +100,11 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("eliminar_p
 
 
 insert into Personal (nombre, apellido, usuario, contrasena) values ("Administrador", "SoinCopy", "root", "root21115476*");
+
+insert into Condicion_Pago (nombre) values ("Crédito");
+insert into Condicion_Pago (nombre) values ("Débito");
+insert into Condicion_Pago (nombre) values ("Cheque");
+insert into Condicion_Pago (nombre) values ("Efectivo");
+insert into Condicion_Pago (nombre) values ("Transferencia");
+
+insert into Cliente (nombre) values ("UCAB");

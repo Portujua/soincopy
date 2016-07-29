@@ -233,12 +233,27 @@ create table Departamento_UCAB (
 	primary key(id)
 );
 
+create table Cliente (
+	id int not null auto_increment,
+	nombre varchar(128) not null,
+	vence date,
+	estado tinyint(1) default 1,
+	primary key(id)
+);
+
+create table Condicion_Pago (
+	id int not null auto_increment,
+	nombre varchar(32) not null,
+	estado tinyint(1) default 1,
+	primary key(id)
+);
+
 create table Orden (
 	id int not null auto_increment,
 	numero varchar(32) not null,
 	dpto_ucab int not null,
 	dependencia int not null,
-	destino varchar(128) not null,
+	destino int not null,
 	fecha_inicio date not null,
 	fecha_fin date not null,
 	fecha_anadida datetime not null,
@@ -247,10 +262,13 @@ create table Orden (
 	procesada tinyint(1) default 0,
 	estado tinyint(1) default 1,
 	creado_por int not null,
+	cond_pago int not null,
 	primary key(id),
 	foreign key (dpto_ucab) references Departamento_UCAB(id),
 	foreign key (dependencia) references Dependencia(id),
-	foreign key (creado_por) references Personal(id)
+	foreign key (creado_por) references Personal(id),
+	foreign key (destino) references Cliente(id),
+	foreign key (cond_pago) references Condicion_Pago(id)
 );
 
 create table Orden_Producto (
