@@ -28,12 +28,12 @@
 					var post = $scope.dependencia;
 
 					var fn = "agregar_dependencia";
-					var msg = "Departamento añadido con éxito";
+					var msg = "Dependencia añadido con éxito";
 
 					if ($routeParams.id)
 					{
 						fn = "editar_dependencia";
-						msg = "Departamento modificado con éxito";
+						msg = "Dependencia modificado con éxito";
 					}
 
 					$.ajax({
