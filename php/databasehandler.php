@@ -510,9 +510,9 @@
         public function cargar_ordenes($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin and curdate()>o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, o.procesada as procesada
-                from Orden as o, Departamento_UCAB as du, Dependencia as d
-                where o.dpto_ucab=du.id and o.dependencia=d.id
+                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin and curdate()>o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, o.procesada as procesada, c.nombre as cliente, c.id as destino, cp.nombre as condicion, cp.id as cond_pago
+                from Orden as o, Departamento_UCAB as du, Dependencia as d, Cliente as c, Condicion_Pago as cp
+                where o.dpto_ucab=du.id and o.dependencia=d.id and o.destino=c.id and o.cond_pago=cp.id
                 order by o.id desc
             ");
             $query->execute();
@@ -1107,8 +1107,8 @@
             @session_start();
 
             $query = $this->db->prepare("
-                insert into Orden (numero, dpto_ucab, dependencia, destino, fecha_inicio, fecha_fin, observaciones, creado_por, fecha_anadida, fecha_modificada)
-                values (:numero, :dpto_ucab, :dependencia, :destino, :fecha_inicio, :fecha_fin, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
+                insert into Orden (numero, dpto_ucab, dependencia, destino, fecha_inicio, fecha_fin, observaciones, creado_por, fecha_anadida, fecha_modificada, cond_pago)
+                values (:numero, :dpto_ucab, :dependencia, :destino, :fecha_inicio, :fecha_fin, :observaciones, (select id from Personal where usuario=:usuario), now(), now(), :cond_pago)
             ");
 
             $query->execute(array(
@@ -1116,6 +1116,7 @@
                 ":dpto_ucab" => $post['dpto_ucab'],
                 ":dependencia" => $post['dependencia'],
                 ":destino" => $post['destino'],
+                ":cond_pago" => $post['cond_pago'],
                 ":fecha_inicio" => $post['fecha_inicio_'],
                 ":fecha_fin" => $post['fecha_fin_'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
@@ -1160,6 +1161,7 @@
                     dpto_ucab=:dpto_ucab, 
                     dependencia=:dependencia,
                     destino=:destino, 
+                    cond_pago=:cond_pago, 
                     fecha_inicio=:fecha_inicio, 
                     fecha_fin=:fecha_fin, 
                     observaciones=:observaciones,
@@ -1172,6 +1174,7 @@
                 ":dpto_ucab" => $post['dpto_ucab'],
                 ":dependencia" => $post['dependencia'],
                 ":destino" => $post['destino'],
+                ":cond_pago" => $post['cond_pago'],
                 ":fecha_inicio" => $post['fecha_inicio_'],
                 ":fecha_fin" => $post['fecha_fin_'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
