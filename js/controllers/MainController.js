@@ -16,7 +16,7 @@
 
 		if (!LoginService.isLoggedIn())
 			$location.path("/login");
-		else
+		else if (window.location.hash.indexOf("login") != -1)
 			$location.path("/inicio");
 
 		LoginService.startTimer();
