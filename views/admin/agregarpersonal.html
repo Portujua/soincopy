@@ -4,7 +4,7 @@
 
 		<div class="fila">
 			<p>Usuario (*)</p>
-			<input type="text" ng-model="personal_nuevo.usuario" name="usuario" ng-minlength=5 ng-maxlength=32 placeholder="Usuario" required ng-model-options="{ updateOn: 'blur' }" unique-bd="usuario" />
+			<input type="text" ng-model="personal_nuevo.usuario" name="usuario" ng-minlength=5 ng-maxlength=32 placeholder="Usuario" required ng-model-options="{ updateOn: 'blur' }" unique-bd="usuario" autocomplete="off" />
 
 			<span ng-show="agregar.usuario.$error.minlength">El usuario debe contener al menos 5 caracteres</span>
 			<span ng-show="agregar.usuario.$error.maxlength">Nombre de usuario muy largo!</span>
@@ -13,7 +13,7 @@
 
 		<div class="fila">
 			<p>Contraseña (*)</p>
-			<input type="password" ng-model="personal_nuevo.contrasena" name="contrasena" ng-minlength=5 ng-maxlength=32 required placeholder="Contraseña" />
+			<input type="password" ng-model="personal_nuevo.contrasena" name="contrasena" ng-minlength=5 ng-maxlength=32 required placeholder="Contraseña" autocomplete="new-password" />
 
 			<span ng-show="agregar.contrasena.$error.minlength">La contraseña debe contener al menos 5 caracteres</span>
 			<span ng-show="agregar.contrasena.$error.maxlength">Contraseña muy larga!</span>
