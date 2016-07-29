@@ -243,6 +243,7 @@ create table Orden (
 	fecha_fin date not null,
 	fecha_anadida datetime not null,
 	observaciones text,
+	procesada tinyint(1) default 0,
 	estado tinyint(1) default 1,
 	creado_por int not null,
 	primary key(id),
