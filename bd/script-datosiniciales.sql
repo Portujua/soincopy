@@ -112,6 +112,9 @@ insert into Cliente (nombre) values ("Soincopy");
 
 insert into Permiso_Categoria (nombre) values ("Clientes");
 
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_agregar", "Podrá añadir nuevos clientes al sistema", 3, 10);
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_editar", "Podrá editar cualquier información de un cliente disponible en el sistema", 3, 10);
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_deshabilitar", "Podrá habilitar y deshabilitar clientes disponibles en el sistema", 3, 10);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_agregar", "Podrá añadir nuevos clientes al sistema", 3, 11);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_editar", "Podrá editar cualquier información de un cliente disponible en el sistema", 3, 11);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_deshabilitar", "Podrá habilitar y deshabilitar clientes disponibles en el sistema", 3, 11);
+
+insert into Permiso_Categoria (nombre) values ("Permisos");
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("permisos_agregar", "Podrá asignar y quitar cualquier permiso a cualquier personal disponible en el sistema.", 10, 12);
