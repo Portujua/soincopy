@@ -88,11 +88,11 @@
 					</td>
 					<td ng-init="actualizar_costo_unitario($index)">
 						<strong>{{ orden.productos[$index].costo_unitario | currency:'Bs. ' }}</strong><br/>
-						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se creó la orden el {{ orden.fecha_anadida }}">{{ orden.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
+						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se creó la orden el {{ orden.fecha_anadida }} o cuando se modificó el {{ orden.fecha_modificada }}">{{ orden.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
 					</td>
 					<td>
 						<strong>{{ (orden.productos[$index].costo_unitario * (orden.productos[$index].nro_copias * orden.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong><br/>
-						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se creó la orden el {{ orden.fecha_anadida }}">{{ orden.productos[$index].costo_total_facturado | currency:'Bs. ' }}</small>
+						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se creó la orden el {{ orden.fecha_anadida }} o cuando se modificó el {{ orden.fecha_modificada }}">{{ orden.productos[$index].costo_total_facturado | currency:'Bs. ' }}</small>
 
 						<script> $('[data-toggle="tooltip"]').tooltip(); </script>
 					</td>
