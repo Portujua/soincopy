@@ -18,7 +18,7 @@
 			logout: function(){
 				$http.get("php/unset.php").then(function(){
 					delete $localStorage.user;
-					window.location.reload();
+					window.location.reload(true);
 				});
 			},
 			updateSessionTime: function(){
