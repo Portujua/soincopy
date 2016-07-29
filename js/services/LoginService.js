@@ -11,6 +11,8 @@
 
 		$localStorage.now_key = Math.random();
 
+		$localStorage.password_attempts = $localStorage.password_attempts ? $localStorage.password_attempts : 0;
+
 		return {
 			isLoggedIn: function(){
 				return typeof $localStorage.user != 'undefined';
@@ -18,6 +20,8 @@
 			logout: function(){
 				$http.get("php/unset.php").then(function(){
 					delete $localStorage.user;
+					delete $localStorage.password_attempts;
+					delete $localStorage.now_key;
 					window.location.reload(true);
 				});
 			},
@@ -67,19 +71,33 @@
 
 							$.confirm({
 								title: "Confirmar contraseña",
-								content: '<p>Has estado un tiempo inactivo o bien has refrescado la página, por favor introduce tu clave de nuevo para desbloquear el sistema.</p><div class="form-group"><input autofocus type="password" id="password" placeholder="Contraseña" class="form-control"></div>',
+								content: '<p>Has estado un tiempo inactivo o bien has refrescado la página, por favor introduce tu clave de nuevo para desbloquear el sistema.</p><div class="form-group"><input autofocus type="password" id="password" placeholder="Contraseña" class="form-control"></div><p>Tiene ' + (3 - $localStorage.password_attempts) + ' intentos restantes antes que sea expulsado del sistema</p>',
 								keyboardEnabled: true,
 								backgroundDismiss: false,
 								confirm: function(){
 									var pwd = this.$b.find("input").val();
 									
 									if (pwd != $localStorage.user.password)
-										loginService.logout();
+									{
+										if ($localStorage.password_attempts >= 3)
+											loginService.logout();
+										else
+										{
+											$localStorage.now_key = Math.random();
+											$localStorage.password_attempts++;
+										}
+									}
 									else
 										loginService.updateSessionTime();
 								},
 								cancel: function(){
-									loginService.logout();
+									if ($localStorage.password_attempts >= 3)
+										loginService.logout();
+									else
+									{
+										$localStorage.now_key = Math.random();
+										$localStorage.password_attempts++;
+									}
 								}
 							});
 						}
