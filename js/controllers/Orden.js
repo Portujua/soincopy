@@ -18,6 +18,8 @@
 		SoincopyService.getDependencias($scope);
 		SoincopyService.getDepartamentosUCAB($scope);
 		SoincopyService.getProductosOriginales($scope);
+		SoincopyService.getClientes($scope);
+		SoincopyService.getCondicionesPago($scope);
 
 		$scope.cargar_orden = function(id){
 			SoincopyService.getOrden($scope, id);

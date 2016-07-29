@@ -105,6 +105,18 @@
 
 
 
+			.when("/clientes", {
+				templateUrl : "views/admin/clientes/clientes.html"
+			})
+			.when("/clientes/agregar", {
+				templateUrl : "views/admin/clientes/agregar.html"
+			})
+			.when("/clientes/editar/:id", {
+				templateUrl : "views/admin/clientes/agregar.html"
+			})
+
+
+
 
 			.when("/menciones", {
 				templateUrl : "views/admin/menciones.html"

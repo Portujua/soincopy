@@ -108,3 +108,10 @@ insert into Condicion_Pago (nombre) values ("Efectivo");
 insert into Condicion_Pago (nombre) values ("Transferencia");
 
 insert into Cliente (nombre) values ("UCAB");
+insert into Cliente (nombre) values ("Soincopy");
+
+insert into Permiso_Categoria (nombre) values ("Clientes");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_agregar", "Podrá añadir nuevos clientes al sistema", 3, 10);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_editar", "Podrá editar cualquier información de un cliente disponible en el sistema", 3, 10);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_deshabilitar", "Podrá habilitar y deshabilitar clientes disponibles en el sistema", 3, 10);

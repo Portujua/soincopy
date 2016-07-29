@@ -453,6 +453,32 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_condiciones_pago($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Condicion_Pago
+                order by nombre asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
+        public function cargar_clientes($post)
+        {
+            $query = $this->db->prepare("
+                select id, nombre, vence, estado, (case when vence is not null then date_format(vence, '%d/%m/%Y') else 'Nunca' end) as vence_el, (case when vence is not null then (curdate() > vence) else 0 end) as vencido
+                from Cliente
+                order by id asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_productos($post)
         {
             $query = $this->db->prepare("
@@ -592,6 +618,18 @@
         {
             $query = $this->db->prepare("
                 update Dependencia set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_cliente($post)
+        {
+            $query = $this->db->prepare("
+                update Cliente set estado=:estado where id=:id
             ");
 
             $query->execute(array(
@@ -1126,29 +1164,30 @@
             $oid = $this->db->lastInsertId();
 
             /* Añado los productos */
-            foreach ($post['productos'] as $p)
-            {
-                $query = $this->db->prepare("
-                    insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
-                    values (
-                        :orden,
-                        :producto,
-                        :cantidad,
-                        :nro_copias,
-                        :nro_originales,
-                        (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
-                        (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
-                    )
-                ");
+            if (isset($post['productos']))
+                foreach ($post['productos'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                        values (
+                            :orden,
+                            :producto,
+                            :cantidad,
+                            :nro_copias,
+                            :nro_originales,
+                            (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
+                        )
+                    ");
 
-                $query->execute(array(
-                    ":orden" => $oid,
-                    ":producto" => $p['producto'],
-                    ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
-                    ":nro_copias" => intval($p['nro_copias']),
-                    ":nro_originales" => intval($p['nro_originales'])
-                ));
-            }
+                    $query->execute(array(
+                        ":orden" => $oid,
+                        ":producto" => $p['producto'],
+                        ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                        ":nro_copias" => intval($p['nro_copias']),
+                        ":nro_originales" => intval($p['nro_originales'])
+                    ));
+                }
 
             return "ok";
         }
@@ -1184,9 +1223,14 @@
             /* Veo si debo modificar los productos */
             $eliminar = false;
 
-            foreach ($post['productos'] as $p)
-                if (!isset($p['costo_unitario_facturado']))
-                    $eliminar = true;
+            if (isset($post['productos']))
+            {
+                foreach ($post['productos'] as $p)
+                    if (!isset($p['costo_unitario_facturado']))
+                        $eliminar = true;
+            }
+            else
+                $eliminar = true;
 
             if ($eliminar)
             {
@@ -1200,29 +1244,30 @@
                 ));
 
                 /* Añado los productos */
-                foreach ($post['productos'] as $p)
-                {
-                    $query = $this->db->prepare("
-                        insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
-                        values (
-                            :orden,
-                            :producto,
-                            :cantidad,
-                            :nro_copias,
-                            :nro_originales,
-                            (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
-                            (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
-                        )
-                    ");
+                if (isset($post['productos']))
+                    foreach ($post['productos'] as $p)
+                    {
+                        $query = $this->db->prepare("
+                            insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                            values (
+                                :orden,
+                                :producto,
+                                :cantidad,
+                                :nro_copias,
+                                :nro_originales,
+                                (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
+                                (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
+                            )
+                        ");
 
-                    $query->execute(array(
-                        ":orden" => $post['id'],
-                        ":producto" => $p['producto'],
-                        ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
-                        ":nro_copias" => intval($p['nro_copias']),
-                        ":nro_originales" => intval($p['nro_originales'])
-                    ));
-                }
+                        $query->execute(array(
+                            ":orden" => $post['id'],
+                            ":producto" => $p['producto'],
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":nro_copias" => intval($p['nro_copias']),
+                            ":nro_originales" => intval($p['nro_originales'])
+                        ));
+                    }
             }
 
             return "ok";
@@ -1239,6 +1284,21 @@
                 ":nombre" => $post['nombre'],
                 ":periodo" => $post['periodo'],
                 ":tipo" => $post['tipo']
+            ));
+
+            return "ok";
+        }
+
+        public function agregar_cliente($post)
+        {
+            $query = $this->db->prepare("
+                insert into Cliente (nombre, vence)
+                values (:nombre, :vence)
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":vence" => isset($post['vence_']) ? $post['vence_'] : null
             ));
 
             return "ok";
@@ -1271,6 +1331,24 @@
             $query->execute(array(
                 ":nombre" => $post['nombre'],
                 ":carrera" => $post['cid'],
+                ":id" => $post['id']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_cliente($post)
+        {
+            $query = $this->db->prepare("
+                update Cliente set 
+                    nombre=:nombre, 
+                    vence=:vence
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":vence" => isset($post['vence_']) ? $post['vence_'] : null,
                 ":id" => $post['id']
             ));
 

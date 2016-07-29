@@ -10,10 +10,13 @@
 		</div>
 
 		<div class="fila">
+			<p>Condición de pago (*)</p>
+			<select ng-model="orden.cond_pago" name="cond_pago" ng-options="c.id as c.nombre for c in condiciones_pago | quitarDeshabilitados" required ng-minlength=1></select>
+		</div>
+
+		<div class="fila">
 			<p>A servicio de (*)</p>
 			<select ng-model="orden.dpto_ucab" name="dpto_ucab" ng-options="c.id as c.nombre for c in departamentos | quitarDeshabilitados" required ng-minlength=1></select>
-
-
 		</div>
 
 		<div class="fila">
@@ -33,13 +36,9 @@
 		</div>
 
 		<div class="fila">
-			<p>Para destinarlo a (*)</p>
+			<p>Cliente (*)</p>
 
-			<select ng-model="orden.destino" name="destino" ng-minlength=1 required>
-				<option>----- NO APLICA -----</option>
-				<option>Operación del Dpto.</option>
-				<option>Cuenta abierta</option>
-			</select>
+			<select ng-model="orden.destino" name="destino" ng-options="c.id as c.nombre for c in clientes | quitarDeshabilitados" ng-minlength=1 required></select>
 		</div>
 
 		<div class="fila">

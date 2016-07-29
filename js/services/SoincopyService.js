@@ -144,6 +144,42 @@
 
 
 
+
+
+			getClientes: function(s){
+				$http.get("api/clientes").then(function(obj){
+					s.clientes = obj.data;
+				});
+			},
+			getCliente: function(s, id){
+				$http.get("api/clientes").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							var date = json[i].vence.split('-');
+							json[i].vence = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]), 12, 0, 0, 0);
+
+							s.cliente = json[i];
+							return;
+						}
+				});
+			},
+
+
+
+
+
+			getCondicionesPago: function(s){
+				$http.get("api/condicionesdepago").then(function(obj){
+					s.condiciones_pago = obj.data;
+				});
+			},
+
+
+
+
 			getDepartamentosUCAB: function(s){
 				$http.get("api/departamentos/ucab").then(function(obj){
 					s.departamentos = obj.data;
@@ -179,10 +215,10 @@
 						if (json[i].id == id)
 						{
 							var date = json[i].fecha_inicio.split('-');
-							json[i].fecha_inicio = new Date(date[0], date[1], date[2], 12, 0, 0, 0);
+							json[i].fecha_inicio = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);
 
 							date = json[i].fecha_fin.split('-');
-							json[i].fecha_fin = new Date(date[0], date[1], date[2], 12, 0, 0, 0);
+							json[i].fecha_fin = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);
 
 							json[i].dependencia = json[i].did;
 
