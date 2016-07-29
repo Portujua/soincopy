@@ -4,7 +4,7 @@
 
 		<div class="fila">
 			<p>Nro. de Orden (*)</p>
-			<input type="text" ng-model="orden.numero" name="numero" unique-bd="orden" ng-minlength=1 ng-maxlength=128 placeholder="Número de orden" ng-model-options="{ updateOn: 'blur' }" />
+			<input type="text" ng-model="orden.numero" name="numero" unique-bd="orden" ng-minlength=1 ng-maxlength=128 placeholder="Número de orden" ng-model-options="{ updateOn: 'blur' }" ng-disabled="editar" />
 
 			<span ng-show="agregar.numero.$error.unique && orden.numero.length > 0">Número de orden ya existente</span>
 		</div>
