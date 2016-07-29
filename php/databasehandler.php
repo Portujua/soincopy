@@ -510,7 +510,7 @@
         public function cargar_ordenes($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin and curdate()>o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total
+                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.destino as destino, o.fecha_inicio as fecha_inicio, o.fecha_fin as fecha_fin, o.observaciones as observaciones, o.estado as estado, (case when curdate() not between o.fecha_inicio and o.fecha_fin and curdate()>o.fecha_fin then 1 else 0 end) as expirada, concat(date_format(o.fecha_inicio, '%d/%m/%Y'), ' al ', date_format(o.fecha_fin, '%d/%m/%Y')) as fechas_str, du.id as dpto_ucab, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada
                 from Orden as o, Departamento_UCAB as du, Dependencia as d
                 where o.dpto_ucab=du.id and o.dependencia=d.id
                 order by o.id desc
@@ -524,7 +524,7 @@
                 $ordenes[$i]['productos'] = array();
 
                 $query = $this->db->prepare("
-                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id order by fecha desc limit 1) as costo_unitario
+                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado
                     from Orden_Producto as op, Producto as p
                     where op.producto=p.id
                     and op.orden=:orden
@@ -544,6 +544,8 @@
                     $nuevo['copias'] = $p['nro_copias'];
                     $nuevo['originales'] = $p['nro_originales'];
                     $nuevo['costo_unitario'] = $p['costo_unitario'];
+                    $nuevo['costo_unitario_facturado'] = $p['costo_unitario_facturado'];
+                    $nuevo['costo_total_facturado'] = $p['costo_total_facturado'];
 
                     $ordenes[$i]['productos'][] = $nuevo;
                 }
@@ -1175,38 +1177,48 @@
                 ":id" => $post['id']
             ));
 
-            /* Elimino los productos */
-            $query = $this->db->prepare("
-                delete from Orden_Producto where orden=:orden
-            ");
+            /* Veo si debo modificar los productos */
+            $eliminar = false;
 
-            $query->execute(array(
-                ":orden" => $post['id']
-            ));
-
-            /* Añado los productos */
             foreach ($post['productos'] as $p)
+                if (!isset($p['costo_unitario_facturado']))
+                    $eliminar = true;
+
+            if ($eliminar)
             {
+                /* Elimino los productos */
                 $query = $this->db->prepare("
-                    insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
-                    values (
-                        :orden,
-                        :producto,
-                        :cantidad,
-                        :nro_copias,
-                        :nro_originales,
-                        (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
-                        (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
-                    )
+                    delete from Orden_Producto where orden=:orden
                 ");
 
                 $query->execute(array(
-                    ":orden" => $post['id'],
-                    ":producto" => $p['producto'],
-                    ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
-                    ":nro_copias" => intval($p['nro_copias']),
-                    ":nro_originales" => intval($p['nro_originales'])
+                    ":orden" => $post['id']
                 ));
+
+                /* Añado los productos */
+                foreach ($post['productos'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                        values (
+                            :orden,
+                            :producto,
+                            :cantidad,
+                            :nro_copias,
+                            :nro_originales,
+                            (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
+                        )
+                    ");
+
+                    $query->execute(array(
+                        ":orden" => $post['id'],
+                        ":producto" => $p['producto'],
+                        ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                        ":nro_copias" => intval($p['nro_copias']),
+                        ":nro_originales" => intval($p['nro_originales'])
+                    ));
+                }
             }
 
             return "ok";
