@@ -547,6 +547,7 @@
 
             for ($i = 0; $i < count($ordenes); $i++)
             {
+                /* Productos */
                 $ordenes[$i]['productos'] = array();
 
                 $query = $this->db->prepare("
@@ -575,6 +576,33 @@
 
                     $ordenes[$i]['productos'][] = $nuevo;
                 }
+
+                /* Personas */
+                $ordenes[$i]['personas'] = array();
+
+                $query = $this->db->prepare("
+                    select id, nombre_completo, nombre_completo as nombre, cedula as cedula
+                    from Persona_Autorizada as p
+                    where p.orden=:orden
+                ");
+
+                $query->execute(array(
+                    ":orden" => $ordenes[$i]['id']
+                ));
+
+                $personas = $query->fetchAll();
+                $ordenes[$i]['personas'] = $personas;
+
+                /*foreach ($personas as $p)
+                {
+                    $nuevo = array();
+
+                    $nuevo['producto'] = $p['producto'];
+                    $nuevo['copias'] = $p['nro_copias'];
+                    $nuevo['originales'] = $p['nro_originales'];
+
+                    $ordenes[$i]['personas'][] = $nuevo;
+                }*/
             }
 
             return json_encode($ordenes);
@@ -1160,6 +1188,22 @@
 
             $oid = $this->db->lastInsertId();
 
+            /* Añado las personas autorizadas */
+            if (isset($post['personas']))
+                foreach ($post['personas'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Persona_Autorizada (orden, nombre_completo, cedula)
+                        values (:orden, :nombre, :cedula)
+                    ");
+
+                    $query->execute(array(
+                        ":orden" => $oid,
+                        ":nombre" => $p['nombre'],
+                        ":cedula" => $p['cedula']
+                    ));
+                }
+
             /* Añado los productos */
             if (isset($post['productos']))
                 foreach ($post['productos'] as $p)
@@ -1210,6 +1254,30 @@
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":id" => $post['id']
             ));
+
+            /* Elimino las personas */
+            $query = $this->db->prepare("
+                delete from Persona_Autorizada where orden=:orden
+            ");
+
+            $query->execute(array(
+                ":orden" => $post['id']
+            ));
+
+            if (isset($post['personas']))
+                foreach ($post['personas'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Persona_Autorizada (orden, nombre_completo, cedula)
+                        values (:orden, :nombre, :cedula)
+                    ");
+
+                    $query->execute(array(
+                        ":orden" => $post['id'],
+                        ":nombre" => $p['nombre'],
+                        ":cedula" => $p['cedula']
+                    ));
+                }
 
             /* Veo si debo modificar los productos */
             $eliminar = false;

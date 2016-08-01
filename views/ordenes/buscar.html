@@ -21,7 +21,7 @@
 				<th class="text-center">Dependencia</th>
 				<th class="text-center">Destino</th>
 				<th class="text-center">Costo total</th>
-				<!--<th class="text-center">Fecha</th>-->
+				<th class="text-center">Personas autorizadas</th>
 				<th class="text-center">Observaciones</th>
 			</thead>
 			<tbody>
@@ -53,7 +53,9 @@
 					<td class="text-center">{{ o.dependencia }}</td>
 					<td class="text-center">{{ o.cuentaabierta }}</td>
 					<td class="text-center">{{ o.costo_total | currency:'Bs. ' }}</td>
-					<!--<td class="text-center">{{ o.fechas_str }}</td>-->
+					<td class="text-center">
+						<p ng-repeat="p in o.personas">{{ p.nombre_completo }} C.I. {{ p.cedula }}</p>
+					</td>
 					<td class="text-center">{{ o.observaciones }}</td>
 				</tr>
 			</tbody>

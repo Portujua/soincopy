@@ -292,6 +292,15 @@ create table Producto_Costo (
 	foreign key (producto) references Producto(id)
 );
 
+create table Persona_Autorizada (
+	id int not null auto_increment,
+	nombre_completo varchar(256) not null,
+	cedula varchar(32) not null,
+	orden int not null,
+	primary key (id),
+	foreign key (orden) references Orden(id)
+);
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

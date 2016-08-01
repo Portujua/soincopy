@@ -109,11 +109,21 @@ h2 {
 			text-align: center;
 		}
 
-		input {
+		input[type=number] {
 			border: none;
 		    text-align: center;
 		    outline: none;
 		    width: 80px;
+
+		    &:hover {
+		    	background-color: #eee;
+		    }
+		}
+
+		input[type=text] {
+			border: 1px solid #ddd;
+			padding: 0px 7px;
+		    outline: none;
 
 		    &:hover {
 		    	background-color: #eee;

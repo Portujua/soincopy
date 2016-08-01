@@ -108,6 +108,23 @@
 			$scope.orden.productos = aux;
 		}
 
+		$scope.anadir_persona = function(){
+			$scope.orden.personas.push({
+				nombre: "",
+				cedula: ""
+			})
+		}
+
+		$scope.eliminar_persona = function(index){
+			var aux = [];
+
+			for (var i = 0; i < $scope.orden.personas.length; i++)
+				if (i != index)
+					aux.push($scope.orden.personas[i]);
+
+			$scope.orden.personas = aux;
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_orden($routeParams.id);
