@@ -217,11 +217,11 @@
 					for (var i = 0; i < json.length; i++)
 						if (json[i].id == id)
 						{
-							var date = json[i].fecha_inicio.split('-');
+							/*var date = json[i].fecha_inicio.split('-');
 							json[i].fecha_inicio = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);
 
 							date = json[i].fecha_fin.split('-');
-							json[i].fecha_fin = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);
+							json[i].fecha_fin = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);*/
 
 							json[i].dependencia = json[i].did;
 
