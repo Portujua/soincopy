@@ -13,15 +13,22 @@
 
 		$localStorage.password_attempts = $localStorage.password_attempts ? $localStorage.password_attempts : 0;
 
+		// Chequeo la sesion de PHP al entrar
+		$http.get("php/check_sesion.php").then(function(data){
+			if (data.data == "1" && $localStorage.user)
+			{
+				$localStorage.$reset();
+				window.location.reload(true);
+			}
+		});
+
 		return {
 			isLoggedIn: function(){
 				return typeof $localStorage.user != 'undefined';
 			},
 			logout: function(){
 				$http.get("php/unset.php").then(function(){
-					delete $localStorage.user;
-					delete $localStorage.password_attempts;
-					delete $localStorage.now_key;
+					$localStorage.$reset();
 					window.location.reload(true);
 				});
 			},
