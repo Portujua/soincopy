@@ -301,6 +301,23 @@ create table Persona_Autorizada (
 	foreign key (orden) references Orden(id)
 );
 
+create table Material (
+	id int not null auto_increment,
+	nombre varchar(32) not null,
+	estado tinyint(1) default 1,
+	primary key(id)
+);
+
+create table Stock (
+	id int not null auto_increment,
+	cantidad int not null,
+	fecha_anadido datetime,
+	costo float default 0,
+	material int not null,
+	primary key(id),
+	foreign key (material) references Material(id)
+);
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
