@@ -1,0 +1,47 @@
+<div class="seccion" ng-controller="Inventario">
+	<form class="agregar_stock" name="agregar" ng-submit="registrar_stock()" ng-if="loginService.getCurrentUser().inventario_agregar_stock">
+		<label for="cantidad">Cantidad (*)</label>
+		<input name="cantidad" id="cantidad" type="number" ng-model="material.nuevo_stock.cantidad" required ng-min=1 />
+
+		<label for="costo">Costo (*)</label>
+		<input name="costo" id="costo" type="number" ng-model="material.nuevo_stock.costo" required />
+
+		<button class="btn btn-link" type="submit" ng-disabled="agregar.$invalid">Agregar stock</button>
+	</form>
+
+	<hr/>
+
+	<h2>{{ material.nombre }}</h2>
+
+	<p>
+		Buscar stock <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" />
+	</p>
+
+	<table class="table table-stripped table-fixed-style">
+		<thead>
+			<th ng-show="loginService.getCurrentUser().inventario_eliminar_stock">&nbsp;</th>
+			<th class="text-center">Cantidad</th>
+			<th class="text-center">Costo de compra</th>
+			<th class="text-center">Fecha añadido</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="p in material.stock" 
+				ng-if="
+					(p.fecha_str.indexOf(busqueda) != -1)
+				">
+				<td ng-show="loginService.getCurrentUser().inventario_eliminar_stock" class="text-center">
+					<div class="btn-group">
+						<span ng-click="eliminar_stock(p.id)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="loginService.getCurrentUser().inventario_eliminar_stock" title="Eliminar" style="color: #c9302c !important;" data-toggle="tooltip" data-placement="top"></span>
+					</div>
+
+					<script>
+						$('[data-toggle="tooltip"]').tooltip(); 
+					</script>
+				</td>
+				<td class="text-center">{{ p.cantidad }}</td>
+				<td class="text-center">{{ p.costo }}</td>
+				<td class="text-center">{{ p.fecha_str }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

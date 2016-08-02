@@ -1,0 +1,14 @@
+<form class="agregar agregar_material" ng-controller="Inventario" ng-submit="registrar_material()">
+	<div class="register-form">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Nombre (*)</p>
+			<input type="text" ng-model="material.nombre" required maxlength="64" />
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" type="submit">Finalizar</button>
+		</div>
+	</div>
+</form>

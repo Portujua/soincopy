@@ -205,6 +205,29 @@
 
 
 
+			getInventario: function(s){
+				$http.get("api/inventario").then(function(obj){
+					s.inventario = obj.data;
+					console.log(obj.data)
+				});
+			},
+			getMaterial: function(s, id){
+				$http.get("api/inventario").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.material = json[i];
+							return;
+						}
+				});
+			},
+
+
+
+
+
 			getOrdenes: function(s){
 				$http.get("api/ordenes").then(function(obj){
 					s.ordenes = obj.data;

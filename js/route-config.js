@@ -142,6 +142,24 @@
 			})
 
 
+
+			.when("/inventario", {
+				templateUrl : "views/admin/inventario/inventario.html"
+			})
+			.when("/inventario/material/agregar", {
+				templateUrl : "views/admin/inventario/agregar_material.html"
+			})
+			.when("/inventario/material/editar/:id", {
+				templateUrl : "views/admin/inventario/agregar_material.html"
+			})
+			.when("/inventario/stock/:id", {
+				templateUrl : "views/admin/inventario/stock.html"
+			})
+			.when("/inventario/stock/editar/:id", {
+				templateUrl : "views/admin/inventario/agregar_stock.html"
+			})
+
+
 			
 			.when("/agregardependencia", {
 				templateUrl : "views/admin/agregardependencia.html"

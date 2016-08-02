@@ -479,6 +479,37 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_inventario($post)
+        {
+            $query = $this->db->prepare("
+                select m.id as id, m.nombre as nombre, m.estado as estado, (select (case when sum(cantidad) is not null then sum(cantidad) else 0 end) from Stock where material=m.id and eliminado=0) as cantidad, (select concat(date_format(fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(fecha_anadido, '%h:%i:%s %p')) from Stock where material=m.id and eliminado=0 order by fecha_anadido desc limit 1) as fecha_ultimo_ingreso
+                from Material as m
+            ");
+
+            $query->execute();
+            $inventario = $query->fetchAll();
+
+            for ($i = 0; $i < count($inventario); $i++)
+            {
+                $inventario[$i]['stock'] = array();
+
+                $query = $this->db->prepare("
+                    select s.id as id, s.cantidad as cantidad, s.fecha_anadido as fecha_anadido, s.costo as costo, concat(date_format(s.fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(s.fecha_anadido, '%h:%i:%s %p')) as fecha_str
+                    from Stock as s
+                    where s.material=:mid and s.eliminado=0
+                    order by fecha_anadido desc
+                ");
+
+                $query->execute(array(
+                    ":mid" => $inventario[$i]['id']
+                ));
+
+                $inventario[$i]['stock'] = $query->fetchAll();
+            }
+
+            return json_encode($inventario);
+        }
+
         public function cargar_productos($post)
         {
             $query = $this->db->prepare("
@@ -651,6 +682,29 @@
             $query->execute(array(
                 ":id" => $post['id'],
                 ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_material($post)
+        {
+            $query = $this->db->prepare("
+                update Material set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function eliminar_stock($post)
+        {
+            $query = $this->db->prepare("
+                update Stock set eliminado=1 where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id']
             ));
         }
 
@@ -1135,6 +1189,35 @@
             }
         }
 
+        public function agregar_material($post)
+        {
+            $query = $this->db->prepare("
+                insert into Material (nombre) values (:nombre)
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre']
+            ));
+
+            return "ok";
+        }
+
+        public function agregar_stock($post)
+        {
+            $query = $this->db->prepare("
+                insert into Stock (cantidad, fecha_anadido, costo, material) 
+                values (:cantidad, now(), :costo, :material)
+            ");
+
+            $query->execute(array(
+                ":cantidad" => $post['cantidad'],
+                ":costo" => $post['costo'],
+                ":material" => $post['material']
+            ));
+
+            return "ok";
+        }
+
         public function agregar_carrera($post)
         {
             try 
@@ -1434,6 +1517,22 @@
         {
             $query = $this->db->prepare("
                 update Dependencia set 
+                    nombre=:nombre
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":id" => $post['id']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_material($post)
+        {
+            $query = $this->db->prepare("
+                update Material set 
                     nombre=:nombre
                 where id=:id
             ");
