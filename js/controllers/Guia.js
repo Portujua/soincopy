@@ -262,20 +262,27 @@
 					        		if (s == -1)
 					        		{
 					        			AlertService.showSuccess("La guía ha sido rechazada con éxito");
-					        			$scope.guia.status_str = "rechazada";
+
+					        			if ($scope.guia)
+					        				$scope.guia.status_str = "rechazada";
 					        		}
 					        		else if (s == 1)
 					        		{
 					        			AlertService.showSuccess("La guía ha sido aprobada con éxito");
-					        			$scope.guia.status_str = "aprobada";
+
+					        			if ($scope.guia)
+					        				$scope.guia.status_str = "aprobada";
 					        		}
 					        		else if (s == 2)
 					        		{
 					        			AlertService.showSuccess("La guía ha sido deshabilitada con éxito");
-					        			$scope.guia.status_str = "inactiva";
+
+					        			if ($scope.guia)
+					        				$scope.guia.status_str = "inactiva";
 					        		}
 
-					        		$scope.guia.status = s;
+					        		if ($scope.guia)
+					        			$scope.guia.status = s;
 					        	})
 					        }
 					    }
