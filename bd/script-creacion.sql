@@ -314,6 +314,7 @@ create table Stock (
 	fecha_anadido datetime,
 	costo float default 0,
 	material int not null,
+	eliminado tinyint(1) default 0 comment 'Para eliminar stock sin borrarlo del sistema',
 	primary key(id),
 	foreign key (material) references Material(id)
 );
