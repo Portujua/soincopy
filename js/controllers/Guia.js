@@ -234,38 +234,53 @@
 		$scope.cambiar_estado = function(s, id){
 			var codigo = id ? id : $scope.guia.codigo;
 
-			$.ajax({
-			    url: "php/run.php?fn=cambiar_estado",
-			    type: "POST",
-			    data: {status:s, codigo:codigo},
-			    beforeSend: function(){},
-			    success: function(data){
-			        if (data == "ok")
-			        {
-			        	$scope.safeApply(function(){
-			        		if (id)
-			        			$scope.cargar_guias();
+			var msj = "";
 
-			        		if (s == -1)
-			        		{
-			        			AlertService.showSuccess("La guía ha sido rechazada con éxito");
-			        			$scope.guia.status_str = "rechazada";
-			        		}
-			        		else if (s == 1)
-			        		{
-			        			AlertService.showSuccess("La guía ha sido aprobada con éxito");
-			        			$scope.guia.status_str = "aprobada";
-			        		}
-			        		else if (s == 2)
-			        		{
-			        			AlertService.showSuccess("La guía ha sido deshabilitada con éxito");
-			        			$scope.guia.status_str = "inactiva";
-			        		}
+			if (s == -1)
+				msj = "¿Está seguro que desea rechazar esta guía?";
+			else if (s == 1)
+				msj = "¿Está seguro que desea aprobar esta guía?";
+			else if (s == 2)
+				msj = "¿Está seguro que desea deshabilitar esta guía?";
 
-			        		$scope.guia.status = s;
-			        	})
-			        }
-			    }
+			$.confirm({
+				title: "Confirmar acción",
+				content: msj,
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=cambiar_estado",
+					    type: "POST",
+					    data: {status:s, codigo:codigo},
+					    beforeSend: function(){},
+					    success: function(data){
+					        if (data == "ok")
+					        {
+					        	$scope.safeApply(function(){
+					        		if (id)
+					        			$scope.cargar_guias();
+
+					        		if (s == -1)
+					        		{
+					        			AlertService.showSuccess("La guía ha sido rechazada con éxito");
+					        			$scope.guia.status_str = "rechazada";
+					        		}
+					        		else if (s == 1)
+					        		{
+					        			AlertService.showSuccess("La guía ha sido aprobada con éxito");
+					        			$scope.guia.status_str = "aprobada";
+					        		}
+					        		else if (s == 2)
+					        		{
+					        			AlertService.showSuccess("La guía ha sido deshabilitada con éxito");
+					        			$scope.guia.status_str = "inactiva";
+					        		}
+
+					        		$scope.guia.status = s;
+					        	})
+					        }
+					    }
+					});
+				}
 			});
 		}
 
