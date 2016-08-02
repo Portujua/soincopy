@@ -118,3 +118,15 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabie
 
 insert into Permiso_Categoria (nombre) values ("Permisos");
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("permisos_agregar", "Podrá asignar y quitar cualquier permiso a cualquier personal disponible en el sistema.", 10, 12);
+
+
+
+
+insert into Permiso_Categoria (nombre) values ("Inventario");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("inventario_agregar_material", "Podrá añadir nuevo material al inventario del sistema", 3, 13),
+	("inventario_editar_material", "Podrá editar cualquier información de un material disponible en el inventario del sistema", 3, 13),
+	("inventario_deshabilitar_material", "Podrá habilitar y deshabilitar materiales disponibles en el inventario del sistema", 3, 13),
+	("inventario_agregar_stock", "Podrá añadir nuevo stock al inventario del sistema", 6, 13),
+	("inventario_editar_stock", "Podrá editar una entrada de stock al inventario del sistema", 8, 13),
+	("inventario_eliminar_stock", "Podrá eliminar una entrada de stock al inventario del sistema", 9, 13);
