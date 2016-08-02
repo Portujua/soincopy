@@ -41,10 +41,18 @@
 				<td class="text-center">
 					<div class="btn-group">
 						<a ng-show="loginService.getCurrentUser().modificar_guias" href="./#/modificarguia/{{g.codigo}}">
-							<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
+							<span data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
 						</a>
 
-						<a ng-show="g.pdf" target="_blank" href="" ng-click="ver_pdf(g.pdf)"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+						<a ng-show="g.pdf" target="_blank" href="" ng-click="ver_pdf(g.pdf)"><span data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-search" aria-hidden="true" title="Ver guía"></span></a>
+
+						<span data-toggle="tooltip" data-placement="top" ng-show="g.status != 2" ng-click="cambiar_estado(2, g.codigo)" class="text-info glyphicon glyphicon-ban-circle" aria-hidden="true" title="Deshabilitar"></span>
+						<span data-toggle="tooltip" data-placement="top" ng-show="g.status != -1" ng-click="cambiar_estado(-1, g.codigo)" class="text-danger glyphicon glyphicon-remove-circle" aria-hidden="true" title="Remover"></span>
+						<span data-toggle="tooltip" data-placement="top" ng-show="g.status != 1" ng-click="cambiar_estado(1, g.codigo)" class="text-success glyphicon glyphicon-ok-circle" aria-hidden="true" title="Aprobar"></span>
+
+						<script>
+							$('[data-toggle="tooltip"]').tooltip(); 
+						</script>
 					</div>
 				</td>
 				<td class="text-center">{{ g.codigo }}</td>

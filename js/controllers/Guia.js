@@ -231,8 +231,8 @@
 			});
 		}
 
-		$scope.cambiar_estado = function(s){
-			var codigo = $scope.guia.codigo;
+		$scope.cambiar_estado = function(s, id){
+			var codigo = id ? id : $scope.guia.codigo;
 
 			$.ajax({
 			    url: "php/run.php?fn=cambiar_estado",
@@ -243,22 +243,27 @@
 			        if (data == "ok")
 			        {
 			        	$scope.safeApply(function(){
-			        		$scope.guia.status = s;
+			        		if (id)
+			        			$scope.cargar_guias();
 
 			        		if (s == -1)
+			        		{
+			        			AlertService.showSuccess("La guía ha sido rechazada con éxito");
 			        			$scope.guia.status_str = "rechazada";
+			        		}
 			        		else if (s == 1)
+			        		{
+			        			AlertService.showSuccess("La guía ha sido aprobada con éxito");
 			        			$scope.guia.status_str = "aprobada";
+			        		}
 			        		else if (s == 2)
+			        		{
+			        			AlertService.showSuccess("La guía ha sido deshabilitada con éxito");
 			        			$scope.guia.status_str = "inactiva";
-			        	})
+			        		}
 
-			        	if (s == -1)
-			        		$(".zona_alertas").html('<div class="alert alert-danger alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La guía ha sido rechazada con éxito</div>');
-			        	else if (s == 1)
-			        		$(".zona_alertas").html('<div class="alert alert-success alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La guía ha sido aprobada con éxito</div>');
-			        	else if (s == 2)
-			        		$(".zona_alertas").html('<div class="alert alert-info alert-dismissible" role="alert"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>La guía ha sido desactivada con éxito</div>');
+			        		$scope.guia.status = s;
+			        	})
 			        }
 			    }
 			});
