@@ -13,7 +13,7 @@
 			showError: function(text){
 				var aid = Math.floor(Math.random() * 100);
 
-				$(".alertas").append('<div role="alert" class="alert text-center alert-danger" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
+				$(".alertas").append('<div role="alert" data-dismiss="alert" class="alert text-center alert-danger" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
 
 				$timeout(function(){
 					$("#a" + aid).fadeOut(fadeTime, 'swing', function(){ $(this).remove(); });
@@ -22,7 +22,7 @@
 			showInfo: function(text){
 				var aid = Math.floor(Math.random() * 100);
 
-				$(".alertas").append('<div role="alert" class="alert text-center alert-info" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
+				$(".alertas").append('<div role="alert" data-dismiss="alert" class="alert text-center alert-info" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
 
 				$timeout(function(){
 					$("#a" + aid).fadeOut(fadeTime, 'swing', function(){ $(this).remove(); });
@@ -31,7 +31,7 @@
 			showSuccess: function(text){
 				var aid = Math.floor(Math.random() * 100);
 
-				$(".alertas").append('<div role="alert" class="alert text-center alert-success" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
+				$(".alertas").append('<div role="alert" data-dismiss="alert" class="alert text-center alert-success" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
 
 				$timeout(function(){
 					$("#a" + aid).fadeOut(fadeTime, 'swing', function(){ $(this).remove(); });
