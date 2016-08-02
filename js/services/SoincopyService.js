@@ -208,7 +208,6 @@
 			getInventario: function(s){
 				$http.get("api/inventario").then(function(obj){
 					s.inventario = obj.data;
-					console.log(obj.data)
 				});
 			},
 			getMaterial: function(s, id){
