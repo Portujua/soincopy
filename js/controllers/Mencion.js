@@ -18,6 +18,10 @@
 		SoincopyService.getCarreras($scope);
 		SoincopyService.getMenciones($scope);
 
+		$scope.cargar_menciones = function(){
+			SoincopyService.getMenciones($scope);
+		}
+
 		$scope.cargar_mencion = function(id){
 			SoincopyService.getMencion($scope, id);
 		}
