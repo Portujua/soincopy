@@ -17,6 +17,10 @@
 
 		SoincopyService.getCarreras($scope);
 
+		$scope.cargar_carreras = function(){
+			SoincopyService.getCarreras($scope);
+		}
+
 		$scope.cargar_carrera = function(id){
 			SoincopyService.getCarrera($scope, id);
 		}
