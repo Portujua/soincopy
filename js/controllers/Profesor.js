@@ -17,6 +17,10 @@
 
 		SoincopyService.getProfesores($scope);
 
+		$scope.cargar_profesores = function(){
+			SoincopyService.getProfesores($scope);
+		}
+
 		$scope.cargar_profesor = function(id){
 			SoincopyService.getProfesor($scope, id);
 		}
