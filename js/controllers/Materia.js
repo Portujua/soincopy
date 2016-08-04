@@ -17,6 +17,10 @@
 		SoincopyService.getCarreras($scope);
 		SoincopyService.getMaterias($scope);
 
+		$scope.cargar_materias = function(){
+			SoincopyService.getMaterias($scope);
+		}
+
 		$scope.cargar_materia = function(id){
 			$http.get("api/materias").then(function(obj){
 				var json = obj.data;
