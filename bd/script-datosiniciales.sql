@@ -26,30 +26,7 @@ insert into Tipo_Guia(nombre) values ("Revista");
 insert into Tipo_Guia(nombre) values ("Varios");
 
 insert into Departamento(nombre) values ("Originales");
-insert into Departamento(nombre) values ("Diseño");	
-
-insert into Producto (nombre, departamento) values ("Imp. Color Carta", 1);
-insert into Producto (nombre, departamento) values ("Imp. Color Oficio", 1);
-insert into Producto (nombre, departamento) values ("Imp. Color D/C", 1);
-insert into Producto (nombre, departamento) values ("Imp. Color D/C con Cartulina", 1);
-insert into Producto (nombre, departamento) values ("Copia Color Carta", 1);
-insert into Producto (nombre, departamento) values ("Copia Color Oficio", 1);
-insert into Producto (nombre, departamento) values ("Copia Color D/C", 1);
-insert into Producto (nombre, departamento) values ("Copia B/N Carta (LIBRO)", 1);
-insert into Producto (nombre, departamento) values ("Copia B/N Profesores", 1);
-insert into Producto (nombre, departamento) values ("Copia B/N Oficio", 1);
-insert into Producto (nombre, departamento) values ("Copia B/N D/C", 1);
-insert into Producto (nombre, departamento) values ("Imp. B/N Carta", 1);
-insert into Producto (nombre, departamento) values ("Imp. B/N Oficio", 1);
-insert into Producto (nombre, departamento) values ("Imp. B/N D/C", 1);
-insert into Producto (nombre, departamento) values ("Transp. B/N Imp.", 1);
-insert into Producto (nombre, departamento) values ("Transp. Color Imp.", 1);
-insert into Producto (nombre, departamento) values ("Transp. Color Copia", 1);
-insert into Producto (nombre, departamento) values ("Cartulina A", 1);
-insert into Producto (nombre, departamento) values ("Plastificado", 1);
-insert into Producto (nombre, departamento) values ("Encuadernación", 1);
-insert into Producto (nombre, departamento) values ("Digitalización Color", 1);
-insert into Producto (nombre, departamento) values ("Digitalización B/N", 1);
+insert into Departamento(nombre) values ("Diseño");
 
 insert into Permiso_Categoria (nombre) values ("Guías");
 insert into Permiso_Categoria (nombre) values ("Ordenes");
@@ -133,4 +110,14 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("inventario
 
 
 
-INSERT INTO personal (id, nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado, estado) VALUES (NULL, 'Administrador', NULL, 'SoinCopy', NULL, NULL, NULL, NULL, 'root', 'root21115476*', NULL, '1'), (NULL, 'pablo', 'evelio', 'martinez', 'medina', '6892160', '4712038', 'pablomartinezmedina@gmail.com', 'pmartinez', '2323$$', '2016-07-21 10:35:02', '1'), (NULL, 'fernando', 'Rafael', 'León', 'Macayo', '16286339', '', '', 'fleon', '291013', '2016-07-21 10:36:45', '1'), (NULL, 'john', 'jairo', 'guerrero', 'roa', '14128628', '', '', 'jguerrero', '25252', '2016-07-22 13:16:31', '1'), (NULL, 'marcos', '', 'salazar', '', '15665702', '4123001280', 'salazarseijas@gmail.com', 'marcos', 'rootroot', '2016-07-25 15:44:43', '1'), (NULL, 'Alejandro', '', 'Rondon', 'Avendaño', '3.967.238', '04125688874', 'aleron1710@gmail.com', 'arondon', '384217', '2016-07-27 09:16:23', '1'), (NULL, 'DIALINA', 'ISABEL', 'NOGUEIRA', 'HERNANDEZ', '18271625', '04169201403', 'DIALINA.NOGUEIRA@GMAIL.COM', 'DNOGUEIRA', '123456', '2016-07-29 13:00:23', '1')
+INSERT INTO personal (id, nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado, estado) VALUES (NULL, 'Administrador', NULL, 'SoinCopy', NULL, NULL, NULL, NULL, 'root', 'root21115476*', NULL, '1'), (NULL, 'pablo', 'evelio', 'martinez', 'medina', '6892160', '4712038', 'pablomartinezmedina@gmail.com', 'pmartinez', '2323$$', '2016-07-21 10:35:02', '1'), (NULL, 'fernando', 'Rafael', 'León', 'Macayo', '16286339', '', '', 'fleon', '291013', '2016-07-21 10:36:45', '1'), (NULL, 'john', 'jairo', 'guerrero', 'roa', '14128628', '', '', 'jguerrero', '25252', '2016-07-22 13:16:31', '1'), (NULL, 'marcos', '', 'salazar', '', '15665702', '4123001280', 'salazarseijas@gmail.com', 'marcos', 'rootroot', '2016-07-25 15:44:43', '1'), (NULL, 'Alejandro', '', 'Rondon', 'Avendaño', '3.967.238', '04125688874', 'aleron1710@gmail.com', 'arondon', '384217', '2016-07-27 09:16:23', '1'), (NULL, 'DIALINA', 'ISABEL', 'NOGUEIRA', 'HERNANDEZ', '18271625', '04169201403', 'DIALINA.NOGUEIRA@GMAIL.COM', 'DNOGUEIRA', '123456', '2016-07-29 13:00:23', '1');
+
+
+
+insert into Permiso_Categoria (nombre) values ("Productos");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("productos_agregar", "Podrá añadir nuevos productos al sistema", 5, 14),
+	("productos_editar", "Podrá editar cualquier información de un producto disponible en el inventario del sistema", 4, 14),
+	("productos_registrar_nuevos_precios", "Podrá registrar cambios de precio de un producto disponible en el sistema", 7, 14),
+	("productos_eliminar_precios", "Podrá eliminar cambios de precio de un producto disponible en el sistema", 8, 14),
+	("productos_deshabilitar", "Podrá habilitar y deshabilitar prodcutos disponibles en el sistema", 4, 14);

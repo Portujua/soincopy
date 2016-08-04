@@ -143,6 +143,18 @@
 
 
 
+			.when("/productos", {
+				templateUrl : "views/admin/productos/productos.html"
+			})
+			.when("/productos/agregar", {
+				templateUrl : "views/admin/productos/agregar.html"
+			})
+			.when("/productos/editar/:id", {
+				templateUrl : "views/admin/productos/agregar.html"
+			})
+
+
+
 			.when("/inventario", {
 				templateUrl : "views/admin/inventario/inventario.html"
 			})

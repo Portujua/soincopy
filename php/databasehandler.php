@@ -512,16 +512,48 @@
 
         public function cargar_productos($post)
         {
+            $productos = array();
+
+            if (!isset($post['did']))
+            {
+                $query = $this->db->prepare("
+                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario
+                    from Producto as p, Departamento as d
+                    where p.departamento=d.id
+                    order by p.nombre asc
+                ");
+
+                $query->execute();
+
+                $productos = $query->fetchAll();
+            }
+            else
+            {
+                $query = $this->db->prepare("
+                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario
+                    from Producto as p, Departamento as d
+                    order by p.nombre asc
+                ");
+
+                $query->execute(array(
+                    ":did" => $post['did']
+                ));
+
+                $productos = $query->fetchAll();
+            }
+
+            return json_encode($productos);
+        }
+
+        public function cargar_departamentos($post)
+        {
             $query = $this->db->prepare("
-                select p.nombre as nombre, p.id as id, d.nombre as departamento, d.id as did, (select costo from Producto_Costo where producto=p.id order by fecha desc limit 1) as costo_unitario
-                from Producto as p, Departamento as d
-                where p.departamento=d.id and d.id=:did
-                order by p.nombre asc
+                select *
+                from Departamento
+                order by nombre asc
             ");
 
-            $query->execute(array(
-                ":did" => $post['did']
-            ));
+            $query->execute();
 
             return json_encode($query->fetchAll());
         }
@@ -582,7 +614,7 @@
                 $ordenes[$i]['productos'] = array();
 
                 $query = $this->db->prepare("
-                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado
+                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado
                     from Orden_Producto as op, Producto as p
                     where op.producto=p.id
                     and op.orden=:orden
@@ -665,6 +697,18 @@
         {
             $query = $this->db->prepare("
                 update Departamento_UCAB set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_producto($post)
+        {
+            $query = $this->db->prepare("
+                update Producto set estado=:estado where id=:id
             ");
 
             $query->execute(array(
@@ -1299,8 +1343,8 @@
                             :cantidad,
                             :nro_copias,
                             :nro_originales,
-                            (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
-                            (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
+                            (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
                         )
                     ");
 
@@ -1397,8 +1441,8 @@
                                 :cantidad,
                                 :nro_copias,
                                 :nro_originales,
-                                (select costo from Producto_Costo where producto=1 order by fecha desc limit 1),
-                                (select costo from Producto_Costo where producto=:producto order by fecha desc limit 1) * :cantidad
+                                (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
                             )
                         ");
 
@@ -1446,6 +1490,35 @@
             return "ok";
         }
 
+        public function agregar_producto($post)
+        {
+            $query = $this->db->prepare("
+                insert into Producto (nombre, descripcion, departamento, fecha_creado)
+                values (:nombre, :descripcion, :departamento, now())
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":descripcion" => $post['descripcion'],
+                ":departamento" => $post['departamento']
+            ));
+
+            /* Agrego el costo */
+            $pid = $this->db->lastInsertId();
+
+            $query = $this->db->prepare("
+                insert into Producto_Costo (producto, costo, fecha)
+                values (:pid, :costo, now())
+            ");
+
+            $query->execute(array(
+                ":pid" => $pid,
+                ":costo" => $post['costo']
+            ));
+
+            return "ok";
+        }
+
         public function agregar_mencion($post)
         {
             $query = $this->db->prepare("
@@ -1475,6 +1548,40 @@
                 ":carrera" => $post['cid'],
                 ":id" => $post['id']
             ));
+
+            return "ok";
+        }
+
+        public function editar_producto($post)
+        {
+            $query = $this->db->prepare("
+                update Producto set 
+                    nombre=:nombre, 
+                    descripcion=:descripcion,
+                    departamento=:departamento
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":descripcion" => $post['descripcion'],
+                ":departamento" => $post['departamento'],
+                ":id" => $post['id']
+            ));
+
+            // Veo si tiene nuevo precio
+            if (isset($post['costo_nuevo']))
+            {
+                $query = $this->db->prepare("
+                    insert into Producto_Costo (producto, costo, fecha)
+                    values (:pid, :costo, now())
+                ");
+
+                $query->execute(array(
+                    ":pid" => $post['id'],
+                    ":costo" => $post['costo_nuevo']
+                ));
+            }
 
             return "ok";
         }
@@ -1840,6 +1947,25 @@
 
             $query->execute(array(
                 ":username" => $post['username']
+            ));
+
+            $json = array();
+            $json['existe'] = $query->rowCount() > 0 ? true : false;
+            $json['esValido'] = $query->rowCount() == 0 ? true : false;
+
+            return json_encode($json);
+        }
+
+        public function check_producto($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Producto
+                where nombre=:nombre
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre']
             ));
 
             $json = array();

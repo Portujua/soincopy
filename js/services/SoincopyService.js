@@ -113,6 +113,23 @@
 
 
 
+			getProductos: function(s){
+				$http.get("api/productos").then(function(obj){
+					s.productos = obj.data;
+				});
+			},
+			getProducto: function(s, id){
+				$http.get("api/productos").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.producto = json[i];
+							return;
+						}
+				});
+			},
 			getProductosOriginales: function(s){
 				$http.get("api/productos/1").then(function(obj){
 					s.productos = obj.data;
@@ -179,6 +196,29 @@
 					s.condiciones_pago = obj.data;
 				});
 			},
+
+
+
+
+
+			getDepartamentos: function(s){
+				$http.get("api/departamentos").then(function(obj){
+					s.departamentos = obj.data;
+				});
+			},
+			getDepartamento: function(s, id){
+				$http.get("api/departamentos").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.departamento = json[i];
+							return;
+						}
+				});
+			},
+
 
 
 

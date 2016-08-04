@@ -1,0 +1,35 @@
+<form class="agregar agregar_producto" ng-controller="Producto" name="agregar" ng-submit="registrar_producto()">
+	<div class="register-form">
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Nombre (*)</p>
+			<input type="text" name="nombre" ng-model="producto.nombre" required ng-minlength=1 ng-maxlength=64 ng-model-options="{ updateOn: 'blur' }" unique-bd="producto" autocomplete="off" />
+		</div>
+
+		<div class="fila">
+			<p>Descripción</p>
+			<textarea name="descripcion" ng-model="producto.descripcion"></textarea>
+		</div>
+
+		<div class="fila" ng-if="!editar">
+			<p>Costo (*)</p>
+			<input type="number" name="costo" ng-model="producto.costo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required />
+		</div>
+
+		<div class="fila" ng-if="editar">
+			<p>Nuevo costo</p>
+			<input type="number" name="costo" ng-model="producto.costo_nuevo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
+			<strong>* En caso de mantener el precio deje este campo en blanco</strong>
+		</div>
+
+		<div class="fila">
+			<p>Departamento (*)</p>
+			<select ng-model="producto.departamento" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Finalizar</button>
+		</div>
+	</div>
+</form>

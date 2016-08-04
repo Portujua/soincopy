@@ -33,6 +33,7 @@ RewriteRule ^api/guias/tipos$ /soincopy/php/run.php?fn=cargar_tipos_guias [QSA,L
 RewriteRule ^api/profesores$ /soincopy/php/run.php?fn=cargar_profesores [QSA,L]
 RewriteRule ^api/dependencias$ /soincopy/php/run.php?fn=cargar_dependencias [QSA,L]
 RewriteRule ^api/departamentos/ucab$ /soincopy/php/run.php?fn=cargar_departamentos_ucab [QSA,L]
+RewriteRule ^api/departamentos$ /soincopy/php/run.php?fn=cargar_departamentos [QSA,L]
 RewriteRule ^api/permisos$ /soincopy/php/run.php?fn=cargar_permisos [QSA,L]
 RewriteRule ^api/ordenes$ /soincopy/php/run.php?fn=cargar_ordenes [QSA,L]
 RewriteRule ^api/guias/web$ /soincopy/php/run.php?fn=cargar_guias_web [QSA,L]
@@ -48,6 +49,8 @@ RewriteRule ^api/menciones/(.+)$ /soincopy/php/run.php?fn=cargar_menciones_de&ci
 RewriteRule ^api/periodos/(.+)$ /soincopy/php/run.php?fn=cargar_periodos&cid=$1 [QSA,L]
 RewriteRule ^api/profesor/(.+)$ /soincopy/php/run.php?fn=cargar_profesor&id=$1 [QSA,L]
 RewriteRule ^api/productos/(.+)$ /soincopy/php/run.php?fn=cargar_productos&did=$1 [QSA,L]
+RewriteRule ^api/productos$ /soincopy/php/run.php?fn=cargar_productos [QSA,L]
 
 RewriteRule ^api/check/orden/(.+)$ /soincopy/php/run.php?fn=check_nro_orden&nro=$1 [QSA,L]
 RewriteRule ^api/check/usuario/(.+)$ /soincopy/php/run.php?fn=check_usuario&username=$1 [QSA,L]
+RewriteRule ^api/check/producto/(.+)$ /soincopy/php/run.php?fn=check_producto&nombre=$1 [QSA,L]

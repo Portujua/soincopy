@@ -221,7 +221,10 @@ create table Departamento (
 create table Producto (
 	id int not null auto_increment,
 	nombre varchar(64) not null,
+	descripcion text,
 	departamento int not null comment 'El departamento donde es ofrecido este producto',
+	fecha_creado datetime,
+	estado tinyint(1) default 1,
 	primary key(id),
 	foreign key (departamento) references Departamento(id)
 );
@@ -288,6 +291,7 @@ create table Producto_Costo (
 	producto int not null,
 	costo float not null,
 	fecha datetime not null,
+	eliminado tinyint(1) default 0,
 	primary key(id),
 	foreign key (producto) references Producto(id)
 );
@@ -317,6 +321,16 @@ create table Stock (
 	eliminado tinyint(1) default 0 comment 'Para eliminar stock sin borrarlo del sistema',
 	primary key(id),
 	foreign key (material) references Material(id)
+);
+
+create table Producto_Material (
+	id int not null auto_increment,
+	producto int not null,
+	material int not null,
+	cantidad int default 1 comment 'cantidad de material para este producto',
+	creado_por int not null comment 'el usuario que lo crea',
+	fecha_creado datetime,
+	primary key(id)
 );
 
 
