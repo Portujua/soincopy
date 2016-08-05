@@ -16,6 +16,7 @@
 
 		SoincopyService.getProductos($scope);
 		SoincopyService.getDepartamentos($scope);
+		SoincopyService.getInventario($scope);
 
 		$scope.cargar_producto = function(id){
 			SoincopyService.getProducto($scope, id);
@@ -86,6 +87,23 @@
 					});
 				}
 			})
+		}
+
+		$scope.anadir_material = function(){
+			$scope.producto.materiales.push({
+				material: 0,
+				cantidad: 1
+			})
+		}
+
+		$scope.eliminar_material = function(index){
+			var aux = [];
+
+			for (var i = 0; i < $scope.producto.materiales.length; i++)
+				if (i != index)
+					aux.push($scope.producto.materiales[i]);
+
+			$scope.producto.materiales = aux;
 		}
 
 		if ($routeParams.id)

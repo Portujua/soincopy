@@ -544,6 +544,7 @@
 
             for ($i = 0; $i < count($productos); $i++)
             {
+                /* Historial de precios */
                 $productos[$i]['historial_costos'] = array();
 
                 $query = $this->db->prepare("
@@ -558,6 +559,31 @@
                 ));
 
                 $productos[$i]['historial_costos'] = $query->fetchAll();
+
+                /* Materiales */
+                $productos[$i]['materiales'] = array();
+
+                $query = $this->db->prepare("
+                    select m.id as material, pm.cantidad as cantidad
+                    from Producto_Material as pm, Material as m
+                    where pm.material=m.id and pm.producto=:pid
+                ");
+
+                $query->execute(array(
+                    ":pid" => $productos[$i]['id']
+                ));
+
+                $materiales = $query->fetchAll();
+
+                foreach ($materiales as $p)
+                {
+                    $nuevo = array();
+
+                    $nuevo['material'] = $p['material'];
+                    $nuevo['cantidad'] = intval($p['cantidad']);
+
+                    $productos[$i]['materiales'][] = $nuevo;
+                }
             }
 
             return json_encode($productos);
@@ -1532,9 +1558,9 @@
                 ":departamento" => $post['departamento']
             ));
 
-            /* Agrego el costo */
             $pid = $this->db->lastInsertId();
 
+            /* Agrego el costo */
             $query = $this->db->prepare("
                 insert into Producto_Costo (producto, costo, fecha)
                 values (:pid, :costo, now())
@@ -1544,6 +1570,23 @@
                 ":pid" => $pid,
                 ":costo" => $post['costo']
             ));
+
+            /* Agrego los materiales */
+            if (isset($post['materiales']))
+                foreach ($post['materiales'] as $m)
+                {
+                    $query = $this->db->prepare("
+                        insert into Producto_Material (producto, material, cantidad, creado_por, fecha_creado)
+                        values (:producto, :material, :cantidad, :creado_por, now())
+                    ");
+
+                    $query->execute(array(
+                        ":producto" => $pid,
+                        ":material" => $m['material'],
+                        ":cantidad" => $m['cantidad'],
+                        ":creado_por" => $_SESSION['login_username']
+                    ));
+                }
 
             return "ok";
         }
@@ -1611,6 +1654,32 @@
                     ":costo" => $post['costo_nuevo']
                 ));
             }
+
+            /* Elimino los materiales */
+            $query = $this->db->prepare("
+                delete from Producto_Material where producto=:pid
+            ");
+
+            $query->execute(array(
+                ":pid" => $post['id']
+            ));
+
+            /* Agrego los materiales */
+            if (isset($post['materiales']))
+                foreach ($post['materiales'] as $m)
+                {
+                    $query = $this->db->prepare("
+                        insert into Producto_Material (producto, material, cantidad, creado_por, fecha_creado)
+                        values (:producto, :material, :cantidad, :creado_por, now())
+                    ");
+
+                    $query->execute(array(
+                        ":producto" => $post['id'],
+                        ":material" => $m['material'],
+                        ":cantidad" => $m['cantidad'],
+                        ":creado_por" => $_SESSION['login_username']
+                    ));
+                }
 
             return "ok";
         }
