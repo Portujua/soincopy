@@ -542,6 +542,24 @@
                 $productos = $query->fetchAll();
             }
 
+            for ($i = 0; $i < count($productos); $i++)
+            {
+                $productos[$i]['historial_costos'] = array();
+
+                $query = $this->db->prepare("
+                    select pc.id, costo, date_format(pc.fecha, '%d/%m/%Y') as fecha, time_format(pc.fecha, '%h:%i:%s %p') as hora
+                    from Producto_Costo as pc
+                    where eliminado=0 and producto=:pid
+                    order by pc.fecha desc
+                ");
+
+                $query->execute(array(
+                    ":pid" => $productos[$i]['id']
+                ));
+
+                $productos[$i]['historial_costos'] = $query->fetchAll();
+            }
+
             return json_encode($productos);
         }
 
@@ -745,6 +763,17 @@
         {
             $query = $this->db->prepare("
                 update Stock set eliminado=1 where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id']
+            ));
+        }
+
+        public function eliminar_precio_producto($post)
+        {
+            $query = $this->db->prepare("
+                update Producto_Costo set eliminado=1 where id=:id
             ");
 
             $query->execute(array(

@@ -68,6 +68,26 @@
 			});
 		}
 
+		$scope.eliminar_precio = function(id){
+			$.confirm({
+				title: "Confirmar acción",
+				content: "¿Está seguro que desea eliminar este registro de costo?<br/><strong>Este cambio es irreversible</strong>",
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=eliminar_precio_producto",
+					    type: "POST",
+					    data: {id:id},
+					    beforeSend: function(){},
+					    success: function(data){
+					        $scope.safeApply(function(){
+					        	$scope.cargar_producto($routeParams.id);
+					        })
+					    }
+					});
+				}
+			})
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_producto($routeParams.id);

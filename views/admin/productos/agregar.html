@@ -1,5 +1,32 @@
 <form class="agregar agregar_producto" ng-controller="Producto" name="agregar" ng-submit="registrar_producto()">
 	<div class="register-form">
+		<div ng-if="editar">
+			<h2>Historial de precios</h2>
+
+			<table class="table table-striped">
+				<thead>
+					<th>&nbsp;</th>
+					<th>Costo</th>
+					<th>Fecha</th>
+				</thead>
+				<tbody>
+					<tr ng-repeat="h in producto.historial_costos">
+						<td>
+							<span ng-click="eliminar_precio(h.id)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="loginService.getCurrentUser().productos_eliminar_precios" title="Eliminar" style="color: #c9302c !important;" data-toggle="tooltip" data-placement="top"></span>
+
+							<script>
+								$('[data-toggle="tooltip"]').tooltip(); 
+							</script>
+						</td>
+						<td>{{ h.costo | currency:'Bs. ' }}</td>
+						<td>{{ h.fecha }} a las {{ h.hora }}</td>
+					</tr>
+				</tbody>
+			</table>
+			<hr/>
+		</div>
+
+		<h2 ng-if="editar">Editar producto</h2>
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
@@ -17,7 +44,7 @@
 			<input type="number" name="costo" ng-model="producto.costo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required />
 		</div>
 
-		<div class="fila" ng-if="editar">
+		<div class="fila" ng-if="editar" ng-show="loginService.getCurrentUser().productos_nuevos_precios">
 			<p>Nuevo costo</p>
 			<input type="number" name="costo" ng-model="producto.costo_nuevo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
 			<strong>* En caso de mantener el precio deje este campo en blanco</strong>
