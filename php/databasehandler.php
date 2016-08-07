@@ -719,6 +719,16 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_familias($post)
+        {
+            $query = $this->db->prepare("
+                select * from Producto_Familia
+            ");
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cambiar_estado_personal($post)
         {
             $query = $this->db->prepare("
@@ -759,6 +769,18 @@
         {
             $query = $this->db->prepare("
                 update Dependencia set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_familia($post)
+        {
+            $query = $this->db->prepare("
+                update Producto_Familia set estado=:estado where id=:id
             ");
 
             $query->execute(array(
@@ -1235,20 +1257,24 @@
 
         public function agregar_dependencia($post)
         {
-            try 
-            {
-                $query = $this->db->prepare("insert into Dependencia (nombre) values (:nombre)");
+            $query = $this->db->prepare("insert into Dependencia (nombre) values (:nombre)");
 
-                $query->execute(array(
-                    ":nombre" => $post['nombre']
-                ));
+            $query->execute(array(
+                ":nombre" => $post['nombre']
+            ));
 
-                return "ok";
-            }
-            catch (Exception $e)
-            {
-                return "error";
-            }
+            return "ok";
+        }
+
+        public function agregar_familia($post)
+        {
+            $query = $this->db->prepare("insert into Producto_Familia (nombre) values (:nombre)");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre']
+            ));
+
+            return "ok";
         }
 
         public function agregar_material($post)
@@ -1684,6 +1710,22 @@
         {
             $query = $this->db->prepare("
                 update Dependencia set 
+                    nombre=:nombre
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":id" => $post['id']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_familia($post)
+        {
+            $query = $this->db->prepare("
+                update Producto_Familia set 
                     nombre=:nombre
                 where id=:id
             ");

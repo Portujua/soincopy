@@ -1,0 +1,42 @@
+<div class="seccion" ng-controller="Familia">
+	<p>
+		<a href="./#/productos/familias/agregar" class="btn btn-link" ng-show="loginService.getCurrentUser().productos_agregar_familia">Agregar familia</a>
+	</p>
+
+	<p>
+		Buscar familia <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" /> 
+		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
+	</p>
+
+	<table class="table table-stripped table-fixed-style">
+		<thead>
+			<th ng-show="loginService.getCurrentUser().productos_editar_familia || loginService.getCurrentUser().productos_deshabilitar_familia">&nbsp;</th>
+			<th class="text-center">Nombre</th>
+			<th class="text-center">Estado</th>
+		</thead>
+		<tbody>
+			<tr ng-repeat="p in familias" 
+				ng-if="
+					(p.nombre.indexOf(busqueda) != -1)
+
+					&& (solo_activos == false || p.estado == 1)
+				"
+				class="{{ p.estado == 0 ? 'bg-danger' : '' }}">
+				<td ng-show="loginService.getCurrentUser().productos_editar_familia || loginService.getCurrentUser().productos_deshabilitar_familia" class="text-center">
+					<div class="btn-group">
+						<a ng-show="loginService.getCurrentUser().productos_editar_familia" href="./#/familias/editar/{{ p.id }}">
+							<span class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar" data-toggle="tooltip" data-placement="top"></span>
+						</a>
+
+						<span ng-click="cambiar_estado(p.id, 0)" class="glyphicon glyphicon-remove" aria-hidden="true" ng-show="loginService.getCurrentUser().productos_deshabilitar_familia && p.estado == 1" title="Deshabilitar" style="color: #c9302c !important;" data-toggle="tooltip" data-placement="top"></span>
+						<span ng-click="cambiar_estado(p.id, 1)" class="glyphicon glyphicon-ok" aria-hidden="true" ng-show="loginService.getCurrentUser().productos_deshabilitar_familia && p.estado == 0" title="Habilitar" style="color: #449d44 !important;" data-toggle="tooltip" data-placement="top"></span>
+					</div>
+				</td>
+				<td class="text-center">{{ p.nombre }}</td>
+				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+
+				<script> $('[data-toggle="tooltip"]').tooltip(); </script>
+			</tr>
+		</tbody>
+	</table>
+</div>

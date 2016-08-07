@@ -120,4 +120,7 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("productos_
 	("productos_editar", "Podrá editar cualquier información de un producto disponible en el inventario del sistema", 4, 14),
 	("productos_nuevos_precios", "Podrá registrar cambios de precio de un producto disponible en el sistema", 7, 14),
 	("productos_eliminar_precios", "Podrá eliminar cambios de precio de un producto disponible en el sistema", 8, 14),
-	("productos_deshabilitar", "Podrá habilitar y deshabilitar prodcutos disponibles en el sistema", 4, 14);
+	("productos_deshabilitar", "Podrá habilitar y deshabilitar prodcutos disponibles en el sistema", 4, 14),
+	("productos_agregar_familia", "Podrá añadir nuevas familias de productos al sistema", 3, 14),
+	("productos_editar_familia", "Podrá editar familias de productos disponibles en el sistema", 3, 14),
+	("productos_deshabilitar_familia", "Podrá deshabilitar familias de productos disponibles en el sistema", 3, 14);

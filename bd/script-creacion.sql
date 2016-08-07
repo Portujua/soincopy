@@ -128,7 +128,7 @@ create table Cambio_de_Status (
 
 create table Permiso_Categoria (
 	id int not null auto_increment,
-	nombre varchar(32) not null,
+	nombre varchar(64) not null,
 	descripcion varchar(128),
 	primary key(id)
 );
@@ -209,15 +209,24 @@ create table Departamento (
 	primary key(id)
 );
 
+create table Producto_Familia (
+	id int not null auto_increment,
+	nombre varchar(64) not null,
+	estado tinyint(1) default 1,
+	primary key(id)
+);
+
 create table Producto (
 	id int not null auto_increment,
 	nombre varchar(64) not null,
 	descripcion text,
 	departamento int not null comment 'El departamento donde es ofrecido este producto',
 	fecha_creado datetime,
+	familia int not null,
 	estado tinyint(1) default 1,
 	primary key(id),
-	foreign key (departamento) references Departamento(id)
+	foreign key (departamento) references Departamento(id),
+	foreign key (familia) references Producto_Familia(id)
 );
 
 create table Departamento_UCAB (

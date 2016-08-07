@@ -161,6 +161,21 @@
 
 
 
+			.when("/productos/familias", {
+				templateUrl : "views/admin/productos/familias/familias.html"
+			})
+			.when("/productos/familias/agregar", {
+				templateUrl : "views/admin/productos/familias/agregar.html"
+			})
+			.when("/productos/familias/agregar/express", {
+				templateUrl : "views/admin/productos/familias/agregar.html"
+			})
+			.when("/productos/familias/editar/:id", {
+				templateUrl : "views/admin/productos/familias/agregar.html"
+			})
+
+
+
 			.when("/inventario", {
 				templateUrl : "views/admin/inventario/inventario.html"
 			})

@@ -162,6 +162,28 @@
 
 
 
+			getFamilias: function(s){
+				$http.get("api/productos/familias").then(function(obj){
+					s.familias = obj.data;
+				});
+			},
+			getFamilia: function(s, id){
+				$http.get("api/productos/familias").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.familia = json[i];
+							return;
+						}
+				});
+			},
+
+
+
+
+
 
 			getCuentaAbiertas: function(s){
 				$http.get("api/cuentaabiertas").then(function(obj){
