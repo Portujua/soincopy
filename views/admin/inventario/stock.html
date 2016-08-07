@@ -39,7 +39,7 @@
 					</script>
 				</td>
 				<td class="text-center">{{ p.cantidad }}</td>
-				<td class="text-center">{{ p.costo }}</td>
+				<td class="text-center">{{ p.costo | currency:'Bs. ' }}</td>
 				<td class="text-center">{{ p.fecha_str }}</td>
 			</tr>
 		</tbody>
