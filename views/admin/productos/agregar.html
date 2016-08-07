@@ -55,6 +55,11 @@
 			<select ng-model="producto.departamento" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
 		</div>
 
+		<div class="fila">
+			<p>Familia (*)</p>
+			<select ng-model="producto.familia" name="familia" ng-options="c.id as c.nombre for c in familias | quitarDeshabilitados" required ng-minlength=1></select>
+		</div>
+
 		<h2>Materiales <small><a href="" ng-click="anadir_material()">Añadir material</a></small></h2>
 
 		<table class="table table-stripped" ng-init="producto.materiales = producto.materiales ? producto.materiales : [];">

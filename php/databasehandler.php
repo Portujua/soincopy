@@ -537,9 +537,9 @@
             if (!isset($post['did']))
             {
                 $query = $this->db->prepare("
-                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario
-                    from Producto as p, Departamento as d
-                    where p.departamento=d.id
+                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, pf.id as familia, pf.nombre as familia_nombre
+                    from Producto as p, Departamento as d, Producto_Familia as pf
+                    where p.departamento=d.id and p.familia=pf.id
                     order by p.nombre asc
                 ");
 
@@ -550,9 +550,9 @@
             else
             {
                 $query = $this->db->prepare("
-                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario
-                    from Producto as p, Departamento as d
-                    where p.departamento=d.id and d.id=:did
+                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, pf.id as familia, pf.nombre as familia_nombre
+                    from Producto as p, Departamento as d, Producto_Familia as pf
+                    where p.departamento=d.id and p.familia=pf.id and d.id=:did
                     order by p.nombre asc
                 ");
 
@@ -1510,13 +1510,14 @@
         public function agregar_producto($post)
         {
             $query = $this->db->prepare("
-                insert into Producto (nombre, descripcion, departamento, fecha_creado)
-                values (:nombre, :descripcion, :departamento, now())
+                insert into Producto (nombre, descripcion, departamento, familia, fecha_creado)
+                values (:nombre, :descripcion, :departamento, :familia, now())
             ");
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
                 ":descripcion" => $post['descripcion'],
+                ":familia" => $post['familia'],
                 ":departamento" => $post['departamento']
             ));
 
@@ -1592,6 +1593,7 @@
                 update Producto set 
                     nombre=:nombre, 
                     descripcion=:descripcion,
+                    familia=:familia,
                     departamento=:departamento
                 where id=:id
             ");
@@ -1600,6 +1602,7 @@
                 ":nombre" => $post['nombre'],
                 ":descripcion" => $post['descripcion'],
                 ":departamento" => $post['departamento'],
+                ":familia" => $post['familia'],
                 ":id" => $post['id']
             ));
 

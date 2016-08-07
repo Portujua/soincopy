@@ -17,6 +17,7 @@
 		SoincopyService.getProductos($scope);
 		SoincopyService.getDepartamentos($scope);
 		SoincopyService.getInventario($scope);
+		SoincopyService.getFamilias($scope);
 
 		$scope.cargar_producto = function(id){
 			SoincopyService.getProducto($scope, id);
