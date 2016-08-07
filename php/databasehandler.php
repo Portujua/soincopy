@@ -469,14 +469,34 @@
         public function cargar_cuentaabiertas($post)
         {
             $query = $this->db->prepare("
-                select id, nombre, vence, estado, (case when vence is not null then date_format(vence, '%d/%m/%Y') else 'Nunca' end) as vence_el, (case when vence is not null then (curdate() > vence) else 0 end) as vencido
+                select id, nombre, inicia, vence, estado, (case when vence is not null then date_format(vence, '%d/%m/%Y') else 'Nunca' end) as vence_el, (case when vence is not null then (curdate() > vence) else 0 end) as vencido
                 from CuentaAbierta
                 order by id asc
             ");
 
             $query->execute();
+            $cuentas = $query->fetchAll();
 
-            return json_encode($query->fetchAll());
+            for ($i = 0; $i < count($cuentas); $i++)
+            {
+                /* Personas */
+                $cuentas[$i]['personas'] = array();
+
+                $query = $this->db->prepare("
+                    select id, nombre_completo, nombre_completo as nombre, cedula as cedula
+                    from Persona_Autorizada as p
+                    where p.cuentaabierta=:cuentaabierta
+                ");
+
+                $query->execute(array(
+                    ":cuentaabierta" => $cuentas[$i]['id']
+                ));
+
+                $personas = $query->fetchAll();
+                $cuentas[$i]['personas'] = $personas;
+            }
+
+            return json_encode($cuentas);
         }
 
         public function cargar_inventario($post)
@@ -1370,22 +1390,6 @@
 
             $oid = $this->db->lastInsertId();
 
-            /* Añado las personas autorizadas */
-            if (isset($post['personas']))
-                foreach ($post['personas'] as $p)
-                {
-                    $query = $this->db->prepare("
-                        insert into Persona_Autorizada (orden, nombre_completo, cedula)
-                        values (:orden, :nombre, :cedula)
-                    ");
-
-                    $query->execute(array(
-                        ":orden" => $oid,
-                        ":nombre" => $p['nombre'],
-                        ":cedula" => $p['cedula']
-                    ));
-                }
-
             /* Añado los productos */
             if (isset($post['productos']))
                 foreach ($post['productos'] as $p)
@@ -1533,14 +1537,33 @@
         public function agregar_cuentaabierta($post)
         {
             $query = $this->db->prepare("
-                insert into CuentaAbierta (nombre, vence)
-                values (:nombre, :vence)
+                insert into CuentaAbierta (nombre, inicia, vence)
+                values (:nombre, :inicia, :vence)
             ");
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
+                ":inicia" => isset($post['inicia_']) ? $post['inicia_'] : null,
                 ":vence" => isset($post['vence_']) ? $post['vence_'] : null
             ));
+
+            $cid = $this->db->lastInsertId();
+
+            /* Añado las personas autorizadas */
+            if (isset($post['personas']))
+                foreach ($post['personas'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Persona_Autorizada (cuentaabierta, nombre_completo, cedula)
+                        values (:cuentaabierta, :nombre, :cedula)
+                    ");
+
+                    $query->execute(array(
+                        ":cuentaabierta" => $cid,
+                        ":nombre" => $p['nombre'],
+                        ":cedula" => $p['cedula']
+                    ));
+                }
 
             return "ok";
         }
@@ -1689,15 +1712,41 @@
             $query = $this->db->prepare("
                 update CuentaAbierta set 
                     nombre=:nombre, 
-                    vence=:vence
+                    vence=:vence,
+                    inicia=:inicia
                 where id=:id
             ");
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
                 ":vence" => isset($post['vence_']) ? $post['vence_'] : null,
+                ":inicia" => isset($post['inicia_']) ? $post['inicia_'] : null,
                 ":id" => $post['id']
             ));
+
+            /* Elimino las personas */
+            $query = $this->db->prepare("
+                delete from Persona_Autorizada where cuentaabierta=:cuentaabierta
+            ");
+
+            $query->execute(array(
+                ":cuentaabierta" => $post['id']
+            ));
+
+            if (isset($post['personas']))
+                foreach ($post['personas'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Persona_Autorizada (cuentaabierta, nombre_completo, cedula)
+                        values (:cuentaabierta, :nombre, :cedula)
+                    ");
+
+                    $query->execute(array(
+                        ":cuentaabierta" => $post['id'],
+                        ":nombre" => $p['nombre'],
+                        ":cedula" => $p['cedula']
+                    ));
+                }
 
             return "ok";
         }

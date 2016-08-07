@@ -12,6 +12,7 @@
 		<thead>
 			<th ng-show="loginService.getCurrentUser().cuentaabiertas_editar || loginService.getCurrentUser().cuentaabiertas_deshabilitar">&nbsp;</th>
 			<th class="text-center">Nombre</th>
+			<th class="text-center">Personas autorizadas</th>
 			<th class="text-center">Vence</th>
 			<th class="text-center">Estado</th>
 		</thead>
@@ -34,6 +35,9 @@
 					</div>
 				</td>
 				<td class="text-center">{{ p.nombre }}</td>
+				<td class="text-center">
+						<p ng-repeat="persona in p.personas">{{ persona.nombre_completo }} C.I. {{ persona.cedula }}</p>
+					</td>
 				<td class="text-center">
 					{{ p.vence_el }}<br/>
 					<strong>{{ p.vencido == 1 ? 'VENCIDO' : '' }}</strong>

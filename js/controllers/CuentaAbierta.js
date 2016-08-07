@@ -27,6 +27,9 @@
 				confirm: function(){
 					var post = $scope.cuentaabierta;
 
+					if (post.inicia)
+						post.inicia_ = post.inicia.toJSON().slice(0,10);
+
 					if (post.vence)
 						post.vence_ = post.vence.toJSON().slice(0,10);
 
@@ -68,6 +71,23 @@
 			        })
 			    }
 			});
+		}
+
+		$scope.anadir_persona = function(){
+			$scope.cuentaabierta.personas.push({
+				nombre: "",
+				cedula: ""
+			})
+		}
+
+		$scope.eliminar_persona = function(index){
+			var aux = [];
+
+			for (var i = 0; i < $scope.cuentaabierta.personas.length; i++)
+				if (i != index)
+					aux.push($scope.cuentaabierta.personas[i]);
+
+			$scope.cuentaabierta.personas = aux;
 		}
 
 		if ($routeParams.id)

@@ -175,6 +175,12 @@
 					for (var i = 0; i < json.length; i++)
 						if (json[i].id == id)
 						{
+							if (json[i].inicia)
+							{
+								var date = json[i].inicia.split('-');
+								json[i].inicia = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]), 12, 0, 0, 0);
+							}
+
 							if (json[i].vence)
 							{
 								var date = json[i].vence.split('-');

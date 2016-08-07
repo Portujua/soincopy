@@ -239,6 +239,7 @@ create table Departamento_UCAB (
 create table CuentaAbierta (
 	id int not null auto_increment,
 	nombre varchar(128) not null,
+	inicia date,
 	vence date,
 	estado tinyint(1) default 1,
 	primary key(id)
@@ -300,9 +301,9 @@ create table Persona_Autorizada (
 	id int not null auto_increment,
 	nombre_completo varchar(256) not null,
 	cedula varchar(32) not null,
-	orden int not null,
+	cuentaabierta int not null,
 	primary key (id),
-	foreign key (orden) references Orden(id)
+	foreign key (cuentaabierta) references CuentaAbierta(id)
 );
 
 create table Material (
