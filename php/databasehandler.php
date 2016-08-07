@@ -328,7 +328,14 @@
                 ));
 
                 $ult = $query->fetchAll();
-                $user['ultima_visita'] = $ult[0];
+
+                if (count($ult) > 0)
+                    $user['ultima_visita'] = $ult[0];
+                else
+                    $user['ultima_visita'] = array(
+                        "fecha" => "",
+                        "hora" => ""
+                    );
 
                 /* Setteo la sesion y registro el login */
                 @session_start();
