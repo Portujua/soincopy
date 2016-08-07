@@ -1146,37 +1146,6 @@
         {
             $json = array();
 
-            /*$id_prof = -1;
-
-            if ($post['nuevo_prof'] != null)
-            {
-                $p = array(
-                    "nombre" => $post['nuevo_prof']['nombre'],
-                    "apellido" => $post['nuevo_prof']['apellido'],
-                    "snombre" => isset($post['nuevo_prof']['snombre']) ? $post['nuevo_prof']['snombre'] : null,
-                    "sapellido" => isset($post['nuevo_prof']['sapellido']) ? $post['nuevo_prof']['sapellido'] : null,
-                    "cedula" => isset($post['nuevo_prof']['cedula']) ? $post['nuevo_prof']['cedula'] : null,
-                    "tlfs" => isset($post['nuevo_prof']['tlfs']) ? $post['nuevo_prof']['tlfs'] : null,
-                    "email" => isset($post['nuevo_prof']['email']) ? $post['nuevo_prof']['email'] : null
-                );
-
-                $this->agregar_profesor($p);
-
-                $q = $this->db->prepare("select id from Profesor order by id desc limit 1");
-                $q->execute();
-
-                $id_prof = $q->fetchAll();
-                $id_prof = $id_prof[0]['id'];
-            }
-            else
-                $id_prof = $post['profesor'];
-
-            if ($id_prof == -1)
-            {
-                echo "Error (id_profesor)";
-                return;
-            }*/
-
             $query = $this->db->prepare("
                 insert into Guia (titulo, seccion, comentario, profesor, materia, entregada_por, recibida_por, fecha_anadida, tipo)
                 values (:titulo, :seccion, :comentario, :profesor, :materia, :entregada_por, :recibida_por, now(), :tipo);

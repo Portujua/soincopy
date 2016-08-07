@@ -292,51 +292,6 @@
 		}
 
 		$scope.agregar_guia = function(){
-			/*if (parseInt($(".progress-bar").html()) != 100)
-			{
-				alert("Debe cargar el archivo PDF antes de agregar la guía");
-				return;
-			}*/
-
-			/*var nuevo_prof = null;
-
-			if ($scope.agregarguia_agregarprofesor)
-			{
-				if (!$scope.agregarprofesor_nombre || !$scope.agregarprofesor_apellido)
-				{
-					alert("Debe llenar los campos obligatorios del nuevo profesor.");
-					return;
-				}
-
-				if ($scope.agregarprofesor_nombre.length == 0 || $scope.agregarprofesor_apellido.length == 0)
-				{
-					alert("Debe llenar los campos obligatorios del nuevo profesor.");
-					return;
-				}
-
-				nuevo_prof = {
-					nombre: $scope.agregarprofesor_nombre,
-					apellido: $scope.agregarprofesor_apellido,
-					snombre: $scope.agregarprofesor_snombre,
-					sapellido: $scope.agregarprofesor_sapellido,
-					cedula: $scope.agregarprofesor_cedula,
-					tlfs: $scope.agregarprofesor_tlfs,
-					email: $scope.agregarprofesor_email
-				};
-			}
-			else
-				if (!$scope.agregarguia_profesor)
-				{
-					alert("Debe cargar el archivo PDF antes de agregar la guía");
-					return;
-				}
-
-			var tipo = null;
-
-			if ($scope.agregarguia_tipo)
-				if ($scope.agregarguia_tipo != "-1")
-					tipo = $scope.agregarguia_tipo;*/
-
 			var post = $scope.guia;
 
 			$.confirm({

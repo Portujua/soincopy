@@ -1,8 +1,4 @@
-<div class="buscar" ng-controller="Guia">
-	<!--<div class="alert alert-info" role="alert">
-		<strong>Nota:</strong> haz click en el código de una guía para modificarla
-	</div>-->
-	
+<div class="buscar" ng-controller="Guia">	
 	Ver guías con status de 
 	<select ng-options="e.val as e.nombre for e in estados" ng-model="buscar_status" ng-change="cargar_guias()"></select>
 	<br/>

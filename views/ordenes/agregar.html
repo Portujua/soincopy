@@ -9,49 +9,12 @@
 			<span ng-show="agregar.numero.$error.unique && orden.numero.length > 0">Número de orden ya existente</span>
 		</div>
 
-		<!--<div class="fila">
-			<p>Condición de pago (*)</p>
-			<select ng-model="orden.cond_pago" name="cond_pago" ng-options="c.id as c.nombre for c in condiciones_pago | quitarDeshabilitados" required ng-minlength=1></select>
-		</div>-->
-
-		<!--<div class="fila">
-			<p>A servicio de (*)</p>
-			<select ng-model="orden.dpto_ucab" name="dpto_ucab" ng-options="c.id as c.nombre for c in departamentos | quitarDeshabilitados" required ng-minlength=1></select>
-		</div>-->
-
 		<div class="fila">
 			<p>Dependencia (*) <span class="badge" ng-hide="orden.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
 
 			<select ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia" required ng-minlength=1></select>
 			<br/>
-
-			<!--<div class="agregar_orden" ng-if="orden.agregardependencia">
-				<h2>Agregar dependencia</h2>
-
-				<div class="fila">
-					<p>Nombre</p>
-					<input type="text" ng-model="orden.dependencia_nombre" ng-maxlength=64 ng-minlength=1 name="dependencia_nombre" placeholder="Ej. Escuela de Ingeniería Informática" required />
-				</div>
-			</div>-->
 		</div>
-
-		<!--<div class="fila">
-			<p>Cuenta abierta (*)</p>
-
-			<select ng-model="orden.destino" name="destino" ng-options="c.id as c.nombre for c in cuentaabiertas | quitarDeshabilitados" ng-minlength=1 required></select>
-		</div>-->
-
-		<!--<div class="fila">
-			<p>Fecha inicio (*)</p>
-
-			<input type="date" name="fecha_inicio" ng-model="orden.fecha_inicio" required />
-		</div>
-
-		<div class="fila">
-			<p>Fecha fin (*)</p>
-
-			<input type="date" ng-min="orden.fecha_inicio" name="fecha_fin" ng-model="orden.fecha_fin" required />
-		</div>-->
 
 		<div class="fila">
 			<p>Observaciones</p>
