@@ -37,7 +37,7 @@
 				<tr ng-repeat="p in orden.productos">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
+						<select name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos | quitarDeshabilitados" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
 					</td>
 					<td>
 						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="orden.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 />
