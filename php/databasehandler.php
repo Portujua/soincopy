@@ -663,9 +663,9 @@
         public function cargar_ordenes($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, du.nombre as departamento, d.nombre as dependencia, o.destino as destino, o.observaciones as observaciones, o.estado as estado, du.id as dpto_ucab, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, o.procesada as procesada, c.nombre as cuentaabierta, c.id as destino
-                from Orden as o, Departamento_UCAB as du, Dependencia as d, CuentaAbierta as c
-                where o.dpto_ucab=du.id and o.dependencia=d.id and o.destino=c.id
+                select o.id as id, o.numero as numero, d.nombre as dependencia, o.observaciones as observaciones, o.estado as estado, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, o.procesada as procesada
+                from Orden as o, Dependencia as d
+                where o.dependencia=d.id
                 order by o.id desc
             ");
             $query->execute();
@@ -703,33 +703,6 @@
 
                     $ordenes[$i]['productos'][] = $nuevo;
                 }
-
-                /* Personas */
-                $ordenes[$i]['personas'] = array();
-
-                $query = $this->db->prepare("
-                    select id, nombre_completo, nombre_completo as nombre, cedula as cedula
-                    from Persona_Autorizada as p
-                    where p.orden=:orden
-                ");
-
-                $query->execute(array(
-                    ":orden" => $ordenes[$i]['id']
-                ));
-
-                $personas = $query->fetchAll();
-                $ordenes[$i]['personas'] = $personas;
-
-                /*foreach ($personas as $p)
-                {
-                    $nuevo = array();
-
-                    $nuevo['producto'] = $p['producto'];
-                    $nuevo['copias'] = $p['nro_copias'];
-                    $nuevo['originales'] = $p['nro_originales'];
-
-                    $ordenes[$i]['personas'][] = $nuevo;
-                }*/
             }
 
             return json_encode($ordenes);
@@ -1375,15 +1348,13 @@
             @session_start();
 
             $query = $this->db->prepare("
-                insert into Orden (numero, dpto_ucab, dependencia, destino, observaciones, creado_por, fecha_anadida, fecha_modificada)
-                values (:numero, :dpto_ucab, :dependencia, :destino, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
+                insert into Orden (numero, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada)
+                values (:numero, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
             ");
 
             $query->execute(array(
                 ":numero" => $post['numero'],
-                ":dpto_ucab" => $post['dpto_ucab'],
                 ":dependencia" => $post['dependencia'],
-                ":destino" => $post['destino'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":usuario" => $_SESSION['login_username']
             ));
@@ -1423,10 +1394,8 @@
         {
             $query = $this->db->prepare("
                 update Orden set 
-                    numero=:numero, 
-                    dpto_ucab=:dpto_ucab, 
+                    numero=:numero,
                     dependencia=:dependencia,
-                    destino=:destino,
                     observaciones=:observaciones,
                     fecha_modificada=now()
                 where id=:id
@@ -1434,36 +1403,10 @@
 
             $query->execute(array(
                 ":numero" => $post['numero'],
-                ":dpto_ucab" => $post['dpto_ucab'],
                 ":dependencia" => $post['dependencia'],
-                ":destino" => $post['destino'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":id" => $post['id']
             ));
-
-            /* Elimino las personas */
-            $query = $this->db->prepare("
-                delete from Persona_Autorizada where orden=:orden
-            ");
-
-            $query->execute(array(
-                ":orden" => $post['id']
-            ));
-
-            if (isset($post['personas']))
-                foreach ($post['personas'] as $p)
-                {
-                    $query = $this->db->prepare("
-                        insert into Persona_Autorizada (orden, nombre_completo, cedula)
-                        values (:orden, :nombre, :cedula)
-                    ");
-
-                    $query->execute(array(
-                        ":orden" => $post['id'],
-                        ":nombre" => $p['nombre'],
-                        ":cedula" => $p['cedula']
-                    ));
-                }
 
             /* Veo si debo modificar los productos */
             $eliminar = false;

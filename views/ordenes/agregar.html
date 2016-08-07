@@ -14,10 +14,10 @@
 			<select ng-model="orden.cond_pago" name="cond_pago" ng-options="c.id as c.nombre for c in condiciones_pago | quitarDeshabilitados" required ng-minlength=1></select>
 		</div>-->
 
-		<div class="fila">
+		<!--<div class="fila">
 			<p>A servicio de (*)</p>
 			<select ng-model="orden.dpto_ucab" name="dpto_ucab" ng-options="c.id as c.nombre for c in departamentos | quitarDeshabilitados" required ng-minlength=1></select>
-		</div>
+		</div>-->
 
 		<div class="fila">
 			<p>Dependencia (*)<!-- <span class="badge" ng-hide="orden.agregardependencia" ng-click="orden.agregardependencia = 1" title="Añadir nueva dependencia">+</span>--></p>
@@ -35,11 +35,11 @@
 			</div>-->
 		</div>
 
-		<div class="fila">
+		<!--<div class="fila">
 			<p>Cuenta abierta (*)</p>
 
 			<select ng-model="orden.destino" name="destino" ng-options="c.id as c.nombre for c in cuentaabiertas | quitarDeshabilitados" ng-minlength=1 required></select>
-		</div>
+		</div>-->
 
 		<!--<div class="fila">
 			<p>Fecha inicio (*)</p>
@@ -57,27 +57,6 @@
 			<p>Observaciones</p>
 			<textarea name="observaciones" ng-model="orden.observaciones"></textarea>
 		</div>
-
-		<h2>Personas autorizadas <small><a href="" ng-click="anadir_persona()">Añadir persona</a></small></h2>
-
-		<table class="table table-stripped" ng-init="orden.personas = orden.personas ? orden.personas : [];">
-			<thead>
-				<th>&nbsp;</th>
-				<th>Nombre completo (*)</th>
-				<th>Cédula (*)</th>
-			</thead>
-			<tbody>
-				<tr ng-repeat="p in orden.personas">
-					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_persona($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
-					<td>
-						<input type="text" name="pnombre_{{ $index }}" ng-model="orden.personas[$index].nombre" required ng-minlength=1 />
-					</td>
-					<td>
-						<input type="text" name="pcedula_{{ $index }}" ng-model="orden.personas[$index].cedula" required ng-minlength=1 />
-					</td>
-				</tr>
-			</tbody>
-		</table>
 
 		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small></h2>
 

@@ -255,9 +255,7 @@ create table Condicion_Pago (
 create table Orden (
 	id int not null auto_increment,
 	numero varchar(32) not null,
-	dpto_ucab int not null,
 	dependencia int not null,
-	destino int not null,
 	fecha_anadida datetime not null,
 	fecha_modificada datetime,
 	observaciones text,
@@ -266,10 +264,8 @@ create table Orden (
 	creado_por int not null,
 	cond_pago int,
 	primary key(id),
-	foreign key (dpto_ucab) references Departamento_UCAB(id),
 	foreign key (dependencia) references Dependencia(id),
 	foreign key (creado_por) references Personal(id),
-	foreign key (destino) references CuentaAbierta(id),
 	foreign key (cond_pago) references Condicion_Pago(id)
 );
 
