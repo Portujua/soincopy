@@ -65,7 +65,7 @@ create table Tipo_Materia (
 	nombre varchar(32) not null,
 	estado tinyint(1) default 1,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Materia (
 	id int not null auto_increment,
@@ -83,13 +83,13 @@ create table Dependencia(
 	nombre varchar(64) not null,
 	estado tinyint(1) default 1,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Tipo_Guia (
 	id int not null auto_increment,
 	nombre varchar(32) not null,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Guia (
 	id int not null auto_increment,
@@ -131,7 +131,7 @@ create table Permiso_Categoria (
 	nombre varchar(64) not null,
 	descripcion varchar(128),
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Permiso (
 	id int not null auto_increment,
@@ -141,7 +141,7 @@ create table Permiso (
 	categoria int not null,
 	primary key(id),
 	foreign key (categoria) references Permiso_Categoria(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Permiso_Asignado (
 	id int not null auto_increment,
@@ -151,7 +151,7 @@ create table Permiso_Asignado (
 	unique(permiso, usuario),
 	foreign key (permiso) references Permiso(id),
 	foreign key (usuario) references Personal(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 
 create table Log_Vista_Guias (
@@ -162,14 +162,14 @@ create table Log_Vista_Guias (
 	archivo varchar(64) not null,
 	errores varchar(32) not null,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Log_Login (
 	id int not null auto_increment,
 	fecha datetime not null,
 	username varchar(32) not null,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Plan_de_Estudio (
 	id int not null auto_increment,
@@ -187,7 +187,7 @@ create table Plan_de_Estudio (
 	foreign key (carrera) references Carrera(id),
 	foreign key (mencion) references Mencion(id),
 	foreign key (materia) references Materia(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Guia_Web (
 	id int not null auto_increment,
@@ -201,20 +201,20 @@ create table Guia_Web (
 	revisada tinyint(1) default 0,
 	fecha datetime,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Departamento (
 	id int not null auto_increment,
 	nombre varchar(32) not null,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Producto_Familia (
 	id int not null auto_increment,
 	nombre varchar(64) not null,
 	estado tinyint(1) default 1,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Producto (
 	id int not null auto_increment,
@@ -227,14 +227,14 @@ create table Producto (
 	primary key(id),
 	foreign key (departamento) references Departamento(id),
 	foreign key (familia) references Producto_Familia(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Departamento_UCAB (
 	id int not null auto_increment,
 	nombre varchar(64) not null,
 	estado tinyint(1) default 1,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table CuentaAbierta (
 	id int not null auto_increment,
@@ -243,14 +243,14 @@ create table CuentaAbierta (
 	vence date,
 	estado tinyint(1) default 1,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Condicion_Pago (
 	id int not null auto_increment,
 	nombre varchar(32) not null,
 	estado tinyint(1) default 1,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Orden (
 	id int not null auto_increment,
@@ -267,7 +267,7 @@ create table Orden (
 	foreign key (dependencia) references Dependencia(id),
 	foreign key (creado_por) references Personal(id),
 	foreign key (cond_pago) references Condicion_Pago(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Orden_Producto (
 	id int not null auto_increment,
@@ -281,7 +281,7 @@ create table Orden_Producto (
 	primary key(id),
 	foreign key (orden) references Orden(id),
 	foreign key (producto) references Producto(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Producto_Costo (
 	id int not null auto_increment,
@@ -291,7 +291,7 @@ create table Producto_Costo (
 	eliminado tinyint(1) default 0,
 	primary key(id),
 	foreign key (producto) references Producto(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Persona_Autorizada (
 	id int not null auto_increment,
@@ -300,14 +300,14 @@ create table Persona_Autorizada (
 	cuentaabierta int not null,
 	primary key (id),
 	foreign key (cuentaabierta) references CuentaAbierta(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Material (
 	id int not null auto_increment,
 	nombre varchar(32) not null,
 	estado tinyint(1) default 1,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Stock (
 	id int not null auto_increment,
@@ -318,7 +318,7 @@ create table Stock (
 	eliminado tinyint(1) default 0 comment 'Para eliminar stock sin borrarlo del sistema',
 	primary key(id),
 	foreign key (material) references Material(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Producto_Material (
 	id int not null auto_increment,
@@ -328,7 +328,7 @@ create table Producto_Material (
 	creado_por int not null comment 'el usuario que lo crea',
 	fecha_creado datetime,
 	primary key(id)
-);
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 
 /* Views */
