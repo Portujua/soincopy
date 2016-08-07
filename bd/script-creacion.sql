@@ -78,15 +78,6 @@ create table Materia (
 	foreign key (tipo) references Tipo_Materia(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
-/*create table Materia_Dictada (
-	id int not null auto_increment,
-	materia int not null,
-	profesor int not null,
-	primary key(id),
-	foreign key (materia) references Materia(id),
-	foreign key (profesor) references Profesor(id)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;*/
-
 create table Dependencia(
 	id int not null auto_increment,
 	nombre varchar(64) not null,
@@ -385,50 +376,6 @@ begin
 	where id=id_;
 end//
 
-create procedure obtener_personal()
-comment 'Obtener personal'
-begin
-	select id, nombre, apellido, concat(nombre, ' ', apellido) as nombre_completo
-	from Personal
-	order by nombre asc;
-end//
-
-create procedure obtener_profesores()
-comment 'Obtener profesores'
-begin
-	select id, nombre, apellido, cedula, telefono, concat(nombre, ' ', apellido) as nombre_completo
-	from Profesor
-	order by nombre asc;
-end//
-
-create procedure obtener_carreras()
-comment 'Obtener carreras'
-begin
-	select c.id as id, c.nombre as nombre, count(cp.id) as nro_periodos
-	from Carrera as c, Car_Per as cp
-	where cp.carrera=c.id
-	group by c.id
-	order by nombre asc;
-end//
-
-create procedure obtener_materias(in carrera varchar(64))
-comment 'Obtener materias de una carrera'
-begin
-	select m.id as id, m.nombre as nombre, p.numero as periodo
-	from Materia as m, Car_Per as cp, Carrera as c, Periodo as p
-	where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id
-		and c.nombre like concat('%', carrera, '%');
-end//
-
-create procedure obtener_todas_las_materias()
-comment 'Obtener materias'
-begin
-	select m.id as id, m.nombre as nombre, c.nombre as carrera, p.numero as periodo, c.id as carrera_id, p.tipo as tipo_carrera
-	from Materia as m, Car_Per as cp, Carrera as c, Periodo as p
-	where m.dictada_en=cp.id and cp.carrera=c.id and cp.periodo=p.id
-	order by m.nombre asc;
-end//
-
 /* Agregar */
 
 create procedure agregar_carrera(in nombre_carrera varchar(64), in tipo_carrera varchar(12))
@@ -462,17 +409,6 @@ begin
 	insert into Car_Per (periodo, carrera) values (16, last_id);
 end//
 
-create procedure agregar_materia(in nombre_materia varchar(64), in nombre_carrera varchar(64), in periodo int)
-comment 'Añade una materia a un semestre/año de una carrera'
-begin
-	insert into Materia (nombre, dictada_en) 
-	values (nombre_materia, (
-		select cp.id 
-		from Car_Per as cp, Carrera as c, Periodo as p
-		where cp.carrera=c.id and cp.periodo=p.id and c.nombre=nombre_carrera and p.numero=periodo
-	));
-end//
-
 create procedure agregar_guia_(in codigo_ varchar(20), in titulo_ varchar(128), in seccion_ varchar(12), in comentario_ text, in pdf_ varchar(128), in profesor_ int, in materia_ int, in entregada_por_ varchar(128), in recibida_por_ int, in numero_hojas_ int, in numero_paginas_ int)
 comment 'Añade una guia (para carga masiva porque incluye el codigo como parametro'
 begin
@@ -480,21 +416,6 @@ begin
 	values (codigo_, titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, now());
 
 	select id from Guia order by id desc limit 1;
-end//
-
-create procedure agregar_guia(in titulo_ varchar(128), in seccion_ varchar(12), in comentario_ text, in pdf_ varchar(128), in profesor_ int, in materia_ int, in entregada_por_ varchar(128), in recibida_por_ int, in numero_hojas_ int, in numero_paginas_ int, in tipo_ varchar(32))
-comment 'Añade una guia (para uso en la aplicacion porque asigna el codigo al id)'
-begin
-	declare last_id int;
-
-	insert into Guia (titulo, seccion, comentario, pdf, profesor, materia, entregada_por, recibida_por, numero_hojas, numero_paginas, fecha_anadida, tipo)
-	values (titulo_, seccion_, comentario_, pdf_, profesor_, materia_, entregada_por_, recibida_por_, numero_hojas_, numero_paginas_, now(), tipo_);
-
-	set last_id = (select id from Guia order by id desc limit 1);
-
-	update Guia set codigo=last_id where id=last_id;
-
-	select last_id;
 end//
 
 create procedure agregar_profesor(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32), in cedula_ varchar(32), in telefono_ varchar(64), in email_ varchar(64))
