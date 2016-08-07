@@ -17,5 +17,7 @@
 
 <h2>Código: <?php echo $guia['codigo']; ?></h2>
 <h3>Título: <?php echo $guia['titulo']; ?></h3>
+<p>Fecha: <?php echo $guia['fecha']; ?></p>
+<p>Profesor: <?php echo $guia['profesor']['nombre_completo']; ?></p>
 
 <a href="" onclick="window.print();">Imprimir</a> <a href="../#/buscarguias">Volver atrás</a>
