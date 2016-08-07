@@ -49,7 +49,6 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
-					    	console.log(data)
 					        if (data == "ok")
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess("Orden añadida con éxito");
@@ -123,6 +122,13 @@
 					aux.push($scope.orden.personas[i]);
 
 			$scope.orden.personas = aux;
+		}
+
+		$scope.agregar_dependencia = function(){
+			var nw = window.open("./#/dependencias/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=350");
+			nw.onbeforeunload = function(){
+				SoincopyService.getDependencias($scope);
+			}
 		}
 
 		if ($routeParams.id)

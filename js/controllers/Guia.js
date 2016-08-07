@@ -448,6 +448,13 @@
 				return i;
 		}
 
+		$scope.anadir_profesor = function(){
+			var nw = window.open("./#/profesores/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=750");
+			nw.onbeforeunload = function(){
+				SoincopyService.getProfesores($scope);
+			}
+		}
+
 		if ($routeParams.codigo)
 		{
 			$scope.modificar_codigo = $routeParams.codigo;

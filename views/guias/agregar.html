@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
-			<p>Profesor (*) <!--<span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="guia.agregarprofesor = 1" title="Añadir nuevo profesor">+</span>--></p>
+			<p>Profesor (*) <span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="anadir_profesor()" title="Añadir nuevo profesor">+</span></p>
 			<select ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required>
 				<option ng-repeat="p in profesores" ng-if="p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>

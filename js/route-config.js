@@ -62,6 +62,9 @@
 			.when("/profesores/agregar", {
 				templateUrl : "views/admin/agregarprofesor.html"
 			})
+			.when("/profesores/agregar/express", {
+				templateUrl : "views/admin/agregarprofesor.html"
+			})
 			.when("/profesores/editar/:id", {
 				templateUrl : "views/admin/agregarprofesor.html"
 			})
@@ -97,6 +100,9 @@
 				templateUrl : "views/admin/dependencias/dependencias.html"
 			})
 			.when("/dependencias/agregar", {
+				templateUrl : "views/admin/dependencias/agregar.html"
+			})
+			.when("/dependencias/agregar/express", {
 				templateUrl : "views/admin/dependencias/agregar.html"
 			})
 			.when("/dependencias/editar/:id", {

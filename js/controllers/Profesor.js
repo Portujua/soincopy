@@ -48,6 +48,9 @@
 					    beforeSend: function(){},
 					    success: function(data){
 				        	$scope.safeApply(function(){
+				        		if (window.location.hash.indexOf('express') != -1)
+					        		window.close();
+					        	
 				        		AlertService.showSuccess(msg);
 				        		$location.path("/profesores");
 				        	})

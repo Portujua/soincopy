@@ -43,6 +43,9 @@
 					    beforeSend: function(){},
 					    success: function(data){
 				        	$scope.safeApply(function(){
+				        		if (window.location.hash.indexOf('express') != -1)
+					        		window.close();
+					        	
 				        		$location.path("/dependencias");
 				        		AlertService.showSuccess(msg);
 				        	})

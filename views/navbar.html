@@ -1,4 +1,4 @@
-<div class="navbar">
+<div class="navbar" ng-show="!express">
 	<img src="img/LOGOTIPO 370X99.png" />
 	<p style="color: white; text-align: center; margin-left: -10px; font-size: 14px;">ORIGINALES</p>
 
@@ -105,4 +105,4 @@
 	</div>
 </div>
 
-<a href="" ng-click="cerrar_seccion()" class="cerrar_seccion" ng-show="!enInicio"><span aria-hidden="true">&times;</span></a>
+<a href="" ng-click="cerrar_seccion()" class="cerrar_seccion" ng-show="!enInicio && !express"><span aria-hidden="true">&times;</span></a>

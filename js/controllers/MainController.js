@@ -3,6 +3,7 @@
 	{		
 		$scope.loginService = LoginService;
 		$scope.enInicio = true;
+		$scope.express = window.location.hash.indexOf('express') != -1;
 
 		$interval(function(){
 			$scope.enInicio = window.location.hash.indexOf("inicio") != -1;
