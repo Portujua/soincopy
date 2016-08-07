@@ -552,6 +552,7 @@
                 $query = $this->db->prepare("
                     select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario
                     from Producto as p, Departamento as d
+                    where d.id=:did
                     order by p.nombre asc
                 ");
 
