@@ -84,9 +84,6 @@ insert into Condicion_Pago (nombre) values ("Cheque");
 insert into Condicion_Pago (nombre) values ("Efectivo");
 insert into Condicion_Pago (nombre) values ("Transferencia");
 
-insert into CuentaAbierta (nombre) values ("UCAB");
-insert into CuentaAbierta (nombre) values ("Soincopy");
-
 insert into Permiso_Categoria (nombre) values ("Cuentas Abiertas");
 
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_agregar", "Podrá añadir nuevos cuentaabiertas al sistema", 3, 11);
