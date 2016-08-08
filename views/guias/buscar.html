@@ -1,4 +1,5 @@
 <div class="buscar" ng-controller="Guia">	
+	<h1 style="font-size: 20px;">Guías</h1>
 	Ver guías con status de 
 	<select ng-options="e.val as e.nombre for e in estados" ng-model="buscar_status" ng-change="cargar_guias()"></select>
 	<br/>

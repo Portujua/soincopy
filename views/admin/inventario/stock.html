@@ -1,4 +1,5 @@
 <div class="seccion" ng-controller="Inventario">
+	<h1 style="font-size: 20px;">Stock de {{ material.nombre }}</h1>
 	<form class="agregar_stock" name="agregar" ng-submit="registrar_stock()" ng-if="loginService.getCurrentUser().inventario_agregar_stock">
 		<label for="cantidad">Cantidad (*)</label>
 		<input name="cantidad" id="cantidad" type="number" ng-model="material.nuevo_stock.cantidad" required ng-min=1 />
@@ -10,8 +11,6 @@
 	</form>
 
 	<hr/>
-
-	<h2>{{ material.nombre }}</h2>
 
 	<p>
 		Buscar stock <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" />
