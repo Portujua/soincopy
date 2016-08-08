@@ -3,6 +3,9 @@
 		if (typeof $localStorage.user == 'undefined')
 			delete $localStorage.idle_time;
 
+		if (typeof $localStorage.cache == 'undefined')
+			$localStorage.cache = {};
+
 		$localStorage.session_time = 300;
 		$localStorage.idle_time = $localStorage.idle_time ? $localStorage.idle_time : 0;
 

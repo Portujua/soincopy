@@ -1,5 +1,5 @@
 (function(){
-	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -20,6 +20,16 @@
 		SoincopyService.getProductosOriginales($scope);
 		SoincopyService.getCuentaAbiertas($scope);
 		SoincopyService.getCondicionesPago($scope);
+
+		$scope.init_form_cache = function(){
+			if (!$scope.orden && $localStorage.cache.orden)
+				$scope.orden = $localStorage.cache.orden;
+
+			$interval(function(){
+				if ($scope.orden)
+					$localStorage.cache.orden = $scope.orden;
+			}, 3000);
+		}
 
 		$scope.cargar_orden = function(id){
 			SoincopyService.getOrden($scope, id);
@@ -51,6 +61,7 @@
 					    success: function(data){
 					        if (data == "ok")
 					        	$scope.safeApply(function(){
+					        		delete $localStorage.cache.orden;
 					        		AlertService.showSuccess("Orden añadida con éxito");
 					        		$location.path("/ordenes");
 					        	})

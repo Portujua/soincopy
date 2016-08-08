@@ -1,5 +1,5 @@
 (function(){
-	var CuentaAbierta = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var CuentaAbierta = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -16,6 +16,16 @@
 
 		SoincopyService.getCuentaAbiertas($scope);
 		SoincopyService.getProductos($scope);
+
+		$scope.init_form_cache = function(){
+			if (!$scope.cuentaabierta && $localStorage.cache.cuentaabierta)
+				$scope.cuentaabierta = $localStorage.cache.cuentaabierta;
+
+			$interval(function(){
+				if ($scope.cuentaabierta)
+					$localStorage.cache.cuentaabierta = $scope.cuentaabierta;
+			}, 3000);
+		}
 
 		$scope.cargar_cuentaabierta = function(id){
 			SoincopyService.getCuentaAbierta($scope, id);
@@ -51,6 +61,7 @@
 					    success: function(data){
 					    	console.log(data)
 				        	$scope.safeApply(function(){
+				        		delete $localStorage.cache.cuentaabierta;
 				        		$location.path("/cuentaabiertas");
 				        		AlertService.showSuccess(msg);
 				        	})

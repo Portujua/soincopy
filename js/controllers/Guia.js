@@ -1,5 +1,5 @@
 (function(){
-	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService, $localStorage)
+	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService, $localStorage, $interval)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -40,6 +40,16 @@
 		SoincopyService.getMaterias($scope);
 		SoincopyService.getProfesores($scope);
 		SoincopyService.getPersonal($scope);
+
+		$scope.init_form_cache = function(){
+			if (!$scope.guia && $localStorage.cache.guia)
+				$scope.guia = $localStorage.cache.guia;
+
+			$interval(function(){
+				if ($scope.guia)
+					$localStorage.cache.guia = $scope.guia;
+			}, 3000);
+		}
 
 		$scope.ver_pdf = function(url){
 			window.open(
@@ -310,6 +320,7 @@
 
 					        if (data.status == "ok")
 					        	$scope.safeApply(function(){
+					        		delete $localStorage.cache.guia;
 					        		AlertService.showSuccess("Guía añadida con éxito");
 					        		$location.path("/buscarguias");
 					        	})

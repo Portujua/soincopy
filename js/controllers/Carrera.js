@@ -1,5 +1,5 @@
 (function(){
-	var Carrera = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var Carrera = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -16,6 +16,16 @@
 		$scope.editar = $routeParams.id;
 
 		SoincopyService.getCarreras($scope);
+
+		$scope.init_form_cache = function(){
+			if (!$scope.carrera && $localStorage.cache.carrera)
+				$scope.carrera = $localStorage.cache.carrera;
+
+			$interval(function(){
+				if ($scope.carrera)
+					$localStorage.cache.carrera = $scope.carrera;
+			}, 3000);
+		}
 
 		$scope.cargar_carreras = function(){
 			SoincopyService.getCarreras($scope);
@@ -48,6 +58,7 @@
 					    beforeSend: function(){},
 					    success: function(data){
 				        	$scope.safeApply(function(){
+				        		delete $localStorage.cache.carrera;
 				        		$location.path("/carreras");
 				        		AlertService.showSuccess(msg);
 				        	})
