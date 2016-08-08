@@ -40,6 +40,45 @@
 			</tbody>
 		</table>
 
+		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small></h2>
+
+		<table class="table table-stripped" ng-init="cuentaabierta.productos = cuentaabierta.productos ? cuentaabierta.productos : [];">
+			<thead>
+				<th>&nbsp;</th>
+				<th>Producto (*)</th>
+				<th># Copias (*)</th>
+				<th># Originales (*)</th>
+				<th>Cantidad</th>
+				<th>Costo unitario</th>
+				<th>Costo total</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="p in cuentaabierta.productos">
+					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
+					<td>
+						<select name="producto_{{ $index }}" ng-model="cuentaabierta.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos | quitarDeshabilitados" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
+					</td>
+					<td>
+						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="cuentaabierta.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 />
+					</td>
+					<td>
+						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="cuentaabierta.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 />
+					</td>
+					<td>
+						{{ cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales }}
+					</td>
+					<td ng-init="actualizar_costo_unitario($index)">
+						<strong>{{ cuentaabierta.productos[$index].costo_unitario | currency:'Bs. ' }}</strong>
+					</td>
+					<td>
+						<strong>{{ (cuentaabierta.productos[$index].costo_unitario * (cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong>
+
+						<script> $('[data-toggle="tooltip"]').tooltip(); </script>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
 		<div class="fila text-center">
 			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Finalizar</button>
 		</div>

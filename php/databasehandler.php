@@ -501,6 +501,36 @@
 
                 $personas = $query->fetchAll();
                 $cuentas[$i]['personas'] = $personas;
+
+                /* Productos */
+                $cuentas[$i]['productos'] = array();
+
+                $query = $this->db->prepare("
+                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado
+                    from CuentaAbierta_Producto as op, Producto as p
+                    where op.producto=p.id
+                    and op.cuentaabierta=:cuentaabierta
+                ");
+
+                $query->execute(array(
+                    ":cuentaabierta" => $cuentas[$i]['id']
+                ));
+
+                $productos = $query->fetchAll();
+
+                foreach ($productos as $p)
+                {
+                    $nuevo = array();
+
+                    $nuevo['producto'] = $p['producto'];
+                    $nuevo['copias'] = intval($p['nro_copias']);
+                    $nuevo['originales'] = intval($p['nro_originales']);
+                    $nuevo['costo_unitario'] = floatval($p['costo_unitario']);
+                    $nuevo['costo_unitario_facturado'] = floatval($p['costo_unitario_facturado']);
+                    $nuevo['costo_total_facturado'] = floatval($p['costo_total_facturado']);
+
+                    $cuentas[$i]['productos'][] = $nuevo;
+                }
             }
 
             return json_encode($cuentas);
@@ -1511,6 +1541,32 @@
                     ));
                 }
 
+            /* Añado los productos */
+            if (isset($post['productos']))
+                foreach ($post['productos'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into CuentaAbierta_Producto (cuentaabierta, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                        values (
+                            :cuentaabierta,
+                            :producto,
+                            :cantidad,
+                            :nro_copias,
+                            :nro_originales,
+                            (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
+                        )
+                    ");
+
+                    $query->execute(array(
+                        ":cuentaabierta" => $cid,
+                        ":producto" => $p['producto'],
+                        ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                        ":nro_copias" => intval($p['nro_copias']),
+                        ":nro_originales" => intval($p['nro_originales'])
+                    ));
+                }
+
             return "ok";
         }
 
@@ -1696,6 +1752,56 @@
                         ":cedula" => $p['cedula']
                     ));
                 }
+
+            /* Veo si debo modificar los productos */
+            $eliminar = false;
+
+            if (isset($post['productos']))
+            {
+                foreach ($post['productos'] as $p)
+                    if (!isset($p['costo_unitario_facturado']))
+                        $eliminar = true;
+            }
+            else
+                $eliminar = true;
+
+            if ($eliminar)
+            {
+                /* Elimino los productos */
+                $query = $this->db->prepare("
+                    delete from CuentaAbierta_Producto where cuentaabierta=:cuentaabierta
+                ");
+
+                $query->execute(array(
+                    ":cuentaabierta" => $post['id']
+                ));
+
+                /* Añado los productos */
+                if (isset($post['productos']))
+                    foreach ($post['productos'] as $p)
+                    {
+                        $query = $this->db->prepare("
+                            insert into CuentaAbierta_Producto (cuentaabierta, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                            values (
+                                :cuentaabierta,
+                                :producto,
+                                :cantidad,
+                                :nro_copias,
+                                :nro_originales,
+                                (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
+                            )
+                        ");
+
+                        $query->execute(array(
+                            ":cuentaabierta" => $post['id'],
+                            ":producto" => $p['producto'],
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":nro_copias" => intval($p['nro_copias']),
+                            ":nro_originales" => intval($p['nro_originales'])
+                        ));
+                    }
+            }
 
             return "ok";
         }

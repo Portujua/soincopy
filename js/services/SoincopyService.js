@@ -209,6 +209,12 @@
 								json[i].vence = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]), 12, 0, 0, 0);
 							}
 
+							for (var k = 0; k < json[i].productos.length; k++)
+							{
+								json[i].productos[k].nro_copias = parseInt(json[i].productos[k].copias);
+								json[i].productos[k].nro_originales = parseInt(json[i].productos[k].originales);
+							}
+
 							s.cuentaabierta = json[i];
 							return;
 						}

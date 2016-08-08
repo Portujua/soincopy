@@ -15,6 +15,7 @@
 		$scope.editar = $routeParams.id;
 
 		SoincopyService.getCuentaAbiertas($scope);
+		SoincopyService.getProductos($scope);
 
 		$scope.cargar_cuentaabierta = function(id){
 			SoincopyService.getCuentaAbierta($scope, id);
@@ -48,6 +49,7 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
+					    	console.log(data)
 				        	$scope.safeApply(function(){
 				        		$location.path("/cuentaabiertas");
 				        		AlertService.showSuccess(msg);
@@ -88,6 +90,38 @@
 					aux.push($scope.cuentaabierta.personas[i]);
 
 			$scope.cuentaabierta.personas = aux;
+		}
+
+		$scope.actualizar_costo_unitario = function(index){
+			if (!$scope.productos)
+			{
+				$timeout(function(){
+					$scope.actualizar_costo_unitario(index);
+				}, 200);
+				return;
+			}
+
+			for (var i = 0; i < $scope.productos.length; i++)
+				if ($scope.productos[i].id == $scope.cuentaabierta.productos[index].producto)
+					$scope.cuentaabierta.productos[index].costo_unitario = parseFloat($scope.productos[i].costo_unitario);
+		}
+
+		$scope.anadir_producto = function(){
+			$scope.cuentaabierta.productos.push({
+				nro_copias: 1,
+				nro_originales: 1,
+				costo_unitario: 0
+			})
+		}
+
+		$scope.eliminar_producto = function(index){
+			var aux = [];
+
+			for (var i = 0; i < $scope.cuentaabierta.productos.length; i++)
+				if (i != index)
+					aux.push($scope.cuentaabierta.productos[i]);
+
+			$scope.cuentaabierta.productos = aux;
 		}
 
 		if ($routeParams.id)

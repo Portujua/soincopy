@@ -283,6 +283,20 @@ create table Orden_Producto (
 	foreign key (producto) references Producto(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table CuentaAbierta_Producto (
+	id int not null auto_increment,
+	cuentaabierta int not null,
+	producto int not null,
+	cantidad int not null comment 'Cantidad del producto.. en caso de ser copias seria nro_copias*nro_originales',
+	nro_copias int,
+	nro_originales int,
+	precio_unitario float not null,
+	precio_total float not null,
+	primary key(id),
+	foreign key (cuentaabierta) references CuentaAbierta(id),
+	foreign key (producto) references Producto(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 create table Producto_Costo (
 	id int not null auto_increment,
 	producto int not null,
