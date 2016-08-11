@@ -278,6 +278,7 @@ create table Orden_Producto (
 	nro_originales int,
 	precio_unitario float not null,
 	precio_total float not null,
+	fecha_anadido datetime,
 	primary key(id),
 	foreign key (orden) references Orden(id),
 	foreign key (producto) references Producto(id)
@@ -292,6 +293,7 @@ create table CuentaAbierta_Producto (
 	nro_originales int,
 	precio_unitario float not null,
 	precio_total float not null,
+	fecha_anadido datetime,
 	primary key(id),
 	foreign key (cuentaabierta) references CuentaAbierta(id),
 	foreign key (producto) references Producto(id)

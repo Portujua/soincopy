@@ -507,7 +507,7 @@
                 $cuentas[$i]['total_cuenta'] = 0.0;
 
                 $query = $this->db->prepare("
-                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado
+                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado, op.id as capid, date_format(op.fecha_anadido, '%d/%m/%Y') as fecha_anadido
                     from CuentaAbierta_Producto as op, Producto as p
                     where op.producto=p.id
                     and op.cuentaabierta=:cuentaabierta
@@ -524,6 +524,8 @@
                     $nuevo = array();
 
                     $nuevo['producto'] = $p['producto'];
+                    $nuevo['capid'] = $p['capid'];
+                    $nuevo['fecha_anadido'] = $p['fecha_anadido'];
                     $nuevo['copias'] = intval($p['nro_copias']);
                     $nuevo['originales'] = intval($p['nro_originales']);
                     $nuevo['costo_unitario'] = floatval($p['costo_unitario']);
@@ -719,7 +721,7 @@
                 $ordenes[$i]['productos'] = array();
 
                 $query = $this->db->prepare("
-                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado
+                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado, op.id as opid, date_format(op.fecha_anadido, '%d/%m/%Y') as fecha_anadido
                     from Orden_Producto as op, Producto as p
                     where op.producto=p.id
                     and op.orden=:orden
@@ -736,11 +738,13 @@
                     $nuevo = array();
 
                     $nuevo['producto'] = $p['producto'];
-                    $nuevo['copias'] = $p['nro_copias'];
-                    $nuevo['originales'] = $p['nro_originales'];
-                    $nuevo['costo_unitario'] = $p['costo_unitario'];
-                    $nuevo['costo_unitario_facturado'] = $p['costo_unitario_facturado'];
-                    $nuevo['costo_total_facturado'] = $p['costo_total_facturado'];
+                    $nuevo['opid'] = $p['opid'];
+                    $nuevo['fecha_anadido'] = $p['fecha_anadido'];
+                    $nuevo['copias'] = intval($p['nro_copias']);
+                    $nuevo['originales'] = intval($p['nro_originales']);
+                    $nuevo['costo_unitario'] = floatval($p['costo_unitario']);
+                    $nuevo['costo_unitario_facturado'] = floatval($p['costo_unitario_facturado']);
+                    $nuevo['costo_total_facturado'] = floatval($p['costo_total_facturado']);
 
                     $ordenes[$i]['productos'][] = $nuevo;
                 }
@@ -1402,7 +1406,7 @@
                 foreach ($post['productos'] as $p)
                 {
                     $query = $this->db->prepare("
-                        insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                        insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
                         values (
                             :orden,
                             :producto,
@@ -1410,7 +1414,8 @@
                             :nro_copias,
                             :nro_originales,
                             (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
-                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                            now()
                         )
                     ");
 
@@ -1444,35 +1449,34 @@
                 ":id" => $post['id']
             ));
 
-            /* Veo si debo modificar los productos */
-            $eliminar = false;
-
+            /* Elimino los productos */
             if (isset($post['productos']))
             {
-                foreach ($post['productos'] as $p)
-                    if (!isset($p['costo_unitario_facturado']))
-                        $eliminar = true;
-            }
-            else
-                $eliminar = true;
+                // Veo los IDS actuales
+                $ids_ahora = "";
 
-            if ($eliminar)
-            {
-                /* Elimino los productos */
+                foreach ($post['productos'] as $p)
+                    if (isset($p['opid']))
+                        $ids_ahora .= (strlen($ids_ahora) > 0 ? ',' : '') . $p['opid'];
+
                 $query = $this->db->prepare("
-                    delete from Orden_Producto where orden=:orden
+                    delete from Orden_Producto where orden=:orden and id not in (".$ids_ahora.")
                 ");
 
                 $query->execute(array(
                     ":orden" => $post['id']
                 ));
+            }
 
-                /* Añado los productos */
-                if (isset($post['productos']))
-                    foreach ($post['productos'] as $p)
+            /* Añado los productos */
+            if (isset($post['productos']))
+                foreach ($post['productos'] as $p)
+                {
+                    /* Veo si debo agregarlo porque es nuevo o editarlo */
+                    if (!isset($p['costo_unitario_facturado'])) // Es nuevo
                     {
                         $query = $this->db->prepare("
-                            insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                            insert into Orden_Producto (orden, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
                             values (
                                 :orden,
                                 :producto,
@@ -1480,7 +1484,8 @@
                                 :nro_copias,
                                 :nro_originales,
                                 (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
-                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                                now()
                             )
                         ");
 
@@ -1492,7 +1497,29 @@
                             ":nro_originales" => intval($p['nro_originales'])
                         ));
                     }
-            }
+                    else // Es viejo
+                    {
+                        $query = $this->db->prepare("
+                            update Orden_Producto set
+                                producto=:producto, 
+                                cantidad=:cantidad, 
+                                nro_copias=:nro_copias, 
+                                nro_originales=:nro_originales,
+                                precio_total=:precio_total
+                            where
+                                id=:opid
+                        ");
+
+                        $query->execute(array(
+                            ":opid" => $p['opid'],
+                            ":producto" => $p['producto'],
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":nro_copias" => intval($p['nro_copias']),
+                            ":nro_originales" => intval($p['nro_originales']),
+                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales'])))
+                        ));
+                    }
+                }
 
             return "ok";
         }
@@ -1549,7 +1576,7 @@
                 foreach ($post['productos'] as $p)
                 {
                     $query = $this->db->prepare("
-                        insert into CuentaAbierta_Producto (cuentaabierta, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                        insert into CuentaAbierta_Producto (cuentaabierta, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
                         values (
                             :cuentaabierta,
                             :producto,
@@ -1557,7 +1584,8 @@
                             :nro_copias,
                             :nro_originales,
                             (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
-                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                            now()
                         )
                     ");
 
@@ -1756,35 +1784,34 @@
                     ));
                 }
 
-            /* Veo si debo modificar los productos */
-            $eliminar = false;
-
+            /* Elimino los productos */
             if (isset($post['productos']))
             {
-                foreach ($post['productos'] as $p)
-                    if (!isset($p['costo_unitario_facturado']))
-                        $eliminar = true;
-            }
-            else
-                $eliminar = true;
+                // Veo los IDS actuales
+                $ids_ahora = "";
 
-            if ($eliminar)
-            {
-                /* Elimino los productos */
+                foreach ($post['productos'] as $p)
+                    if (isset($p['capid']))
+                        $ids_ahora .= (strlen($ids_ahora) > 0 ? ',' : '') . $p['capid'];
+
                 $query = $this->db->prepare("
-                    delete from CuentaAbierta_Producto where cuentaabierta=:cuentaabierta
+                    delete from CuentaAbierta_Producto where cuentaabierta=:cuentaabierta and id not in (".$ids_ahora.")
                 ");
 
                 $query->execute(array(
                     ":cuentaabierta" => $post['id']
                 ));
+            }
 
-                /* Añado los productos */
-                if (isset($post['productos']))
-                    foreach ($post['productos'] as $p)
+            /* Añado los productos */
+            if (isset($post['productos']))
+                foreach ($post['productos'] as $p)
+                {
+                    /* Veo si debo agregarlo porque es nuevo o editarlo */
+                    if (!isset($p['costo_unitario_facturado'])) // Es nuevo
                     {
                         $query = $this->db->prepare("
-                            insert into CuentaAbierta_Producto (cuentaabierta, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total)
+                            insert into CuentaAbierta_Producto (cuentaabierta, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
                             values (
                                 :cuentaabierta,
                                 :producto,
@@ -1792,7 +1819,8 @@
                                 :nro_copias,
                                 :nro_originales,
                                 (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
-                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                                now()
                             )
                         ");
 
@@ -1804,7 +1832,29 @@
                             ":nro_originales" => intval($p['nro_originales'])
                         ));
                     }
-            }
+                    else // Es viejo
+                    {
+                        $query = $this->db->prepare("
+                            update CuentaAbierta_Producto set
+                                producto=:producto, 
+                                cantidad=:cantidad, 
+                                nro_copias=:nro_copias, 
+                                nro_originales=:nro_originales,
+                                precio_total=:precio_total
+                            where
+                                id=:capid
+                        ");
+
+                        $query->execute(array(
+                            ":capid" => $p['capid'],
+                            ":producto" => $p['producto'],
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":nro_copias" => intval($p['nro_copias']),
+                            ":nro_originales" => intval($p['nro_originales']),
+                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales'])))
+                        ));
+                    }
+                }
 
             return "ok";
         }

@@ -41,6 +41,9 @@
 		</table>
 
 		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small></h2>
+		<p ng-show="editar" style="font-size: 9px; font-weight: bold;">
+			Nota: Actualizar las cantidades no actualizará el costo unitario. Para actualizar el costo unitario debe eliminar el producto deseado y volverlo a agregar
+		</p>
 
 		<table class="table table-stripped" ng-init="cuentaabierta.productos = cuentaabierta.productos ? cuentaabierta.productos : [];">
 			<thead>
@@ -68,10 +71,12 @@
 						{{ cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales }}
 					</td>
 					<td ng-init="actualizar_costo_unitario($index)">
-						<strong>{{ cuentaabierta.productos[$index].costo_unitario | currency:'Bs. ' }}</strong>
+						<strong style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Costo unitario del producto hoy">{{ cuentaabierta.productos[$index].costo_unitario | currency:'Bs. ' }}</strong>
+						<br/>
+						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se añadió este producto a esta cuenta abierta el {{ cuentaabierta.productos[$index].fecha_anadido }}">{{ cuentaabierta.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
 					</td>
 					<td>
-						<strong>{{ (cuentaabierta.productos[$index].costo_unitario * (cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong>
+						<strong>{{ ((cuentaabierta.productos[$index].costo_unitario_facturado ? cuentaabierta.productos[$index].costo_unitario_facturado : cuentaabierta.productos[$index].costo_unitario) * (cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong>
 
 						<script> $('[data-toggle="tooltip"]').tooltip(); </script>
 					</td>
