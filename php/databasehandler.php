@@ -579,7 +579,17 @@
             if (!isset($post['did']))
             {
                 $query = $this->db->prepare("
-                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, pf.id as familia, pf.nombre as familia_nombre, (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material) as costo_materiales
+                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, pf.id as familia, pf.nombre as familia_nombre, (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material) as costo_materiales, cast((select (
+                                select sum(s.cantidad) as disponible
+                                from Stock as s
+                                where pm.material=s.material
+                                group by s.material
+                            ) / pm.cantidad as disponibles
+                            from Producto_Material as pm
+                            where pm.producto=p.id
+                            order by disponibles asc
+                            limit 1) as unsigned
+                        ) as disponibles
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
                     order by p.nombre asc
@@ -592,7 +602,17 @@
             else
             {
                 $query = $this->db->prepare("
-                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, pf.id as familia, pf.nombre as familia_nombre, (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material) as costo_materiales
+                    select p.nombre as nombre, p.id as id, p.descripcion as descripcion, p.estado as estado, d.nombre as departamento_nombre, d.id as departamento, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, pf.id as familia, pf.nombre as familia_nombre, (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material) as costo_materiales, cast((select (
+                                select sum(s.cantidad) as disponible
+                                from Stock as s
+                                where pm.material=s.material
+                                group by s.material
+                            ) / pm.cantidad as disponibles
+                            from Producto_Material as pm
+                            where pm.producto=p.id
+                            order by disponibles asc
+                            limit 1) as unsigned
+                        ) as disponibles
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id and d.id=:did
                     order by p.nombre asc

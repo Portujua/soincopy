@@ -19,6 +19,7 @@
 			<th class="text-center">Familia</th>
 			<th class="text-center">Costo de venta</th>
 			<th class="text-center">Costo</th>
+			<th class="text-center">Disponibles</th>
 			<th class="text-center">Estado</th>
 		</thead>
 		<tbody>
@@ -48,6 +49,7 @@
 				<td class="text-center">{{ p.familia_nombre }}</td>
 				<td class="text-center">{{ p.costo_unitario | currency:'Bs. ' }}</td>
 				<td class="text-center">{{ p.costo_materiales | currency:'Bs. ' }}</td>
+				<td class="text-center">{{ p.disponibles }} unidades</td>
 				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
 			</tr>
 		</tbody>
