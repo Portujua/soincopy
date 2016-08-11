@@ -58,6 +58,15 @@
 						<script> $('[data-toggle="tooltip"]').tooltip(); </script>
 					</td>
 				</tr>
+				<tr ng-show="orden.productos.length > 0">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="text-right" style="font-weight: bold;">Total</td>
+					<td style="font-weight: bold;">{{ orden.productos | calcularTotalBsDeProductos | currency:'Bs. ' }}</td>
+				</tr>
 			</tbody>
 		</table>
 

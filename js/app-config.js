@@ -28,4 +28,17 @@
 			return items;
 	    };
 	});
+
+	app.filter('calcularTotalBsDeProductos', function () {
+	    return function (productos) {
+	    	if (!productos) return null;
+
+	    	var total = 0.0;
+
+			for (var i = 0; i < productos.length; i++)
+				total += (productos[i].costo_unitario_facturado ? parseFloat(productos[i].costo_unitario_facturado) : parseFloat(productos[i].costo_unitario)) * parseFloat(parseInt(productos[i].nro_copias) * parseInt(productos[i].nro_originales));
+
+			return total;
+	    };
+	});
 }());

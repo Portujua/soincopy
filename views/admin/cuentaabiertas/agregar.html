@@ -81,6 +81,15 @@
 						<script> $('[data-toggle="tooltip"]').tooltip(); </script>
 					</td>
 				</tr>
+				<tr ng-show="cuentaabierta.productos.length > 0">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="text-right" style="font-weight: bold;">Total</td>
+					<td style="font-weight: bold;">{{ cuentaabierta.productos | calcularTotalBsDeProductos | currency:'Bs. ' }}</td>
+				</tr>
 			</tbody>
 		</table>
 
