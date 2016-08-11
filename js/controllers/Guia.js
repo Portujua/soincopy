@@ -320,6 +320,7 @@
 
 					        if (data.status == "ok")
 					        	$scope.safeApply(function(){
+					        		$scope.guia = {};
 					        		delete $localStorage.cache.guia;
 					        		AlertService.showSuccess("Guía añadida con éxito");
 					        		$location.path("/buscarguias");

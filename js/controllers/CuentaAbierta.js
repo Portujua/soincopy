@@ -61,6 +61,7 @@
 					    success: function(data){
 					    	console.log(data)
 				        	$scope.safeApply(function(){
+				        		$scope.cuentaabierta = {};
 				        		delete $localStorage.cache.cuentaabierta;
 				        		$location.path("/cuentaabiertas");
 				        		AlertService.showSuccess(msg);

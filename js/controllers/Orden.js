@@ -59,8 +59,10 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
+					    	console.log(data)
 					        if (data == "ok")
 					        	$scope.safeApply(function(){
+					        		$scope.orden = {};
 					        		delete $localStorage.cache.orden;
 					        		AlertService.showSuccess("Orden añadida con éxito");
 					        		$location.path("/ordenes");

@@ -58,6 +58,7 @@
 					    beforeSend: function(){},
 					    success: function(data){
 				        	$scope.safeApply(function(){
+				        		$scope.carrera = {};
 				        		delete $localStorage.cache.carrera;
 				        		$location.path("/carreras");
 				        		AlertService.showSuccess(msg);
