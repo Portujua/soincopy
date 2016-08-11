@@ -15,6 +15,7 @@
 			<th class="text-center">Nombre</th>
 			<th class="text-center">Personas autorizadas</th>
 			<th class="text-center">Vence</th>
+			<th class="text-center">Total Bs.</th>
 			<th class="text-center">Estado</th>
 		</thead>
 		<tbody>
@@ -43,6 +44,7 @@
 					{{ p.vence_el }}<br/>
 					<strong>{{ p.vencido == 1 ? 'VENCIDO' : '' }}</strong>
 				</td>
+				<td class="text-center">{{ p.total_cuenta | currency:'Bs. ' }}</td>
 				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
 
 				<script> $('[data-toggle="tooltip"]').tooltip(); </script>

@@ -504,6 +504,7 @@
 
                 /* Productos */
                 $cuentas[$i]['productos'] = array();
+                $cuentas[$i]['total_cuenta'] = 0.0;
 
                 $query = $this->db->prepare("
                     select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado
@@ -528,6 +529,8 @@
                     $nuevo['costo_unitario'] = floatval($p['costo_unitario']);
                     $nuevo['costo_unitario_facturado'] = floatval($p['costo_unitario_facturado']);
                     $nuevo['costo_total_facturado'] = floatval($p['costo_total_facturado']);
+
+                    $cuentas[$i]['total_cuenta'] += floatval($p['costo_total_facturado']);
 
                     $cuentas[$i]['productos'][] = $nuevo;
                 }
