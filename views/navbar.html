@@ -11,11 +11,11 @@
 	</p>
 
 	<div class="guias collapse" aria-expanded="false">
-		<a href="./#/agregarguia" ng-show="loginService.getCurrentUser().anadir_guias">
+		<a href="./#/agregarguia" ng-show="loginService.getCurrentUser().anadir_guias" target="_blank">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/buscarguias"  ng-show="loginService.getCurrentUser().buscar_guias">
+		<a href="./#/buscarguias"  ng-show="loginService.getCurrentUser().buscar_guias" target="_blank">
 			<p>Buscar</p>
 		</a>
 	</div>
@@ -26,17 +26,17 @@
 	</p>
 
 	<div class="ordenes collapse" aria-expanded="false">
-		<a href="./#/ordenes/agregar" ng-show="loginService.getCurrentUser().ordenes_agregar">
+		<a href="./#/ordenes/agregar" ng-show="loginService.getCurrentUser().ordenes_agregar" target="_blank">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/ordenes" ng-show="loginService.getCurrentUser().ordenes_ver">
+		<a href="./#/ordenes" ng-show="loginService.getCurrentUser().ordenes_ver" target="_blank">
 			<p>Buscar</p>
 		</a>
 
 		<hr/>
 
-		<a href="./#/buscar_web" ng-show="loginService.getCurrentUser().ver_ordenes_web">
+		<a href="./#/buscar_web" ng-show="loginService.getCurrentUser().ver_ordenes_web" target="_blank">
 			<p>Ver ordenes web</p>
 		</a>
 	</div>
@@ -47,11 +47,11 @@
 	</p>
 
 	<div class="cuentasabiertas collapse" aria-expanded="false">
-		<a href="./#/cuentaabiertas/agregar" ng-show="loginService.getCurrentUser().cuentaabiertas_agregar">
+		<a href="./#/cuentaabiertas/agregar" ng-show="loginService.getCurrentUser().cuentaabiertas_agregar" target="_blank">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/cuentaabiertas" ng-show="loginService.getCurrentUser().cuentaabiertas_editar || loginService.getCurrentUser().cuentaabiertas_deshabilitar">
+		<a href="./#/cuentaabiertas" ng-show="loginService.getCurrentUser().cuentaabiertas_editar || loginService.getCurrentUser().cuentaabiertas_deshabilitar" target="_blank">
 			<p>Buscar</p>
 		</a>
 	</div>
@@ -62,11 +62,11 @@
 	</p>
 
 	<div class="plandeestudio collapse" aria-expanded="false">
-		<a href="./#/agregarplandeestudios" ng-show="loginService.getCurrentUser().plandeestudios_agregar">
+		<a href="./#/agregarplandeestudios" ng-show="loginService.getCurrentUser().plandeestudios_agregar" target="_blank">
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/planesdeestudio" ng-show="loginService.getCurrentUser().plandeestudios_buscar">
+		<a href="./#/planesdeestudio" ng-show="loginService.getCurrentUser().plandeestudios_buscar" target="_blank">
 			<p>Buscar</p>
 		</a>
 	</div>
@@ -82,35 +82,35 @@
 	</p>
 
 	<div class="admin collapse" aria-expanded="false">
-		<a href="./#/personal" ng-show="loginService.menuAdminPersonal()">
+		<a href="./#/personal" ng-show="loginService.menuAdminPersonal()" target="_blank">
 			<p>Personal</p>
 		</a>
 
-		<a href="./#/profesores" ng-show="loginService.menuAdminProfesores()">
+		<a href="./#/profesores" ng-show="loginService.menuAdminProfesores()" target="_blank">
 			<p>Profesores</p>
 		</a>
 
-		<a href="./#/carreras" ng-show="loginService.menuAdminCarreras()">
+		<a href="./#/carreras" ng-show="loginService.menuAdminCarreras()" target="_blank">
 			<p>Carreras</p>
 		</a>
 
-		<a href="./#/menciones" ng-show="loginService.menuAdminCarreras()">
+		<a href="./#/menciones" ng-show="loginService.menuAdminCarreras()" target="_blank">
 			<p>Menciones</p>
 		</a>
 
-		<a href="./#/materias" ng-show="loginService.menuAdminMaterias()">
+		<a href="./#/materias" ng-show="loginService.menuAdminMaterias()" target="_blank">
 			<p>Materias</p>
 		</a>
 
-		<a href="./#/departamentos/ucab" ng-show="loginService.menuAdminDepartamentosUCAB()">
+		<a href="./#/departamentos/ucab" ng-show="loginService.menuAdminDepartamentosUCAB()" target="_blank">
 			<p>Departamentos UCAB</p>
 		</a>
 
-		<a href="./#/dependencias" ng-show="loginService.menuAdminDependencias()">
+		<a href="./#/dependencias" ng-show="loginService.menuAdminDependencias()" target="_blank">
 			<p>Dependencias</p>
 		</a>
 
-		<a href="./#/inventario" ng-show="loginService.menuAdminInventario()">
+		<a href="./#/inventario" ng-show="loginService.menuAdminInventario()" target="_blank">
 			<p>Inventario</p>
 		</a>
 	</div>
