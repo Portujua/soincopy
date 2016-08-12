@@ -125,6 +125,7 @@
 					for (var i = 0; i < json.length; i++)
 						if (json[i].id == id)
 						{
+							json[i].exento_iva = json[i].exento_iva == 1 ? true : false;
 							s.producto = json[i];
 							return;
 						}

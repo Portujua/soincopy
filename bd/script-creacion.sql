@@ -223,6 +223,7 @@ create table Producto (
 	departamento int not null comment 'El departamento donde es ofrecido este producto',
 	fecha_creado datetime,
 	familia int not null,
+	exento_iva tinyint(1) default 0,
 	estado tinyint(1) default 1,
 	primary key(id),
 	foreign key (departamento) references Departamento(id),

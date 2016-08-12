@@ -589,7 +589,7 @@
                             where pm.producto=p.id
                             order by disponibles asc
                             limit 1) as unsigned
-                        ) as disponibles
+                        ) as disponibles, p.exento_iva as exento_iva
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
                     order by p.nombre asc
@@ -612,7 +612,7 @@
                             where pm.producto=p.id
                             order by disponibles asc
                             limit 1) as unsigned
-                        ) as disponibles
+                        ) as disponibles, p.exento_iva as exento_iva
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id and d.id=:did
                     order by p.nombre asc
@@ -1624,15 +1624,16 @@
         public function agregar_producto($post)
         {
             $query = $this->db->prepare("
-                insert into Producto (nombre, descripcion, departamento, familia, fecha_creado)
-                values (:nombre, :descripcion, :departamento, :familia, now())
+                insert into Producto (nombre, descripcion, departamento, familia, fecha_creado, exento_iva)
+                values (:nombre, :descripcion, :departamento, :familia, now(), :exento_iva)
             ");
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
                 ":descripcion" => $post['descripcion'],
                 ":familia" => $post['familia'],
-                ":departamento" => $post['departamento']
+                ":departamento" => $post['departamento'],
+                ":exento_iva" => $post['exento_iva'] ? 1 : 0
             ));
 
             $pid = $this->db->lastInsertId();
@@ -1708,7 +1709,8 @@
                     nombre=:nombre, 
                     descripcion=:descripcion,
                     familia=:familia,
-                    departamento=:departamento
+                    departamento=:departamento,
+                    exento_iva=:exento_iva
                 where id=:id
             ");
 
@@ -1717,7 +1719,8 @@
                 ":descripcion" => $post['descripcion'],
                 ":departamento" => $post['departamento'],
                 ":familia" => $post['familia'],
-                ":id" => $post['id']
+                ":id" => $post['id'],
+                ":exento_iva" => $post['exento_iva'] ? 1 : 0
             ));
 
             // Veo si tiene nuevo precio
