@@ -17,13 +17,13 @@
 		$localStorage.password_attempts = $localStorage.password_attempts ? $localStorage.password_attempts : 0;
 
 		// Chequeo la sesion de PHP al entrar
-		$http.get("php/check_sesion.php").then(function(data){
+		/*$http.get("php/check_sesion.php").then(function(data){
 			if (data.data == "1" && $localStorage.user)
 			{
 				$localStorage.$reset();
 				window.location.reload(true);
 			}
-		});
+		});*/
 
 		return {
 			isLoggedIn: function(){
@@ -62,6 +62,7 @@
 				return $localStorage.user;
 			},
 			startTimer: function(){
+				return;
 				var loginService = this;
 
 				$interval(function(){
