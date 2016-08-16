@@ -817,6 +817,18 @@
             ));
         }
 
+        public function cambiar_estado_mencion($post)
+        {
+            $query = $this->db->prepare("
+                update Mencion set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
         public function cambiar_estado_producto($post)
         {
             $query = $this->db->prepare("
