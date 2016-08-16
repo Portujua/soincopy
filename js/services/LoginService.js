@@ -199,7 +199,7 @@
 
 				if ($localStorage.user.username == "root") return true;
 
-				return $localStorage.user.productos_agregar || $localStorage.user.productos_editar || $localStorage.user.productos_deshabilitar || $localStorage.user.productos_registrar_nuevos_precios || $localStorage.user.productos_eliminar_precios;
+				return $localStorage.user.productos_agregar || $localStorage.user.productos_editar || $localStorage.user.productos_deshabilitar || $localStorage.user.productos_nuevos_precios || $localStorage.user.productos_eliminar_precios;
 			},
 			menuAdmin: function(){
 				if (!this.isLoggedIn()) return false;

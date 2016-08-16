@@ -29,12 +29,12 @@
 		<h2 ng-if="editar">Editar producto</h2>
 		<p><small>(*) Campos obligatorios</small></p>
 
-		<div class="fila">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
 			<p>Nombre (*)</p>
 			<input type="text" name="nombre" ng-model="producto.nombre" required ng-minlength=1 ng-maxlength=64 ng-model-options="{ updateOn: 'blur' }" unique-bd="producto" autocomplete="off" />
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
 			<p>Descripción</p>
 			<textarea name="descripcion" ng-model="producto.descripcion"></textarea>
 		</div>
@@ -58,24 +58,24 @@
 			</script>
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
 			<p>Departamento (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamento" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
 			<p>Familia (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.familia" name="familia" ng-options="c.id as c.nombre for c in familias | quitarDeshabilitados" required ng-minlength=1></select>
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
 			<p>¿Exento del IVA?</p>
 			<input type="checkbox" name="exento" ng-model="producto.exento_iva" style="width: 15px;" />
 		</div>
 
-		<h2>Materiales <small><a href="" ng-click="anadir_material()">Añadir material</a></small></h2>
+		<h2 ng-show="loginService.getCurrentUser().productos_editar">Materiales <small><a href="" ng-click="anadir_material()">Añadir material</a></small></h2>
 
-		<table class="table table-stripped" ng-init="producto.materiales = producto.materiales ? producto.materiales : [];">
+		<table class="table table-stripped" ng-init="producto.materiales = producto.materiales ? producto.materiales : [];" ng-show="loginService.getCurrentUser().productos_editar">
 			<thead>
 				<th>&nbsp;</th>
 				<th>Material (*)</th>
