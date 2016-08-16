@@ -1829,13 +1829,16 @@
                     if (isset($p['capid']))
                         $ids_ahora .= (strlen($ids_ahora) > 0 ? ',' : '') . $p['capid'];
 
-                $query = $this->db->prepare("
-                    delete from CuentaAbierta_Producto where cuentaabierta=:cuentaabierta and id not in (".$ids_ahora.")
-                ");
+                if (strlen($ids_ahora) > 0)
+                {
+                    $query = $this->db->prepare("
+                        delete from CuentaAbierta_Producto where cuentaabierta=:cuentaabierta and id not in (".$ids_ahora.")
+                    ");
 
-                $query->execute(array(
-                    ":cuentaabierta" => $post['id']
-                ));
+                    $query->execute(array(
+                        ":cuentaabierta" => $post['id']
+                    ));
+                }
             }
 
             /* Añado los productos */
