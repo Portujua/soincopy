@@ -9,17 +9,17 @@
 
 		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carrera (*)</p>
-			<select ng-model="materia.carrera_id" required ng-options="c.id as c.nombre for c in carreras" ng-change="cargar_periodos()"></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="materia.carrera_id" required ng-options="c.id as c.nombre for c in carreras" ng-change="cargar_periodos()"></select>
 		</div>
 
 		<div class="fila">
 			<p>Período (*)</p>
-			<select ng-model="materia.periodo_id" required ng-options="p.id as (p.periodo + (p.tipo == 'Anual' ? ' año' : ' semestre')) for p in periodos"></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="materia.periodo_id" required ng-options="p.id as (p.periodo + (p.tipo == 'Anual' ? ' año' : ' semestre')) for p in periodos"></select>
 		</div>
 
 		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo (*)</p>
-			<select ng-model="materia.tipo_id" ng-change="materia.tipo = materia.tipo_id;" required ng-options="c.id as c.nombre disable when c.estado == 0 for c in tipos"></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="materia.tipo_id" ng-change="materia.tipo = materia.tipo_id;" required ng-options="c.id as c.nombre disable when c.estado == 0 for c in tipos"></select>
 		</div>
 
 		<div class="fila text-center">
