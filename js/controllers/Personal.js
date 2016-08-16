@@ -167,9 +167,14 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.cargar_personal();
+			        	$scope.p_ = null;
 			        })
 			    }
 			});
+		}
+
+		$scope.seleccionar = function(p){
+			$scope.p_ = p;
 		}
 
 		if ($routeParams.id)

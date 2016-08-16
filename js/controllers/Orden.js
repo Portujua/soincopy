@@ -83,6 +83,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	SoincopyService.getOrdenes($scope);
+			        	$scope.o_ = null;
 			        })
 			    }
 			});
@@ -144,6 +145,10 @@
 			nw.onbeforeunload = function(){
 				SoincopyService.getDependencias($scope);
 			}
+		}
+
+		$scope.seleccionar = function(o){
+			$scope.o_ = o;
 		}
 
 		if ($routeParams.id)

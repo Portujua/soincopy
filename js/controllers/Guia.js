@@ -295,6 +295,8 @@
 
 					        		if ($scope.guia)
 					        			$scope.guia.status = s;
+
+					        		$scope.g_ = null;
 					        	})
 					        }
 					    }
@@ -422,6 +424,10 @@
 			nw.onbeforeunload = function(){
 				SoincopyService.getProfesores($scope);
 			}
+		}
+
+		$scope.seleccionar = function(g){
+			$scope.g_ = g;
 		}
 
 		if ($routeParams.codigo)

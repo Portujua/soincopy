@@ -65,6 +65,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	SoincopyService.getProductos($scope);
+			        	$scope.p_ = null;
 			        })
 			    }
 			});
@@ -107,6 +108,10 @@
 					aux.push($scope.producto.materiales[i]);
 
 			$scope.producto.materiales = aux;
+		}
+
+		$scope.seleccionar = function(p){
+			$scope.p_ = p;
 		}
 
 		if ($routeParams.id)

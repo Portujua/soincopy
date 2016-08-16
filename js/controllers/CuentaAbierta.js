@@ -82,6 +82,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	SoincopyService.getCuentaAbiertas($scope);
+			        	$scope.p_ = null;
 			        })
 			    }
 			});
@@ -136,6 +137,10 @@
 					aux.push($scope.cuentaabierta.productos[i]);
 
 			$scope.cuentaabierta.productos = aux;
+		}
+
+		$scope.seleccionar = function(p){
+			$scope.p_ = p;
 		}
 
 		if ($routeParams.id)

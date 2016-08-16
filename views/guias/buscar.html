@@ -4,6 +4,30 @@
 	<select ng-options="e.val as e.nombre for e in estados" ng-model="buscar_status" ng-change="cargar_guias()"></select>
 	<br/>
 
+	<div class="botones">
+		<div ng-show="g_">
+			<a class="btn btn-primary" ng-show="loginService.getCurrentUser().modificar_guias" href="./#/modificarguia/{{g_.codigo}}">
+				<span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar
+			</a>
+
+			<a class="btn btn-warning" ng-show="g_.pdf" target="_blank" href="" ng-click="ver_pdf(g_.pdf)">
+				<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Ver guía
+			</a>
+
+			<button class="btn btn-info" ng-show="g_.status != 2 && loginService.getCurrentUser().modificar_guias" ng-click="cambiar_estado(2, g_.codigo)">
+				<span class="glyphicon glyphicon-ban-circle" aria-hidden="true"></span> Deshabilitar
+			</button>
+
+			<button class="btn btn-danger" ng-show="g_.status != -1 && loginService.getCurrentUser().modificar_guias" ng-click="cambiar_estado(-1, g_.codigo)">
+				<span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Rechazar
+			</button>
+
+			<button class="btn btn-success" ng-show="g_.status != 1 && loginService.getCurrentUser().modificar_guias" ng-click="cambiar_estado(1, g_.codigo)">
+				<span class="glyphicon glyphicon-ok-circle" aria-hidden="true"></span> Aprobar
+			</button>
+		</div>
+	</div>
+
 	Buscar <input type="text" ng-model="buscador" placeholder="Ej. 19393, Pedro Perez, 19/03/2016, etc." data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
 
 	<script>
@@ -16,7 +40,6 @@
 
 	<table class="table table-stripped" ng-init="cargar_guias()" ng-show="guias">
 		<thead>
-			<th>&nbsp;</th>
 			<th class="text-center">Código</th>
 			<th class="text-center">Título</th>
 			<th class="text-center">Profesor</th>
@@ -26,7 +49,7 @@
 			<th class="text-center">Fecha de entrega</th>
 		</thead>
 		<tbody>
-			<tr ng-repeat="g in guias" 
+			<tr ng-click="seleccionar(g)" ng-repeat="g in guias" 
 				ng-if="!buscador || 
 						g.codigo.indexOf(buscador) != -1 ||
 						g.titulo.indexOf(buscador) != -1 ||
@@ -34,24 +57,8 @@
 						g.seccion.indexOf(buscador) != -1 ||
 						g.entregada_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.recibida_por.nombre_completo.indexOf(buscador) != -1 ||
-						g.fecha.indexOf(buscador) != -1">
-				<td class="text-center">
-					<div class="btn-group">
-						<a ng-show="loginService.getCurrentUser().modificar_guias" href="./#/modificarguia/{{g.codigo}}">
-							<span data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-pencil" aria-hidden="true" title="Editar"></span>
-						</a>
-
-						<a ng-show="g.pdf" target="_blank" href="" ng-click="ver_pdf(g.pdf)"><span data-toggle="tooltip" data-placement="top" class="glyphicon glyphicon-search" aria-hidden="true" title="Ver guía"></span></a>
-
-						<span data-toggle="tooltip" data-placement="top" ng-show="g.status != 2" ng-click="cambiar_estado(2, g.codigo)" class="text-info glyphicon glyphicon-ban-circle" aria-hidden="true" title="Deshabilitar"></span>
-						<span data-toggle="tooltip" data-placement="top" ng-show="g.status != -1" ng-click="cambiar_estado(-1, g.codigo)" class="text-danger glyphicon glyphicon-remove-circle" aria-hidden="true" title="Remover"></span>
-						<span data-toggle="tooltip" data-placement="top" ng-show="g.status != 1" ng-click="cambiar_estado(1, g.codigo)" class="text-success glyphicon glyphicon-ok-circle" aria-hidden="true" title="Aprobar"></span>
-
-						<script>
-							$('[data-toggle="tooltip"]').tooltip(); 
-						</script>
-					</div>
-				</td>
+						g.fecha.indexOf(buscador) != -1"
+				class="{{ g_.id == g.id ? 'bg-selected' : '' }}">
 				<td class="text-center">{{ g.codigo }}</td>
 				<td class="text-center">{{ g.titulo }}</td>
 				<td class="text-center">{{ g.profesor.nombre_completo }}</td>

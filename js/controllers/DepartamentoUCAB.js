@@ -62,9 +62,14 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	SoincopyService.getDepartamentosUCAB($scope);
+			        	$scope.p_ = null;
 			        })
 			    }
 			});
+		}
+
+		$scope.seleccionar = function(p){
+			$scope.p_ = p;
 		}
 
 		if ($routeParams.id)

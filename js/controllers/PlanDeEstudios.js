@@ -194,6 +194,10 @@
 				$('.selectpicker').selectpicker('refresh');
 			}, 500);
 		}
+
+		$scope.seleccionar = function(p){
+			$scope.p_ = p;
+		}
 	};
 
 	angular.module("soincopy").controller("PlanDeEstudios", PlanDeEstudios);
