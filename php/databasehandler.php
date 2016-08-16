@@ -1615,7 +1615,7 @@
                             :cantidad,
                             :nro_copias,
                             :nro_originales,
-                            (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
                             (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
                             now()
                         )
@@ -1853,7 +1853,7 @@
                                 :cantidad,
                                 :nro_copias,
                                 :nro_originales,
-                                (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
                                 (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
                                 now()
                             )
