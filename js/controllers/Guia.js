@@ -37,7 +37,6 @@
 		$scope.periodos = ["1er", "2do", "3er", "4to", "5to", "6to", "7mo", "8vo", "9no", "10mo"];
 
 		SoincopyService.getCarreras($scope);
-		SoincopyService.getMaterias($scope);
 		SoincopyService.getProfesores($scope);
 		SoincopyService.getPersonal($scope);
 
@@ -79,6 +78,7 @@
 			{
 				var cid = $scope.guia.carrera_id ? $scope.guia.carrera_id : $scope.guia.carrera;
 				SoincopyService.getMaterias($scope, cid);
+				$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 1000);
 			}
 			catch(ex)
 			{
