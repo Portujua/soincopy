@@ -12,7 +12,7 @@
 		<div class="fila">
 			<p>Dependencia (*) <span class="badge" ng-hide="orden.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
 
-			<select ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia" required ng-minlength=1></select>
 			<br/>
 		</div>
 
@@ -37,7 +37,7 @@
 				<tr ng-repeat="p in orden.productos">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos | quitarDeshabilitados" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
+						<select class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos | quitarDeshabilitados" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
 					</td>
 					<td>
 						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="orden.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 />

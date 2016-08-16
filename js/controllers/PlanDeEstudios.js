@@ -1,5 +1,5 @@
 (function(){
-	var PlanDeEstudios = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var PlanDeEstudios = function($scope, $http, $location, $routeParams, $timeout, $window, $interval, AlertService, SoincopyService)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -38,6 +38,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.planes = $.parseJSON(data);
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
 			});
@@ -65,6 +66,8 @@
 			        	
 			        	for (var i = 0; i < json.length; i++)
 			        		$scope.menciones.push(json[i]);
+
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
 			});
@@ -184,6 +187,12 @@
 				},
 				cancel: function(){}
 			});
+		}
+
+		$scope.refresh_selects = function(){
+			$timeout(function(){
+				$('.selectpicker').selectpicker('refresh');
+			}, 500);
 		}
 	};
 

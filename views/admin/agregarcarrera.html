@@ -9,7 +9,7 @@
 
 		<div class="fila" ng-hide="editar">
 			<p>Tipo (*)</p>
-			<select ng-model="carrera.tipo" ng-init="carrera.tipo = 'Semestral'" ng-options="t as t for t in tipos_de_carrera"></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="carrera.tipo" ng-init="carrera.tipo = 'Semestral'" ng-options="t as t for t in tipos_de_carrera"></select>
 		</div>
 
 		<div class="fila text-center">

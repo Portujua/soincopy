@@ -276,7 +276,8 @@ select.selectpicker {
 }
 .bs-searchbox .form-control {
   margin-bottom: 0;
-  width: 100%;
+  width: 100% !important;
+  border: 1px solid #333 !important;
   float: none;
 }
 /*# sourceMappingURL=bootstrap-select.css.map */

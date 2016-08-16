@@ -60,12 +60,12 @@
 
 		<div class="fila">
 			<p>Departamento (*)</p>
-			<select ng-model="producto.departamento" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamento" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
 		</div>
 
 		<div class="fila">
 			<p>Familia (*)</p>
-			<select ng-model="producto.familia" name="familia" ng-options="c.id as c.nombre for c in familias | quitarDeshabilitados" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.familia" name="familia" ng-options="c.id as c.nombre for c in familias | quitarDeshabilitados" required ng-minlength=1></select>
 		</div>
 
 		<div class="fila">
@@ -85,7 +85,7 @@
 				<tr ng-repeat="p in producto.materiales">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_material($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select name="producto_{{ $index }}" ng-model="producto.materiales[$index].material" ng-options="pr.id as pr.nombre for pr in inventario | quitarDeshabilitados" required ng-minlength=1></select>
+						<select class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="producto.materiales[$index].material" ng-options="pr.id as pr.nombre for pr in inventario | quitarDeshabilitados" required ng-minlength=1></select>
 					</td>
 					<td>
 						<input type="number" string-to-number name="cantidad_{{ $index }}" ng-model="producto.materiales[$index].cantidad" ng-min=1 required ng-minlength=0 />

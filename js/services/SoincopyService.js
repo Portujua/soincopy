@@ -1,9 +1,10 @@
 (function(){
-	angular.module("soincopy").factory('SoincopyService', function($http){
+	angular.module("soincopy").factory('SoincopyService', function($http, $timeout){
 		return {
 			getCarreras: function(s){
 				$http.get("api/carreras").then(function(obj){
 					s.carreras = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getCarrera: function(s, id){
@@ -14,6 +15,7 @@
 						if (json[i].id == id)
 						{
 							s.carrera = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -26,10 +28,12 @@
 				if (cid == null)
 					$http.get("api/materias").then(function(obj){
 						s.materias = obj.data;
+						$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 					});
 				else
 					$http.get("api/materias/" + cid).then(function(obj){
 						s.materias = obj.data;
+						$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 					});
 			},
 			getMateria: function(s, id){
@@ -40,6 +44,7 @@
 						if (json[i].id == id)
 						{
 							s.materia = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -51,6 +56,7 @@
 			getProfesores: function(s){
 				$http.get("api/profesores").then(function(obj){
 					s.profesores = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getProfesor: function(s, id){
@@ -61,6 +67,7 @@
 						if (json[i].id == id)
 						{
 							s.profesor = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -72,6 +79,7 @@
 			getPersonal: function(s){
 				$http.get("api/personal").then(function(obj){
 					s.personal = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 
@@ -81,6 +89,7 @@
 			getMenciones: function(s){
 				$http.get("api/menciones").then(function(obj){
 					s.menciones = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getMencion: function(s, id){
@@ -91,6 +100,7 @@
 						if (json[i].id == id)
 						{
 							s.mencion = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -103,11 +113,13 @@
 			getGuias: function(s, status){
 				$http.get("api/guias/" + status).then(function(obj){
 					s.guias = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getGuiasWeb: function(s, status){
 				$http.get("api/guias/web").then(function(obj){
 					s.guias_web = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 
@@ -116,6 +128,7 @@
 			getProductos: function(s){
 				$http.get("api/productos").then(function(obj){
 					s.productos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getProducto: function(s, id){
@@ -127,6 +140,7 @@
 						{
 							json[i].exento_iva = json[i].exento_iva == 1 ? true : false;
 							s.producto = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -134,6 +148,7 @@
 			getProductosOriginales: function(s){
 				$http.get("api/productos/1").then(function(obj){
 					s.productos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 
@@ -144,6 +159,7 @@
 			getDependencias: function(s){
 				$http.get("api/dependencias").then(function(obj){
 					s.dependencias = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getDependencia: function(s, id){
@@ -154,6 +170,7 @@
 						if (json[i].id == id)
 						{
 							s.dependencia = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -166,6 +183,7 @@
 			getFamilias: function(s){
 				$http.get("api/productos/familias").then(function(obj){
 					s.familias = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getFamilia: function(s, id){
@@ -176,6 +194,7 @@
 						if (json[i].id == id)
 						{
 							s.familia = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -189,6 +208,7 @@
 			getCuentaAbiertas: function(s){
 				$http.get("api/cuentaabiertas").then(function(obj){
 					s.cuentaabiertas = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getCuentaAbierta: function(s, id){
@@ -217,6 +237,7 @@
 							}
 
 							s.cuentaabierta = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -229,6 +250,7 @@
 			getCondicionesPago: function(s){
 				$http.get("api/condicionesdepago").then(function(obj){
 					s.condiciones_pago = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 
@@ -239,6 +261,7 @@
 			getDepartamentos: function(s){
 				$http.get("api/departamentos").then(function(obj){
 					s.departamentos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getDepartamento: function(s, id){
@@ -249,6 +272,7 @@
 						if (json[i].id == id)
 						{
 							s.departamento = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -261,6 +285,7 @@
 			getDepartamentosUCAB: function(s){
 				$http.get("api/departamentos/ucab").then(function(obj){
 					s.departamentos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getDepartamentoUCAB: function(s, id){
@@ -271,6 +296,7 @@
 						if (json[i].id == id)
 						{
 							s.departamento = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -283,6 +309,7 @@
 			getInventario: function(s){
 				$http.get("api/inventario").then(function(obj){
 					s.inventario = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getMaterial: function(s, id){
@@ -293,6 +320,7 @@
 						if (json[i].id == id)
 						{
 							s.material = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});
@@ -305,6 +333,7 @@
 			getOrdenes: function(s){
 				$http.get("api/ordenes").then(function(obj){
 					s.ordenes = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
 			getOrden: function(s, id){
@@ -329,6 +358,7 @@
 							}
 
 							s.orden = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}
 				});

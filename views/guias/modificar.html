@@ -23,19 +23,19 @@
 
 		<div class="fila" ng-init="cargar_materias()">
 			<p>Carreras (*)</p>
-			<select ng-options="c.id as c.nombre for c in carreras" ng-model="guia.carrera_id" ng-change="cargar_materias()"></select>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre for c in carreras" ng-model="guia.carrera_id" ng-change="cargar_materias()"></select>
 		</div>
 
 		<div class="fila">
 			<p>Materias (*)</p>
-			<select ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias" ng-model="guia.materia" ng-show="materias"></select>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias" ng-model="guia.materia" ng-show="materias"></select>
 
 			<span ng-hide="guia.carrera_id">Seleccione una carrera</span>
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
 			<p>Profesor (*)</p>
-			<select ng-options="c.id as c.nombre_completo for c in profesores" ng-model="guia.profesor_id" ng-show="profesores"></select>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre_completo for c in profesores" ng-model="guia.profesor_id" ng-show="profesores"></select>
 
 			<span ng-hide="profesores">Cargando...</span>
 		</div>
@@ -52,7 +52,7 @@
 
 		<div class="fila" ng-init="cargar_personal()">
 			<p>Recibido por (*)</p>
-			<select ng-options="c.id as c.nombre_completo for c in personal | filter: quitarAdmin" ng-model="guia.recibida_por_id" ng-show="personal"></select>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre_completo for c in personal | filter: quitarAdmin" ng-model="guia.recibida_por_id" ng-show="personal"></select>
 
 			<span ng-hide="personal">Cargando...</span>
 		</div>

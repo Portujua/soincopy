@@ -30,6 +30,7 @@
 	        			$scope.materia = json[i];
 
 	        	$scope.cargar_periodos();
+	        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			});
 		}
 
@@ -44,6 +45,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.periodos = $.parseJSON(data);
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
 			});
@@ -58,6 +60,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.tipos = $.parseJSON(data);
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
 			});

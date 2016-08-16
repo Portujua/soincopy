@@ -68,6 +68,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.tipos = $.parseJSON(data);
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
 			});
@@ -109,6 +110,7 @@
 			        $scope.safeApply(function(){
 			        	$scope.guia = $.parseJSON(data);
 			        	$scope.guia_aux = $.parseJSON(data);
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
 			});

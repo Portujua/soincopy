@@ -9,21 +9,21 @@
 
 		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carreras (*)</p>
-			<select ng-model="guia.carrera" name="carrera" ng-change="cargar_materias()" required>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-model="guia.carrera" name="carrera" ng-change="cargar_materias()" required>
 				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 
 		<div class="fila">
 			<p>Materias (*)</p>
-			<select ng-model="guia.materia" name="materia" ng-show="guia.carrera" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias | quitarDeshabilitados"></select>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-model="guia.materia" name="materia" ng-show="guia.carrera" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias | quitarDeshabilitados"></select>
 
 			<span ng-hide="guia.carrera">Seleccione una carrera</span>
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
 			<p>Profesor (*) <span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="anadir_profesor()" title="Añadir nuevo profesor">+</span></p>
-			<select ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required>
 				<option ng-repeat="p in profesores" ng-if="p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 		</div>
@@ -35,7 +35,7 @@
 
 		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo</p>
-			<select ng-model="guia.tipo" name="tipo" ng-options="t.id as t.nombre for t in tipos">
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-model="guia.tipo" name="tipo" ng-options="t.id as t.nombre for t in tipos">
 				<option value="">----- NO APLICA -----</option>
 			</select>
 		</div>
@@ -47,7 +47,7 @@
 
 		<div class="fila" ng-init="cargar_personal()">
 			<p>Recibido por (*)</p>
-			<select ng-model="guia.recibida_por" name="recibido_por" ng-show="personal" required ng-minlength=1>
+			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-model="guia.recibida_por" name="recibido_por" ng-show="personal" required ng-minlength=1>
 				<option ng-repeat="p in personal" ng-if="p.id > 1 && p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 		</div>

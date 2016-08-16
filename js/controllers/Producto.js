@@ -94,7 +94,9 @@
 			$scope.producto.materiales.push({
 				material: 0,
 				cantidad: 1
-			})
+			});
+			
+			$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 		}
 
 		$scope.eliminar_material = function(index){

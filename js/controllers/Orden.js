@@ -107,7 +107,9 @@
 				nro_copias: 1,
 				nro_originales: 1,
 				costo_unitario: 0
-			})
+			});
+
+			$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 		}
 
 		$scope.eliminar_producto = function(index){

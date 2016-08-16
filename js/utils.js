@@ -16,3 +16,12 @@ function check_sesion()
 
 	setTimeout("check_sesion()", 5000);
 }
+
+function refresh_selectpicker()
+{
+	$('.selectpicker').selectpicker('refresh');
+	setTimeout("refresh_selectpicker()", 1000);
+	console.log("Refresheando")
+}
+
+//refresh_selectpicker();
