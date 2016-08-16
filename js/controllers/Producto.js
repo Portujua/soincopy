@@ -95,7 +95,7 @@
 				material: 0,
 				cantidad: 1
 			});
-			
+
 			$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 		}
 
