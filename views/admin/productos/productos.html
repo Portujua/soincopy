@@ -33,6 +33,7 @@
 
 	<table class="table table-stripped">
 		<thead>
+			<th class="text-center">Código</th>
 			<th class="text-center">Nombre</th>
 			<th class="text-center">Descripción</th>
 			<th class="text-center">Familia</th>
@@ -50,6 +51,7 @@
 					&& (solo_activos == false || p.estado == 1)
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == p.id ? 'bg-selected' : '' }}">
+				<td class="text-center">{{ p.id }}</td>
 				<td class="text-center">{{ p.nombre }}</td>
 				<td class="text-center">{{ p.descripcion }}</td>
 				<td class="text-center">{{ p.familia_nombre }}</td>
