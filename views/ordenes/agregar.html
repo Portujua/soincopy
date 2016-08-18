@@ -40,10 +40,10 @@
 						<select class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos | quitarDeshabilitados" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="orden.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 />
+						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="orden.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="orden.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 />
+						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="orden.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
 					</td>
 					<td>
 						{{ orden.productos[$index].nro_copias * orden.productos[$index].nro_originales }}
