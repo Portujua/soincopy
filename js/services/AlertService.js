@@ -1,5 +1,5 @@
 (function(){
-	angular.module("soincopy").factory('AlertService', function($timeout){
+	angular.module("soincopy").factory('AlertService', function($timeout, toastr){
 		var time = 3000;
 		var fadeTime = 500;
 
@@ -11,6 +11,9 @@
 				fadeTime = t;
 			},
 			showError: function(text){
+				toastr.error(text);
+				return;
+
 				var aid = Math.floor(Math.random() * 100);
 
 				$(".alertas").append('<div role="alert" data-dismiss="alert" class="alert text-center alert-danger" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
@@ -20,6 +23,9 @@
 				}, time);
 			},
 			showInfo: function(text){
+				toastr.info(text);
+				return;
+
 				var aid = Math.floor(Math.random() * 100);
 
 				$(".alertas").append('<div role="alert" data-dismiss="alert" class="alert text-center alert-info" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
@@ -29,6 +35,9 @@
 				}, time);
 			},
 			showSuccess: function(text){
+				toastr.success(text);
+				return; 
+				
 				var aid = Math.floor(Math.random() * 100);
 
 				$(".alertas").append('<div role="alert" data-dismiss="alert" class="alert text-center alert-success" id="a'+aid+'"><button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>'+text+'</div>');
