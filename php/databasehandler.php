@@ -589,7 +589,7 @@
                             where pm.producto=p.id
                             order by disponibles asc
                             limit 1) as unsigned
-                        ) as disponibles, p.exento_iva as exento_iva
+                        ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
                     order by p.nombre asc
@@ -612,7 +612,7 @@
                             where pm.producto=p.id
                             order by disponibles asc
                             limit 1) as unsigned
-                        ) as disponibles, p.exento_iva as exento_iva
+                        ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id and d.id=:did
                     order by p.nombre asc
