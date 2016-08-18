@@ -1,4 +1,8 @@
 <div class="seccion" ng-controller="Inventario">
+	<p>
+		<a class="btn btn-link" href="./#/inventario">&larr; Volver</a>
+	</p>
+
 	<h1 style="font-size: 20px;">Stock de {{ material.nombre }}</h1>
 	<form class="agregar_stock" name="agregar" ng-submit="registrar_stock()" ng-if="loginService.getCurrentUser().inventario_agregar_stock">
 		<label for="cantidad">Cantidad (*)</label>
