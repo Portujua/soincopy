@@ -50,6 +50,7 @@ button, input[type=submit] {
 	background-color: @bg_navbar;
 	overflow-y: auto;
 	overflow-x: hidden;
+	z-index: 999;
 
 	img {
 		max-width: 100%;
@@ -416,5 +417,45 @@ a {
 
 	span {
 		font-size: 26px;
+	}
+}
+
+
+
+
+
+.ng-animate {
+	&.ng-leave {
+		&.ng-leave-active {
+			/*display: none;*/
+
+		}
+	}
+}
+
+.animacionNgView {
+	&.ng-enter {
+		/* Comienzo cuando entra */
+
+		&.ng-enter-active {
+			/* Final cuando entra */
+		}
+	}
+
+	&.ng-leave {
+		/* Comienzo cuando sale */
+		display: none;
+
+		&.ng-leave-active {
+			/* Final cuando sale */
+		}
+	}
+}
+
+.table {
+	tr {
+		&.ng-leave {
+			display: none;
+		}
 	}
 }

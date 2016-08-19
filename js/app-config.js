@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("soincopy", ["ngRoute", "angular.filter", 'angular-loading-bar', 'ngStorage', 'toastr']);
+	var app = angular.module("soincopy", ["ngRoute", 'ngAnimate', "angular.filter", 'angular-loading-bar', 'ngStorage', 'toastr']);
 
 	app.filter('quitarDeshabilitados', function () {
 	    return function (input) {
@@ -46,13 +46,16 @@
 		angular.extend(toastrConfig, {
 			autoDismiss: true,
 			containerId: 'toast-container',
+			closeButton: true,
+			closeHtml: '<button>&times;</button>',
 			maxOpened: 2,    
 			newestOnTop: true,
 			positionClass: 'toast-bottom-right',
-			preventDuplicates: false,
+			timeOut: 2500,
+			tapToDismiss: true,
+			progressBar: true,
 			preventOpenDuplicates: false,
-			target: 'body',
-			timeOut: 2500
+			target: 'body'
 		});
 	});
 }());
