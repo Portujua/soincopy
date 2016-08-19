@@ -1,7 +1,9 @@
 <form class="seccion agregar" ng-controller="Profesor" ng-submit="registrar_profesor()">
-	<p>
+	<p class="btn-volver">
 		<a class="btn btn-link" href="./#/profesores">&larr; Volver</a>
 	</p>
+
+	<h1 style="font-size: 20px;">Profesores &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
 
 	<p><small>(*) Campos obligatorios</small></p>
 	

@@ -1,5 +1,11 @@
 <form class="agregar agregar_cuentaabierta" name="agregar" ng-init="init_form_cache()" ng-controller="CuentaAbierta" ng-submit="registrar_cuentaabierta()">
 	<div class="register-form">
+		<p class="btn-volver">
+			<a class="btn btn-link" href="./#/cuentaabiertas">&larr; Volver</a>
+		</p>
+
+		<h1 style="font-size: 20px;">Cuentas abiertas &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
+
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">

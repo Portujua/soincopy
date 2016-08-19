@@ -1,8 +1,10 @@
 <form class="agregar agregar_mencion" ng-controller="Mencion" ng-submit="registrar_mencion()">
 	<div class="register-form">
-		<p>
+		<p class="btn-volver">
 			<a class="btn btn-link" href="./#/menciones">&larr; Volver</a>
 		</p>
+
+		<h1 style="font-size: 20px;">Menciones &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 

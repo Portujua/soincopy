@@ -1,8 +1,10 @@
 <form class="agregar agregar_personal" name="agregar" ng-controller="Personal" ng-submit="registrar_personal()" novalidate>
 	<div class="register-form">
-		<p>
+		<p class="btn-volver">
 			<a class="btn btn-link" href="./#/personal">&larr; Volver</a>
 		</p>
+
+		<h1 style="font-size: 20px;">Personal &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 

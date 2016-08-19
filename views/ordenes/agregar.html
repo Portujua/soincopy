@@ -1,5 +1,11 @@
 <form class="agregar seccion" ng-controller="Orden" name="agregar" ng-init="init_form_cache()" ng-submit="registrar_orden()">	
 	<div class="register-form">
+		<p class="btn-volver">
+			<a class="btn btn-link" href="./#/ordenes">&larr; Volver</a>
+		</p>
+
+		<h1 style="font-size: 20px;">Ordenes &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
+
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">

@@ -1,8 +1,10 @@
 <form class="agregar agregar_material" ng-controller="Inventario" ng-submit="registrar_material()">
 	<div class="register-form">
-		<p>
+		<p class="btn-volver">
 			<a class="btn btn-link" href="./#/inventario">&larr; Volver</a>
 		</p>
+
+		<h1 style="font-size: 20px;">Inventario &rarr; {{ editar ? 'Editar' : 'Agregar' }} material</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 

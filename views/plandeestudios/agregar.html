@@ -1,5 +1,9 @@
 <form class="agregar_guia" ng-controller="PlanDeEstudios" ng-submit="registrar_plan()">
-	<h2>Agregar plan de estudios</h2>
+	<p class="btn-volver">
+		<a class="btn btn-link" href="./#/planesdeestudio">&larr; Volver</a>
+	</p>
+
+	<h1 style="font-size: 20px;">Planes de Estudio &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
 
 	<div class="register-form">
 		<div class="fila" ng-hide="plan.para">

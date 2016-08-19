@@ -12,6 +12,8 @@
 		    }
 		};
 
+		$scope.editar = $routeParams.id;
+
 		$scope.loginService = LoginService;
 
 		$scope.cargar_datos_personal = function(id){
