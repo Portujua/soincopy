@@ -30,6 +30,11 @@
 				confirm: function(){
 					var post = $scope.producto;
 
+					if (post.exento_iva)
+						post.exento_iva = post.exento_iva == true ? 1 : 0;
+					else
+						post.exento_iva = 0;
+
 					var fn = "agregar_producto";
 					var msg = "Producto añadido con éxito";
 
@@ -45,6 +50,7 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
+					    	console.log(data)
 				        	$scope.safeApply(function(){
 				        		$location.path("/productos");
 				        		AlertService.showSuccess(msg);

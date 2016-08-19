@@ -1647,7 +1647,7 @@
                 ":descripcion" => $post['descripcion'],
                 ":familia" => $post['familia'],
                 ":departamento" => $post['departamento'],
-                ":exento_iva" => $post['exento_iva'] ? 1 : 0
+                ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0
             ));
 
             $pid = $this->db->lastInsertId();
@@ -1734,7 +1734,7 @@
                 ":departamento" => $post['departamento'],
                 ":familia" => $post['familia'],
                 ":id" => $post['id'],
-                ":exento_iva" => $post['exento_iva'] ? 1 : 0
+                ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0
             ));
 
             // Veo si tiene nuevo precio
