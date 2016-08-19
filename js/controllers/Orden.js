@@ -151,6 +151,10 @@
 			$scope.o_ = o;
 		}
 
+		$scope.mostrar_detalle = function(orden){
+			console.log(orden);
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_orden($routeParams.id);

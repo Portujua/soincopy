@@ -146,7 +146,7 @@
 
 				if ($localStorage.user.username == "root") return true;
 
-				return $localStorage.user.anadir_orden || $localStorage.user.ver_ordenes_web;
+				return $localStorage.user.ordenes_agregar || $localStorage.user.ver_ordenes_web || $localStorage.user.ordenes_editar || $localStorage.user.ordenes_deshabilitar || $localStorage.user.ordenes_ver || $localStorage.user.ordenes_ver_detalle;
 			},
 			menuPensum: function(){
 				if (!this.isLoggedIn()) return false;
@@ -202,7 +202,7 @@
 
 				if ($localStorage.user.username == "root") return true;
 
-				return $localStorage.user.cuentaabiertas_agregar || $localStorage.user.cuentaabiertas_editar || $localStorage.user.cuentaabiertas_deshabilitar;
+				return $localStorage.user.cuentaabiertas_agregar || $localStorage.user.cuentaabiertas_editar || $localStorage.user.cuentaabiertas_deshabilitar || $localStorage.user.cuentaabiertas_ver_detalle;
 			},
 			menuAdminInventario: function(){
 				if (!this.isLoggedIn()) return false;

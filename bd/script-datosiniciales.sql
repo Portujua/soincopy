@@ -67,6 +67,7 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_ag
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_editar", "Podrá editar cualquier información de una orden disponible en el sistema", 8, 2);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_deshabilitar", "Podrá habilitar y deshabilitar ordenes disponibles en el sistema", 7, 2);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_ver", "Podrá consultar las ordenes existentes en el sistema", 1, 2);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("ordenes_ver_detalle", "Podrá consultar el detalle de las ordenes existentes en el sistema", 1, 2);
 
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dependencias_agregar", "Podrá añadir nuevas dependencias al sistema", 3, 10);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("dependencias_editar", "Podrá editar cualquier información de una dependencia disponible en el sistema", 3, 10);
@@ -86,9 +87,10 @@ insert into Condicion_Pago (nombre) values ("Transferencia");
 
 insert into Permiso_Categoria (nombre) values ("Cuentas Abiertas");
 
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_agregar", "Podrá añadir nuevos cuentaabiertas al sistema", 3, 11);
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_editar", "Podrá editar cualquier información de un cuentaabierta disponible en el sistema", 3, 11);
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_deshabilitar", "Podrá habilitar y deshabilitar cuentaabiertas disponibles en el sistema", 3, 11);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_agregar", "Podrá añadir nuevas cuentas abiertas al sistema", 3, 11);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_editar", "Podrá editar cualquier información de una cuentas abierta disponible en el sistema", 3, 11);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_deshabilitar", "Podrá habilitar y deshabilitar cuentas abiertas disponibles en el sistema", 3, 11);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("cuentaabiertas_ver_detalle", "Podrá visualizar un resumen de las cuentas abiertas disponibles en el sistema", 2, 11);
 
 insert into Permiso_Categoria (nombre) values ("Permisos");
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("permisos_agregar", "Podrá asignar y quitar cualquier permiso a cualquier personal disponible en el sistema.", 10, 12);

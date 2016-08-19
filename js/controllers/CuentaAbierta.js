@@ -143,6 +143,10 @@
 			$scope.p_ = p;
 		}
 
+		$scope.mostrar_detalle = function(ca){
+			console.log(ca);
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_cuentaabierta($routeParams.id);
