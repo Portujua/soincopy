@@ -396,7 +396,7 @@ order by fecha desc;
 delimiter //
 
 /* Obtener */
-
+DROP PROCEDURE IF EXISTS obtener_personal_id//
 create procedure obtener_personal_id(in id_ int)
 comment 'Obtener personal en especifico por ID'
 begin
@@ -405,6 +405,7 @@ begin
 	where id=id_;
 end//
 
+DROP PROCEDURE IF EXISTS obtener_profesor//
 create procedure obtener_profesor(in id_ int)
 comment 'Obtener profesor'
 begin
@@ -414,7 +415,7 @@ begin
 end//
 
 /* Agregar */
-
+DROP PROCEDURE IF EXISTS agregar_carrera//
 create procedure agregar_carrera(in nombre_carrera varchar(64), in tipo_carrera varchar(12))
 comment 'Agrega una carrera con sus semestres/años'
 begin
@@ -446,6 +447,7 @@ begin
 	insert into Car_Per (periodo, carrera) values (16, last_id);
 end//
 
+DROP PROCEDURE IF EXISTS agregar_guia_//
 create procedure agregar_guia_(in codigo_ varchar(20), in titulo_ varchar(128), in seccion_ varchar(12), in comentario_ text, in pdf_ varchar(128), in profesor_ int, in materia_ int, in entregada_por_ varchar(128), in recibida_por_ int, in numero_hojas_ int, in numero_paginas_ int)
 comment 'Añade una guia (para carga masiva porque incluye el codigo como parametro'
 begin
@@ -455,6 +457,7 @@ begin
 	select id from Guia order by id desc limit 1;
 end//
 
+DROP PROCEDURE IF EXISTS agregar_profesor//
 create procedure agregar_profesor(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32), in cedula_ varchar(32), in telefono_ varchar(64), in email_ varchar(64))
 comment 'añade un profesor'
 begin
@@ -464,13 +467,14 @@ begin
 	select id from Profesor order by id desc limit 1;
 end//
 
-
+DROP PROCEDURE IF EXISTS modificar_guia//
 create procedure modificar_guia(in codigo_ varchar(20), in titulo_ varchar(128), in seccion_ varchar(12), in comentario_ text, in pdf_ varchar(128), in profesor_ int, in materia_ int, in entregada_por_ varchar(128), in recibida_por_ int, in numero_hojas_ int, in numero_paginas_ int)
 comment 'modifica una guia'
 begin
 	update Guia set titulo=titulo_, seccion=seccion_, comentario=comentario_, pdf=pdf_, profesor=profesor_, materia=materia_, entregada_por=entregada_por_, recibida_por=recibida_por_, numero_hojas=numero_hojas_, numero_paginas=numero_paginas_ where codigo=codigo_;
 end//
 
+DROP PROCEDURE IF EXISTS cambiar_estado_guia//
 create procedure cambiar_estado_guia(in status_ int, in codigo_ varchar(20))
 begin
 	declare status_previo_ int;
