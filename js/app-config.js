@@ -44,7 +44,7 @@
 
 	app.config(function(toastrConfig) {
 		angular.extend(toastrConfig, {
-			autoDismiss: true,
+			autoDismiss: false,
 			containerId: 'toast-container',
 			closeButton: true,
 			closeHtml: '<button>&times;</button>',
@@ -52,6 +52,7 @@
 			newestOnTop: true,
 			positionClass: 'toast-bottom-right',
 			timeOut: 2500,
+			extendedTimeOut: 1000,
 			tapToDismiss: true,
 			progressBar: true,
 			preventOpenDuplicates: false,
