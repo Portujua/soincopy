@@ -24,6 +24,29 @@
 
 
 
+			getProveedores: function(s){
+				$http.get("api/proveedores").then(function(obj){
+					s.proveedores = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+			getProveedor: function(s, id){
+				$http.get("api/proveedores").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.proveedor = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+							return;
+						}
+				});
+			},
+
+
+
+
 			getMaterias: function(s, cid){
 				if (cid == null)
 					$http.get("api/materias").then(function(obj){

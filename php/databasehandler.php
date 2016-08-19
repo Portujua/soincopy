@@ -399,6 +399,19 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_proveedores($post)
+        {
+            $query = $this->db->prepare("
+                select p.*
+                from Proveedor as p
+                order by p.nombre asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_menciones_de($post)
         {
             $query = $this->db->prepare("
@@ -557,9 +570,9 @@
                 $inventario[$i]['stock'] = array();
 
                 $query = $this->db->prepare("
-                    select s.id as id, s.cantidad as cantidad, s.fecha_anadido as fecha_anadido, s.costo as costo, concat(date_format(s.fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(s.fecha_anadido, '%h:%i:%s %p')) as fecha_str
-                    from Stock as s
-                    where s.material=:mid and s.eliminado=0
+                    select s.id as id, s.cantidad as cantidad, s.fecha_anadido as fecha_anadido, s.costo as costo, concat(date_format(s.fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(s.fecha_anadido, '%h:%i:%s %p')) as fecha_str, p.id as proveedor, p.nombre as proveedor_nombre, p.ni as proveedor_ni
+                    from Stock as s, Proveedor as p
+                    where s.proveedor=p.id and s.material=:mid and s.eliminado=0
                     order by fecha_anadido desc
                 ");
 
@@ -811,6 +824,18 @@
         {
             $query = $this->db->prepare("
                 update Departamento_UCAB set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
+
+        public function cambiar_estado_proveedor($post)
+        {
+            $query = $this->db->prepare("
+                update Proveedor set estado=:estado where id=:id
             ");
 
             $query->execute(array(
@@ -1344,6 +1369,22 @@
             return "ok";
         }
 
+        public function agregar_proveedor($post)
+        {
+            $query = $this->db->prepare("
+                insert into Proveedor (nombre, ni, direccion) 
+                values (:nombre, :ni, :direccion)
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":ni" => $post['ni'],
+                ":direccion" => $post['direccion']
+            ));
+
+            return "ok";
+        }
+
         public function agregar_familia($post)
         {
             $query = $this->db->prepare("insert into Producto_Familia (nombre) values (:nombre)");
@@ -1371,14 +1412,15 @@
         public function agregar_stock($post)
         {
             $query = $this->db->prepare("
-                insert into Stock (cantidad, fecha_anadido, costo, material) 
-                values (:cantidad, now(), :costo, :material)
+                insert into Stock (cantidad, fecha_anadido, costo, material, proveedor) 
+                values (:cantidad, now(), :costo, :material, :proveedor)
             ");
 
             $query->execute(array(
                 ":cantidad" => $post['cantidad'],
                 ":costo" => $post['costo'],
-                ":material" => $post['material']
+                ":material" => $post['material'],
+                ":proveedor" => $post['proveedor']
             ));
 
             return "ok";
@@ -1925,6 +1967,26 @@
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
+                ":id" => $post['id']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_proveedor($post)
+        {
+            $query = $this->db->prepare("
+                update Proveedor set 
+                    nombre=:nombre,
+                    ni=:ni,
+                    direccion=:direccion
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":ni" => $post['ni'],
+                ":direccion" => $post['direccion'],
                 ":id" => $post['id']
             ));
 

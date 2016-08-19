@@ -197,6 +197,13 @@
 
 				return $localStorage.user.dependencias_agregar || $localStorage.user.dependencias_editar || $localStorage.user.dependencias_deshabilitar;
 			},
+			menuAdminProveedores: function(){
+				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
+
+				return $localStorage.user.proveedores_agregar || $localStorage.user.proveedores_editar || $localStorage.user.proveedores_deshabilitar;
+			},
 			menuAdminCuentaAbiertas: function(){
 				if (!this.isLoggedIn()) return false;
 
@@ -223,7 +230,7 @@
 
 				if ($localStorage.user.username == "root") return true;
 
-				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminCuentaAbiertas() || this.menuAdminInventario() || this.menuAdminProductos();
+				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminCuentaAbiertas() || this.menuAdminInventario() || this.menuAdminProductos() || this.menuAdminProveedores();
 			},
 			permisos: function(){
 				if (!this.isLoggedIn()) return false;

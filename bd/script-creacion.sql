@@ -326,6 +326,15 @@ create table Material (
 	primary key(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Proveedor (
+	id int not null auto_increment,
+	nombre varchar(128) not null,
+	ni varchar(32) not null comment 'Numero de identificacion: RIF o CI',
+	direccion varchar(256),
+	estado tinyint(1) default 1,
+	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 create table Stock (
 	id int not null auto_increment,
 	cantidad int not null,
@@ -333,8 +342,10 @@ create table Stock (
 	costo float default 0,
 	material int not null,
 	eliminado tinyint(1) default 0 comment 'Para eliminar stock sin borrarlo del sistema',
+	proveedor int not null,
 	primary key(id),
-	foreign key (material) references Material(id)
+	foreign key (material) references Material(id),
+	foreign key (proveedor) references Proveedor(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Producto_Material (
@@ -470,4 +481,4 @@ begin
 
 	insert into Cambio_de_Status (guia, status_previo, status_nuevo, fecha)
 	values ((select id from Guia where codigo=codigo_), status_previo_, status_, now());
-end//
+end

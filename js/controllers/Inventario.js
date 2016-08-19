@@ -15,6 +15,7 @@
 		$scope.editar = $routeParams.id;
 
 		SoincopyService.getInventario($scope);
+		SoincopyService.getProveedores($scope);
 
 		$scope.cargar_material = function(id){
 			SoincopyService.getMaterial($scope, id);

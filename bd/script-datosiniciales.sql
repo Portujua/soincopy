@@ -123,3 +123,10 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("productos_
 	("productos_agregar_familia", "Podrá añadir nuevas familias de productos al sistema", 3, 14),
 	("productos_editar_familia", "Podrá editar familias de productos disponibles en el sistema", 3, 14),
 	("productos_deshabilitar_familia", "Podrá deshabilitar familias de productos disponibles en el sistema", 3, 14);
+
+
+insert into Permiso_Categoria (nombre) values ("Proveedores");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("proveedores_agregar", "Podrá añadir nuevos proveedores al sistema", 5, 15),
+	("proveedores_editar", "Podrá editar cualquier información de un proveedor disponible en el inventario del sistema", 4, 15),
+	("proveedores_deshabilitar", "Podrá deshabilitar un proveedor disponible en el sistema", 6, 15);

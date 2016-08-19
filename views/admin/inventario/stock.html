@@ -9,7 +9,10 @@
 		<input name="cantidad" id="cantidad" type="number" ng-model="material.nuevo_stock.cantidad" required ng-min=1 ng-pattern="/^[0-9]+$/" />
 
 		<label for="costo">Costo (*)</label>
-		<input name="costo" id="costo" type="number" ng-model="material.nuevo_stock.costo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required />
+		<input name="costo" id="costo" type="number" ng-model="material.nuevo_stock.costo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required /><br/>
+
+		<label for="proveedor">Proveedor (*)</label>
+		<select class="selectpicker" data-live-search="true" title="" name="proveedor" id="proveedor" ng-model="material.nuevo_stock.proveedor" ng-options="p.id as p.nombre for p in proveedores" required></select>
 
 		<button class="btn btn-soincopy" type="submit" ng-disabled="agregar.$invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar</button>
 	</form>
@@ -25,6 +28,7 @@
 			<th ng-show="loginService.getCurrentUser().inventario_eliminar_stock">&nbsp;</th>
 			<th class="text-center">Cantidad</th>
 			<th class="text-center">Costo de compra</th>
+			<th class="text-center">Proveedor</th>
 			<th class="text-center">Fecha añadido</th>
 		</thead>
 		<tbody>
@@ -43,6 +47,7 @@
 				</td>
 				<td class="text-center">{{ p.cantidad }}</td>
 				<td class="text-center">{{ p.costo | currency:'Bs. ' }}</td>
+				<td class="text-center">{{ p.proveedor_nombre }}</td>
 				<td class="text-center">{{ p.fecha_str }}</td>
 			</tr>
 		</tbody>

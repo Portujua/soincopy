@@ -84,6 +84,18 @@
 
 
 
+			.when("/proveedores", {
+				templateUrl : "views/admin/proveedores/proveedores.html"
+			})
+			.when("/proveedores/agregar", {
+				templateUrl : "views/admin/proveedores/agregar.html"
+			})
+			.when("/proveedores/editar/:id", {
+				templateUrl : "views/admin/proveedores/agregar.html"
+			})
+
+
+
 			.when("/departamentos/ucab", {
 				templateUrl : "views/admin/departamentos_ucab/departamentos.html"
 			})
