@@ -8,6 +8,7 @@
 
 		$localStorage.session_time = 300;
 		$localStorage.idle_time = $localStorage.idle_time ? $localStorage.idle_time : 0;
+		$localStorage.last_date_idle = $localStorage.last_date_idle ? $localStorage.last_date_idle : new Date().getTime();
 
 		window.onmousemove = function(){ $localStorage.idle_time = 0; };
 		window.onkeypress = function(){ $localStorage.idle_time = 0; };
@@ -24,6 +25,19 @@
 				window.location.reload(true);
 			}
 		});*/
+		if (parseInt(((new Date()).getTime() - $localStorage.last_date_idle)/1000) > $localStorage.session_time)
+		{
+			if (typeof $localStorage.user == 'undefined')
+				$http.get("php/unset.php").then(function(){
+					$localStorage.$reset();
+					window.location.reload(true);
+				});
+			else if ($localStorage.user.username != "root")
+				$http.get("php/unset.php").then(function(){
+					$localStorage.$reset();
+					window.location.reload(true);
+				});
+		}
 
 		return {
 			isLoggedIn: function(){
@@ -54,6 +68,7 @@
 						$localStorage.user = data;
 						$localStorage.user.password = loginData.password;
 						$localStorage.session_key = $localStorage.now_key ? $localStorage.now_key : Math.random();
+						$localStorage.last_session_date = new Date().getTime();
 				        $location.path("/inicio");
 					}
 				});
@@ -61,7 +76,12 @@
 			getCurrentUser: function(){
 				return $localStorage.user;
 			},
+			resetIdle: function(){
+				window.onmousemove = function(){ $localStorage.idle_time = 0; $localStorage.last_date_idle = new Date().getTime(); };
+				window.onkeypress = function(){ $localStorage.idle_time = 0; $localStorage.last_date_idle = new Date().getTime(); };
+			},
 			startTimer: function(){
+				this.resetIdle();
 				return;
 				var loginService = this;
 
@@ -113,10 +133,6 @@
 							});
 						}
 				}, 1000)
-			},
-			resetIdle: function(){
-				window.onmousemove = function(){ console.log("Movio!"); $localStorage.idle_time = 0; };
-				window.onkeypress = function(){ console.log("Movio!"); $localStorage.idle_time = 0; };
 			},
 			menuGuias: function(){
 				if (!this.isLoggedIn()) return false;
