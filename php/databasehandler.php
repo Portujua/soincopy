@@ -2340,7 +2340,7 @@
             $query = $this->db->prepare("
                 select *
                 from Producto
-                where nombre=:nombre
+                where upper(nombre)=upper(:nombre)
             ");
 
             $query->execute(array(
