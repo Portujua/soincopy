@@ -79,7 +79,7 @@
 				<div class="modal-body">
 					<table class="table table-striped">
 						<tr ng-repeat="p in p_.productos">
-							<td class="text-left">{{ p.producto_nombre }}</td>
+							<td class="text-left">{{ p.producto_nombre }} <small>{{ p.fecha_anadido }}</small></td>
 							<td class="text-right">{{ p.copias * p.originales }} unidades</td>
 							<td class="text-right">{{ p.costo_unitario_facturado | currency:'Bs. ' }}</td>
 						</tr>
