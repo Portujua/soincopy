@@ -90,7 +90,7 @@
 		}
 
 		$scope.actualizar_costo_unitario = function(index){
-			if (!$scope.productos)
+			if (!$scope.orden.productos)
 			{
 				$timeout(function(){
 					$scope.actualizar_costo_unitario(index);

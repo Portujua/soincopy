@@ -1538,13 +1538,16 @@
                     if (isset($p['opid']))
                         $ids_ahora .= (strlen($ids_ahora) > 0 ? ',' : '') . $p['opid'];
 
-                $query = $this->db->prepare("
-                    delete from Orden_Producto where orden=:orden and id not in (".$ids_ahora.")
-                ");
+                if (strlen($ids_ahora) > 0)
+                {
+                    $query = $this->db->prepare("
+                        delete from Orden_Producto where orden=:orden and id not in (".$ids_ahora.")
+                    ");
 
-                $query->execute(array(
-                    ":orden" => $post['id']
-                ));
+                    $query->execute(array(
+                        ":orden" => $post['id']
+                    ));
+                }
             }
 
             /* Añado los productos */
