@@ -10,7 +10,9 @@
 
 		<div class="fila">
 			<p>Nombre (*)</p>
-			<input type="text" ng-model="cuentaabierta.nombre" required ng-maxlength=128 ng-minlength=1 />
+			<input type="text" name="nombre" unique-bd="cuentaabierta" ng-model="cuentaabierta.nombre" required ng-maxlength=128 ng-minlength=1 ng-model-options="{ updateOn: 'blur' }" />
+
+			<span ng-show="agregar.nombre.$error.unique && cuentaabierta.nombre.length > 0">Cuenta abierta ya existente</span>
 		</div>
 
 		<div class="fila">

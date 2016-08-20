@@ -2353,6 +2353,25 @@
 
             return json_encode($json);
         }
+
+        public function check_cuentaabierta($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from CuentaAbierta
+                where nombre=:nombre
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre']
+            ));
+
+            $json = array();
+            $json['existe'] = $query->rowCount() > 0 ? true : false;
+            $json['esValido'] = $query->rowCount() == 0 ? true : false;
+
+            return json_encode($json);
+        }
         
 	}
 ?>
