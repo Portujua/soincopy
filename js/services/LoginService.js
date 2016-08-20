@@ -39,11 +39,6 @@
 					window.location.reload(true);
 				});
 		}
-		else
-		{
-			$localStorage.$reset();
-			window.location.reload(true);
-		}
 
 		return {
 			isLoggedIn: function(){
