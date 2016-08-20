@@ -352,6 +352,7 @@ create table Stock (
 	material int not null,
 	eliminado tinyint(1) default 0 comment 'Para eliminar stock sin borrarlo del sistema',
 	proveedor int not null,
+	cantidad_disponible int,
 	primary key(id),
 	foreign key (material) references Material(id),
 	foreign key (proveedor) references Proveedor(id)

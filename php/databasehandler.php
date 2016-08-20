@@ -1435,8 +1435,8 @@
         public function agregar_stock($post)
         {
             $query = $this->db->prepare("
-                insert into Stock (cantidad, fecha_anadido, costo, material, proveedor) 
-                values (:cantidad, now(), :costo, :material, :proveedor)
+                insert into Stock (cantidad, fecha_anadido, costo, material, proveedor, cantidad_disponible) 
+                values (:cantidad, now(), :costo, :material, :proveedor, :cantidad)
             ");
 
             $query->execute(array(
