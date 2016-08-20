@@ -50,7 +50,7 @@
 			closeHtml: '<button>&times;</button>',
 			maxOpened: 2,    
 			newestOnTop: true,
-			positionClass: 'toast-bottom-right',
+			positionClass: 'toast-top-right',
 			timeOut: 2500,
 			extendedTimeOut: 1000,
 			tapToDismiss: true,
