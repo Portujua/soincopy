@@ -209,6 +209,6 @@
 			.when("/agregardependencia", {
 				templateUrl : "views/admin/agregardependencia.html"
 			})
-			.otherwise({redirectTo : "/login"});
+			.otherwise({redirectTo : "/inicio"});
 	});
 }());
