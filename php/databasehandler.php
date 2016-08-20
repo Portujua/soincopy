@@ -11,6 +11,7 @@
 		private $db;
 
         private $session_duration = 300;
+        private $admin_usernames = "('root', 'pmartinez')";
 
         public function __construct()
         {
@@ -1037,6 +1038,25 @@
 
                 foreach ($permisos as $p)
                     $ret[$i]["permisos"] .= "[" . $p['id'] . "]";
+
+
+                /* Departamentos */
+                $ret[$i]["departamentos"] = array();
+
+                $query = $this->db->prepare("
+                    select departamento
+                    from Personal_Departamento
+                    where personal=:usuario
+                ");
+
+                $query->execute(array(
+                    ":usuario" => $ret[$i]['id']
+                ));
+
+                $departamentos = $query->fetchAll();
+
+                foreach ($departamentos as $p)
+                    $ret[$i]["departamentos"][] = $p['departamento'];
             }
 
             return json_encode($ret);
@@ -2079,6 +2099,21 @@
 
             $uid = $this->db->lastInsertId();
 
+            // Lo asigno a los departamentos
+            if (isset($post['departamentos']))
+                foreach ($post['departamentos'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Personal_Departamento (departamento, personal)
+                        values (:departamento, :personal)
+                    ");
+
+                    $query->execute(array(
+                        ":departamento" => $p,
+                        ":personal" => $uid
+                    ));
+                }
+
             // Añado los permisos
             if (isset($post['permisos']))
             {
@@ -2200,6 +2235,30 @@
                     ":uid" => $post['id']
                 ));
             }
+
+            // Borro los departamentos a los que esta asociado
+            $query = $this->db->prepare("
+                delete from Personal_Departamento where personal=:uid
+            ");
+
+            $query->execute(array(
+                ":uid" => $post['id']
+            ));
+
+            // Lo asigno a los departamentos
+            if (isset($post['departamentos']))
+                foreach ($post['departamentos'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Personal_Departamento (departamento, personal)
+                        values (:departamento, :personal)
+                    ");
+
+                    $query->execute(array(
+                        ":departamento" => $p,
+                        ":personal" => $post['id']
+                    ));
+                }
 
             return "ok";
         }

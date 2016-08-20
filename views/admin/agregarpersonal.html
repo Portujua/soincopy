@@ -60,6 +60,11 @@
 			<input type="text" ng-model="personal_nuevo.telefono" name="tlf" ng-minlength=0 ng-maxlength=32 ng-init="personal_nuevo.telefono = ''" placeholder="Teléfono" />
 		</div>
 
+		<div class="fila">
+			<p>Departamento (*)</p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="personal_nuevo.departamentos" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1 multiple></select>
+		</div>
+
 		<div ng-if="loginService.permisos()">
 			<h3 ng-init="cargar_permisos(); personal_nuevo.permisos = '';">Permisos <small class="btn btn-link" ng-click="todos_los_permisos()">Marcar todos</small></h3>
 

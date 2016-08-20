@@ -15,6 +15,7 @@
 		$scope.editar = $routeParams.id;
 
 		$scope.loginService = LoginService;
+		SoincopyService.getDepartamentos($scope);
 
 		$scope.cargar_datos_personal = function(id){
 			$.ajax({
@@ -138,7 +139,7 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
-					    	console.log(data)
+					    	console.log(data);
 					        if (data == "ok")
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess(msg);

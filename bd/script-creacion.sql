@@ -44,6 +44,12 @@ create table Profesor (
 	primary key(id), unique(cedula)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Departamento (
+	id int not null auto_increment,
+	nombre varchar(32) not null,
+	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 create table Personal (
 	id int not null auto_increment,
 	nombre varchar(32) not null,
@@ -58,6 +64,15 @@ create table Personal (
 	fecha_creado datetime,
 	estado tinyint(1) default 1,
 	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+create table Personal_Departamento (
+	id int not null auto_increment,
+	departamento int not null,
+	personal int not null,
+	primary key(id),
+	foreign key (departamento) references Departamento(id),
+	foreign key (personal) references Personal(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Tipo_Materia (
@@ -200,12 +215,6 @@ create table Guia_Web (
 	comentarios text,
 	revisada tinyint(1) default 0,
 	fecha datetime,
-	primary key(id)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
-
-create table Departamento (
-	id int not null auto_increment,
-	nombre varchar(32) not null,
 	primary key(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
