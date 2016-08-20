@@ -11,7 +11,7 @@
 		private $db;
 
         private $session_duration = 300;
-        private $admin_usernames = "('root', 'pmartinez')";
+        private $admin_usernames = "('root', 'pmartinez', 'marcos')";
 
         public function __construct()
         {
