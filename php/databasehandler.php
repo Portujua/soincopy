@@ -2359,7 +2359,7 @@
             $query = $this->db->prepare("
                 select *
                 from CuentaAbierta
-                where nombre=:nombre
+                where upper(nombre)=upper(:nombre)
             ");
 
             $query->execute(array(
