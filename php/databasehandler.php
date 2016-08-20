@@ -262,6 +262,9 @@
         {
             @session_start();
 
+            if (!isset($_SESSION['login_username']))
+                return true;
+
             if (!isset($_SESSION['login_time']))
                 return true;
 
