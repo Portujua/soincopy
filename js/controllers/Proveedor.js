@@ -59,6 +59,8 @@
 				        	$scope.safeApply(function(){
 				        		$scope.proveedor = {};
 				        		delete $localStorage.cache.proveedor;
+				        		if (window.location.hash.indexOf('express') != -1)
+					        		window.close();
 				        		$location.path("/proveedores");
 				        		AlertService.showSuccess(msg);
 				        	})

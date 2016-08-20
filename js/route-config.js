@@ -90,6 +90,9 @@
 			.when("/proveedores/agregar", {
 				templateUrl : "views/admin/proveedores/agregar.html"
 			})
+			.when("/proveedores/agregar/express", {
+				templateUrl : "views/admin/proveedores/agregar.html"
+			})
 			.when("/proveedores/editar/:id", {
 				templateUrl : "views/admin/proveedores/agregar.html"
 			})
