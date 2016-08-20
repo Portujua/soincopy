@@ -18,13 +18,13 @@
 		$localStorage.password_attempts = $localStorage.password_attempts ? $localStorage.password_attempts : 0;
 
 		// Chequeo la sesion de PHP al entrar
-		$http.get("php/check_sesion.php").then(function(data){
+		/*$http.get("php/check_sesion.php").then(function(data){
 			if (data.data == "1" && $localStorage.user)
 			{
 				$localStorage.$reset();
 				window.location.reload(true);
 			}
-		});
+		});*/
 
 		if (parseInt(((new Date()).getTime() - $localStorage.last_date_idle)/1000) > $localStorage.session_time)
 		{
@@ -38,6 +38,11 @@
 					$localStorage.$reset();
 					window.location.reload(true);
 				});
+		}
+		else
+		{
+			$localStorage.$reset();
+			window.location.reload(true);
 		}
 
 		return {
