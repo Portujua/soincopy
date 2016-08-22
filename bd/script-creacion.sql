@@ -273,6 +273,7 @@ create table Orden (
 	estado tinyint(1) default 1,
 	creado_por int not null,
 	cond_pago int,
+	fecha date comment 'Es la fecha de la orden introducida por el usuario',
 	primary key(id),
 	foreign key (dependencia) references Dependencia(id),
 	foreign key (creado_por) references Personal(id),

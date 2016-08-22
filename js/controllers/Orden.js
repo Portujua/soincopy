@@ -44,6 +44,9 @@
 					/*post.fecha_inicio_ = post.fecha_inicio.toJSON().slice(0,10);
 					post.fecha_fin_ = post.fecha_fin.toJSON().slice(0,10);*/
 
+					if (post.fecha)
+						post.fecha_ = post.fecha.toJSON().slice(0,10);
+
 					var fn = "agregar_orden";
 					var msg = "Orden añadida con éxito";
 

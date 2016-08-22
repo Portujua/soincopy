@@ -758,7 +758,7 @@
         public function cargar_ordenes($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, d.nombre as dependencia, o.observaciones as observaciones, o.estado as estado, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada
+                select o.id as id, o.numero as numero, d.nombre as dependencia, o.observaciones as observaciones, o.estado as estado, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Orden_Producto where orden=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, o.fecha as fecha, date_format(o.fecha, '%d/%m/%Y') as fecha_str
                 from Orden as o, Dependencia as d
                 where o.dependencia=d.id
                 order by o.id desc
@@ -1532,13 +1532,14 @@
             @session_start();
 
             $query = $this->db->prepare("
-                insert into Orden (numero, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada)
-                values (:numero, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
+                insert into Orden (numero, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada, fecha)
+                values (:numero, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now(), :fecha)
             ");
 
             $query->execute(array(
                 ":numero" => $post['numero'],
                 ":dependencia" => $post['dependencia'],
+                ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":usuario" => $_SESSION['login_username']
             ));
@@ -1582,7 +1583,8 @@
                     numero=:numero,
                     dependencia=:dependencia,
                     observaciones=:observaciones,
-                    fecha_modificada=now()
+                    fecha_modificada=now(),
+                    fecha=:fecha
                 where id=:id
             ");
 
@@ -1590,6 +1592,7 @@
                 ":numero" => $post['numero'],
                 ":dependencia" => $post['dependencia'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
+                ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
                 ":id" => $post['id']
             ));
 

@@ -16,6 +16,12 @@
 		</div>
 
 		<div class="fila">
+			<p>Fecha</p>
+
+			<input type="date" name="fecha" ng-model="orden.fecha" required />
+		</div>
+
+		<div class="fila">
 			<p>Dependencia (*) <span class="badge" ng-hide="orden.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
 
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia" required ng-minlength=1></select>

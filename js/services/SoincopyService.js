@@ -378,6 +378,12 @@
 							date = json[i].fecha_fin.split('-');
 							json[i].fecha_fin = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);*/
 
+							if (json[i].fecha)
+							{
+								var date = json[i].fecha.split('-');
+								json[i].fecha = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]), 12, 0, 0, 0);
+							}
+
 							json[i].dependencia = json[i].did;
 
 							for (var k = 0; k < json[i].productos.length; k++)

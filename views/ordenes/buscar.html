@@ -61,7 +61,7 @@
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.expirada == 1 ? 'bg-warning' : '') }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
 					<td class="text-center">{{ o.numero }}</td>
 					<td class="text-center">{{ o.dependencia }}</td>
-					<td class="text-center">{{ o.fecha_anadida }}</td>
+					<td class="text-center">{{ o.fecha_str }}</td>
 					<td class="text-center">{{ o.costo_total | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.observaciones }}</td>
 					<td class="text-center">{{ o.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
@@ -79,6 +79,7 @@
 					<button type="button" class="close" data-dismiss="modal" style="font-size: 20px !important;">&times;</button>
 					<h4 class="modal-title">Orden #{{ o_.numero }} <small>para la dependencia <strong>{{ o_.dependencia }}</strong></small></h4>
 					<p>
+						Fecha: {{ o_.fecha_str }}<br/>
 						Fecha añadida: {{ o_.fecha_anadida }}<br/>
 						Última vez modificada: {{ o_.fecha_modificada }}<br/>
 						<small>Observaciones: {{ o_.observaciones.length > 0 ? o_.observaciones : 'Ninguna' }}</small>
