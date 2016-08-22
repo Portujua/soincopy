@@ -16,6 +16,8 @@
 
 		SoincopyService.getInventario($scope);
 		SoincopyService.getProveedores($scope);
+		SoincopyService.getPersonal($scope);
+		SoincopyService.getInventarioAsignado($scope);
 
 		$scope.cargar_material = function(id){
 			SoincopyService.getMaterial($scope, id);
@@ -126,6 +128,60 @@
 			nw.onbeforeunload = function(){
 				SoincopyService.getProveedores($scope);
 			}
+		}
+
+		$scope.actualizar_max = function(){
+			for (var i = 0; i < $scope.inventario.length; i++)
+				if ($scope.asignar.material == $scope.inventario[i].id)
+					$scope.asignar.max = $scope.inventario[i].cantidad - $scope.inventario[i].cantidad_asignada;
+		}
+
+		$scope.asignar_material = function(){
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea asignar este material?',
+				confirm: function(){
+					var post = $scope.asignar;
+
+					var fn = "asignar_material";
+					var msg = "Material asignado con éxito";
+
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+				        	$scope.safeApply(function(){
+				        		$location.path("/inventario");
+				        		AlertService.showSuccess(msg);
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
+			});
+		}
+
+		$scope.eliminar_material_asignado = function(id){
+			$.confirm({
+				title: "Alerta",
+				content: "Al eliminar esta asignación se retirará por completo de todo el sistema, ¿está seguro que desea eliminarlo?",
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=eliminar_material_asignado",
+					    type: "POST",
+					    data: {id:id},
+					    beforeSend: function(){},
+					    success: function(data){
+					    	console.log(data)
+					        $scope.safeApply(function(){
+					        	SoincopyService.getInventarioAsignado($scope);
+					        })
+					    }
+					});
+				}
+			})
 		}
 
 		if ($routeParams.id)

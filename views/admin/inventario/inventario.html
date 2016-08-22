@@ -3,6 +3,10 @@
 	<p>
 		<a href="./#/inventario/material/agregar" class="btn btn-soincopy" ng-show="loginService.getCurrentUser().inventario_agregar_material"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar material</a>
 
+		<a href="./#/inventario/asignar/material" class="btn btn-soincopy" ng-show="loginService.getCurrentUser().inventario_asignar_material">
+			<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Asignar material
+		</a>
+
 		<a href="./#/productos" class="btn btn-soincopy" ng-show="loginService.menuAdminProductos()">
 			<span class="glyphicon glyphicon-search" aria-hidden="true"></span> Ver Productos
 		</a> <br/>
@@ -49,7 +53,11 @@
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == p.id ? 'bg-selected' : '' }}">
 				<td class="text-center">{{ p.nombre }}</td>
-				<td class="text-center">{{ p.cantidad }}</td>
+				<td class="text-center">
+					{{ p.cantidad - p.cantidad_asignada }} disponible para asignar<br/>
+					{{ p.cantidad_asignada }} asignado <br/>
+					<strong>{{ p.cantidad }} en total</strong>
+				</td>
 				<td class="text-center">{{ p.fecha_ultimo_ingreso ? p.fecha_ultimo_ingreso : 'Nunca' }}</td>
 				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
 			</tr>

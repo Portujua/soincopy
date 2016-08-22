@@ -1,0 +1,33 @@
+<form class="agregar agregar_material" ng-controller="Inventario" name="agregar" ng-submit="asignar_material()" ng-init="asignar.max = 9999999;">
+	<div class="register-form">
+		<p class="btn-volver">
+			<a class="btn btn-link" href="./#/inventario/asignar/material">&larr; Volver</a>
+		</p>
+
+		<h1 style="font-size: 20px;">Inventario &rarr; Asignar material &rarr; Asignar</h1>
+
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Cantidad (*)</p>
+			<input type="number" name="cantidad" ng-model="asignar.cantidad" required ng-min=1 ng-max="{{ asignar.max }}" />
+			<span ng-show="agregar.cantidad.$error.max">No hay suficiente material disponible. El máximo es: <strong>{{ asignar.max }}</strong></span>
+		</div>
+
+		<div class="fila">
+			<p>Personal (*)</p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="asignar.personal" name="personal" ng-show="personal" required ng-minlength=1>
+				<option ng-repeat="p in personal" ng-if="p.id > 1 && p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
+			</select>
+		</div>
+
+		<div class="fila">
+			<p>Material (*)</p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="material" ng-model="asignar.material" ng-options="pr.id as pr.nombre for pr in inventario | quitarDeshabilitados" ng-change="actualizar_max()" required ng-minlength=1></select>
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Aceptar</button>
+		</div>
+	</div>
+</form>

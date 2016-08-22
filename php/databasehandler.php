@@ -562,7 +562,7 @@
         public function cargar_inventario($post)
         {
             $query = $this->db->prepare("
-                select m.id as id, m.nombre as nombre, m.estado as estado, (select (case when sum(cantidad) is not null then sum(cantidad) else 0 end) from Stock where material=m.id and eliminado=0) as cantidad, (select concat(date_format(fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(fecha_anadido, '%h:%i:%s %p')) from Stock where material=m.id and eliminado=0 order by fecha_anadido desc limit 1) as fecha_ultimo_ingreso
+                select m.id as id, m.nombre as nombre, m.estado as estado, (select (case when sum(cantidad) is not null then sum(cantidad) else 0 end) from Stock where material=m.id and eliminado=0) as cantidad, (select concat(date_format(fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(fecha_anadido, '%h:%i:%s %p')) from Stock where material=m.id and eliminado=0 order by fecha_anadido desc limit 1) as fecha_ultimo_ingreso, (select (case when sum(restante) is not null then sum(restante) else 0 end) from Stock_Personal where material=m.id and agotado=0 and eliminado=0) as cantidad_asignada
                 from Material as m
             ");
 
@@ -696,6 +696,20 @@
                 select *
                 from Departamento
                 order by nombre asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
+        public function cargar_materiales_asignados($post)
+        {
+            $query = $this->db->prepare("
+                select sp.id as id, sp.personal, sp.material, sp.cantidad, sp.restante, concat(p.nombre, ' ', p.apellido) as personal_nombre, m.nombre as material_nombre, date_format(sp.fecha, '%d/%m/%Y') as fecha, time_format(sp.fecha, '%h:%i:%s %p') as hora
+                from Stock_Personal as sp, Personal as p, Material as m
+                where sp.personal=p.id and sp.material=m.id and sp.eliminado=0
+                order by p.nombre asc
             ");
 
             $query->execute();
@@ -915,6 +929,21 @@
             ");
 
             $query->execute(array(
+                ":id" => $post['id']
+            ));
+        }
+
+        public function eliminar_material_asignado($post)
+        {
+            $query = $this->db->prepare("
+                update Stock_Personal set 
+                    eliminado=1,
+                    eliminado_por=:eliminado_por
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":eliminado_por" => $_SESSION['login_username'],
                 ":id" => $post['id']
             ));
         }
@@ -1427,6 +1456,22 @@
 
             $query->execute(array(
                 ":nombre" => $post['nombre']
+            ));
+
+            return "ok";
+        }
+
+        public function asignar_material($post)
+        {
+            $query = $this->db->prepare("
+                insert into Stock_Personal (cantidad, personal, material, fecha, asignado_por, restante) values (:cantidad, :personal, :material, now(), :asignado_por, :cantidad)
+            ");
+
+            $query->execute(array(
+                ":cantidad" => $post['cantidad'],
+                ":personal" => $post['personal'],
+                ":material" => $post['material'],
+                ":asignado_por" => $_SESSION['login_username']
             ));
 
             return "ok";

@@ -363,9 +363,25 @@ create table Producto_Material (
 	producto int not null,
 	material int not null,
 	cantidad int default 1 comment 'cantidad de material para este producto',
-	creado_por int not null comment 'el usuario que lo crea',
+	creado_por varchar(32) not null comment 'el usuario que lo crea',
 	fecha_creado datetime,
 	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+create table Stock_Personal (
+	id int not null auto_increment,
+	personal int not null,
+	material int not null,
+	cantidad int not null,
+	fecha datetime,
+	asignado_por int,
+	agotado tinyint(1) default 0,
+	restante int,
+	eliminado tinyint(1) default 0,
+	eliminado_por varchar(32),
+	primary key(id),
+	foreign key (personal) references Personal(id),
+	foreign key (material) references Material(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 

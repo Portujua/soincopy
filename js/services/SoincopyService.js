@@ -335,6 +335,12 @@
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
+			getInventarioAsignado: function(s){
+				$http.get("api/inventario/asignado").then(function(obj){
+					s.inventario_asignado = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
 			getMaterial: function(s, id){
 				$http.get("api/inventario").then(function(obj){
 					var json = obj.data;

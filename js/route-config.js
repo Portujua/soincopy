@@ -194,6 +194,12 @@
 			.when("/inventario", {
 				templateUrl : "views/admin/inventario/inventario.html"
 			})
+			.when("/inventario/asignar/material", {
+				templateUrl : "views/admin/inventario/materiales_asignados.html"
+			})
+			.when("/inventario/asignar/material/asignar", {
+				templateUrl : "views/admin/inventario/asignar_material.html"
+			})
 			.when("/inventario/material/agregar", {
 				templateUrl : "views/admin/inventario/agregar_material.html"
 			})
