@@ -153,7 +153,7 @@
 					    beforeSend: function(){},
 					    success: function(data){
 				        	$scope.safeApply(function(){
-				        		$location.path("/inventario");
+				        		$location.path("/inventario/asignar/material");
 				        		AlertService.showSuccess(msg);
 				        	})
 					    }
