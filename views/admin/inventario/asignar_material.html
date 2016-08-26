@@ -9,6 +9,11 @@
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
+			<p>Material (*)</p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="material" ng-model="asignar.material" ng-options="pr.id as pr.nombre for pr in inventario | quitarDeshabilitados" ng-change="actualizar_max()" required ng-minlength=1></select>
+		</div>
+
+		<div class="fila">
 			<p>Cantidad (*)</p>
 			<input type="number" name="cantidad" ng-model="asignar.cantidad" required ng-min=1 ng-max="{{ asignar.max }}" />
 			<span ng-show="agregar.cantidad.$error.max">No hay suficiente material disponible. El máximo es: <strong>{{ asignar.max }}</strong></span>
@@ -19,11 +24,6 @@
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="asignar.personal" name="personal" ng-show="personal" required ng-minlength=1>
 				<option ng-repeat="p in personal" ng-if="p.id > 1 && p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
-		</div>
-
-		<div class="fila">
-			<p>Material (*)</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="material" ng-model="asignar.material" ng-options="pr.id as pr.nombre for pr in inventario | quitarDeshabilitados" ng-change="actualizar_max()" required ng-minlength=1></select>
 		</div>
 
 		<div class="fila text-center">
