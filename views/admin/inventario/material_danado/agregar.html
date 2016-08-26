@@ -1,0 +1,25 @@
+<form class="agregar agregar_material" name="agregar" ng-controller="Inventario" ng-submit="registrar_material_danado()">
+	<div class="register-form">
+		<p class="btn-volver">
+			<a class="btn btn-link" href="./#/inventario/material/danado">&larr; Volver</a>
+		</p>
+
+		<h1 style="font-size: 20px;">Material dañado &rarr; Agregar</h1>
+
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Stock asignado (*)</p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="stock" ng-model="material.stock" ng-options="s as ('[' + s.fecha + '] ' + s.material_nombre + ' (' + s.restante + ' restante)') for s in mi_inventario_asignado" required></select>
+		</div>
+
+		<div class="fila">
+			<p>Cantidad (*)</p>
+			<input type="number" name="cantidad" ng-model="material.cantidad" required ng-min=1 ng-max="material.stock.restante" />
+		</div>
+
+		<div class="fila text-center">
+			<button class="btn btn-primary" ng-disabled="agregar.$invalid" type="submit">Aceptar</button>
+		</div>
+	</div>
+</form>

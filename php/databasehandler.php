@@ -717,6 +717,44 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_mis_materiales_asignados($post)
+        {
+            @session_start();
+
+            $query = $this->db->prepare("
+                select sp.id as id, sp.personal, sp.material, sp.cantidad, sp.restante, concat(p.nombre, ' ', p.apellido) as personal_nombre, m.nombre as material_nombre, date_format(sp.fecha, '%d/%m/%Y') as fecha, time_format(sp.fecha, '%h:%i:%s %p') as hora
+                from Stock_Personal as sp, Personal as p, Material as m
+                where sp.personal=p.id and sp.material=m.id and sp.eliminado=0
+                    and p.usuario=:usuario
+                order by p.nombre asc
+            ");
+
+            $query->execute(array(
+                ":usuario" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : 'root'
+            ));
+
+            return json_encode($query->fetchAll());
+        }
+
+        public function cargar_materiales_danados($post)
+        {
+            @session_start();
+
+            $query = $this->db->prepare("
+                select spd.id as id, spd.cantidad, sp.restante, concat(p.nombre, ' ', p.apellido) as personal_nombre, m.nombre as material_nombre, date_format(spd.fecha, '%d/%m/%Y') as fecha, time_format(spd.fecha, '%h:%i:%s %p') as hora
+                from Stock_Personal as sp, Personal as p, Material as m, Stock_Personal_Danado as spd
+                where sp.personal=p.id and sp.material=m.id and spd.stock=sp.id
+                    and p.usuario=:usuario
+                order by p.nombre asc
+            ");
+
+            $query->execute(array(
+                ":usuario" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : 'root'
+            ));
+
+            return json_encode($query->fetchAll());
+        }
+
         public function cargar_departamentos_ucab($post)
         {
             $query = $this->db->prepare("
@@ -944,6 +982,30 @@
 
             $query->execute(array(
                 ":eliminado_por" => $_SESSION['login_username'],
+                ":id" => $post['id']
+            ));
+        }
+
+        public function eliminar_material_danado($post)
+        {
+            // Actualizo primero el stock
+            $query = $this->db->prepare("
+                update Stock_Personal set
+                    restante=restante + (select cantidad from Stock_Personal_Danado where id=:id)
+                where id=(select stock from Stock_Personal_Danado where id=:id)
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id']
+            ));
+
+            // Elimino
+            $query = $this->db->prepare("
+                delete from Stock_Personal_Danado 
+                where id=:id
+            ");
+
+            $query->execute(array(
                 ":id" => $post['id']
             ));
         }
@@ -1416,6 +1478,30 @@
 
             $query->execute(array(
                 ":nombre" => $post['nombre']
+            ));
+
+            return "ok";
+        }
+
+        public function agregar_material_danado($post)
+        {
+            $query = $this->db->prepare("insert into Stock_Personal_Danado (stock, cantidad, fecha) values (:stock, :cantidad, now())");
+
+            $query->execute(array(
+                ":stock" => $post['stock_id'],
+                ":cantidad" => $post['cantidad']
+            ));
+
+            // Actualizo el restante
+            $query = $this->db->prepare("
+                update Stock_Personal set
+                    restante=:restante
+                where id=:stock
+            ");
+
+            $query->execute(array(
+                ":stock" => $post['stock_id'],
+                ":restante" => intval($post['stock']['restante']) - intval($post['cantidad'])
             ));
 
             return "ok";

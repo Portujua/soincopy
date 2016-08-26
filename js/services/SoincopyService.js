@@ -106,6 +106,13 @@
 				});
 			},
 
+			getInventarioDanado: function(s){
+				$http.get("api/inventario/danado").then(function(obj){
+					s.material_danado = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+
 
 
 
@@ -338,6 +345,12 @@
 			getInventarioAsignado: function(s){
 				$http.get("api/inventario/asignado").then(function(obj){
 					s.inventario_asignado = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+			getMiInventarioAsignado: function(s){
+				$http.get("api/inventario/asignado/mio").then(function(obj){
+					s.mi_inventario_asignado = obj.data;
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},

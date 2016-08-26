@@ -18,6 +18,8 @@
 		SoincopyService.getProveedores($scope);
 		SoincopyService.getPersonal($scope);
 		SoincopyService.getInventarioAsignado($scope);
+		SoincopyService.getMiInventarioAsignado($scope);
+		SoincopyService.getInventarioDanado($scope);
 
 		$scope.cargar_material = function(id){
 			SoincopyService.getMaterial($scope, id);
@@ -182,6 +184,54 @@
 					});
 				}
 			})
+		}
+
+		$scope.eliminar_material_danado = function(id){
+			$.confirm({
+				title: "Alerta",
+				content: "Al eliminar este material se retirará por completo de todo el sistema, ¿está seguro que desea eliminarlo?",
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=eliminar_material_danado",
+					    type: "POST",
+					    data: {id:id},
+					    beforeSend: function(){},
+					    success: function(data){
+					        $scope.safeApply(function(){
+					        	SoincopyService.getInventarioDanado($scope);
+					        })
+					    }
+					});
+				}
+			})
+		}
+
+		$scope.registrar_material_danado = function(){
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea asignar este material a la lista de materiales dañados?',
+				confirm: function(){
+					var post = $scope.material;
+					post.stock_id = post.stock.id;
+
+					var fn = "agregar_material_danado";
+					var msg = "Material asignado con éxito";
+
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+				        	$scope.safeApply(function(){
+				        		$location.path("/inventario/material/danado");
+				        		AlertService.showSuccess(msg);
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
+			});
 		}
 
 		if ($routeParams.id)

@@ -385,6 +385,15 @@ create table Stock_Personal (
 	foreign key (material) references Material(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Stock_Personal_Danado (
+	id int not null auto_increment,
+	stock int not null,
+	cantidad int not null,
+	fecha datetime,
+	primary key(id),
+	foreign key (stock) references Stock_Personal(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

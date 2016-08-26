@@ -1,0 +1,37 @@
+<div class="seccion" ng-controller="Inventario">
+	<h1 style="font-size: 20px;">Material dañado</h1>
+	<p>
+		<a href="./#/inventario/material/danado/agregar" class="btn btn-soincopy"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar</a>
+
+		<div class="botones">
+			<div ng-show="p_">
+				<button class="btn btn-danger" ng-click="eliminar_material_danado(p_.id)">
+					<span class="glyphicon glyphicon-remove" aria-hidden="true" ></span> Eliminar
+				</button>
+			</div>
+		</div>
+	</p>
+
+	<p>
+		Buscar material dañado <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" />
+	</p>
+
+	<table class="table table-stripped">
+		<thead>
+			<th class="text-center">Nombre</th>
+			<th class="text-center">Cantidad</th>
+			<th class="text-center">Fecha</th>
+		</thead>
+		<tbody>
+			<tr ng-click="seleccionar(p)" ng-repeat="p in material_danado" 
+				ng-if="
+					(p.nombre.indexOf(busqueda) != -1)
+				"
+				class="{{ p_.id == p.id ? 'bg-selected' : '' }}">
+				<td class="text-center">{{ p.material_nombre }}</td>
+				<td class="text-center">{{ p.cantidad }}</td>
+				<td class="text-center">{{ p.fecha }} a las {{ p.hora }}</td>
+			</tr>
+		</tbody>
+	</table>
+</div>

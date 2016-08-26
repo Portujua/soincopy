@@ -212,6 +212,12 @@
 			.when("/inventario/stock/editar/:id", {
 				templateUrl : "views/admin/inventario/agregar_stock.html"
 			})
+			.when("/inventario/material/danado", {
+				templateUrl : "views/admin/inventario/material_danado/material_danado.html"
+			})
+			.when("/inventario/material/danado/agregar", {
+				templateUrl : "views/admin/inventario/material_danado/agregar.html"
+			})
 
 
 			

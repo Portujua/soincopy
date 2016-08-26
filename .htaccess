@@ -44,6 +44,8 @@ RewriteRule ^api/cuentaabiertas$ /soincopy/php/run.php?fn=cargar_cuentaabiertas 
 RewriteRule ^api/inventario$ /soincopy/php/run.php?fn=cargar_inventario [QSA,L]
 RewriteRule ^api/productos/familias$ /soincopy/php/run.php?fn=cargar_familias [QSA,L]
 RewriteRule ^api/inventario/asignado$ /soincopy/php/run.php?fn=cargar_materiales_asignados [QSA,L]
+RewriteRule ^api/inventario/asignado/mio$ /soincopy/php/run.php?fn=cargar_mis_materiales_asignados [QSA,L]
+RewriteRule ^api/inventario/danado$ /soincopy/php/run.php?fn=cargar_materiales_danados [QSA,L]
 
 RewriteRule ^api/guias/(.+)$ /soincopy/php/run.php?fn=cargar_guias&status=$1 [QSA,L]
 RewriteRule ^api/guia/(.+)$ /soincopy/php/run.php?fn=cargar_guia&codigo=$1 [QSA,L]
