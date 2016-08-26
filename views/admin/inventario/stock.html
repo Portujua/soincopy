@@ -15,7 +15,7 @@
 		<label for="proveedor">Proveedor (*) <span class="badge" ng-show="loginService.getCurrentUser().proveedores_agregar" ng-click="agregar_proveedor()" title="Añadir nuevo proveedor">+</span></label>
 		<select class="selectpicker" data-live-search="true" title="" name="proveedor" id="proveedor" ng-model="material.nuevo_stock.proveedor" ng-options="p.id as p.nombre for p in proveedores | quitarDeshabilitados" required></select>
 
-		<button class="btn btn-soincopy" type="submit" ng-disabled="agregar.$invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar</button>
+		<button class="btn btn-soincopy" type="submit" ng-disabled="agregar.$invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar stock</button>
 	</form>
 
 	<hr/>
