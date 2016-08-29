@@ -30,6 +30,7 @@
 	<table class="table table-striped">
 		<thead>
 			<th class="text-center">Personal</th>
+			<th class="text-center">Departamento</th>
 			<th class="text-center">Material</th>
 			<th class="text-center">Cantidad asignada</th>
 			<th class="text-center">Restante</th>
@@ -44,6 +45,9 @@
 				"
 				class="{{ p_.id == p.id ? 'bg-selected' : '' }}">
 				<td class="text-center">{{ p.personal_nombre }}</td>
+				<td class="text-center">
+					<p style="margin-bottom: 0px !important;" ng-repeat="d in p.departamentos">{{ d }}</p>
+				</td>
 				<td class="text-center">{{ p.material_nombre }}</td>
 				<td class="text-center">{{ p.cantidad }}</td>
 				<td class="text-center">{{ p.restante }}</td>

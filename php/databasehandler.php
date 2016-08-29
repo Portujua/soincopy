@@ -714,7 +714,30 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            $ret = $query->fetchAll();
+
+            for ($i = 0; $i < count($ret); $i++)
+            {
+                /* Departamentos */
+                $ret[$i]["departamentos"] = array();
+
+                $query = $this->db->prepare("
+                    select pd.departamento as departamento, d.nombre as departamento_nombre
+                    from Personal_Departamento as pd, Departamento as d
+                    where pd.departamento=d.id and pd.personal=:usuario
+                ");
+
+                $query->execute(array(
+                    ":usuario" => $ret[$i]['personal']
+                ));
+
+                $departamentos = $query->fetchAll();
+
+                foreach ($departamentos as $p)
+                    $ret[$i]["departamentos"][] = $p['departamento_nombre'];
+            }
+
+            return json_encode($ret);
         }
 
         public function cargar_mis_materiales_asignados($post)
