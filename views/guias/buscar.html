@@ -53,8 +53,8 @@
 			<th class="text-center">Recibida por</th>
 			<th class="text-center">Fecha de entrega</th>
 		</thead>
-		<tbody>
-			<tr ng-click="seleccionar(g)" ng-repeat="g in guias" 
+		<tbody ng-init="nroResultados = 25; actual = 0;">
+			<tr ng-click="seleccionar(g)" ng-repeat="g in guias | paginar:nroResultados+'|'+actual" 
 				ng-if="!buscador || 
 						g.codigo.indexOf(buscador) != -1 ||
 						g.titulo.indexOf(buscador) != -1 ||
@@ -74,4 +74,12 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div class="text-center" ng-show="nroResultados < guias.length">
+		<ul class="pagination">
+			<li ng-repeat="i in paginationCount(nroResultados, guias.length)" class="{{ actual == i ? 'active' : '' }}">
+				<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+			</li>
+		</ul>
+	</div>
 </div>

@@ -31,8 +31,8 @@
 			<th class="text-center">Tipo</th>
 			<th class="text-center">Estado</th>
 		</thead>
-		<tbody>
-			<tr ng-click="seleccionar(p)" ng-repeat="p in carreras" 
+		<tbody ng-init="nroResultados = 25; actual = 0;">
+			<tr ng-click="seleccionar(p)" ng-repeat="p in carreras | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(p.nombre.indexOf(busqueda) != -1 ||
 					p.tipo.indexOf(busqueda) != -1)
@@ -48,4 +48,12 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div class="text-center" ng-show="nroResultados < carreras.length">
+		<ul class="pagination">
+			<li ng-repeat="i in paginationCount(nroResultados, carreras.length)" class="{{ actual == i ? 'active' : '' }}">
+				<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+			</li>
+		</ul>
+	</div>
 </div>

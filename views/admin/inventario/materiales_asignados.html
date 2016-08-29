@@ -36,8 +36,8 @@
 			<th class="text-center">Restante</th>
 			<th class="text-center">Fecha</th>
 		</thead>
-		<tbody>
-			<tr ng-click="seleccionar(p)" ng-repeat="p in inventario_asignado" 
+		<tbody ng-init="nroResultados = 25; actual = 0;">
+			<tr ng-click="seleccionar(p)" ng-repeat="p in inventario_asignado | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(p.personal_nombre.indexOf(busqueda) != -1 ||
 					p.material_nombre.indexOf(busqueda) != -1 ||
@@ -55,4 +55,12 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div class="text-center" ng-show="nroResultados < inventario_asignado.length">
+		<ul class="pagination">
+			<li ng-repeat="i in paginationCount(nroResultados, inventario_asignado.length)" class="{{ actual == i ? 'active' : '' }}">
+				<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+			</li>
+		</ul>
+	</div>
 </div>

@@ -63,8 +63,8 @@
 			<th class="text-center">¿Incluye IVA?</th>
 			<th class="text-center">Estado</th>
 		</thead>
-		<tbody>
-			<tr ng-click="seleccionar(p)" ng-repeat="p in productos | orderBy:order" 
+		<tbody ng-init="nroResultados = 25; actual = 0;">
+			<tr ng-click="seleccionar(p)" ng-repeat="p in productos | orderBy:order | paginar:nroResultados+'|'+actual"
 				ng-if="
 					(p.nombre.indexOf(busqueda) != -1)
 
@@ -83,4 +83,12 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div class="text-center" ng-show="nroResultados < productos.length">
+		<ul class="pagination">
+			<li ng-repeat="i in paginationCount(nroResultados, productos.length)" class="{{ actual == i ? 'active' : '' }}">
+				<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+			</li>
+		</ul>
+	</div>
 </div>

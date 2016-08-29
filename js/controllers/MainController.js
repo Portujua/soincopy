@@ -22,6 +22,16 @@
 
 		LoginService.startTimer();
 
+		$scope.paginationCount = function(n, total){
+			var k = Math.ceil(total/n);
+			var a = [];
+
+			for (var i = 0; i < k; i++)
+				a.push(i);
+
+			return a;
+		}
+
 		$scope.cerrar_seccion = function(){
 			if (window.location.hash.indexOf("editar") != -1 || window.location.hash.indexOf("agregar") != -1)
 				$.confirm({

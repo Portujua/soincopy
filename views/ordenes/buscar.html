@@ -47,8 +47,8 @@
 				<th class="text-center">Observaciones</th>
 				<th class="text-center">Estado</th>
 			</thead>
-			<tbody>
-				<tr ng-click="seleccionar(o)"  ng-repeat="o in ordenes"
+			<tbody ng-init="nroResultados = 25; actual = 0;">
+				<tr ng-click="seleccionar(o)"  ng-repeat="o in ordenes | paginar:nroResultados+'|'+actual"
 					ng-if="
 						(o.numero.indexOf(buscador) != -1 ||
 						o.dependencia.indexOf(buscador) != -1 ||
@@ -68,6 +68,14 @@
 				</tr>
 			</tbody>
 		</table>
+
+		<div class="text-center" ng-show="nroResultados < ordenes.length">
+			<ul class="pagination">
+				<li ng-repeat="i in paginationCount(nroResultados, ordenes.length)" class="{{ actual == i ? 'active' : '' }}">
+					<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+				</li>
+			</ul>
+		</div>
 	</div>
 
 

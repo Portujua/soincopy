@@ -32,8 +32,8 @@
 			<th class="text-center">Proveedor</th>
 			<th class="text-center">Fecha añadido</th>
 		</thead>
-		<tbody>
-			<tr ng-repeat="p in material.stock" 
+		<tbody ng-init="nroResultados = 25; actual = 0;">
+			<tr ng-repeat="p in material.stock | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(p.fecha_str.indexOf(busqueda) != -1)
 				">
@@ -53,4 +53,12 @@
 			</tr>
 		</tbody>
 	</table>
+
+	<div class="text-center" ng-show="nroResultados < material.stock.length">
+		<ul class="pagination">
+			<li ng-repeat="i in paginationCount(nroResultados, material.stock.length)" class="{{ actual == i ? 'active' : '' }}">
+				<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+			</li>
+		</ul>
+	</div>
 </div>
