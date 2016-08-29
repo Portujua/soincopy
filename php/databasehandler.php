@@ -1133,11 +1133,12 @@
 
                 /* Departamentos */
                 $ret[$i]["departamentos"] = array();
+                $ret[$i]["departamentos_str"] = array();
 
                 $query = $this->db->prepare("
-                    select departamento
-                    from Personal_Departamento
-                    where personal=:usuario
+                    select pd.departamento as departamento, d.nombre as departamento_nombre
+                    from Personal_Departamento as pd, Departamento as d
+                    where pd.departamento=d.id and pd.personal=:usuario
                 ");
 
                 $query->execute(array(
@@ -1147,7 +1148,10 @@
                 $departamentos = $query->fetchAll();
 
                 foreach ($departamentos as $p)
+                {
                     $ret[$i]["departamentos"][] = $p['departamento'];
+                    $ret[$i]["departamentos_str"][] = $p['departamento_nombre'];
+                }
             }
 
             return json_encode($ret);

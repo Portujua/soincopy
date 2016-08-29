@@ -32,6 +32,7 @@
 				<th class="text-center">Cédula</th>
 				<th class="text-center">Teléfono</th>
 				<th class="text-center">Correo electrónico</th>
+				<th class="text-center">Departamento</th>
 				<th class="text-center">Estado</th>
 			</thead>
 			<tbody>
@@ -49,6 +50,9 @@
 					<td class="text-center">{{ p.cedula }}</td>
 					<td class="text-center">{{ p.telefono }}</td>
 					<td class="text-center">{{ p.email }}</td>
+					<td class="text-center">
+						<p style="margin-bottom: 0px !important;" ng-repeat="d in p.departamentos_str">{{ d }}</p>
+					</td>
 					<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
 
 					<script> $('[data-toggle="tooltip"]').tooltip(); </script>
