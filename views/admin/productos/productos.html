@@ -31,10 +31,30 @@
 		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
 	</p>
 
-	<table class="table table-stripped">
+	<table class="table table-stripped" ng-init="order = '+codigo'">
 		<thead>
-			<th class="text-center">Código</th>
-			<th class="text-center">Nombre</th>
+			<th class="text-center">
+				Código 
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+codigo'" ng-show="order != '+codigo'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-codigo'" ng-show="order != '-codigo'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
+			<th class="text-center">
+				Nombre
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-nombre'" ng-show="order != '-nombre'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
 			<th class="text-center">Descripción</th>
 			<th class="text-center">Familia</th>
 			<th class="text-center">Costo de venta</th>
@@ -44,7 +64,7 @@
 			<th class="text-center">Estado</th>
 		</thead>
 		<tbody>
-			<tr ng-click="seleccionar(p)" ng-repeat="p in productos" 
+			<tr ng-click="seleccionar(p)" ng-repeat="p in productos | orderBy:order" 
 				ng-if="
 					(p.nombre.indexOf(busqueda) != -1)
 

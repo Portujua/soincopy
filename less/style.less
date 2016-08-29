@@ -461,7 +461,7 @@ a {
 }
 
 .table {
-	tr {
+	* {
 		&.ng-leave {
 			display: none;
 		}
@@ -486,5 +486,16 @@ a {
 
 	.glyphicon {
 		color: #eee;
+	}
+}
+
+.glyphicon.order {
+	color: black;
+	font-size: 12px;
+	border: none;
+	padding: 0;
+
+	&.ng-hide {
+		display: none;
 	}
 }

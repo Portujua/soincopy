@@ -10,7 +10,7 @@
 
 		private $db;
 
-        private $session_duration = 300;
+        private $session_duration = 3600;
         private $admin_usernames = "('root', 'pmartinez', 'marcos')";
 
         public function __construct()
@@ -614,7 +614,7 @@
                         ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
-                    order by p.nombre asc
+                    order by codigo asc
                 ");
 
                 $query->execute(array(
@@ -639,7 +639,7 @@
                         ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id and d.id=:did
-                    order by p.nombre asc
+                    order by codigo asc
                 ");
 
                 $query->execute(array(
@@ -1911,7 +1911,7 @@
                         ":producto" => $pid,
                         ":material" => $m['material'],
                         ":cantidad" => $m['cantidad'],
-                        ":creado_por" => $_SESSION['login_username']
+                        ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
                     ));
                 }
 
@@ -2008,7 +2008,7 @@
                         ":producto" => $post['id'],
                         ":material" => $m['material'],
                         ":cantidad" => $m['cantidad'],
-                        ":creado_por" => $_SESSION['login_username']
+                        ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
                     ));
                 }
 
