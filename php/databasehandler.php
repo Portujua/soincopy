@@ -1825,7 +1825,8 @@
                                 cantidad=:cantidad, 
                                 nro_copias=:nro_copias, 
                                 nro_originales=:nro_originales,
-                                precio_total=:precio_total
+                                precio_total=:precio_total,
+                                precio_unitario=:precio_unitario
                             where
                                 id=:opid
                         ");
@@ -1836,7 +1837,8 @@
                             ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
                             ":nro_copias" => intval($p['nro_copias']),
                             ":nro_originales" => intval($p['nro_originales']),
-                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales'])))
+                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales']))),
+                            ":precio_unitario" => floatval($p['costo_unitario_facturado'])
                         ));
                     }
                 }
@@ -2865,6 +2867,27 @@
                 );
 
             return $csv;
+        }
+
+        public function autorizacion_admin($post)
+        {
+            $query = $this->db->prepare("
+                select u.id as id
+                from Personal as u
+                where u.usuario in ".$this->admin_usernames." and u.contrasena=:password
+                limit 1
+            ");
+
+            $query->execute(array(
+                ":password" => $post['password']
+            ));
+
+            $u = $query->fetchAll();
+
+            $json = array();
+            $json['resultado'] = $query->rowCount() > 0 ? true : false;
+
+            return json_encode($json);
         }
         
 	}

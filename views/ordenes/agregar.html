@@ -33,7 +33,7 @@
 			<textarea name="observaciones" ng-model="orden.observaciones"></textarea>
 		</div>
 
-		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small></h2>
+		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small><small style="float: right;"><a href="" ng-click="requerir_autorizacion()">Hacer descuento</a></small></h2>
 
 		<table class="table table-stripped" ng-init="orden.productos = orden.productos ? orden.productos : [];">
 			<thead>
@@ -63,6 +63,7 @@
 					<td ng-init="actualizar_costo_unitario($index)">
 						<strong>{{ orden.productos[$index].costo_unitario | currency:'Bs. ' }}</strong><br/>
 						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se añadió este producto a esta orden el {{ orden.productos[$index].fecha_anadido }}">{{ orden.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
+						<input type="number" style="border: 1px solid red;" ng-model="orden.productos[$index].costo_unitario_facturado" name="costo_unitario_facturado" ng-show="autorizado" />
 					</td>
 					<td>
 						<strong>{{ ((orden.productos[$index].costo_unitario_facturado ? orden.productos[$index].costo_unitario_facturado : orden.productos[$index].costo_unitario) * (orden.productos[$index].nro_copias * orden.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong><br/>
