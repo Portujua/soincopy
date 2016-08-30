@@ -1752,7 +1752,7 @@
                             :cantidad,
                             :nro_copias,
                             :nro_originales,
-                            (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
                             (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
                             now()
                         )
@@ -1827,7 +1827,7 @@
                                 :cantidad,
                                 :nro_copias,
                                 :nro_originales,
-                                (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
                                 (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
                                 now()
                             )
@@ -2660,7 +2660,7 @@
             return json_encode($json);
         }
 
-        public function check_nro_pedidos($post)
+        public function check_nro_pedido($post)
         {
             $query = $this->db->prepare("
                 select *
@@ -2767,7 +2767,7 @@
                             :cantidad,
                             :nro_copias,
                             :nro_originales,
-                            (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
                             (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
                             now()
                         )
@@ -2842,7 +2842,7 @@
                                 :cantidad,
                                 :nro_copias,
                                 :nro_originales,
-                                (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
                                 (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
                                 now()
                             )
