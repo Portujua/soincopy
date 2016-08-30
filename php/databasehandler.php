@@ -873,6 +873,57 @@
             return json_encode($ordenes);
         }
 
+        public function cargar_pedidos($post)
+        {
+            $query = $this->db->prepare("
+                select o.id as id, o.numero as numero, d.nombre as dependencia, o.observaciones as observaciones, o.estado as estado, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, o.fecha as fecha, date_format(o.fecha, '%d/%m/%Y') as fecha_str
+                from Pedido as o, Dependencia as d
+                where o.dependencia=d.id
+                order by o.id desc
+            ");
+            $query->execute();
+
+            $pedidos = $query->fetchAll();
+
+            for ($i = 0; $i < count($pedidos); $i++)
+            {
+                /* Productos */
+                $pedidos[$i]['productos'] = array();
+
+                $query = $this->db->prepare("
+                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado, op.id as opid, date_format(op.fecha_anadido, '%d/%m/%Y') as fecha_anadido, p.nombre as producto_nombre
+                    from Pedido_Producto as op, Producto as p
+                    where op.producto=p.id
+                    and op.pedido=:pedido
+                ");
+
+                $query->execute(array(
+                    ":pedido" => $pedidos[$i]['id']
+                ));
+
+                $productos = $query->fetchAll();
+
+                foreach ($productos as $p)
+                {
+                    $nuevo = array();
+
+                    $nuevo['producto'] = $p['producto'];
+                    $nuevo['producto_nombre'] = $p['producto_nombre'];
+                    $nuevo['opid'] = $p['opid'];
+                    $nuevo['fecha_anadido'] = $p['fecha_anadido'];
+                    $nuevo['copias'] = intval($p['nro_copias']);
+                    $nuevo['originales'] = intval($p['nro_originales']);
+                    $nuevo['costo_unitario'] = floatval($p['costo_unitario']);
+                    $nuevo['costo_unitario_facturado'] = floatval($p['costo_unitario_facturado']);
+                    $nuevo['costo_total_facturado'] = floatval($p['costo_total_facturado']);
+
+                    $pedidos[$i]['productos'][] = $nuevo;
+                }
+            }
+
+            return json_encode($pedidos);
+        }
+
         public function cargar_dependencias($post)
         {
             $query = $this->db->prepare("
@@ -2542,6 +2593,25 @@
             return json_encode($json);
         }
 
+        public function check_nro_pedidos($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Pedido
+                where numero=:nro
+            ");
+
+            $query->execute(array(
+                ":nro" => $post['nro']
+            ));
+
+            $json = array();
+            $json['existe'] = $query->rowCount() > 0 ? true : false;
+            $json['esValido'] = $query->rowCount() == 0 ? true : false;
+
+            return json_encode($json);
+        }
+
         public function check_usuario($post)
         {
             $query = $this->db->prepare("
@@ -2597,6 +2667,165 @@
             $json['esValido'] = $query->rowCount() == 0 ? true : false;
 
             return json_encode($json);
+        }
+
+        public function agregar_pedido($post)
+        {
+            @session_start();
+
+            $query = $this->db->prepare("
+                insert into Pedido (numero, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada, fecha)
+                values (:numero, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now(), :fecha)
+            ");
+
+            $query->execute(array(
+                ":numero" => $post['numero'],
+                ":dependencia" => $post['dependencia'],
+                ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
+                ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
+                ":usuario" => $_SESSION['login_username']
+            ));
+
+            $oid = $this->db->lastInsertId();
+
+            /* Añado los productos */
+            if (isset($post['productos']))
+                foreach ($post['productos'] as $p)
+                {
+                    $query = $this->db->prepare("
+                        insert into Pedido_Producto (pedido, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
+                        values (
+                            :pedido,
+                            :producto,
+                            :cantidad,
+                            :nro_copias,
+                            :nro_originales,
+                            (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                            now()
+                        )
+                    ");
+
+                    $query->execute(array(
+                        ":pedido" => $oid,
+                        ":producto" => $p['producto'],
+                        ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                        ":nro_copias" => intval($p['nro_copias']),
+                        ":nro_originales" => intval($p['nro_originales'])
+                    ));
+                }
+
+            return "ok";
+        }
+
+        public function editar_pedido($post)
+        {
+            $query = $this->db->prepare("
+                update Pedido set 
+                    numero=:numero,
+                    dependencia=:dependencia,
+                    observaciones=:observaciones,
+                    fecha_modificada=now(),
+                    fecha=:fecha
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":numero" => $post['numero'],
+                ":dependencia" => $post['dependencia'],
+                ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
+                ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
+                ":id" => $post['id']
+            ));
+
+            /* Elimino los productos */
+            if (isset($post['productos']))
+            {
+                // Veo los IDS actuales
+                $ids_ahora = "";
+
+                foreach ($post['productos'] as $p)
+                    if (isset($p['opid']))
+                        $ids_ahora .= (strlen($ids_ahora) > 0 ? ',' : '') . $p['opid'];
+
+                if (strlen($ids_ahora) > 0)
+                {
+                    $query = $this->db->prepare("
+                        delete from Pedido_Producto where pedido=:pedido and id not in (".$ids_ahora.")
+                    ");
+
+                    $query->execute(array(
+                        ":pedido" => $post['id']
+                    ));
+                }
+            }
+
+            /* Añado los productos */
+            if (isset($post['productos']))
+                foreach ($post['productos'] as $p)
+                {
+                    /* Veo si debo agregarlo porque es nuevo o editarlo */
+                    if (!isset($p['costo_unitario_facturado'])) // Es nuevo
+                    {
+                        $query = $this->db->prepare("
+                            insert into Pedido_Producto (pedido, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
+                            values (
+                                :pedido,
+                                :producto,
+                                :cantidad,
+                                :nro_copias,
+                                :nro_originales,
+                                (select costo from Producto_Costo where producto=1 and eliminado=0 order by fecha desc limit 1),
+                                (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                                now()
+                            )
+                        ");
+
+                        $query->execute(array(
+                            ":pedido" => $post['id'],
+                            ":producto" => $p['producto'],
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":nro_copias" => intval($p['nro_copias']),
+                            ":nro_originales" => intval($p['nro_originales'])
+                        ));
+                    }
+                    else // Es viejo
+                    {
+                        $query = $this->db->prepare("
+                            update Pedido_Producto set
+                                producto=:producto, 
+                                cantidad=:cantidad, 
+                                nro_copias=:nro_copias, 
+                                nro_originales=:nro_originales,
+                                precio_total=:precio_total
+                            where
+                                id=:opid
+                        ");
+
+                        $query->execute(array(
+                            ":opid" => $p['opid'],
+                            ":producto" => $p['producto'],
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":nro_copias" => intval($p['nro_copias']),
+                            ":nro_originales" => intval($p['nro_originales']),
+                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales'])))
+                        ));
+                    }
+                }
+
+            return "ok";
+        }
+
+        public function cambiar_estado_pedido($post)
+        {
+            $query = $this->db->prepare("
+                update Pedido set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
         }
         
 	}

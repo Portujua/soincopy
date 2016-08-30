@@ -131,3 +131,12 @@ insert into Permiso_Categoria (nombre) values ("Proveedores");
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("proveedores_agregar", "Podrá añadir nuevos proveedores al sistema", 5, 15),
 	("proveedores_editar", "Podrá editar cualquier información de un proveedor disponible en el inventario del sistema", 4, 15),
 	("proveedores_deshabilitar", "Podrá deshabilitar un proveedor disponible en el sistema", 6, 15);
+
+
+insert into Permiso_Categoria (nombre) values ("Pedidos");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_agregar", "Podrá generar nuevos pedidos en el sistema", 6, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_editar", "Podrá editar cualquier información de una orden disponible en el sistema", 8, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_deshabilitar", "Podrá habilitar y deshabilitar pedidos disponibles en el sistema", 7, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver", "Podrá consultar las pedidos existentes en el sistema", 1, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_detalle", "Podrá consultar el detalle de las pedidos existentes en el sistema", 1, 16);

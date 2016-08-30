@@ -149,6 +149,13 @@
 
 				return $localStorage.user.ordenes_agregar || $localStorage.user.ver_ordenes_web || $localStorage.user.ordenes_editar || $localStorage.user.ordenes_deshabilitar || $localStorage.user.ordenes_ver || $localStorage.user.ordenes_ver_detalle;
 			},
+			menuPedidos: function(){
+				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
+
+				return $localStorage.user.pedidos_agregar || $localStorage.user.ver_pedidos_web || $localStorage.user.pedidos_editar || $localStorage.user.pedidos_deshabilitar || $localStorage.user.pedidos_ver;
+			},
 			menuPensum: function(){
 				if (!this.isLoggedIn()) return false;
 

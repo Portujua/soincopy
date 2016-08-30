@@ -411,6 +411,50 @@
 						}
 				});
 			},
+
+
+
+			getPedidos: function(s){
+				$http.get("api/pedidos").then(function(obj){
+					s.pedidos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+			getPedido: function(s, id){
+				$http.get("api/pedidos").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							/*var date = json[i].fecha_inicio.split('-');
+							json[i].fecha_inicio = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);
+
+							date = json[i].fecha_fin.split('-');
+							json[i].fecha_fin = new Date(date[0], parseInt(date[1])-1, date[2], 12, 0, 0, 0);*/
+
+							if (json[i].fecha)
+							{
+								var date = json[i].fecha.split('-');
+								json[i].fecha = new Date(parseInt(date[0]), parseInt(date[1])-1, parseInt(date[2]), 12, 0, 0, 0);
+							}
+
+							json[i].dependencia = json[i].did;
+
+							for (var k = 0; k < json[i].productos.length; k++)
+							{
+								json[i].productos[k].nro_copias = parseInt(json[i].productos[k].copias);
+								json[i].productos[k].nro_originales = parseInt(json[i].productos[k].originales);
+							}
+
+							s.pedido = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+							return;
+						}
+				});
+			},
+
+
 		};
 	})
 }());

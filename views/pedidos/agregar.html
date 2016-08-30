@@ -1,0 +1,89 @@
+<form class="agregar seccion" ng-controller="Pedido" name="agregar" ng-init="init_form_cache()" ng-submit="registrar_pedido()">	
+	<div class="register-form">
+		<p class="btn-volver">
+			<a class="btn btn-volver" href="./#/pedidos">&larr; Volver</a>
+		</p>
+
+		<h1 style="font-size: 20px;">Pedidos &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
+
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Nro. de Orden (*)</p>
+			<input type="text" ng-model="pedido.numero" name="numero" unique-bd="pedido" ng-minlength=1 ng-maxlength=128 placeholder="Número de pedido" ng-model-options="{ updateOn: 'blur' }" ng-disabled="editar" />
+
+			<span ng-show="agregar.numero.$error.unique && pedido.numero.length > 0">Número de pedido ya existente</span>
+		</div>
+
+		<div class="fila">
+			<p>Fecha</p>
+
+			<input type="date" name="fecha" ng-model="pedido.fecha" required />
+		</div>
+
+		<div class="fila">
+			<p>Dependencia (*) <span class="badge" ng-hide="pedido.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
+
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.dependencia" ng-init="pedido.dependencia = pedido.did;" ng-hide="pedido.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia" required ng-minlength=1></select>
+			<br/>
+		</div>
+
+		<div class="fila">
+			<p>Observaciones</p>
+			<textarea name="observaciones" ng-model="pedido.observaciones"></textarea>
+		</div>
+
+		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small></h2>
+
+		<table class="table table-stripped" ng-init="pedido.productos = pedido.productos ? pedido.productos : [];">
+			<thead>
+				<th>&nbsp;</th>
+				<th>Producto (*)</th>
+				<th># Copias (*)</th>
+				<th># Originales (*)</th>
+				<th>Cantidad</th>
+				<th>Costo unitario</th>
+				<th>Costo total</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="p in pedido.productos">
+					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
+					<td>
+						<select class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="pedido.productos[$index].producto" ng-options="pr.id as pr.nombre for pr in productos | quitarDeshabilitados" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1></select>
+					</td>
+					<td>
+						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="pedido.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+					</td>
+					<td>
+						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="pedido.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+					</td>
+					<td>
+						{{ pedido.productos[$index].nro_copias * pedido.productos[$index].nro_originales }}
+					</td>
+					<td ng-init="actualizar_costo_unitario($index)">
+						<strong>{{ pedido.productos[$index].costo_unitario | currency:'Bs. ' }}</strong><br/>
+						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se añadió este producto a esta pedido el {{ pedido.productos[$index].fecha_anadido }}">{{ pedido.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
+					</td>
+					<td>
+						<strong>{{ ((pedido.productos[$index].costo_unitario_facturado ? pedido.productos[$index].costo_unitario_facturado : pedido.productos[$index].costo_unitario) * (pedido.productos[$index].nro_copias * pedido.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong><br/>
+
+						<script> $('[data-toggle="tooltip"]').tooltip(); </script>
+					</td>
+				</tr>
+				<tr ng-show="pedido.productos.length > 0">
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td class="text-right" style="font-weight: bold;">Total</td>
+					<td style="font-weight: bold;">{{ pedido.productos | calcularTotalBsDeProductos | currency:'Bs. ' }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="fila text-center">
+			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid">Aceptar</button>
+		</div>
+	</div>
+</form>

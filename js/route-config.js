@@ -220,6 +220,19 @@
 			})
 
 
+
+
+			.when("/pedidos", {
+				templateUrl : "views/pedidos/buscar.html"
+			})
+			.when("/pedidos/agregar", {
+				templateUrl : "views/pedidos/agregar.html"
+			})
+			.when("/pedidos/editar/:id", {
+				templateUrl : "views/pedidos/agregar.html"
+			})
+
+
 			
 			.when("/agregardependencia", {
 				templateUrl : "views/admin/agregardependencia.html"

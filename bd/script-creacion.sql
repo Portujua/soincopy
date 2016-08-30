@@ -394,6 +394,39 @@ create table Stock_Personal_Danado (
 	foreign key (stock) references Stock_Personal(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Pedido (
+	id int not null auto_increment,
+	numero varchar(32) not null,
+	dependencia int not null,
+	fecha_anadida datetime not null,
+	fecha_modificada datetime,
+	observaciones text,
+	procesada tinyint(1) default 0,
+	estado tinyint(1) default 1,
+	creado_por int not null,
+	cond_pago int,
+	fecha date comment 'Es la fecha de la orden introducida por el usuario',
+	primary key(id),
+	foreign key (dependencia) references Dependencia(id),
+	foreign key (creado_por) references Personal(id),
+	foreign key (cond_pago) references Condicion_Pago(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
+create table Pedido_Producto (
+	id int not null auto_increment,
+	pedido int not null,
+	producto int not null,
+	cantidad int not null comment 'Cantidad del producto.. en caso de ser copias seria nro_copias*nro_originales',
+	nro_copias int,
+	nro_originales int,
+	precio_unitario float not null,
+	precio_total float not null,
+	fecha_anadido datetime,
+	primary key(id),
+	foreign key (pedido) references Pedido(id),
+	foreign key (producto) references Producto(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
