@@ -691,6 +691,30 @@
 
                     $productos[$i]['materiales'][] = $nuevo;
                 }
+
+                /* Guias */
+                $productos[$i]['guias'] = array();
+
+                $query = $this->db->prepare("
+                    select g.id as guia
+                    from Producto_Guia as pg, Guia as g
+                    where pg.guia=g.id and pg.producto=:pid
+                ");
+
+                $query->execute(array(
+                    ":pid" => $productos[$i]['id']
+                ));
+
+                $guias = $query->fetchAll();
+
+                foreach ($guias as $p)
+                {
+                    $nuevo = array();
+
+                    $nuevo['guia'] = $p['guia'];
+
+                    $productos[$i]['guias'][] = $nuevo;
+                }
             }
 
             return json_encode($productos);
@@ -1968,6 +1992,22 @@
                     ));
                 }
 
+            /* Agrego los guias */
+            if (isset($post['guias']))
+                foreach ($post['guias'] as $m)
+                {
+                    $query = $this->db->prepare("
+                        insert into Producto_Guia (producto, guia, creado_por, fecha_creado)
+                        values (:producto, :guia, :creado_por, now())
+                    ");
+
+                    $query->execute(array(
+                        ":producto" => $pid,
+                        ":guia" => $m['guia'],
+                        ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
+                    ));
+                }
+
             return "ok";
         }
 
@@ -2061,6 +2101,31 @@
                         ":producto" => $post['id'],
                         ":material" => $m['material'],
                         ":cantidad" => $m['cantidad'],
+                        ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
+                    ));
+                }
+
+            /* Elimino las guias */
+            $query = $this->db->prepare("
+                delete from Producto_Guia where producto=:pid
+            ");
+
+            $query->execute(array(
+                ":pid" => $post['id']
+            ));
+
+            /* Agrego las guias */
+            if (isset($post['guias']))
+                foreach ($post['guias'] as $m)
+                {
+                    $query = $this->db->prepare("
+                        insert into Producto_Guia (producto, guia, creado_por, fecha_creado)
+                        values (:producto, :guia, :creado_por, now())
+                    ");
+
+                    $query->execute(array(
+                        ":producto" => $post['id'],
+                        ":guia" => $m['guia'],
                         ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
                     ));
                 }

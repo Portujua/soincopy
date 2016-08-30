@@ -18,6 +18,7 @@
 		SoincopyService.getDepartamentos($scope);
 		SoincopyService.getInventario($scope);
 		SoincopyService.getFamilias($scope);
+		SoincopyService.getGuias($scope, 1);
 
 		$scope.cargar_producto = function(id){
 			SoincopyService.getProducto($scope, id);
@@ -106,6 +107,14 @@
 			$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 		}
 
+		$scope.anadir_guia = function(){
+			$scope.producto.guias.push({
+				guia: 0
+			});
+
+			$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+		}
+
 		$scope.eliminar_material = function(index){
 			var aux = [];
 
@@ -114,6 +123,16 @@
 					aux.push($scope.producto.materiales[i]);
 
 			$scope.producto.materiales = aux;
+		}
+
+		$scope.eliminar_guia = function(index){
+			var aux = [];
+
+			for (var i = 0; i < $scope.producto.guias.length; i++)
+				if (i != index)
+					aux.push($scope.producto.guias[i]);
+
+			$scope.producto.guias = aux;
 		}
 
 		$scope.seleccionar = function(p){

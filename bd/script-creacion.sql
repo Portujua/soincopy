@@ -427,6 +427,16 @@ create table Pedido_Producto (
 	foreign key (producto) references Producto(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Producto_Guia (
+	id int not null auto_increment,
+	producto int not null,
+	guia int not null,
+	creado_por varchar(32) not null comment 'el usuario que lo crea',
+	fecha_creado datetime,
+	primary key(id),
+	foreign key (guia) references Guia(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

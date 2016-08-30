@@ -100,7 +100,27 @@
 			</tbody>
 		</table>
 
-		<div class="fila text-center">
+		<hr/>
+
+		<h2 ng-show="loginService.getCurrentUser().productos_editar">Guías <small><a href="" ng-click="anadir_guia()">Añadir guía</a></small></h2>
+		<p><small><strong>(*) Es necesario añadir manualmente el material necesario para producir la(s) guía(s)</strong></small></p>
+
+		<table class="table table-stripped" ng-init="producto.guias = producto.guias ? producto.guias : [];" ng-show="loginService.getCurrentUser().productos_editar">
+			<thead>
+				<th>Guía (*)</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="p in producto.guias">
+					<td>
+						<span class="glyphicon glyphicon-remove" ng-click="eliminar_guia($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important; float: left;"></span>
+
+						<select class="selectpicker" data-live-search="true" title="" data-width="90%" name="guia_{{ $index }}" ng-model="producto.guias[$index].guia" ng-options="g.id as ('[' + g.codigo + '] ' + g.titulo + ' (' + g.numero_paginas + ' páginas, ' + g.numero_hojas + ' hojas)') for g in guias" required ng-minlength=1></select>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="fila text-center" style="margin-top: 20px;">
 			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Aceptar</button>
 		</div>
 	</div>
