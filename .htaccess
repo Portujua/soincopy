@@ -62,3 +62,6 @@ RewriteRule ^api/check/usuario/(.+)$ /soincopy/php/run.php?fn=check_usuario&user
 RewriteRule ^api/check/producto/(.+)$ /soincopy/php/run.php?fn=check_producto&nombre=$1 [QSA,L]
 RewriteRule ^api/check/cuentaabierta/(.+)$ /soincopy/php/run.php?fn=check_cuentaabierta&nombre=$1 [QSA,L]
 RewriteRule ^api/check/pedido/(.+)$ /soincopy/php/run.php?fn=check_nro_pedido&nro=$1 [QSA,L]
+
+RewriteRule ^api/export/productos$ /soincopy/php/export.php?t=productos [QSA,L]
+RewriteRule ^api/export/inventario$ /soincopy/php/export.php?t=inventario [QSA,L]

@@ -2827,6 +2827,45 @@
                 ":estado" => $post['estado']
             ));
         }
+
+        public function csv_productos()
+        {
+            $csv = array();
+            $csv[] = array("Código", "Nombre", "Descripción", "Familia", "Costo de venta", "Costo unitario", "Disponibles", "¿Incluye IVA?", "Estado");
+
+            $productos = json_decode($this->cargar_productos(array()), true);
+            
+            foreach ($productos as $p)
+                $csv[] = array($p['codigo'], 
+                    $p['nombre'], 
+                    $p['descripcion'], 
+                    $p['familia_nombre'],
+                    "Bs. " . number_format($p['costo_unitario'], 2, ",", ""),
+                    "Bs. " . number_format($p['costo_materiales'], 2, ",", ""),
+                    $p['disponibles'] . " unidades",
+                    $p['exento_iva'] == '1' ? "Si" : "No",
+                    $p['estado'] == '1' ? "Habilitado" : "Deshabilitado"
+                );
+
+            return $csv;
+        }
+
+        public function csv_inventario()
+        {
+            $csv = array();
+            $csv[] = array("Nombre", "Cantidad disponible", "Fecha de último ingreso", "Estado");
+
+            $inventario = json_decode($this->cargar_inventario(array()), true);
+            
+            foreach ($inventario as $p)
+                $csv[] = array($p['nombre'], 
+                    (intval($p['cantidad']) - intval($p['cantidad_asignada'])) . " disponible para asignar\r\n" . intval($p['cantidad_asignada']) . " asignado\r\n" . intval($p['cantidad']) . " en total", 
+                    isset($p['fecha_ultimo_ingreso']) ? $p['fecha_ultimo_ingreso'] : 'Nunca',
+                    $p['estado'] == '1' ? "Habilitado" : "Deshabilitado"
+                );
+
+            return $csv;
+        }
         
 	}
 ?>
