@@ -143,6 +143,41 @@
 			$scope.p_ = p;
 		}
 
+		$scope.requerir_autorizacion = function(){
+			$.confirm({
+				title: "Permiso requerido",
+				content: '<p>Se requiere autorización de un administrador para poder efectuar un descuento.</p><div class="form-group"><input autofocus type="password" id="password" placeholder="Contraseña de administrador" class="form-control"></div>',
+				keyboardEnabled: true,
+				backgroundDismiss: false,
+				confirm: function(){
+					var pwd = this.$b.find("input").val();
+					
+					$.ajax({
+					    url: "php/run.php?fn=autorizacion_admin",
+					    type: "POST",
+					    data: {password:pwd},
+					    beforeSend: function(){},
+					    success: function(data){
+					        var json = $.parseJSON(data);
+
+					        if (json.resultado)
+					        	$scope.safeApply(function(){
+					        		$scope.autorizado = true;
+					        	});
+					        else
+					        	$.alert({
+					        		title: "Acceso denegado",
+					        		content: "La contraseña suministrada no es válida"
+					        	});
+					    }
+					});
+				},
+				cancel: function(){
+					
+				}
+			});
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_cuentaabierta($routeParams.id);

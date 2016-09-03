@@ -1931,6 +1931,15 @@
             if (isset($post['productos']))
                 foreach ($post['productos'] as $p)
                 {
+                    $precio_unitario = "(select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1)";
+                    $precio_total = "(select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad";
+
+                    if (isset($p['costo_unitario_facturado']))
+                    {
+                        $precio_unitario = ":costo_unitario_facturado";
+                        $precio_total = ":costo_unitario_facturado * :cantidad";
+                    }
+
                     $query = $this->db->prepare("
                         insert into CuentaAbierta_Producto (cuentaabierta, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
                         values (
@@ -1939,8 +1948,8 @@
                             :cantidad,
                             :nro_copias,
                             :nro_originales,
-                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
-                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                            ".$precio_unitario.",
+                            ".$precio_total.",
                             now()
                         )
                     ");
@@ -1950,7 +1959,8 @@
                         ":producto" => $p['producto'],
                         ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
                         ":nro_copias" => intval($p['nro_copias']),
-                        ":nro_originales" => intval($p['nro_originales'])
+                        ":nro_originales" => intval($p['nro_originales']),
+                        ":costo_unitario_facturado" => isset($p['costo_unitario_facturado']) ? floatval($p['costo_unitario_facturado']) : 0
                     ));
                 }
 
@@ -2243,7 +2253,8 @@
                                 cantidad=:cantidad, 
                                 nro_copias=:nro_copias, 
                                 nro_originales=:nro_originales,
-                                precio_total=:precio_total
+                                precio_total=:precio_total,
+                                precio_unitario=:precio_unitario
                             where
                                 id=:capid
                         ");
@@ -2254,7 +2265,8 @@
                             ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
                             ":nro_copias" => intval($p['nro_copias']),
                             ":nro_originales" => intval($p['nro_originales']),
-                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales'])))
+                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales']))),
+                            ":precio_unitario" => floatval($p['costo_unitario_facturado'])
                         ));
                     }
                 }
@@ -2769,6 +2781,15 @@
             if (isset($post['productos']))
                 foreach ($post['productos'] as $p)
                 {
+                    $precio_unitario = "(select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1)";
+                    $precio_total = "(select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad";
+
+                    if (isset($p['costo_unitario_facturado']))
+                    {
+                        $precio_unitario = ":costo_unitario_facturado";
+                        $precio_total = ":costo_unitario_facturado * :cantidad";
+                    }
+
                     $query = $this->db->prepare("
                         insert into Pedido_Producto (pedido, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
                         values (
@@ -2777,8 +2798,8 @@
                             :cantidad,
                             :nro_copias,
                             :nro_originales,
-                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1),
-                            (select costo from Producto_Costo where producto=:producto and eliminado=0 order by fecha desc limit 1) * :cantidad,
+                            ".$precio_unitario.",
+                            ".$precio_total.",
                             now()
                         )
                     ");
@@ -2788,7 +2809,8 @@
                         ":producto" => $p['producto'],
                         ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
                         ":nro_copias" => intval($p['nro_copias']),
-                        ":nro_originales" => intval($p['nro_originales'])
+                        ":nro_originales" => intval($p['nro_originales']),
+                        ":costo_unitario_facturado" => isset($p['costo_unitario_facturado']) ? floatval($p['costo_unitario_facturado']) : 0
                     ));
                 }
 
@@ -2874,7 +2896,8 @@
                                 cantidad=:cantidad, 
                                 nro_copias=:nro_copias, 
                                 nro_originales=:nro_originales,
-                                precio_total=:precio_total
+                                precio_total=:precio_total,
+                                precio_unitario=:precio_unitario
                             where
                                 id=:opid
                         ");
@@ -2885,7 +2908,8 @@
                             ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
                             ":nro_copias" => intval($p['nro_copias']),
                             ":nro_originales" => intval($p['nro_originales']),
-                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales'])))
+                            ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales']))),
+                            ":precio_unitario" => floatval($p['costo_unitario_facturado'])
                         ));
                     }
                 }
