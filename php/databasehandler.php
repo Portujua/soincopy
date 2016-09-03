@@ -278,7 +278,7 @@
         public function login($post)
         {
             $query = $this->db->prepare("
-                select u.id as id, u.usuario as username, u.nombre as nombre, u.apellido as apellido, u.cedula as cedula, u.email as email, u.telefono as tlf
+                select u.id as id, u.usuario as username, u.nombre as nombre, u.apellido as apellido, u.cedula as cedula, u.email as email, u.telefono as tlf, (select d.nombre from Personal_Departamento as pd, Departamento as d where pd.departamento=d.id and pd.personal=u.id limit 1) as departamento
                 from Personal as u
                 where u.usuario=:username and u.contrasena=:password and u.estado=1
                 limit 1
