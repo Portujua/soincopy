@@ -18,6 +18,11 @@
 			<input type="number" name="cantidad" ng-model="material.cantidad" required ng-min=1 ng-max="material.stock.restante" />
 		</div>
 
+		<div class="fila">
+			<p>Motivo (*)</p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="motivo" ng-model="material.motivo" ng-options="m as m for m in motivos" required></select>
+		</div>
+
 		<div class="fila text-center">
 			<button class="btn btn-primary" ng-disabled="agregar.$invalid" type="submit">Aceptar</button>
 		</div>

@@ -389,6 +389,7 @@ create table Stock_Personal_Danado (
 	id int not null auto_increment,
 	stock int not null,
 	cantidad int not null,
+	motivo varchar(128),
 	fecha datetime,
 	primary key(id),
 	foreign key (stock) references Stock_Personal(id)

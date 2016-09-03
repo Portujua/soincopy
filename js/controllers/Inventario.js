@@ -21,6 +21,8 @@
 		SoincopyService.getMiInventarioAsignado($scope);
 		SoincopyService.getInventarioDanado($scope);
 
+		$scope.motivos = ["Error", "Donación", "Uso interno"];
+
 		$scope.cargar_material = function(id){
 			SoincopyService.getMaterial($scope, id);
 		}

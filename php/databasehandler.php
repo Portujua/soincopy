@@ -1593,11 +1593,12 @@
 
         public function agregar_material_danado($post)
         {
-            $query = $this->db->prepare("insert into Stock_Personal_Danado (stock, cantidad, fecha) values (:stock, :cantidad, now())");
+            $query = $this->db->prepare("insert into Stock_Personal_Danado (stock, cantidad, motivo, fecha) values (:stock, :cantidad, :motivo, now())");
 
             $query->execute(array(
                 ":stock" => $post['stock_id'],
-                ":cantidad" => $post['cantidad']
+                ":cantidad" => $post['cantidad'],
+                ":motivo" => $post['motivo']
             ));
 
             // Actualizo el restante
