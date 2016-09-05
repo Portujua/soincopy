@@ -37,7 +37,11 @@
 		<tbody>
 			<tr ng-click="seleccionar(p)" ng-repeat="p in clientes" 
 				ng-if="
-					(p.nombre.indexOf(busqueda) != -1)
+					(p.nombre.indexOf(busqueda) != -1 ||
+					p.ni.indexOf(busqueda) != -1 ||
+					p.email.indexOf(busqueda) != -1 ||
+					p.tlf.indexOf(busqueda) != -1 ||
+					p.direccion.indexOf(busqueda) != -1)
 
 					&& (solo_activos == false || p.estado == 1)
 				"
