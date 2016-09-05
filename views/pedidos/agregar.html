@@ -24,7 +24,7 @@
 		<div class="fila">
 			<p>Dependencia (*) <span class="badge" ng-hide="pedido.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
 
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.dependencia" ng-init="pedido.dependencia = pedido.did;" ng-hide="pedido.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.dependencia" ng-init="pedido.dependencia = pedido.did;" ng-hide="pedido.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia"></select>
 			<br/>
 		</div>
 

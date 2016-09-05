@@ -2787,7 +2787,7 @@
 
             $query->execute(array(
                 ":cliente" => $post['cliente'],
-                ":dependencia" => $post['dependencia'],
+                ":dependencia" => isset($post['dependencia']) ? $post['dependencia'] : null,
                 ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":usuario" => $_SESSION['login_username']

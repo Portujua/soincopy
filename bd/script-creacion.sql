@@ -409,7 +409,7 @@ create table Cliente (
 create table Pedido (
 	id int not null auto_increment,
 	numero varchar(32),
-	dependencia int not null,
+	dependencia int,
 	fecha_anadida datetime not null,
 	fecha_modificada datetime,
 	observaciones text,
