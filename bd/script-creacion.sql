@@ -395,6 +395,17 @@ create table Stock_Personal_Danado (
 	foreign key (stock) references Stock_Personal(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Cliente (
+	id int not null auto_increment,
+	nombre varchar(256) not null,
+	ni varchar(128) comment 'cedula o rif' not null,
+	email varchar(128),
+	tlf varchar(32),
+	direccion varchar(256),
+	estado tinyint(1) default 1,
+	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 create table Pedido (
 	id int not null auto_increment,
 	numero varchar(32),
@@ -406,11 +417,13 @@ create table Pedido (
 	estado tinyint(1) default 1,
 	creado_por int not null,
 	cond_pago int,
+	cliente int not null,
 	fecha date comment 'Es la fecha de la orden introducida por el usuario',
 	primary key(id),
 	foreign key (dependencia) references Dependencia(id),
 	foreign key (creado_por) references Personal(id),
-	foreign key (cond_pago) references Condicion_Pago(id)
+	foreign key (cond_pago) references Condicion_Pago(id),
+	foreign key (cliente) references Cliente(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Pedido_Producto (
@@ -436,17 +449,6 @@ create table Producto_Guia (
 	fecha_creado datetime,
 	primary key(id),
 	foreign key (guia) references Guia(id)
-) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
-
-create table Cliente (
-	id int not null auto_increment,
-	nombre varchar(256) not null,
-	ni varchar(128) comment 'cedula o rif' not null,
-	email varchar(128),
-	tlf varchar(32),
-	direccion varchar(256),
-	estado tinyint(1) default 1,
-	primary key(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 

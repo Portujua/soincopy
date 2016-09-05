@@ -20,6 +20,7 @@
 		SoincopyService.getProductosOriginales($scope);
 		SoincopyService.getCuentaAbiertas($scope);
 		SoincopyService.getCondicionesPago($scope);
+		SoincopyService.getClientes($scope);
 
 		$scope.init_form_cache = function(){
 			if (!$scope.pedido && $localStorage.cache.pedido)
