@@ -233,12 +233,19 @@
 
 				return $localStorage.user.productos_agregar || $localStorage.user.productos_editar || $localStorage.user.productos_deshabilitar || $localStorage.user.productos_nuevos_precios || $localStorage.user.productos_eliminar_precios;
 			},
+			menuAdminClientes: function(){
+				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
+
+				return $localStorage.user.clientes_agregar || $localStorage.user.clientes_editar || $localStorage.user.clientes_deshabilitar;
+			},
 			menuAdmin: function(){
 				if (!this.isLoggedIn()) return false;
 
 				if ($localStorage.user.username == "root") return true;
 
-				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminCuentaAbiertas() || this.menuAdminInventario() || this.menuAdminProductos() || this.menuAdminProveedores();
+				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminCuentaAbiertas() || this.menuAdminInventario() || this.menuAdminProductos() || this.menuAdminProveedores() || this.menuAdminClientes();
 			},
 			permisos: function(){
 				if (!this.isLoggedIn()) return false;

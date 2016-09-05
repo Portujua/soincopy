@@ -438,6 +438,17 @@ create table Producto_Guia (
 	foreign key (guia) references Guia(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Cliente (
+	id int not null auto_increment,
+	nombre varchar(256) not null,
+	ni varchar(128) comment 'cedula o rif' not null,
+	email varchar(128),
+	tlf varchar(32),
+	direccion varchar(256),
+	estado tinyint(1) default 1,
+	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

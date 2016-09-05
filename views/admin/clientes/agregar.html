@@ -1,20 +1,40 @@
-<form class="agregar agregar_dependencia" ng-controller="Dependencia" ng-submit="registrar_dependencia()">
+<form class="agregar agregar_cliente" ng-controller="Cliente" name="agregar" ng-submit="registrar_cliente()">
 	<div class="register-form">
 		<p class="btn-volver" ng-show="!express">
-			<a class="btn btn-link" href="./#/dependencias">&larr; Volver</a>
+			<a class="btn btn-link" href="./#/clientes">&larr; Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Dependencias &rarr; Agregar</h1>
+		<h1 style="font-size: 20px;">Clientes &rarr; Agregar</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
 			<p>Nombre (*)</p>
-			<input type="text" ng-model="dependencia.nombre" required maxlength="64" />
+			<input type="text" ng-model="cliente.nombre" required maxlength="256" />
+		</div>
+
+		<div class="fila">
+			<p>Cédula o RIF (*)</p>
+			<input type="text" ng-model="cliente.ni" required maxlength="128" />
+		</div>
+
+		<div class="fila">
+			<p>Email (*)</p>
+			<input type="text" ng-model="cliente.email" maxlength="128" />
+		</div>
+
+		<div class="fila">
+			<p>Teléfono (*)</p>
+			<input type="text" ng-model="cliente.tlf" maxlength="32" />
+		</div>
+
+		<div class="fila">
+			<p>Dirección (*)</p>
+			<input type="text" ng-model="cliente.direccion" maxlength="256" />
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary" type="submit">Aceptar</button>
+			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Aceptar</button>
 		</div>
 	</div>
 </form>

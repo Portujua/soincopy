@@ -210,6 +210,31 @@
 
 
 
+
+			getClientes: function(s){
+				$http.get("api/clientes").then(function(obj){
+					s.clientes = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+			getCliente: function(s, id){
+				$http.get("api/clientes").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.cliente = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+							return;
+						}
+				});
+			},
+
+
+
+
+
 			getFamilias: function(s){
 				$http.get("api/productos/familias").then(function(obj){
 					s.familias = obj.data;

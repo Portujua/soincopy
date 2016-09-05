@@ -140,3 +140,10 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ed
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_deshabilitar", "Podrá habilitar y deshabilitar pedidos disponibles en el sistema", 7, 16);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver", "Podrá consultar las pedidos existentes en el sistema", 1, 16);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_detalle", "Podrá consultar el detalle de las pedidos existentes en el sistema", 1, 16);
+
+
+insert into Permiso_Categoria (nombre) values ("Clientes");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_agregar", "Podrá añadir nuevos clientes al sistema", 5, 17),
+	("clientes_editar", "Podrá editar cualquier información de un cliente disponible en el inventario del sistema", 4, 17),
+	("clientes_deshabilitar", "Podrá deshabilitar un cliente disponible en el sistema", 6, 17);

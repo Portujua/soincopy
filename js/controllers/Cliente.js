@@ -1,5 +1,5 @@
 (function(){
-	var Carrera = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
+	var Cliente = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -12,43 +12,42 @@
 		    }
 		};
 
-		$scope.tipos_de_carrera = ["Semestral", "Anual"];
 		$scope.editar = $routeParams.id;
 
-		SoincopyService.getCarreras($scope);
+		SoincopyService.getClientes($scope);
 
 		$scope.init_form_cache = function(){
-			if (!$scope.carrera && $localStorage.cache.carrera)
-				$scope.carrera = $localStorage.cache.carrera;
+			if (!$scope.cliente && $localStorage.cache.cliente)
+				$scope.cliente = $localStorage.cache.cliente;
 
 			$interval(function(){
-				if ($scope.carrera)
-					$localStorage.cache.carrera = $scope.carrera;
+				if ($scope.cliente)
+					$localStorage.cache.cliente = $scope.cliente;
 			}, 3000);
 		}
 
-		$scope.cargar_carreras = function(){
-			SoincopyService.getCarreras($scope);
+		$scope.cargar_clientes = function(){
+			SoincopyService.getClientes($scope);
 		}
 
-		$scope.cargar_carrera = function(id){
-			SoincopyService.getCarrera($scope, id);
+		$scope.cargar_cliente = function(id){
+			SoincopyService.getCliente($scope, id);
 		}
 
-		$scope.registrar_carrera = function(){
+		$scope.registrar_cliente = function(){
 			$.confirm({
 				title: 'Confirmar acción',
-				content: '¿Está seguro que desea añadir la carrera <strong>' + $scope.carrera.nombre + '</strong>?',
+				content: '¿Está seguro que desea añadir la cliente <strong>' + $scope.cliente.nombre + '</strong>?',
 				confirm: function(){
-					var post = $scope.carrera;
+					var post = $scope.cliente;
 
-					var fn = "agregar_carrera";
-					var msg = "Carrera añadida con éxito";
+					var fn = "agregar_cliente";
+					var msg = "Cliente añadida con éxito";
 
 					if ($routeParams.id)
 					{
-						fn = "editar_carrera";
-						msg = "Carrera modificada con éxito";
+						fn = "editar_cliente";
+						msg = "Cliente modificada con éxito";
 					}
 
 					$.ajax({
@@ -58,9 +57,9 @@
 					    beforeSend: function(){},
 					    success: function(data){
 				        	$scope.safeApply(function(){
-				        		$scope.carrera = {};
-				        		delete $localStorage.cache.carrera;
-				        		$location.path("/carreras");
+				        		$scope.cliente = {};
+				        		delete $localStorage.cache.cliente;
+				        		$location.path("/clientes");
 				        		AlertService.showSuccess(msg);
 				        	})
 					    }
@@ -72,13 +71,13 @@
 
 		$scope.cambiar_estado = function(id, estado){
 			$.ajax({
-			    url: "php/run.php?fn=cambiar_estado_carrera",
+			    url: "php/run.php?fn=cambiar_estado_cliente",
 			    type: "POST",
 			    data: {id:id, estado:estado},
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.cargar_carreras();
+			        	$scope.cargar_clientes();
 			        	$scope.p_ = null;
 			        })
 			    }
@@ -91,9 +90,9 @@
 
 		if ($routeParams.id)
 		{
-			$scope.cargar_carrera($routeParams.id);
+			$scope.cargar_cliente($routeParams.id);
 		}
 	};
 
-	angular.module("soincopy").controller("Carrera", Carrera);
+	angular.module("soincopy").controller("Cliente", Cliente);
 }());

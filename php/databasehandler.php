@@ -2989,6 +2989,70 @@
 
             return json_encode($json);
         }
+
+        public function cargar_clientes($post)
+        {
+            $query = $this->db->prepare("
+                select * from Cliente
+            ");
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
+        public function agregar_cliente($post)
+        {
+            $query = $this->db->prepare("
+                insert into Cliente (nombre, ni, email, tlf, direccion)
+                values (:nombre, :ni, :email, :tlf, :direccion)
+            ");
+
+            $query->execute(array(
+                ":nombre" => $post['nombre'],
+                ":ni" => $post['ni'],
+                ":email" => $post['email'],
+                ":tlf" => $post['tlf'],
+                ":direccion" => $post['direccion']
+            ));
+
+            return "ok";
+        }
+
+        public function editar_cliente($post)
+        {
+            $query = $this->db->prepare("
+                update Cliente set 
+                    nombre=:nombre, 
+                    ni=:ni, 
+                    email=:email, 
+                    tlf=:tlf, 
+                    direccion=:direccion
+                where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":nombre" => $post['nombre'],
+                ":ni" => $post['ni'],
+                ":email" => $post['email'],
+                ":tlf" => $post['tlf'],
+                ":direccion" => $post['direccion']
+            ));
+
+            return "ok";
+        }
+
+        public function cambiar_estado_cliente($post)
+        {
+            $query = $this->db->prepare("
+                update Cliente set estado=:estado where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $post['id'],
+                ":estado" => $post['estado']
+            ));
+        }
         
 	}
 ?>

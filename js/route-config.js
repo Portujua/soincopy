@@ -99,6 +99,22 @@
 
 
 
+
+			.when("/clientes", {
+				templateUrl : "views/admin/clientes/clientes.html"
+			})
+			.when("/clientes/agregar", {
+				templateUrl : "views/admin/clientes/agregar.html"
+			})
+			.when("/clientes/agregar/express", {
+				templateUrl : "views/admin/clientes/agregar.html"
+			})
+			.when("/clientes/editar/:id", {
+				templateUrl : "views/admin/clientes/agregar.html"
+			})
+
+
+
 			.when("/departamentos/ucab", {
 				templateUrl : "views/admin/departamentos_ucab/departamentos.html"
 			})
