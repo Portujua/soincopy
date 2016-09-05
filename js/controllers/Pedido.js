@@ -151,6 +151,13 @@
 			}
 		}
 
+		$scope.agregar_cliente = function(){
+			var nw = window.open("./#/clientes/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=350");
+			nw.onbeforeunload = function(){
+				SoincopyService.getClientes($scope);
+			}
+		}
+
 		$scope.seleccionar = function(o){
 			$scope.o_ = o;
 		}

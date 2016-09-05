@@ -15,7 +15,7 @@
 		</div>
 
 		<div class="fila">
-			<p>Cliente (*)</p>
+			<p>Cliente (*) <span class="badge" ng-hide="pedido.agregarcliente" ng-click="agregar_cliente()" title="Añadir nuevo cliente">+</span></p>
 
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cliente" ng-init="pedido.cliente = pedido.did;" ng-hide="pedido.agregarcliente" ng-options="d.id as d.nombre for d in clientes | quitarDeshabilitados" name="cliente" required ng-minlength=1></select>
 			<br/>

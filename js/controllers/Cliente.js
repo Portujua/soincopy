@@ -59,6 +59,10 @@
 				        	$scope.safeApply(function(){
 				        		$scope.cliente = {};
 				        		delete $localStorage.cache.cliente;
+
+				        		if (window.location.hash.indexOf('express') != -1)
+					        		window.close();
+					        	
 				        		$location.path("/clientes");
 				        		AlertService.showSuccess(msg);
 				        	})
