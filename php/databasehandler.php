@@ -585,6 +585,23 @@
                 ));
 
                 $inventario[$i]['stock'] = $query->fetchAll();
+
+
+
+
+                $inventario[$i]['inventario_asignado'] = array();
+
+                $query = $this->db->prepare("
+                    select (case when sum(sp.restante) is not null then sum(sp.restante) else 0 end) as cantidad, concat(p.nombre, ' ', p.apellido) as personal 
+                    from Stock_Personal as sp, Personal as p
+                    where sp.personal=p.id and sp.material=:mid and sp.agotado=0 and sp.eliminado=0
+                ");
+
+                $query->execute(array(
+                    ":mid" => $inventario[$i]['id']
+                ));
+
+                $inventario[$i]['inventario_asignado'] = $query->fetchAll();
             }
 
             return json_encode($inventario);
@@ -2957,11 +2974,18 @@
             $inventario = json_decode($this->cargar_inventario(array()), true);
             
             foreach ($inventario as $p)
+            {
+                $str_asignado = "";
+
+                foreach ($p['inventario_asignado'] as $i)
+                    $str_asignado .= $i['personal'] . " " . $i['cantidad'] . "\r\n";
+
                 $csv[] = array($p['nombre'], 
-                    (intval($p['cantidad']) - intval($p['cantidad_asignada'])) . " disponible para asignar\r\n" . intval($p['cantidad_asignada']) . " asignado\r\n" . intval($p['cantidad']) . " en total", 
+                    (intval($p['cantidad']) - intval($p['cantidad_asignada'])) . " disponible para asignar\r\n" . intval($p['cantidad_asignada']) . " asignado\r\n" . intval($p['cantidad']) . " en total\r\n\r\n\r\n" . $str_asignado, 
                     isset($p['fecha_ultimo_ingreso']) ? $p['fecha_ultimo_ingreso'] : 'Nunca',
                     $p['estado'] == '1' ? "Habilitado" : "Deshabilitado"
                 );
+            }
 
             return $csv;
         }
