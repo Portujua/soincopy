@@ -40,7 +40,6 @@
 
 		<table class="table table-stripped">
 			<thead>
-				<th class="text-center">Número</th>
 				<th class="text-center">Dependencia</th>
 				<th class="text-center">Fecha</th>
 				<th class="text-center">Costo total</th>
@@ -59,7 +58,6 @@
 
 						&& (solo_expiradas == false || o.expirada == 1)"
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.expirada == 1 ? 'bg-warning' : '') }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
-					<td class="text-center">{{ o.numero }}</td>
 					<td class="text-center">{{ o.dependencia }}</td>
 					<td class="text-center">{{ o.fecha_str }}</td>
 					<td class="text-center">{{ o.costo_total | currency:'Bs. ' }}</td>

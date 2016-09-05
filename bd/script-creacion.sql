@@ -397,7 +397,7 @@ create table Stock_Personal_Danado (
 
 create table Pedido (
 	id int not null auto_increment,
-	numero varchar(32) not null,
+	numero varchar(32),
 	dependencia int not null,
 	fecha_anadida datetime not null,
 	fecha_modificada datetime,

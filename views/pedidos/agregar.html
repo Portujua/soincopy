@@ -9,13 +9,6 @@
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
-			<p>Nro. de Pedido (*)</p>
-			<input type="text" ng-model="pedido.numero" name="numero" unique-bd="pedido" ng-minlength=1 ng-maxlength=128 placeholder="Número de pedido" ng-model-options="{ updateOn: 'blur' }" ng-disabled="editar" />
-
-			<span ng-show="agregar.numero.$error.unique && pedido.numero.length > 0">Número de pedido ya existente</span>
-		</div>
-
-		<div class="fila">
 			<p>Fecha</p>
 
 			<input type="date" name="fecha" ng-model="pedido.fecha" required />

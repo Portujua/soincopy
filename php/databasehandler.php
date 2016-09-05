@@ -2764,12 +2764,11 @@
             @session_start();
 
             $query = $this->db->prepare("
-                insert into Pedido (numero, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada, fecha)
-                values (:numero, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now(), :fecha)
+                insert into Pedido (dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada, fecha)
+                values (:dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now(), :fecha)
             ");
 
             $query->execute(array(
-                ":numero" => $post['numero'],
                 ":dependencia" => $post['dependencia'],
                 ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
@@ -2822,7 +2821,6 @@
         {
             $query = $this->db->prepare("
                 update Pedido set 
-                    numero=:numero,
                     dependencia=:dependencia,
                     observaciones=:observaciones,
                     fecha_modificada=now(),
@@ -2831,7 +2829,6 @@
             ");
 
             $query->execute(array(
-                ":numero" => $post['numero'],
                 ":dependencia" => $post['dependencia'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
