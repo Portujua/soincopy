@@ -28,7 +28,6 @@
 
 		Buscar <input type="text" class="input_busqueda" ng-model="buscador" ng-init="buscador = ''" placeholder="Use cualquier campo para buscar" data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" /> 
 		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
-		<input type="checkbox" style="margin-left: 20px;" ng-model="solo_expiradas" ng-init="solo_expiradas = false;" /> Ver expiradas
 
 		<script>
 			$(document).ready(function(){
@@ -65,10 +64,8 @@
 						o.costo_total.indexOf(buscador) != -1 ||
 						o.observaciones.indexOf(buscador) != -1)
 
-						&& (solo_activos == false || o.estado == 1)
-
-						&& (solo_expiradas == false || o.expirada == 1)"
-					class="{{ o.estado == 0 ? 'bg-danger' : (o.expirada == 1 ? 'bg-warning' : '') }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
+						&& (solo_activos == false || o.estado == 1)"
+					class="{{ o.estado == 0 ? 'bg-danger' : '' }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
 					<td class="text-center">{{ o.numero }}</td>
 					<td class="text-center">{{ o.dependencia }}</td>
 					<td class="text-center">{{ o.fecha_str }}</td>
