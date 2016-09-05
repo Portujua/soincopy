@@ -16,14 +16,24 @@
 		Buscar material dañado <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" />
 	</p>
 
-	<table class="table table-stripped">
+	<table class="table table-stripped" ng-init="order = '+nombre'">
 		<thead>
-			<th class="text-center">Nombre</th>
+			<th class="text-center">
+				Nombre
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-nombre'" ng-show="order != '-nombre'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
 			<th class="text-center">Cantidad</th>
 			<th class="text-center">Fecha</th>
 		</thead>
 		<tbody>
-			<tr ng-click="seleccionar(p)" ng-repeat="p in material_danado" 
+			<tr ng-click="seleccionar(p)" ng-repeat="p in material_danado | orderBy:order" 
 				ng-if="
 					(p.nombre.indexOf(busqueda) != -1)
 				"

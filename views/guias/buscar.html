@@ -76,7 +76,7 @@
 			<th class="text-center">Fecha de entrega</th>
 		</thead>
 		<tbody ng-init="nroResultados = 25; actual = 0;">
-			<tr ng-click="seleccionar(g)" ng-repeat="g in guias | paginar:nroResultados+'|'+actual" 
+			<tr ng-click="seleccionar(g)" ng-repeat="g in guias | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="!buscador || 
 						g.codigo.indexOf(buscador) != -1 ||
 						g.titulo.indexOf(buscador) != -1 ||

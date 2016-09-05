@@ -17,11 +17,31 @@
 		Buscar plan de estudios <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" />
 	</p>
 
-	<table class="table table-stripped table-fixed-style" ng-init="cargar_planes()">
+	<table class="table table-stripped table-fixed-style" ng-init="cargar_planes(); order = '+titulo';">
 		<thead>
 			<!--<th ng-show="loginService.getCurrentUser().carreras_editar || loginService.getCurrentUser().carreras_deshabilitar">&nbsp;</th>-->
-			<th class="text-center">Título</th>
-			<th class="text-center">Carrera</th>
+			<th class="text-center">
+				Título
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+titulo'" ng-show="order != '+titulo'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-titulo'" ng-show="order != '-titulo'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
+			<th class="text-center">
+				Carrera
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+carrera'" ng-show="order != '+carrera'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-carrera'" ng-show="order != '-carrera'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
 			<th class="text-center" ng-if="ver == 1">Mención</th>
 			<th class="text-center" ng-if="ver == 2">Materia</th>
 			<th class="text-center">Tipo</th>
@@ -29,7 +49,7 @@
 			<th class="text-center">Fecha añadido</th>
 		</thead>
 		<tbody ng-init="nroResultados = 25; actual = 0;">
-			<tr ng-repeat="p in planes | paginar:nroResultados+'|'+actual" 
+			<tr ng-repeat="p in planes | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(
 						(p.materia == null && ver == 1) ||

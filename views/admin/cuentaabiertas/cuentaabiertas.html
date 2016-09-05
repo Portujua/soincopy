@@ -29,16 +29,26 @@
 		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
 	</p>
 
-	<table class="table table-stripped">
+	<table class="table table-stripped" ng-init="order = '+nombre'">
 		<thead>
-			<th class="text-center">Nombre</th>
+			<th class="text-center">
+				Nombre
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-nombre'" ng-show="order != '-nombre'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
 			<th class="text-center">Personas autorizadas</th>
 			<th class="text-center">Vence</th>
 			<th class="text-center">Total Bs.</th>
 			<th class="text-center">Estado</th>
 		</thead>
 		<tbody ng-init="nroResultados = 25; actual = 0;">
-			<tr ng-click="seleccionar(p)" ng-repeat="p in cuentaabiertas | paginar:nroResultados+'|'+actual" 
+			<tr ng-click="seleccionar(p)" ng-repeat="p in cuentaabiertas | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(p.nombre.indexOf(busqueda) != -1)
 

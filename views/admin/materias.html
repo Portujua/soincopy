@@ -25,14 +25,24 @@
 		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = false;" /> Ver solo habilitados
 	</p>
 
-	<table class="table table-stripped" ng-init="cargar_materias()">
+	<table class="table table-stripped" ng-init="cargar_materias(); order = '+nombre';">
 		<thead>
-			<th class="text-center">Nombre</th>
+			<th class="text-center">
+				Nombre
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-nombre'" ng-show="order != '-nombre'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
 			<th class="text-center">Dictada en</th>
 			<th class="text-center">Estado</th>
 		</thead>
 		<tbody ng-init="nroResultados = 25; actual = 0;">
-			<tr ng-click="seleccionar(p)" ng-repeat="p in materias | paginar:nroResultados+'|'+actual" 
+			<tr ng-click="seleccionar(p)" ng-repeat="p in materias | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(p.nombre.indexOf(busqueda) != -1 ||
 					p.carrera.indexOf(busqueda) != -1)
