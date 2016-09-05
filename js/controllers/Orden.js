@@ -66,8 +66,8 @@
 					        if (data == "ok")
 					        	$scope.safeApply(function(){
 					        		$scope.orden = {};
-					        		delete $localStorage.cache.orden;
-					        		AlertService.showSuccess("Orden añadida con éxito");
+					        		$localStorage.cache.orden = $scope.orden;
+					        		AlertService.showSuccess(msg);
 					        		$location.path("/ordenes");
 					        	})
 					    }

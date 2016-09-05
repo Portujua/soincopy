@@ -60,9 +60,7 @@
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in ordenes | orderBy:order | paginar:nroResultados+'|'+actual"
 					ng-if="
 						(o.numero.indexOf(buscador) != -1 ||
-						o.dependencia.indexOf(buscador) != -1 ||
-						o.costo_total.indexOf(buscador) != -1 ||
-						o.observaciones.indexOf(buscador) != -1)
+						o.dependencia.indexOf(buscador) != -1)
 
 						&& (solo_activos == false || o.estado == 1)"
 					class="{{ o.estado == 0 ? 'bg-danger' : '' }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
