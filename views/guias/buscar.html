@@ -43,11 +43,33 @@
 
 	<p ng-hide="guias">Cargando guías..</p>
 
-	<table class="table table-stripped" ng-init="cargar_guias()" ng-show="guias">
+	<table class="table table-stripped" ng-init="cargar_guias(); order = '+codigo';" ng-show="guias">
 		<thead>
-			<th class="text-center">Código</th>
-			<th class="text-center">Título</th>
-			<th class="text-center">Profesor</th>
+			<th class="text-center">
+				Código
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+codigo'" ng-show="order != '+codigo'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-codigo'" ng-show="order != '-codigo'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
+			<th class="text-center">
+				Título
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+titulo'" ng-show="order != '+titulo'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-titulo'" ng-show="order != '-titulo'" aria-hidden="true"></span>
+
+				<script>
+					$(document).ready(function(){
+					    $('[data-toggle="tooltip"]').tooltip(); 
+					});
+				</script>
+			</th>
+			<th class="text-center">
+				Profesor
+			</th>
 			<th class="text-center">Sección</th>
 			<th class="text-center">Entregada por</th>
 			<th class="text-center">Recibida por</th>
