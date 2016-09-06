@@ -60,6 +60,10 @@
 				        	$scope.safeApply(function(){
 				        		$scope.carrera = {};
 				        		delete $localStorage.cache.carrera;
+
+				        		if (window.location.hash.indexOf('express') != -1)
+					        		window.close();
+					        	
 				        		$location.path("/carreras");
 				        		AlertService.showSuccess(msg);
 				        	})

@@ -426,6 +426,20 @@
 			}
 		}
 
+		$scope.agregar_materia = function(){
+			var nw = window.open("./#/materias/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=500");
+			nw.onbeforeunload = function(){
+				$scope.cargar_materias();
+			}
+		}
+
+		$scope.agregar_carrera = function(){
+			var nw = window.open("./#/carreras/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=350");
+			nw.onbeforeunload = function(){
+				SoincopyService.getCarreras($scope);
+			}
+		}
+
 		$scope.seleccionar = function(g){
 			$scope.g_ = g;
 		}

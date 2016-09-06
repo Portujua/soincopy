@@ -78,6 +78,9 @@
 			.when("/carreras/agregar", {
 				templateUrl : "views/admin/agregarcarrera.html"
 			})
+			.when("/carreras/agregar/express", {
+				templateUrl : "views/admin/agregarcarrera.html"
+			})
 			.when("/carreras/editar/:id", {
 				templateUrl : "views/admin/agregarcarrera.html"
 			})
@@ -172,6 +175,9 @@
 				templateUrl : "views/admin/materias.html"
 			})
 			.when("/materias/agregar", {
+				templateUrl : "views/admin/agregarmateria.html"
+			})
+			.when("/materias/agregar/express", {
 				templateUrl : "views/admin/agregarmateria.html"
 			})
 			.when("/materias/editar/:id", {
