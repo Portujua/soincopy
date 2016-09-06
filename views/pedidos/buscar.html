@@ -61,7 +61,7 @@
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in pedidos | orderBy:order | paginar:nroResultados+'|'+actual"
 					ng-if="
 						(o.numero.indexOf(buscador) != -1 ||
-						o.dependencia.indexOf(buscador) != -1 ||
+						o.fecha_anadida.indexOf(buscador) != -1 ||
 						o.costo_total.indexOf(buscador) != -1 ||
 						o.observaciones.indexOf(buscador) != -1)
 
@@ -71,7 +71,7 @@
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.expirada == 1 ? 'bg-warning' : '') }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
 					<td class="text-center">{{ o.cliente_nombre }} {{ o.cliente_ni }}</td>
 					<td class="text-center">{{ o.dependencia }}</td>
-					<td class="text-center">{{ o.fecha_str }}</td>
+					<td class="text-center">{{ o.fecha_anadida }}</td>
 					<td class="text-center">{{ o.costo_total | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.observaciones }}</td>
 					<td class="text-center">{{ o.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>

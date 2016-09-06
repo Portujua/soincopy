@@ -917,7 +917,7 @@
         public function cargar_pedidos($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, d.nombre as dependencia, o.observaciones as observaciones, o.estado as estado, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, o.fecha as fecha, date_format(o.fecha, '%d/%m/%Y') as fecha_str, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni
+                select o.id as id, o.numero as numero, d.nombre as dependencia, o.observaciones as observaciones, o.estado as estado, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni
                 from Pedido as o, Dependencia as d, Cliente as c
                 where o.dependencia=d.id and o.cliente=c.id
                 order by o.id desc
@@ -2781,14 +2781,13 @@
             @session_start();
 
             $query = $this->db->prepare("
-                insert into Pedido (cliente, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada, fecha)
-                values (:cliente, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now(), :fecha)
+                insert into Pedido (cliente, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada)
+                values (:cliente, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
             ");
 
             $query->execute(array(
                 ":cliente" => $post['cliente'],
                 ":dependencia" => isset($post['dependencia']) ? $post['dependencia'] : null,
-                ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":usuario" => $_SESSION['login_username']
             ));
@@ -2842,8 +2841,7 @@
                     cliente=:cliente,
                     dependencia=:dependencia,
                     observaciones=:observaciones,
-                    fecha_modificada=now(),
-                    fecha=:fecha
+                    fecha_modificada=now()
                 where id=:id
             ");
 
@@ -2851,7 +2849,6 @@
                 ":cliente" => $post['cliente'],
                 ":dependencia" => $post['dependencia'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
-                ":fecha" => isset($post['fecha_']) ? $post['fecha_'] : null,
                 ":id" => $post['id']
             ));
 
