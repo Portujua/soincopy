@@ -16,9 +16,9 @@
 		</div>
 
 		<div class="fila">
-			<p>Dependencia (*) <span class="badge" ng-hide="pedido.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
+			<p>Método de pago (*)</p>
 
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.dependencia" ng-init="pedido.dependencia = pedido.did;" ng-hide="pedido.agregardependencia" ng-options="d.id as d.nombre for d in dependencias | quitarDeshabilitados" name="dependencia"></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cond_pago" ng-options="d.id as d.nombre for d in condiciones_pago" name="cond_pago" required></select>
 			<br/>
 		</div>
 

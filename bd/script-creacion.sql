@@ -411,7 +411,6 @@ create table Cliente (
 create table Pedido (
 	id int not null auto_increment,
 	numero varchar(32),
-	dependencia int,
 	fecha_anadida datetime not null,
 	fecha_modificada datetime,
 	observaciones text,
@@ -422,7 +421,6 @@ create table Pedido (
 	cliente int not null,
 	fecha date comment 'Es la fecha de la orden introducida por el usuario',
 	primary key(id),
-	foreign key (dependencia) references Dependencia(id),
 	foreign key (creado_por) references Personal(id),
 	foreign key (cond_pago) references Condicion_Pago(id),
 	foreign key (cliente) references Cliente(id)

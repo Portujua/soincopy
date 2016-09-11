@@ -966,9 +966,9 @@
         public function cargar_pedidos($post)
         {
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, d.nombre as dependencia, o.observaciones as observaciones, o.estado as estado, d.id as did, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni
-                from Pedido as o, Dependencia as d, Cliente as c
-                where o.dependencia=d.id and o.cliente=c.id
+                select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, cp.id as cond_pago, cp.nombre as metodo_pago
+                from Pedido as o, Cliente as c, Condicion_Pago as cp
+                where o.cliente=c.id and o.cond_pago=cp.id
                 order by o.id desc
             ");
             $query->execute();
@@ -2916,13 +2916,13 @@
             @session_start();
 
             $query = $this->db->prepare("
-                insert into Pedido (cliente, dependencia, observaciones, creado_por, fecha_anadida, fecha_modificada)
-                values (:cliente, :dependencia, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
+                insert into Pedido (cliente, cond_pago, observaciones, creado_por, fecha_anadida, fecha_modificada)
+                values (:cliente, :cond_pago, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
             ");
 
             $query->execute(array(
                 ":cliente" => $post['cliente'],
-                ":dependencia" => isset($post['dependencia']) ? $post['dependencia'] : null,
+                ":cond_pago" => $post['cond_pago'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":usuario" => $_SESSION['login_username']
             ));
@@ -2974,7 +2974,7 @@
             $query = $this->db->prepare("
                 update Pedido set 
                     cliente=:cliente,
-                    dependencia=:dependencia,
+                    cond_pago=:cond_pago,
                     observaciones=:observaciones,
                     fecha_modificada=now()
                 where id=:id
@@ -2982,7 +2982,7 @@
 
             $query->execute(array(
                 ":cliente" => $post['cliente'],
-                ":dependencia" => $post['dependencia'],
+                ":cond_pago" => $post['cond_pago'],
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":id" => $post['id']
             ));
