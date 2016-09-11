@@ -67,6 +67,7 @@
 					});
 				</script>
 			</th>
+			<th class="text-center">Precio</th>
 			<th class="text-center">
 				Profesor
 			</th>
@@ -88,6 +89,7 @@
 				class="{{ g_.id == g.id ? 'bg-selected' : '' }}">
 				<td class="text-center">{{ g.codigo }}</td>
 				<td class="text-center">{{ g.titulo }}</td>
+				<td class="text-center">{{ g.precio | currency:'Bs. ' }}</td>
 				<td class="text-center">{{ g.profesor.nombre_completo }}</td>
 				<td class="text-center">{{ g.seccion }}</td>
 				<td class="text-center">{{ g.entregada_por.nombre_completo }}</td>

@@ -122,6 +122,8 @@ create table Guia (
 	numero_hojas int,
 	numero_paginas int,
 	tipo int,
+	precio float,
+	idproducto int comment 'id del producto asociado',
 	primary key(id), unique(codigo),
 	foreign key (profesor) references Profesor(id),
 	foreign key (materia) references Materia(id),

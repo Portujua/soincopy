@@ -15,6 +15,8 @@
 		$scope.buscar_status = 0;
 		$scope.estaAnadiendo = window.location.hash.indexOf('agregarguia') != -1;
 
+		SoincopyService.getMaterialesGuias($scope);
+
 		$scope.estados = [
 			{
 				val: 0,
@@ -107,9 +109,14 @@
 			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
+			    	var json = $.parseJSON(data);
+			    	json.precio = parseFloat(json.precio);
+
+			    	console.log(json)
+
 			        $scope.safeApply(function(){
-			        	$scope.guia = $.parseJSON(data);
-			        	$scope.guia_aux = $.parseJSON(data);
+			        	$scope.guia = json;
+			        	$scope.guia_aux = json;
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
@@ -308,6 +315,8 @@
 		$scope.agregar_guia = function(){
 			var post = $scope.guia;
 
+			post.recibida_por = $scope.$parent.login_form.username;
+
 			$.confirm({
 				title: 'Confirmar acción',
 				content: '¿Está seguro que desea añadir esta guía?',
@@ -377,6 +386,7 @@
 			}
 
 			var post = {
+				id: $scope.guia.id,
 				codigo: $scope.guia.codigo,
 				titulo: $scope.guia.titulo,
 				materia: $scope.guia.materia,
@@ -387,7 +397,10 @@
 				recibida_por: $scope.guia.recibida_por_id,
 				pdf: $scope.guia.pdf_ ? $scope.guia.pdf_ : $scope.guia.pdf,
 				hojas: $scope.guia.numero_hojas,
-				paginas: $scope.guia.numero_paginas
+				paginas: $scope.guia.numero_paginas,
+				precio: $scope.guia.precio,
+				producto: $scope.guia.producto,
+				idproducto: $scope.guia.idproducto
 			};
 
 			$.confirm({
@@ -400,6 +413,8 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
+					    	console.log(data);
+
 					        if (data == "ok")
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess("Guía modificada con éxito");

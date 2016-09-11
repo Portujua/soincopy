@@ -147,3 +147,12 @@ insert into Permiso_Categoria (nombre) values ("Clientes");
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("clientes_agregar", "Podrá añadir nuevos clientes al sistema", 5, 17),
 	("clientes_editar", "Podrá editar cualquier información de un cliente disponible en el inventario del sistema", 4, 17),
 	("clientes_deshabilitar", "Podrá deshabilitar un cliente disponible en el sistema", 6, 17);
+
+
+
+
+insert into Material (nombre) values ("Hojas carta"), 
+	("Hojas oficio"), 
+	("Hojas transparencia");
+
+insert into Producto_Familia (nombre) values ("Guías");

@@ -607,6 +607,55 @@
             return json_encode($inventario);
         }
 
+        public function cargar_materiales_guias($post)
+        {
+            $query = $this->db->prepare("
+                select m.id as id, m.nombre as nombre, m.estado as estado, (select (case when sum(cantidad) is not null then sum(cantidad) else 0 end) from Stock where material=m.id and eliminado=0) as cantidad, (select concat(date_format(fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(fecha_anadido, '%h:%i:%s %p')) from Stock where material=m.id and eliminado=0 order by fecha_anadido desc limit 1) as fecha_ultimo_ingreso, (select (case when sum(restante) is not null then sum(restante) else 0 end) from Stock_Personal where material=m.id and agotado=0 and eliminado=0) as cantidad_asignada
+                from Material as m
+                where m.id in (1, 2, 3)
+            ");
+
+            $query->execute();
+            $inventario = $query->fetchAll();
+
+            for ($i = 0; $i < count($inventario); $i++)
+            {
+                $inventario[$i]['stock'] = array();
+
+                $query = $this->db->prepare("
+                    select s.id as id, s.cantidad as cantidad, s.fecha_anadido as fecha_anadido, s.costo as costo, concat(date_format(s.fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(s.fecha_anadido, '%h:%i:%s %p')) as fecha_str, p.id as proveedor, p.nombre as proveedor_nombre, p.ni as proveedor_ni
+                    from Stock as s, Proveedor as p
+                    where s.proveedor=p.id and s.material=:mid and s.eliminado=0
+                    order by fecha_anadido desc
+                ");
+
+                $query->execute(array(
+                    ":mid" => $inventario[$i]['id']
+                ));
+
+                $inventario[$i]['stock'] = $query->fetchAll();
+
+
+
+
+                $inventario[$i]['inventario_asignado'] = array();
+
+                $query = $this->db->prepare("
+                    select (case when sum(sp.restante) is not null then sum(sp.restante) else 0 end) as cantidad, concat(p.nombre, ' ', p.apellido) as personal 
+                    from Stock_Personal as sp, Personal as p
+                    where sp.personal=p.id and sp.material=:mid and sp.agotado=0 and sp.eliminado=0
+                ");
+
+                $query->execute(array(
+                    ":mid" => $inventario[$i]['id']
+                ));
+
+                $inventario[$i]['inventario_asignado'] = $query->fetchAll();
+            }
+
+            return json_encode($inventario);
+        }
+
         public function cargar_productos($post)
         {
             $productos = array();
@@ -1424,7 +1473,12 @@
 
         public function cargar_guias($post)
         {
-            $query = $this->db->prepare("select * from Lista_Todas where status=:status order by id desc");
+            $query = $this->db->prepare("
+                select g.*, date_format(g.fecha_anadida, '%d/%m/%Y') as fecha, time_format(g.fecha_anadida, '%h:%i:%s %p') as hora
+                from Guia as g
+                where g.status=:status 
+                order by g.id desc
+            ");
 
             $query->execute(array(
                 ":status" => $post["status"]
@@ -1458,6 +1512,16 @@
                 else if ($row["status"] == 2)
                     $row["status_str"] = "inactiva";
 
+                $productos = json_decode($this->cargar_productos(array()), true);
+
+                foreach ($productos as $p)
+                    if ($p['id'] == $g['idproducto'])
+                    {
+                        $row['producto'] = array();
+                        $row['producto']['id'] = $p['materiales'][0]['material'];
+                        $row['producto']['cantidad'] = $p['materiales'][0]['cantidad'];
+                    }
+
                 $guias[] = $row;
             }
 
@@ -1466,7 +1530,12 @@
 
         public function cargar_guia($post)
         {
-            $query = $this->db->prepare("select * from Lista_Todas where codigo=:codigo order by id desc");
+            $query = $this->db->prepare("
+                select g.*, date_format(g.fecha_anadida, '%d/%m/%Y') as fecha, time_format(g.fecha_anadida, '%h:%i:%s %p') as hora
+                from Guia as g
+                where g.codigo=:codigo
+                order by g.id desc
+            ");
 
             $query->execute(array(
                 ":codigo" => $post["codigo"]
@@ -1500,6 +1569,16 @@
                 else if ($row["status"] == 2)
                     $row["status_str"] = "inactiva";
 
+                $productos = json_decode($this->cargar_productos(array()), true);
+
+                foreach ($productos as $p)
+                    if ($p['id'] == $g['idproducto'])
+                    {
+                        $row['producto'] = array();
+                        $row['producto']['id'] = $p['materiales'][0]['material'];
+                        $row['producto']['cantidad'] = $p['materiales'][0]['cantidad'];
+                    }
+
                 $guias[] = $row;
             }
 
@@ -1511,8 +1590,8 @@
             $json = array();
 
             $query = $this->db->prepare("
-                insert into Guia (titulo, seccion, comentario, profesor, materia, entregada_por, recibida_por, fecha_anadida, tipo)
-                values (:titulo, :seccion, :comentario, :profesor, :materia, :entregada_por, :recibida_por, now(), :tipo);
+                insert into Guia (titulo, seccion, comentario, profesor, materia, entregada_por, recibida_por, fecha_anadida, tipo, precio)
+                values (:titulo, :seccion, :comentario, :profesor, :materia, (select id from Personal where usuario=:recibida_por), (select id from Personal where usuario=:recibida_por), now(), :tipo, :precio);
             ");
 
             $query->execute(array(
@@ -1523,7 +1602,8 @@
                 ":materia" => $post['materia'],
                 ":entregada_por" => $post['recibida_por'],
                 ":recibida_por" => $post['recibida_por'],
-                ":tipo" => isset($post['tipo']) ? $post['tipo'] : null
+                ":tipo" => isset($post['tipo']) ? $post['tipo'] : null,
+                ":precio" => $post['precio']
             ));
 
             $json['status'] = "ok";
@@ -2041,7 +2121,7 @@
 
                     $query->execute(array(
                         ":producto" => $pid,
-                        ":guia" => $m['guia'],
+                        ":guia" => isset($m['guia']) ? $m['guia'] : $m['codigo'],
                         ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
                     ));
                 }
@@ -2615,30 +2695,85 @@
 
         public function modificar_guia($post)
         {
-            try 
-            {
-                $query = $this->db->prepare("call modificar_guia(:codigo, :titulo, :seccion, :comentario, :pdf, :profesor, :materia, :entregada_por, :recibida_por, :nro_hojas, :nro_paginas)");
+            $query = $this->db->prepare("
+                update Guia set 
+                    titulo=:titulo, 
+                    seccion=:seccion, 
+                    comentario=:comentario, 
+                    pdf=:pdf, 
+                    profesor=:profesor, 
+                    materia=:materia, 
+                    entregada_por=:entregada_por, 
+                    recibida_por=:recibida_por, 
+                    numero_hojas=:nro_hojas, 
+                    numero_paginas=:nro_paginas,
+                    precio=:precio
+                where codigo=:codigo;
 
-                $query->execute(array(
-                    ":codigo" => $post['codigo'],
-                    ":titulo" => $post['titulo'],
-                    ":seccion" => $post['seccion'],
-                    ":comentario" => isset($post['comentario']) ? $post['comentario'] : null,
-                    ":pdf" => $post['pdf'],
-                    ":profesor" => $post['profesor'],
-                    ":materia" => $post['materia'],
-                    ":entregada_por" => $post['entregada_por'],
-                    ":recibida_por" => $post['recibida_por'],
-                    ":nro_hojas" => $post['hojas'],
-                    ":nro_paginas" => $post['paginas']
-                ));
+            ");
 
-                return "ok";
-            }
-            catch (Exception $e)
+            $query->execute(array(
+                ":codigo" => $post['codigo'],
+                ":titulo" => $post['titulo'],
+                ":seccion" => $post['seccion'],
+                ":comentario" => isset($post['comentario']) ? $post['comentario'] : null,
+                ":pdf" => $post['pdf'],
+                ":profesor" => $post['profesor'],
+                ":materia" => $post['materia'],
+                ":entregada_por" => $post['entregada_por'],
+                ":recibida_por" => $post['recibida_por'],
+                ":nro_hojas" => $post['hojas'],
+                ":nro_paginas" => $post['paginas'],
+                ":precio" => $post['precio']
+            ));
+
+            if (isset($post['producto']))
             {
-                return "error";
+                $post_producto = array();
+                $post_producto['nombre'] = "Guía \"".$post['titulo']."\" (Código: ".$post['codigo'].")";
+                $post_producto['descripcion'] = "";
+                $post_producto['costo'] = $post['precio'];
+                $post_producto['costo_nuevo'] = $post['precio'];
+                $post_producto['departamento'] = 1;
+                $post_producto['familia'] = 1;
+                $post_producto['exento_iva'] = 0;
+                $post_producto['id'] = isset($post['idproducto']) ? $post['idproducto'] : null;
+                $post_producto['materiales'] = array();
+
+                $material = array();
+                $material['material'] = $post['producto']['id'];
+                $material['cantidad'] = $post['producto']['cantidad'];
+
+                $post_producto['materiales'][] = $material;
+
+                $post_producto['guias'] = array();
+
+                $guia = array();
+                $guia['guia'] = $post['id'];
+
+                $post_producto['guias'][] = $guia;
+
+                if (strlen($post['idproducto']) == 0)
+                {
+                    $this->agregar_producto($post_producto);
+
+                    $query = $this->db->prepare("
+                        update Guia set 
+                            idproducto=(select id from Producto order by id desc limit 1)
+                        where codigo=:codigo;
+                    ");
+
+                    $query->execute(array(
+                        ":codigo" => $post['codigo']
+                    ));
+                }
+                else
+                {
+                    $this->editar_producto($post_producto);
+                }
             }
+
+            return "ok";
         }
 
         public function registrar_vista_guia($username, $archivo, $resultado, $errores)

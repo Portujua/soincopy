@@ -392,6 +392,12 @@
 						}
 				});
 			},
+			getMaterialesGuias: function(s){
+				$http.get("api/inventario/materiales/guias").then(function(obj){
+					s.materiales = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
 
 
 
