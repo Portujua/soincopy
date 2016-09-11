@@ -421,6 +421,8 @@
 
 					        		if ($scope.guia.pdf_)
 					        			$scope.guia.pdf = $scope.guia.pdf_;
+
+					        		$scope.cargar_guia();
 					        	})
 					    }
 					});
