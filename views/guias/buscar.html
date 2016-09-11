@@ -83,6 +83,8 @@
 						g.titulo.indexOf(buscador) != -1 ||
 						g.profesor.nombre_completo.indexOf(buscador) != -1 ||
 						g.seccion.indexOf(buscador) != -1 ||
+						g.carrera_nombre.indexOf(buscador) != -1 ||
+						g.materia_nombre.indexOf(buscador) != -1 ||
 						g.entregada_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.recibida_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.fecha.indexOf(buscador) != -1"
@@ -91,7 +93,7 @@
 				<td class="text-center">{{ g.titulo }}</td>
 				<td class="text-center">{{ g.precio | currency:'Bs. ' }}</td>
 				<td class="text-center">{{ g.profesor.nombre_completo }}</td>
-				<td class="text-center">{{ g.seccion }}</td>
+				<td class="text-center">{{ g.seccion }} de {{ g.materia_nombre }} ({{ g.carrera_nombre }})</td>
 				<td class="text-center">{{ g.entregada_por.nombre_completo }}</td>
 				<td class="text-center">{{ g.recibida_por.nombre_completo }}</td>
 				<td class="text-center">{{ g.fecha }} a las {{ g.hora }}</td>
