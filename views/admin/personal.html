@@ -45,7 +45,7 @@
 				<th class="text-center">Departamento</th>
 				<th class="text-center">Estado</th>
 			</thead>
-			<tbody ng-init="nroResultados = 25; actual = 0;">
+			<tbody ng-init="actual = 0;">
 				<tr ng-click="seleccionar(p)" ng-repeat="p in personal | orderBy:order | paginar:nroResultados+'|'+actual" 
 					ng-if="p.id > 1 && p.id != loginService.getCurrentUser().id && (
 						p.nombre_completo.indexOf(busqueda) != -1 ||

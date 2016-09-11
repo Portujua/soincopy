@@ -58,7 +58,7 @@
 				<th class="text-center">Observaciones</th>
 				<th class="text-center">Estado</th>
 			</thead>
-			<tbody ng-init="nroResultados = 25; actual = 0;">
+			<tbody ng-init="actual = 0;">
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in pedidos | orderBy:order | paginar:nroResultados+'|'+actual"
 					ng-if="
 						(o.id.indexOf(buscador) != -1 ||

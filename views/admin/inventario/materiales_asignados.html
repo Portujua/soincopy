@@ -36,7 +36,7 @@
 			<th class="text-center">Restante</th>
 			<th class="text-center">Fecha</th>
 		</thead>
-		<tbody ng-init="nroResultados = 25; actual = 0;">
+		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(p)" ng-repeat="p in inventario_asignado | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(p.personal_nombre.indexOf(busqueda) != -1 ||

@@ -5,6 +5,8 @@
 		$scope.enInicio = true;
 		$scope.express = window.location.hash.indexOf('express') != -1;
 
+		$scope.nroResultados = 100; 
+
 		$interval(function(){
 			$scope.enInicio = window.location.hash.indexOf("inicio") != -1;
 		}, 500);

@@ -48,7 +48,7 @@
 			<th class="text-center">PDF</th>
 			<th class="text-center">Fecha añadido</th>
 		</thead>
-		<tbody ng-init="nroResultados = 25; actual = 0;">
+		<tbody ng-init="actual = 0;">
 			<tr ng-repeat="p in planes | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(

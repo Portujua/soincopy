@@ -41,7 +41,7 @@
 			<th class="text-center">Tipo</th>
 			<th class="text-center">Estado</th>
 		</thead>
-		<tbody ng-init="nroResultados = 25; actual = 0;">
+		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(p)" ng-repeat="p in carreras | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
 					(p.nombre.indexOf(busqueda) != -1 ||
