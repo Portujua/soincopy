@@ -40,6 +40,7 @@
 
 		<table class="table table-stripped" ng-init="order = '+cliente_nombre'">
 			<thead>
+				<th class="text-center">Código</th>
 				<th class="text-center">
 					Cliente
 					<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+cliente_nombre'" ng-show="order != '+cliente_nombre'" aria-hidden="true"></span> 
@@ -60,7 +61,7 @@
 			<tbody ng-init="nroResultados = 25; actual = 0;">
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in pedidos | orderBy:order | paginar:nroResultados+'|'+actual"
 					ng-if="
-						(o.numero.indexOf(buscador) != -1 ||
+						(o.id.indexOf(buscador) != -1 ||
 						o.fecha_anadida.indexOf(buscador) != -1 ||
 						o.costo_total.indexOf(buscador) != -1 ||
 						o.observaciones.indexOf(buscador) != -1)
@@ -69,6 +70,7 @@
 
 						&& (solo_expiradas == false || o.expirada == 1)"
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.expirada == 1 ? 'bg-warning' : '') }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
+					<td class="text-center">{{ o.id }}</td>
 					<td class="text-center">{{ o.cliente_nombre }} {{ o.cliente_ni }}</td>
 					<td class="text-center">{{ o.dependencia }}</td>
 					<td class="text-center">{{ o.fecha_anadida }}</td>
