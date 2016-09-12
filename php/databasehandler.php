@@ -677,7 +677,7 @@
                             where pm.producto=p.id
                             order by disponibles asc
                             limit 1) as unsigned
-                        ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo
+                        ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo, p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
                     order by codigo asc
@@ -702,7 +702,7 @@
                             where pm.producto=p.id
                             order by disponibles asc
                             limit 1) as unsigned
-                        ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo
+                        ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo, p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id and d.id=:did
                     order by codigo asc
@@ -1585,6 +1585,55 @@
             return json_encode($guias[0]);
         }
 
+        public function generar_tokens_guia($id)
+        {
+            $query = $this->db->prepare("
+                select g.*, date_format(g.fecha_anadida, '%d/%m/%Y') as fecha, time_format(g.fecha_anadida, '%h:%i:%s %p') as hora, m.nombre as materia_nombre, p.numero as periodo
+                from Guia as g, Materia as m, Car_Per as cp, Periodo as p
+                where g.materia=m.id and cp.id=m.dictada_en and cp.periodo=p.id and g.id=:id
+                order by g.id desc
+            ");
+
+            $query->execute(array(
+                ":id" => $id
+            ));
+
+            $gs = $query->fetchAll();
+            $guias = array();
+            $tokens = "";
+
+            foreach ($gs as $g)
+            {
+                $row = $g;
+                // Guardo los ID
+                $row["entregada_por_id"] = $row["entregada_por"];
+                $row["profesor_id"] = $row["profesor"];
+                $row["recibida_por_id"] = $row["recibida_por"];
+                $carrera = $this->obtener_carrera_desde_materia($g['materia']);
+                $row["carrera_id"] = $carrera['id'];
+                $row["carrera_nombre"] = $carrera['nombre'];
+
+                // Reemplazo por los valores de la foranea
+                $row["entregada_por"] = $this->cargar_profesor($row["profesor"]);
+                $row["profesor"] = $this->cargar_profesor($row["profesor"]);
+                $row["recibida_por"] = $this->cargar_personal_($row["recibida_por"]);
+
+                $tokens .= $g['titulo'] . " ";
+                $tokens .= $g['codigo'] . " ";
+                $tokens .= $g['materia_nombre'] . " ";
+                $tokens .= $g['periodo'] . " ";
+                $tokens .= $row['carrera_nombre'] . " ";
+                $tokens .= $row['recibida_por']['nombre_completo'] . " ";
+                $tokens .= $row['profesor']['nombre_completo'] . " ";
+                $tokens .= $g['numero_hojas'] . " ";
+                $tokens .= $g['numero_paginas'] . " ";
+                $tokens .= $g['seccion'] . " ";
+                $tokens .= $g['titulo'] . " ";
+            }
+
+            return $tokens;
+        }
+
         public function agregar_guia($post)
         {
             $json = array();
@@ -1609,13 +1658,19 @@
             $json['status'] = "ok";
             $json['id_guia'] = $this->db->lastInsertId();
 
+            $tokens = $this->generar_tokens_guia($json['id_guia']);
+
             // Le asigno el ID al codigo
             $query = $this->db->prepare("
-                update Guia set codigo=:id where id=:id
+                update Guia set 
+                    codigo=:id,
+                    tokens=:tokens
+                where id=:id
             ");
 
             $query->execute(array(
-                ":id" => $json['id_guia']
+                ":id" => $json['id_guia'],
+                ":tokens" => $tokens
             ));
 
             return json_encode($json);
@@ -2067,16 +2122,20 @@
 
         public function agregar_producto($post)
         {
+            if (!isset($post['tokens']))
+                $post['tokens'] = $post['nombre'];
+
             $query = $this->db->prepare("
-                insert into Producto (nombre, descripcion, departamento, familia, fecha_creado, exento_iva)
-                values (:nombre, :descripcion, :departamento, :familia, now(), :exento_iva)
+                insert into Producto (nombre, descripcion, departamento, familia, fecha_creado, exento_iva, tokens)
+                values (:nombre, :descripcion, :departamento, :familia, now(), :exento_iva, :tokens)
             ");
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
-                ":descripcion" => $post['descripcion'],
+                ":descripcion" => isset($post['descripcion']) ? $post['descripcion'] : "",
                 ":familia" => $post['familia'],
                 ":departamento" => $post['departamento'],
+                ":tokens" => $post['tokens'],
                 ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0
             ));
 
@@ -2164,13 +2223,17 @@
 
         public function editar_producto($post)
         {
+            if (!isset($post['tokens']))
+                $post['tokens'] = $post['nombre'];
+
             $query = $this->db->prepare("
                 update Producto set 
                     nombre=:nombre, 
                     descripcion=:descripcion,
                     familia=:familia,
                     departamento=:departamento,
-                    exento_iva=:exento_iva
+                    exento_iva=:exento_iva,
+                    tokens=:tokens
                 where id=:id
             ");
 
@@ -2180,6 +2243,7 @@
                 ":departamento" => $post['departamento'],
                 ":familia" => $post['familia'],
                 ":id" => $post['id'],
+                ":tokens" => $post['tokens'],
                 ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0
             ));
 
@@ -2727,6 +2791,20 @@
                 ":precio" => $post['precio']
             ));
 
+            $tokens = $this->generar_tokens_guia($post['codigo']);
+
+            // Actualizo los tokens
+            $query = $this->db->prepare("
+                update Guia set 
+                    tokens=:tokens
+                where codigo=:codigo
+            ");
+
+            $query->execute(array(
+                ":codigo" => $post['codigo'],
+                ":tokens" => $tokens
+            ));
+
             if (isset($post['producto']))
             {
                 $post_producto = array();
@@ -2737,6 +2815,7 @@
                 $post_producto['departamento'] = 1;
                 $post_producto['familia'] = 1;
                 $post_producto['exento_iva'] = 0;
+                $post_producto['tokens'] = $tokens;
                 $post_producto['id'] = isset($post['idproducto']) ? $post['idproducto'] : null;
                 $post_producto['materiales'] = array();
 

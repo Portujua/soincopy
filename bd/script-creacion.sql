@@ -124,6 +124,7 @@ create table Guia (
 	tipo int,
 	precio float,
 	idproducto int comment 'id del producto asociado',
+	tokens varchar(512),
 	primary key(id), unique(codigo),
 	foreign key (profesor) references Profesor(id),
 	foreign key (materia) references Materia(id),
@@ -236,6 +237,7 @@ create table Producto (
 	familia int not null,
 	exento_iva tinyint(1) default 0,
 	estado tinyint(1) default 1,
+	tokens varchar(512),
 	primary key(id),
 	foreign key (departamento) references Departamento(id),
 	foreign key (familia) references Producto_Familia(id)
