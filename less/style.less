@@ -11,6 +11,10 @@ body {
 	overflow-x: hidden;
 }
 
+.ui-autocomplete {
+	transition: none !important;
+}
+
 button, input[type=submit] {
 	transition: none !important;
 	font-size: 11px !important;
@@ -507,4 +511,19 @@ a {
 .filtros {
 	width: 100%;
 	padding: 20px 0px;
+}
+
+.buscador-guia {
+	width: 100%;
+	padding: 6px 10px;
+	background-color: white;
+	border: none;
+	border-bottom: 1px solid #ccc;
+	border-radius: 5px;
+	outline: none !important;
+	margin-bottom: 25px;
+
+	&:focus {
+		border-bottom: 1px solid #333;
+	}
 }

@@ -197,6 +197,51 @@
 			});
 		}
 
+		$scope.cargar_guias = function(){
+			$.ajax({
+			    url: "api/guias/1",
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        var json = $.parseJSON(data);
+
+			        console.log(json)
+
+			        var availableTags = [];
+
+			        for (var i = 0; i < json.length; i++)
+			        	availableTags.push({
+			        		label: json[i].tokens,
+			        		value: json[i].id
+			        	})
+
+			        console.log(availableTags)
+
+					$( "input[name=guia]" ).autocomplete({
+						source: availableTags,
+						minLength: 1,
+						delay: 0,
+						select: function (event, ui) {
+							var id = ui.item.value;
+
+							$scope.pedido.productos.push({
+								nro_copias: 1,
+								nro_originales: 1,
+								costo_unitario: 0,
+								producto: id
+							});
+
+							$timeout(function(){
+								$('.selectpicker').selectpicker('refresh');
+								$("input[name=guia]").val("");
+							}, 500);
+						}
+					});
+			    }
+			});
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_pedido($routeParams.id);

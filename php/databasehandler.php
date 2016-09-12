@@ -1618,17 +1618,16 @@
                 $row["profesor"] = $this->cargar_profesor($row["profesor"]);
                 $row["recibida_por"] = $this->cargar_personal_($row["recibida_por"]);
 
-                $tokens .= $g['titulo'] . " ";
-                $tokens .= $g['codigo'] . " ";
-                $tokens .= $g['materia_nombre'] . " ";
-                $tokens .= $g['periodo'] . " ";
-                $tokens .= $row['carrera_nombre'] . " ";
-                $tokens .= $row['recibida_por']['nombre_completo'] . " ";
-                $tokens .= $row['profesor']['nombre_completo'] . " ";
-                $tokens .= $g['numero_hojas'] . " ";
-                $tokens .= $g['numero_paginas'] . " ";
-                $tokens .= $g['seccion'] . " ";
-                $tokens .= $g['titulo'] . " ";
+                $tokens .= "Titulo: " . $g['titulo'] . " ";
+                $tokens .= "Codigo: " . $g['codigo'] . " ";
+                $tokens .= "Carrera: " . $row['carrera_nombre'] . " ";
+                $tokens .= "Materia: " . $g['materia_nombre'] . " ";
+                $tokens .= "Profesor: " . $row['profesor']['nombre_completo'] . " ";
+                $tokens .= "Periodo: " . $g['periodo'] . " ";                
+                $tokens .= "Recibida por: " . $row['recibida_por']['nombre_completo'] . " ";
+                $tokens .= "# Hojas: " . $g['numero_hojas'] . " ";
+                $tokens .= "# Paginas: " . $g['numero_paginas'] . " ";
+                $tokens .= "Seccion: " . $g['seccion'] . " ";
             }
 
             return $tokens;
