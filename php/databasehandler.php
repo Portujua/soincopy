@@ -1474,9 +1474,9 @@
         public function cargar_guias($post)
         {
             $query = $this->db->prepare("
-                select g.*, date_format(g.fecha_anadida, '%d/%m/%Y') as fecha, time_format(g.fecha_anadida, '%h:%i:%s %p') as hora, m.nombre as materia_nombre
-                from Guia as g, Materia as m
-                where g.materia=m.id and g.status=:status 
+                select g.*, date_format(g.fecha_anadida, '%d/%m/%Y') as fecha, time_format(g.fecha_anadida, '%h:%i:%s %p') as hora, m.nombre as materia_nombre, p.numero as periodo
+                from Guia as g, Materia as m, Car_Per as cp, Periodo as p
+                where g.materia=m.id and cp.id=m.dictada_en and cp.periodo=p.id and g.status=:status
                 order by g.id desc
             ");
 

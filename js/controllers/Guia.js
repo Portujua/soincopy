@@ -75,10 +75,48 @@
 			});
 		}
 
+		$scope.cargar_periodos = function(){
+			var cid = null;
+
+			if ($scope.guia)
+				cid = $scope.guia.carrera_id ? $scope.guia.carrera_id : $scope.guia.carrera;
+			else
+			{
+				cid = $scope.filtros.carrera;
+
+				if (cid == -1)
+					$scope.filtros.periodo = -1;
+			}
+
+			$.ajax({
+			    url: "api/periodos/" + cid,
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	$scope.periodos = $.parseJSON(data);
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+			        })
+			    }
+			});
+		}
+
 		$scope.cargar_materias = function(){
 			try 
 			{
-				var cid = $scope.guia.carrera_id ? $scope.guia.carrera_id : $scope.guia.carrera;
+				var cid = null;
+
+				if ($scope.guia)
+					cid = $scope.guia.carrera_id ? $scope.guia.carrera_id : $scope.guia.carrera;
+				else
+				{
+					cid = $scope.filtros.carrera;
+
+					if (cid == -1)
+						$scope.filtros.materia = -1;
+				}
+
 				SoincopyService.getMaterias($scope, cid);
 				$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 1000);
 			}

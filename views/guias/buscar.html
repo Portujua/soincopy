@@ -33,7 +33,42 @@
 		</div>
 	</div>
 
-	Buscar <input type="text" ng-model="buscador" placeholder="Ej. 19393, Pedro Perez, 19/03/2016, etc." data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
+	<div class="filtros">
+		<h4>Filtros</h4>
+
+		<div class="fila" ng-init="cargar_carreras()">
+			<span>Carrera&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<select ng-model="filtros.carrera" ng-init="filtros.carrera = -1" name="carrera" ng-change="cargar_materias(); cargar_periodos();">
+				<option value="-1" selected>----- NO APLICA -----</option>
+				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
+			</select>
+		</div>
+
+		<div class="fila">
+			<span>Materia&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<select ng-model="filtros.materia" ng-init="filtros.materia = -1" name="materia" ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias | quitarDeshabilitados">
+				<option value="-1">----- NO APLICA -----</option>
+			</select>
+		</div>
+
+		<div class="fila">
+			<span>Período&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<select ng-model="filtros.periodo" ng-init="filtros.periodo = -1">
+				<option value="-1">----- NO APLICA -----</option>
+				<option ng-repeat="p in periodos" value="{{ p.periodo }}">{{ p.periodo + (p.tipo == 'Anual' ? ' año' : (p.tipo == 'Semestral' ? ' semestre' : '')) }}</option>
+			</select>
+		</div>
+
+		<div class="fila" ng-init="cargar_profesores()">
+			<span>Profesor&nbsp;&nbsp;&nbsp;&nbsp;</span>
+			<select name="profesor" ng-model="filtros.profesor" ng-init="filtros.profesor = -1">
+				<option value="-1">----- NO APLICA -----</option>
+				<option ng-repeat="p in profesores">{{ p.nombre_completo }}</option>
+			</select>
+		</div>
+	</div>
+
+	Buscar <input type="text" ng-model="buscador" ng-init="buscador = ''" placeholder="Ej. 19393, Pedro Perez, 19/03/2016, etc." data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
 
 	<script>
 		$(document).ready(function(){
@@ -72,13 +107,13 @@
 				Profesor
 			</th>
 			<th class="text-center">Sección</th>
-			<th class="text-center">Entregada por</th>
+			<th class="text-center">Tamaño</th>
 			<th class="text-center">Recibida por</th>
 			<th class="text-center">Fecha de entrega</th>
 		</thead>
 		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(g)" ng-repeat="g in guias | orderBy:order | paginar:nroResultados+'|'+actual" 
-				ng-if="!buscador || 
+				ng-if="(!buscador || 
 						g.codigo.indexOf(buscador) != -1 ||
 						g.titulo.indexOf(buscador) != -1 ||
 						g.profesor.nombre_completo.indexOf(buscador) != -1 ||
@@ -87,14 +122,29 @@
 						g.materia_nombre.indexOf(buscador) != -1 ||
 						g.entregada_por.nombre_completo.indexOf(buscador) != -1 ||
 						g.recibida_por.nombre_completo.indexOf(buscador) != -1 ||
-						g.fecha.indexOf(buscador) != -1"
+						g.fecha.indexOf(buscador) != -1 ||
+						(g.numero_paginas + ' páginas, ' + g.numero_hojas + ' hojas').indexOf(buscador) != -1)
+
+						&&
+
+						(
+							(g.carrera_id === filtros.carrera || filtros.carrera == -1) &&
+							(g.materia === filtros.materia || filtros.materia == -1) &&
+							(g.profesor.nombre_completo === filtros.profesor || filtros.profesor == -1) &&
+							(g.periodo === filtros.periodo || filtros.periodo == -1)
+						)
+						"
 				class="{{ g_.id == g.id ? 'bg-selected' : '' }}">
 				<td class="text-center">{{ g.codigo }}</td>
 				<td class="text-center">{{ g.titulo }}</td>
 				<td class="text-center">{{ g.precio | currency:'Bs. ' }}</td>
 				<td class="text-center">{{ g.profesor.nombre_completo }}</td>
 				<td class="text-center">{{ g.seccion }} de {{ g.materia_nombre }} ({{ g.carrera_nombre }})</td>
-				<td class="text-center">{{ g.entregada_por.nombre_completo }}</td>
+				<!--<td class="text-center">{{ g.entregada_por.nombre_completo }}</td>-->
+				<td class="text-center">
+					<span ng-if="g.numero_paginas">{{ g.numero_paginas }} páginas, {{ g.numero_hojas }} hojas</span>
+					<span ng-if="!g.numero_paginas">Sin PDF</span>
+				</td>
 				<td class="text-center">{{ g.recibida_por.nombre_completo }}</td>
 				<td class="text-center">{{ g.fecha }} a las {{ g.hora }}</td>
 			</tr>
