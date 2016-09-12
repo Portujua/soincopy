@@ -210,6 +210,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        var json = $.parseJSON(data);
+			        var guias = [];
 
 			        console.log(json)
 
@@ -238,9 +239,13 @@
 			        		label: json[i].tokens,
 			        		value: json[i].id
 			        	})
+
+			        	guias.push(json[i]);
 			        }
 
-			        console.log(availableTags)
+			        $scope.safeApply(function(){
+			        	$scope.guias = guias;
+			        })
 
 					$( "input[name=guia]" ).autocomplete({
 						source: availableTags,
@@ -263,6 +268,16 @@
 						}
 					});
 			    }
+			});
+		}
+
+		$scope.agregar_guia = function(id, titulo){
+			$scope.pedido.productos.push({
+				nro_copias: 1,
+				nro_originales: 1,
+				costo_unitario: 0,
+				producto: id,
+				producto_nombre: titulo
 			});
 		}
 

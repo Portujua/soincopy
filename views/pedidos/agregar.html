@@ -66,8 +66,15 @@
 			</div>
 		</div>
 
+		<div class="guias_resultados">
+			<p ng-repeat="g in guias">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true" style="cursor: pointer;" ng-click="agregar_guia(g.id, g.titulo)"></span> 
+				[Código: {{ g.codigo }}] {{ g.titulo }}
+			</p>
+		</div>
 
-		<input type="text" class="buscador-guia" name="guia" placeholder="Use cualquier campo de una guía para comenzar a buscar.." ng-init="cargar_guias()" />
+
+		<!--<input type="text" class="buscador-guia" name="guia" placeholder="Use cualquier campo de una guía para comenzar a buscar.." ng-init="cargar_guias()" />-->
 
 		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small><small style="float: right;"><a href="" ng-click="requerir_autorizacion()">Hacer descuento</a></small></h2>
 
@@ -85,9 +92,11 @@
 				<tr ng-repeat="p in pedido.productos">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="pedido.productos[$index].producto" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1>
-							<option ng-repeat="pr in productos | quitarDeshabilitados" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
+						<select ng-hide="pedido.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="pedido.productos[$index].producto" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1>
+							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
 						</select>
+
+						<p ng-show="pedido.productos[$index].producto_nombre">{{ pedido.productos[$index].producto_nombre }}</p>
 					</td>
 					<td>
 						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="pedido.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
