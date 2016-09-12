@@ -28,6 +28,45 @@
 		</div>
 
 		<h2>Añadir guía</h2>
+		<div class="filtros">
+			<div class="fila">
+				<span style="float:left;">Carrera&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<select ng-model="filtros.carrera" ng-init="filtros.carrera = -1" name="carrera" ng-change="cargar_materias(); cargar_periodos(); cargar_guias();">
+					<option value="-1" selected>----- NO APLICA -----</option>
+					<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
+				</select>
+			</div>
+
+			<div class="fila">
+				<span style="float:left;">Materia&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<select ng-model="filtros.materia" ng-init="filtros.materia = -1" name="materia" ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias | quitarDeshabilitados" ng-change="cargar_guias();">
+					<option value="-1">----- NO APLICA -----</option>
+				</select>
+			</div>
+
+			<div class="fila">
+				<span style="float:left;">Período&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<select ng-model="filtros.periodo" ng-init="filtros.periodo = -1" ng-change="cargar_guias();">
+					<option value="-1">----- NO APLICA -----</option>
+					<option ng-repeat="p in periodos" value="{{ p.periodo }}">{{ p.periodo + (p.tipo == 'Anual' ? ' año' : (p.tipo == 'Semestral' ? ' semestre' : '')) }}</option>
+				</select>
+			</div>
+
+			<div class="fila" ng-init="cargar_profesores()">
+				<span style="float:left;">Profesor&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<select name="profesor" ng-model="filtros.profesor" ng-init="filtros.profesor = -1" ng-change="cargar_guias();">
+					<option value="-1">----- NO APLICA -----</option>
+					<option ng-repeat="p in profesores">{{ p.nombre_completo }}</option>
+				</select>
+			</div>
+
+			<div class="fila">
+				<span style="float:left;">Páginas&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<input type="number" name="nro_paginas" ng-model="filtros.nro_paginas" ng-change="cargar_guias();" />
+			</div>
+		</div>
+
+
 		<input type="text" class="buscador-guia" name="guia" placeholder="Use cualquier campo de una guía para comenzar a buscar.." ng-init="cargar_guias()" />
 
 		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small><small style="float: right;"><a href="" ng-click="requerir_autorizacion()">Hacer descuento</a></small></h2>

@@ -22,6 +22,9 @@
 		SoincopyService.getCondicionesPago($scope);
 		SoincopyService.getClientes($scope);
 
+		SoincopyService.getCarreras($scope);
+		SoincopyService.getProfesores($scope);
+
 		$scope.init_form_cache = function(){
 			if (!$scope.pedido && $localStorage.cache.pedido)
 				$scope.pedido = $localStorage.cache.pedido;
@@ -198,6 +201,8 @@
 		}
 
 		$scope.cargar_guias = function(){
+			var self = $scope;
+
 			$.ajax({
 			    url: "api/guias/1",
 			    type: "POST",
@@ -211,10 +216,29 @@
 			        var availableTags = [];
 
 			        for (var i = 0; i < json.length; i++)
+			        {
+		        		if (self.filtros.carrera != json[i].carrera_id && self.filtros.carrera != -1)
+		        			continue;
+
+		        		if (self.filtros.materia != json[i].materia_id && self.filtros.materia != -1)
+		        			continue;
+
+		        		if (self.filtros.periodo != json[i].periodo && self.filtros.periodo != -1)
+		        			continue;
+
+		        		if (self.filtros.profesor != json[i].profesor.nombre_completo && self.filtros.profesor != -1)
+		        			continue;
+
+		        		if (self.filtros.nro_paginas)
+		        			if (self.filtros.nro_paginas != json[i].numero_paginas && self.filtros.nro_paginas > 0)
+		        				continue;
+
+
 			        	availableTags.push({
 			        		label: json[i].tokens,
 			        		value: json[i].id
 			        	})
+			        }
 
 			        console.log(availableTags)
 
@@ -238,6 +262,43 @@
 							}, 500);
 						}
 					});
+			    }
+			});
+		}
+
+		$scope.cargar_materias = function(){
+			try 
+			{
+				var cid = $scope.filtros.carrera;
+
+				if (cid == -1)
+					$scope.filtros.materia = -1;
+
+				SoincopyService.getMaterias($scope, cid);
+				$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 1000);
+			}
+			catch(ex)
+			{
+				$timeout($scope.cargar_materias, 200);
+			}
+		}
+
+		$scope.cargar_periodos = function(){
+			var cid = $scope.filtros.carrera;
+
+			if (cid == -1)
+				$scope.filtros.periodo = -1;
+
+			$.ajax({
+			    url: "api/periodos/" + cid,
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	$scope.periodos = $.parseJSON(data);
+			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+			        })
 			    }
 			});
 		}
