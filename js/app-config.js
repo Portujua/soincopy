@@ -15,6 +15,20 @@
 	    };
 	});
 
+	app.filter('quitarGuias', function () {
+	    return function (input) {
+	    	if (!input) return null;
+	    	
+	    	var out = [];
+
+	    	for (var i = 0; i < input.length; i++)
+	    		if (!(/^Guía "(.+)" \(Código: .+\)/).test(input[i].nombre))
+	    			out.push(input[i]);
+
+	    	return out;
+	    };
+	});
+
 	app.filter('soloCategorias', function () {
 	    return function (items_) {
 	    	if (!items_) return null;
