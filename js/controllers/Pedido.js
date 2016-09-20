@@ -201,6 +201,7 @@
 		}
 
 		$scope.cargar_guias = function(){
+			$scope.guias = [];
 			var self = $scope;
 
 			$.ajax({
@@ -212,12 +213,13 @@
 			        var json = $.parseJSON(data);
 			        var guias = [];
 
-			        console.log(json)
-
 			        var availableTags = [];
 
 			        for (var i = 0; i < json.length; i++)
 			        {
+			        	if (json[i].status != 1)
+			        		continue;
+
 		        		if (self.filtros.carrera != json[i].carrera_id && self.filtros.carrera != -1)
 		        			continue;
 
@@ -232,6 +234,10 @@
 
 		        		if (self.filtros.nro_paginas)
 		        			if (self.filtros.nro_paginas != json[i].numero_paginas && self.filtros.nro_paginas > 0)
+		        				continue;
+
+		        		if (self.filtros.codigo)
+		        			if (self.filtros.codigo != json[i].codigo && self.filtros.codigo > 0)
 		        				continue;
 
 

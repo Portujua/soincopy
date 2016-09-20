@@ -30,6 +30,11 @@
 		<h2>Añadir guía</h2>
 		<div class="filtros">
 			<div class="fila">
+				<span style="float:left;">Código&nbsp;&nbsp;&nbsp;&nbsp;</span>
+				<input type="number" name="codigo" ng-model="filtros.codigo" ng-change="cargar_guias();" />
+			</div>
+
+			<div class="fila">
 				<span style="float:left;">Carrera&nbsp;&nbsp;&nbsp;&nbsp;</span>
 				<select ng-model="filtros.carrera" ng-init="filtros.carrera = -1" name="carrera" ng-change="cargar_materias(); cargar_periodos(); cargar_guias();">
 					<option value="-1" selected>----- NO APLICA -----</option>
