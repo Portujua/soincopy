@@ -62,7 +62,8 @@
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in pedidos | orderBy:order | paginar:nroResultados+'|'+actual"
 					ng-if="
 						(o.id.indexOf(buscador) != -1 ||
-						o.fecha_anadida.indexOf(buscador) != -1 ||
+						o.cliente_nombre.indexOf(buscador) != -1 ||
+						o.cliente_ni.indexOf(buscador) != -1 ||
 						o.costo_total.indexOf(buscador) != -1 ||
 						o.observaciones.indexOf(buscador) != -1)
 
