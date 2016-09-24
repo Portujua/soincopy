@@ -367,7 +367,7 @@
 					    beforeSend: function(){},
 					    success: function(data){
 					    	
-					    	window.location = "php/imprimir_codigo_guia.php?codigo=" + data.id_guia;
+					    	window.open("php/imprimir_codigo_guia.php?codigo=" + data.id_guia);
 
 					        if (data.status == "ok")
 					        	$scope.safeApply(function(){
