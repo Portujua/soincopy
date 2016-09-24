@@ -2744,6 +2744,28 @@
 
         public function cambiar_estado($post)
         {
+            if ($post['status'] == 1)
+            {
+                $query = $this->db->prepare("
+                    select pdf from Guia where codigo=:codigo
+                ");
+
+                $query->execute(array(
+                    ":codigo" => $post['codigo']
+                ));
+
+                $guia = $query->fetchAll();
+
+                if ($guia[0]['pdf'] == null)
+                {
+                    $json = array();
+                    $json['response'] = "Error, debe cargar primero un archivo PDF antes de aprobar la guía.";
+                    $json['code'] = -1;
+
+                    return json_encode($json);
+                }
+            }
+
             $query = $this->db->prepare("
                 call cambiar_estado_guia(:status, :codigo);
             ");
@@ -2753,7 +2775,11 @@
                 ":codigo" => $post['codigo']
             ));
 
-            return "ok";
+            $json = array();
+            $json['response'] = "Estado de guía cambiado con éxito.";
+            $json['code'] = 1;
+
+            return json_encode($json);
         }
 
         public function modificar_guia($post)

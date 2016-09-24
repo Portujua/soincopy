@@ -310,7 +310,13 @@
 					    data: {status:s, codigo:codigo},
 					    beforeSend: function(){},
 					    success: function(data){
-					        if (data == "ok")
+					    	var json = $.parseJSON(data);
+
+					    	if (json.code == -1)
+					    	{
+					    		AlertService.showError(json.response);
+					    	}
+					        else if (json.code == 1)
 					        {
 					        	$scope.safeApply(function(){
 					        		if (id)
