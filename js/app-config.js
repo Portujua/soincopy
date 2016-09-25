@@ -85,7 +85,7 @@
 			newestOnTop: true,
 			positionClass: 'toast-top-right',
 			timeOut: 3500,
-			extendedTimeOut: 1000000,
+			extendedTimeOut: 1000,
 			tapToDismiss: true,
 			progressBar: true,
 			preventOpenDuplicates: false,
