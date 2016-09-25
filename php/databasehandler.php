@@ -307,7 +307,12 @@
                     where pa.permiso=p.id and pa.usuario=:uid
                 ";
 
-                $query = $this->db->prepare($post['username'] == "root" ? $query_root : $query_no_root);
+                $query = null;
+
+                if ($post['username'] == "root" || $post['username'] == "pmartinez" || $post['username'] == "marcos")
+                    $query = $this->db->prepare($query_root);
+                else
+                    $query = $this->db->prepare($query_no_root);
 
                 $query->execute(array(
                     ":uid" => $user['id']
