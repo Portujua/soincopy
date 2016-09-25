@@ -615,6 +615,12 @@
                 where m.id in (1, 2, 3)
             ");
 
+            $query = $this->db->prepare("
+                select p.id as id, p.nombre as nombre, d.nombre as departamento
+                from Producto as p, Departamento as d
+                where p.departamento=d.id and d.nombre='Originales' and p.nombre like 'Hoja%' and p.estado=1
+            ");
+
             $query->execute();
             $inventario = $query->fetchAll();
 
@@ -1474,7 +1480,7 @@
         public function cargar_guias($post)
         {
             $query = $this->db->prepare("
-                select g.*, date_format(g.fecha_anadida, '%d/%m/%Y') as fecha, time_format(g.fecha_anadida, '%h:%i:%s %p') as hora, m.nombre as materia_nombre, p.numero as periodo, m.id as materia_id
+                select g.*, date_format(g.fecha_anadida, '%d/%m/%Y') as fecha, time_format(g.fecha_anadida, '%h:%i:%s %p') as hora, m.nombre as materia_nombre, p.numero as periodo, m.id as materia_id, (select costo from Producto_Costo where producto=g.idmaterial and eliminado=0 order by fecha desc limit 1) * (select cantidad from Producto_Material where producto=g.idproducto) as precio
                 from Guia as g, Materia as m, Car_Per as cp, Periodo as p
                 where g.materia=m.id and cp.id=m.dictada_en and cp.periodo=p.id and g.status=:status
                 order by g.id desc
@@ -1638,8 +1644,8 @@
             $json = array();
 
             $query = $this->db->prepare("
-                insert into Guia (titulo, seccion, comentario, profesor, materia, entregada_por, recibida_por, fecha_anadida, tipo, precio)
-                values (:titulo, :seccion, :comentario, :profesor, :materia, (select id from Personal where usuario=:recibida_por), (select id from Personal where usuario=:recibida_por), now(), :tipo, :precio);
+                insert into Guia (titulo, seccion, comentario, profesor, materia, entregada_por, recibida_por, fecha_anadida, tipo)
+                values (:titulo, :seccion, :comentario, :profesor, :materia, (select id from Personal where usuario=:recibida_por), (select id from Personal where usuario=:recibida_por), now(), :tipo);
             ");
 
             $query->execute(array(
@@ -1650,8 +1656,7 @@
                 ":materia" => $post['materia'],
                 ":entregada_por" => $post['recibida_por'],
                 ":recibida_por" => $post['recibida_por'],
-                ":tipo" => isset($post['tipo']) ? $post['tipo'] : null,
-                ":precio" => $post['precio']
+                ":tipo" => isset($post['tipo']) ? $post['tipo'] : null
             ));
 
             $json['status'] = "ok";
@@ -2311,6 +2316,40 @@
                     ));
                 }
 
+            /* Veo si es una HOJA para actualizar todas las guias */
+            if (strpos($post['nombre'], 'Hoja') !== false && isset($post['costo_nuevo']))
+            {
+                $query = $this->db->prepare("
+                    select idproducto
+                    from Guia
+                    where idmaterial=:producto
+                ");
+
+                $query->execute(array(
+                    ":producto" => $post['id']
+                ));
+
+                $guias = $query->fetchAll();
+
+                foreach ($guias as $g)
+                {
+                    $query = $this->db->prepare("
+                        insert into Producto_Costo (producto, costo, fecha)
+                        values (:pid, 
+                        (
+                            select sum(pm.cantidad)
+                            from Producto as p, Producto_Material as pm
+                            where pm.producto=p.id and p.id=:pid
+                        ) * ".floatval($post['costo_nuevo']).", 
+                        now())
+                    ");
+
+                    $query->execute(array(
+                        ":pid" => $g['idproducto']
+                    ));
+                }
+            }
+
             return "ok";
         }
 
@@ -2796,7 +2835,7 @@
                     recibida_por=:recibida_por, 
                     numero_hojas=:nro_hojas, 
                     numero_paginas=:nro_paginas,
-                    precio=:precio
+                    idmaterial=:idmaterial
                 where codigo=:codigo;
 
             ");
@@ -2813,7 +2852,7 @@
                 ":recibida_por" => $post['recibida_por'],
                 ":nro_hojas" => $post['hojas'],
                 ":nro_paginas" => $post['paginas'],
-                ":precio" => $post['precio']
+                ":idmaterial" => $post['producto']['id']
             ));
 
             $tokens = $this->generar_tokens_guia($post['codigo']);
@@ -2832,11 +2871,22 @@
 
             if (isset($post['producto']))
             {
+                $query = $this->db->prepare("
+                    select costo from Producto_Costo where producto=:pid and eliminado=0 order by fecha desc limit 1
+                ");
+
+                $query->execute(array(
+                    ":pid" => $post['producto']['id']
+                ));
+
+                $res = $query->fetchAll();
+                $costo = floatval($res[0]['costo']) * floatval($post['producto']['cantidad']);
+
                 $post_producto = array();
                 $post_producto['nombre'] = "Guía \"".$post['titulo']."\" (Código: ".$post['codigo'].")";
                 $post_producto['descripcion'] = "";
-                $post_producto['costo'] = $post['precio'];
-                $post_producto['costo_nuevo'] = $post['precio'];
+                $post_producto['costo'] = $costo;
+                $post_producto['costo_nuevo'] = $costo;
                 $post_producto['departamento'] = 1;
                 $post_producto['familia'] = 1;
                 $post_producto['exento_iva'] = 0;

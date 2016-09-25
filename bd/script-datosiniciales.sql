@@ -155,4 +155,34 @@ insert into Material (nombre) values ("Hojas carta"),
 	("Hojas oficio"), 
 	("Hojas transparencia");
 
-insert into Producto_Familia (nombre) values ("Guías");
+insert into Producto_Familia (nombre) values ("Guías"), ("Hojas");
+
+insert into Producto (nombre, descripcion, departamento, fecha_creado, familia, exento_iva, estado, tokens) values 
+	("Hoja carta", "Venta por unidad", 1, now(), 2, 0, 1, "hoja carta unidad"),
+	("Hoja carta", "Venta por unidad", 2, now(), 2, 0, 1, "hoja carta unidad"),
+
+	("Hoja oficio", "Venta por unidad", 1, now(), 2, 0, 1, "hoja oficio unidad"),
+	("Hoja oficio", "Venta por unidad", 2, now(), 2, 0, 1, "hoja oficio unidad"),
+
+	("Hoja transparencia", "Venta por unidad", 1, now(), 2, 0, 1, "hoja transparencia unidad"),
+	("Hoja transparencia", "Venta por unidad", 2, now(), 2, 0, 1, "hoja transparencia unidad");
+
+insert into Producto_Costo (producto, costo, fecha) values 
+	(1, 1, now()),
+	(2, 1, now()),
+
+	(3, 1, now()),
+	(4, 1, now()),
+
+	(5, 1, now()),
+	(6, 1, now());
+
+insert into Producto_Material (producto, material, cantidad, creado_por, fecha_creado) values 
+	(1, 1, 1, 'root', now()),
+	(2, 1, 1, 'root', now()),
+
+	(3, 2, 1, 'root', now()),
+	(4, 2, 1, 'root', now()),
+
+	(5, 3, 1, 'root', now()),
+	(6, 3, 1, 'root', now());
