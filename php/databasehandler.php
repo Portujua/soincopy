@@ -2238,12 +2238,12 @@
                     departamento=:departamento,
                     exento_iva=:exento_iva,
                     tokens=:tokens
-                where nombre=:nombre_viejo
+                where id=:id
             ");
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
-                ":nombre_viejo" => $post['nombre_viejo'],
+                ":id" => $post['id'],
                 ":descripcion" => $post['descripcion'],
                 ":departamento" => $post['departamento'],
                 ":familia" => $post['familia'],
@@ -2255,14 +2255,28 @@
             if (isset($post['costo_nuevo']))
             {
                 $query = $this->db->prepare("
-                    insert into Producto_Costo (producto, costo, fecha)
-                    values (:pid, :costo, now())
+                    select id from Producto where nombre=:nombre_viejo or nombre=:nombre
                 ");
 
                 $query->execute(array(
-                    ":pid" => $post['id'],
-                    ":costo" => $post['costo_nuevo']
+                    ":nombre_viejo" => $post['nombre_viejo'],
+                    ":nombre" => $post['nombre']
                 ));
+
+                $ps = $query->fetchAll();
+
+                foreach ($ps as $pss)
+                {
+                    $query = $this->db->prepare("
+                        insert into Producto_Costo (producto, costo, fecha)
+                        values (:pid, :costo, now())
+                    ");
+
+                    $query->execute(array(
+                        ":pid" => $pss['id'],
+                        ":costo" => $post['costo_nuevo']
+                    ));
+                }
             }
 
             /* Elimino los materiales */
