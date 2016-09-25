@@ -372,11 +372,13 @@
 					    dataType: "json",
 					    beforeSend: function(){},
 					    success: function(data){
-					    	
-					    	window.open("php/imprimir_codigo_guia.php?codigo=" + data.id_guia);
-
-					        if (data.status == "ok")
+					    	if (data.status == "ok")
 					        	$scope.safeApply(function(){
+					        		window.open(
+										"php/imprimir_codigo_guia.php?codigo=" + data.id_guia,
+										"_blank",
+										"menubar=no,status=no,toolbar=no,width=210,height=270");
+					        		
 					        		$scope.guia = {};
 					        		delete $localStorage.cache.guia;
 					        		AlertService.showSuccess("Guía añadida con éxito");
