@@ -2129,65 +2129,68 @@
             if (!isset($post['tokens']))
                 $post['tokens'] = $post['nombre'];
 
-            $query = $this->db->prepare("
-                insert into Producto (nombre, descripcion, departamento, familia, fecha_creado, exento_iva, tokens)
-                values (:nombre, :descripcion, :departamento, :familia, now(), :exento_iva, :tokens)
-            ");
+            foreach ($post['departamentos'] as $departamento)
+            {
+                $query = $this->db->prepare("
+                    insert into Producto (nombre, descripcion, departamento, familia, fecha_creado, exento_iva, tokens)
+                    values (:nombre, :descripcion, :departamento, :familia, now(), :exento_iva, :tokens)
+                ");
 
-            $query->execute(array(
-                ":nombre" => $post['nombre'],
-                ":descripcion" => isset($post['descripcion']) ? $post['descripcion'] : "",
-                ":familia" => $post['familia'],
-                ":departamento" => $post['departamento'],
-                ":tokens" => $post['tokens'],
-                ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0
-            ));
+                $query->execute(array(
+                    ":nombre" => $post['nombre'],
+                    ":descripcion" => isset($post['descripcion']) ? $post['descripcion'] : "",
+                    ":familia" => $post['familia'],
+                    ":departamento" => $departamento,
+                    ":tokens" => $post['tokens'],
+                    ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0
+                ));
 
-            $pid = $this->db->lastInsertId();
+                $pid = $this->db->lastInsertId();
 
-            /* Agrego el costo */
-            $query = $this->db->prepare("
-                insert into Producto_Costo (producto, costo, fecha)
-                values (:pid, :costo, now())
-            ");
+                /* Agrego el costo */
+                $query = $this->db->prepare("
+                    insert into Producto_Costo (producto, costo, fecha)
+                    values (:pid, :costo, now())
+                ");
 
-            $query->execute(array(
-                ":pid" => $pid,
-                ":costo" => $post['costo']
-            ));
+                $query->execute(array(
+                    ":pid" => $pid,
+                    ":costo" => $post['costo']
+                ));
 
-            /* Agrego los materiales */
-            if (isset($post['materiales']))
-                foreach ($post['materiales'] as $m)
-                {
-                    $query = $this->db->prepare("
-                        insert into Producto_Material (producto, material, cantidad, creado_por, fecha_creado)
-                        values (:producto, :material, :cantidad, :creado_por, now())
-                    ");
+                /* Agrego los materiales */
+                if (isset($post['materiales']))
+                    foreach ($post['materiales'] as $m)
+                    {
+                        $query = $this->db->prepare("
+                            insert into Producto_Material (producto, material, cantidad, creado_por, fecha_creado)
+                            values (:producto, :material, :cantidad, :creado_por, now())
+                        ");
 
-                    $query->execute(array(
-                        ":producto" => $pid,
-                        ":material" => $m['material'],
-                        ":cantidad" => $m['cantidad'],
-                        ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
-                    ));
-                }
+                        $query->execute(array(
+                            ":producto" => $pid,
+                            ":material" => $m['material'],
+                            ":cantidad" => $m['cantidad'],
+                            ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
+                        ));
+                    }
 
-            /* Agrego los guias */
-            if (isset($post['guias']))
-                foreach ($post['guias'] as $m)
-                {
-                    $query = $this->db->prepare("
-                        insert into Producto_Guia (producto, guia, creado_por, fecha_creado)
-                        values (:producto, :guia, :creado_por, now())
-                    ");
+                /* Agrego los guias */
+                if (isset($post['guias']))
+                    foreach ($post['guias'] as $m)
+                    {
+                        $query = $this->db->prepare("
+                            insert into Producto_Guia (producto, guia, creado_por, fecha_creado)
+                            values (:producto, :guia, :creado_por, now())
+                        ");
 
-                    $query->execute(array(
-                        ":producto" => $pid,
-                        ":guia" => isset($m['guia']) ? $m['guia'] : $m['codigo'],
-                        ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
-                    ));
-                }
+                        $query->execute(array(
+                            ":producto" => $pid,
+                            ":guia" => isset($m['guia']) ? $m['guia'] : $m['codigo'],
+                            ":creado_por" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
+                        ));
+                    }
+            }
 
             return "ok";
         }
