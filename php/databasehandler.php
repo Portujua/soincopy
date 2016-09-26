@@ -11,6 +11,7 @@
 		private $db;
 
         private $session_duration = 3600;
+        private $duracion_pedido = 3600;
         private $admin_usernames = "('root', 'pmartinez', 'marcos')";
 
         public function __construct()
@@ -974,8 +975,23 @@
             return json_encode($ordenes);
         }
 
+        public function cancelar_pedidos_expirados()
+        {
+            $query = $this->db->prepare("
+                update Pedido set
+                    procesada=-1
+                where TIMESTAMPDIFF(SECOND, fecha_anadida, now())>:duracion_pedido
+            ");
+
+            $query->execute(array(
+                ":duracion_pedido" => $this->duracion_pedido
+            ));
+        }
+
         public function cargar_pedidos($post)
         {
+            $this->cancelar_pedidos_expirados();
+
             $query = $this->db->prepare("
                 select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, cp.id as cond_pago, cp.nombre as metodo_pago
                 from Pedido as o, Cliente as c, Condicion_Pago as cp
