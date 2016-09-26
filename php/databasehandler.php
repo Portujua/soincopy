@@ -2153,8 +2153,8 @@
             foreach ($post['departamentos'] as $departamento)
             {
                 $query = $this->db->prepare("
-                    insert into Producto (nombre, descripcion, departamento, familia, fecha_creado, exento_iva, tokens)
-                    values (:nombre, :descripcion, :departamento, :familia, now(), :exento_iva, :tokens)
+                    insert into Producto (nombre, descripcion, departamento, familia, fecha_creado, exento_iva, tokens, estado)
+                    values (:nombre, :descripcion, :departamento, :familia, now(), :exento_iva, :tokens, :estado)
                 ");
 
                 $query->execute(array(
@@ -2163,7 +2163,8 @@
                     ":familia" => $post['familia'],
                     ":departamento" => $departamento,
                     ":tokens" => $post['tokens'],
-                    ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0
+                    ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0,
+                    ":estado" => $post['estado'] ? $post['estado'] : 1
                 ));
 
                 $pid = $this->db->lastInsertId();
@@ -2843,12 +2844,26 @@
                 }
             }
 
+            // Cambiar estado de la guia
             $query = $this->db->prepare("
                 call cambiar_estado_guia(:status, :codigo);
             ");
 
             $query->execute(array(
                 ":status" => $post['status'],
+                ":codigo" => $post['codigo']
+            ));
+
+            // Pongo el estado del producto
+            $query = null;
+            
+            $query = $this->db->prepare("
+                update Producto set 
+                    estado=(select (case when status=1 then 1 else 0 end) from Guia where codigo=:codigo)
+                where id=(select idproducto from Guia where codigo=:codigo)
+            ");
+
+            $query->execute(array(
                 ":codigo" => $post['codigo']
             ));
 
@@ -2930,6 +2945,7 @@
                 $post_producto['familia'] = 1;
                 $post_producto['exento_iva'] = 0;
                 $post_producto['tokens'] = $tokens;
+                $post_producto['estado'] = 0;
                 $post_producto['id'] = isset($post['idproducto']) ? $post['idproducto'] : null;
                 $post_producto['materiales'] = array();
 
