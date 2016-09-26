@@ -2926,6 +2926,7 @@
                 $post_producto['costo'] = $costo;
                 $post_producto['costo_nuevo'] = $costo;
                 $post_producto['departamento'] = 1;
+                $post_producto['departamentos'] = array(1);
                 $post_producto['familia'] = 1;
                 $post_producto['exento_iva'] = 0;
                 $post_producto['tokens'] = $tokens;
