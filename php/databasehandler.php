@@ -2936,7 +2936,7 @@
                 $costo = floatval($res[0]['costo']) * floatval($post['producto']['cantidad']);
 
                 $post_producto = array();
-                $post_producto['nombre'] = "Guía \"".$post['titulo']."\" (Código: ".$post['codigo'].") [".$post['paginas']." páginas]";
+                $post_producto['nombre'] = "Guía \"".$post['titulo']."\" (Código: ".$post['codigo'].") [".intval($post['producto']['cantidad'])." páginas]";
                 $post_producto['descripcion'] = "";
                 $post_producto['costo'] = $costo;
                 $post_producto['costo_nuevo'] = $costo;
