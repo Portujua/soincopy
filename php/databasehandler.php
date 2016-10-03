@@ -2905,7 +2905,7 @@
                 ":recibida_por" => $post['recibida_por'],
                 ":nro_hojas" => $post['hojas'],
                 ":nro_paginas" => $post['paginas'],
-                ":idmaterial" => $post['producto']['id']
+                ":idmaterial" => isset($post['producto']) ? $post['producto']['id'] : null
             ));
 
             $tokens = $this->generar_tokens_guia($post['codigo']);
