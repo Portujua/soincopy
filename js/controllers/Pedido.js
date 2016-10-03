@@ -251,6 +251,7 @@
 
 			        $scope.safeApply(function(){
 			        	$scope.guias = guias;
+			        	console.log($scope.guias)
 			        })
 
 					$( "input[name=guia]" ).autocomplete({

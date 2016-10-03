@@ -74,7 +74,7 @@
 		<div class="guias_resultados">
 			<p ng-repeat="g in guias">
 				<span class="glyphicon glyphicon-plus" aria-hidden="true" style="cursor: pointer;" ng-click="agregar_guia(g.idproducto, g.titulo)"></span> 
-				[Código: {{ g.codigo }}] {{ g.titulo }}
+				[Código: {{ g.codigo }}] {{ g.titulo }} ({{ g.producto.cantidad }} páginas)
 			</p>
 		</div>
 
