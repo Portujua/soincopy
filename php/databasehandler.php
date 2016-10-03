@@ -2284,7 +2284,7 @@
                 ");
 
                 $query->execute(array(
-                    ":nombre_viejo" => $post['nombre_viejo'],
+                    ":nombre_viejo" => isset($post['nombre_viejo']) ? $post['nombre_viejo'] : $post['nombre'],
                     ":nombre" => $post['nombre']
                 ));
 
