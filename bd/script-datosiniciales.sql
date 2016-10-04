@@ -27,6 +27,7 @@ insert into Tipo_Guia(nombre) values ("Varios");
 
 insert into Departamento(nombre) values ("Originales");
 insert into Departamento(nombre) values ("Diseño");
+insert into Departamento(nombre) values ("Caja");
 
 insert into Permiso_Categoria (nombre) values ("Guías");
 insert into Permiso_Categoria (nombre) values ("Ordenes");
