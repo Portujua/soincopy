@@ -3131,7 +3131,7 @@
 
             $query->execute(array(
                 ":cliente" => $post['cliente'],
-                ":cond_pago" => $post['cond_pago'],
+                ":cond_pago" => isset($post['cond_pago']) ? $post['cond_pago'] : null,
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
                 ":usuario" => $_SESSION['login_username']
             ));
