@@ -156,17 +156,32 @@ insert into Material (nombre) values ("Hojas carta"),
 	("Hojas oficio"), 
 	("Hojas transparencia");
 
-insert into Producto_Familia (nombre) values ("Guías"), ("Hojas");
+insert into Producto_Familia (nombre) values ("Guías"), ("Impresiones");
 
 insert into Producto (nombre, descripcion, departamento, fecha_creado, familia, exento_iva, estado, tokens) values 
-	("Hoja carta", "Venta por unidad", 1, now(), 2, 0, 1, "hoja carta unidad"),
-	("Hoja carta", "Venta por unidad", 2, now(), 2, 0, 1, "hoja carta unidad"),
+	("Impresión de Guía B/N Hoja carta", "", 1, now(), 2, 0, 1, "impresion guia bn hoja carta"),
+	("Impresión de Guía B/N Hoja carta", "", 2, now(), 2, 0, 1, "impresion guia bn hoja carta"),
+	("Impresión de Guía B/N Hoja carta", "", 3, now(), 2, 0, 1, "impresion guia bn hoja carta"),
 
-	("Hoja oficio", "Venta por unidad", 1, now(), 2, 0, 1, "hoja oficio unidad"),
-	("Hoja oficio", "Venta por unidad", 2, now(), 2, 0, 1, "hoja oficio unidad"),
+	("Impresión de Guía COLOR Hoja carta", "", 1, now(), 2, 0, 1, "impresion guia color hoja carta"),
+	("Impresión de Guía COLOR Hoja carta", "", 2, now(), 2, 0, 1, "impresion guia color hoja carta"),
+	("Impresión de Guía COLOR Hoja carta", "", 3, now(), 2, 0, 1, "impresion guia color hoja carta"),
 
-	("Hoja transparencia", "Venta por unidad", 1, now(), 2, 0, 1, "hoja transparencia unidad"),
-	("Hoja transparencia", "Venta por unidad", 2, now(), 2, 0, 1, "hoja transparencia unidad");
+	("Impresión de Guía B/N Hoja oficio", "", 1, now(), 2, 0, 1, "impresion guia bn hoja oficio"),
+	("Impresión de Guía B/N Hoja oficio", "", 2, now(), 2, 0, 1, "impresion guia bn hoja oficio"),
+	("Impresión de Guía B/N Hoja oficio", "", 3, now(), 2, 0, 1, "impresion guia bn hoja oficio"),
+
+	("Impresión de Guía COLOR Hoja oficio", "", 1, now(), 2, 0, 1, "impresion guia color hoja oficio"),
+	("Impresión de Guía COLOR Hoja oficio", "", 2, now(), 2, 0, 1, "impresion guia color hoja oficio"),
+	("Impresión de Guía COLOR Hoja oficio", "", 3, now(), 2, 0, 1, "impresion guia color hoja oficio"),
+
+	("Impresión de Guía B/N Hoja transparencia", "", 1, now(), 2, 0, 1, "impresion guia bn hoja transparencia"),
+	("Impresión de Guía B/N Hoja transparencia", "", 2, now(), 2, 0, 1, "impresion guia bn hoja transparencia"),
+	("Impresión de Guía B/N Hoja transparencia", "", 3, now(), 2, 0, 1, "impresion guia bn hoja transparencia"),
+
+	("Impresión de Guía COLOR Hoja transparencia", "", 1, now(), 2, 0, 1, "impresion guia color hoja transparencia"),
+	("Impresión de Guía COLOR Hoja transparencia", "", 2, now(), 2, 0, 1, "impresion guia color hoja transparencia"),
+	("Impresión de Guía COLOR Hoja transparencia", "", 3, now(), 2, 0, 1, "impresion guia color hoja transparencia");
 
 insert into Producto_Costo (producto, costo, fecha) values 
 	(1, 1, now()),
