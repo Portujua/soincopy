@@ -993,10 +993,14 @@
             $this->cancelar_pedidos_expirados();
 
             $query = $this->db->prepare("
-                select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, cp.id as cond_pago, cp.nombre as metodo_pago
-                from Pedido as o, Cliente as c, Condicion_Pago as cp
-                where o.cliente=c.id and o.cond_pago=cp.id
-                order by o.id desc
+                select R.*, cp.id as cond_pago, cp.nombre as metodo_pago
+                from (
+                    select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, o.cond_pago as cond_pago_
+                    from Pedido as o, Cliente as c
+                    where o.cliente=c.id
+                    order by o.id desc
+                ) R left join Condicion_Pago as cp
+                on R.cond_pago_=cp.id
             ");
             $query->execute();
 
