@@ -686,6 +686,7 @@
                         ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo, p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
+                    group by nombre
                     order by codigo asc
                 ");
 
@@ -711,6 +712,7 @@
                         ) as disponibles, p.exento_iva as exento_iva, concat(pf.id, p.id) as codigo, p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id and d.id=:did
+                    group by nombre
                     order by codigo asc
                 ");
 
