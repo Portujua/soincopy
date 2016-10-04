@@ -147,6 +147,7 @@
 			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
+			    	console.log(data)
 			    	var json = $.parseJSON(data);
 			    	json.precio = parseFloat(json.precio);
 

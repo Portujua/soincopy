@@ -618,7 +618,7 @@
             $query = $this->db->prepare("
                 select p.id as id, p.nombre as nombre, d.nombre as departamento
                 from Producto as p, Departamento as d
-                where p.departamento=d.id and d.nombre='Originales' and p.nombre like 'Hoja%' and p.estado=1
+                where p.departamento=d.id and d.nombre='Originales' and p.estado=1 and p.id>=1 and p.id<=36
             ");
 
             $query->execute();
@@ -1540,10 +1540,10 @@
                 $productos = json_decode($this->cargar_productos(array()), true);
 
                 foreach ($productos as $p)
-                    if ($p['id'] == $g['idproducto'])
+                    if ($p['id'] == $g['idmaterial'])
                     {
                         $row['producto'] = array();
-                        $row['producto']['id'] = $p['materiales'][0]['material'];
+                        $row['producto']['id'] = $p['id'];
                         $row['producto']['cantidad'] = $p['materiales'][0]['cantidad'];
                     }
 
@@ -1597,10 +1597,10 @@
                 $productos = json_decode($this->cargar_productos(array()), true);
 
                 foreach ($productos as $p)
-                    if ($p['id'] == $g['idproducto'])
+                    if ($p['id'] == $g['idmaterial'])
                     {
                         $row['producto'] = array();
-                        $row['producto']['id'] = $p['materiales'][0]['material'];
+                        $row['producto']['id'] = $p['id'];
                         $row['producto']['cantidad'] = $p['materiales'][0]['cantidad'];
                     }
 
@@ -2947,8 +2947,22 @@
                 $post_producto['id'] = isset($post['idproducto']) ? $post['idproducto'] : null;
                 $post_producto['materiales'] = array();
 
+                /* Material */
+                $qmat = $this->db->prepare("
+                    select m.id as material, pm.cantidad as cantidad
+                    from Producto_Material as pm, Material as m
+                    where pm.material=m.id and pm.producto=:pid
+                ");
+
+                $qmat->execute(array(
+                    ":pid" => $post['producto']['id']
+                ));
+
+                $mat = $qmat->fetchAll();
+                $mat = $mat[0];
+
                 $material = array();
-                $material['material'] = $post['producto']['id'];
+                $material['material'] = $mat['material'];
                 $material['cantidad'] = $post['producto']['cantidad'];
 
                 $post_producto['materiales'][] = $material;
