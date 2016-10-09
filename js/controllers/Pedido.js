@@ -15,7 +15,6 @@
 		$scope.editar = $routeParams.id;
 
 		SoincopyService.getPedidos($scope);
-		SoincopyService.getCondicionesPago($scope);
 		SoincopyService.getDepartamentosUCAB($scope);
 		SoincopyService.getProductosOriginales($scope);
 		SoincopyService.getCuentaAbiertas($scope);
