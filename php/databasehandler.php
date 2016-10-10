@@ -976,7 +976,7 @@
             $query = $this->db->prepare("
                 update Pedido set
                     procesada=-1
-                where TIMESTAMPDIFF(SECOND, fecha_anadida, now())>:duracion_pedido
+                where TIMESTAMPDIFF(SECOND, fecha_anadida, now())>:duracion_pedido and procesada=0
             ");
 
             $query->execute(array(
