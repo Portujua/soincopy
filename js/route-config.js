@@ -259,6 +259,15 @@
 			.when("/agregardependencia", {
 				templateUrl : "views/admin/agregardependencia.html"
 			})
+
+
+
+
+			.when("/caja/cobrar/:pid", {
+				templateUrl : "views/caja/cobrar.html"
+			})
+
+
 			.otherwise({redirectTo : "/inicio"});
 	});
 }());

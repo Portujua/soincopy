@@ -253,7 +253,14 @@
 				if ($localStorage.user.username == "root") return true;
 
 				return $localStorage.user.permisos_agregar;
-			}
+			},
+			menuCaja: function(){
+				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
+
+				return $localStorage.user.caja_realizarcobro;
+			},
 		};
 	})
 }());

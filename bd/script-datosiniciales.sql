@@ -289,3 +289,9 @@ insert into Producto_Material (producto, material, cantidad, creado_por, fecha_c
 	(34, 3, 1, 'root', now()),
 	(35, 3, 1, 'root', now()),
 	(36, 3, 1, 'root', now());
+
+
+
+insert into Permiso_Categoria (nombre) values ("Caja");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("caja_realizarcobro", "Podrá realizar el cobro de cualquier pedido disponible en el sistema.", 10, 18);

@@ -1,0 +1,77 @@
+<div class="seccion" ng-controller="Caja">
+	<h1 style="font-size: 20px;">Pedidos &rarr; Realizar pago</h1>
+	<p class="btn-volver">
+		<a class="btn btn-volver" href="./#/pedidos">&larr; Volver</a>
+	</p>
+
+	<div ng-if="!pedido">
+		Cargando el pedido...
+	</div>
+
+	<div ng-if="pedido">
+		<br/>
+		<p style="font-size: 16px;" ng-init="pago.pedido = pedido.id;">Pedido #{{ pedido.id }}</p>
+		<p style="font-size: 16px;">Cliente: {{ pedido.cliente_nombre }}</p>
+		<p style="font-size: 16px;">Pedido creado por: {{ pedido.creado_por }}</p>
+		<table class="table table-striped tabla_productos_pago">
+			<thead>
+				<th>Código</th>
+				<th>Nombre</th>
+				<th>Descripción</th>
+				<th class="text-right">Cantidad</th>
+				<th class="text-right">Precio Unitario</th>
+				<th class="text-right">SubTotal</th>
+			</thead>
+			<tbody>
+				<tr ng-repeat="p in pedido.productos">
+					<td>{{ p.producto }}</td>
+					<td>{{ p.producto_nombre }}</td>
+					<td>{{ p.descripcion }}</td>
+					<td class="text-right">{{ p.nro_copias * p.nro_originales }}</td>
+					<td class="text-right">{{ p.costo_unitario_facturado - p.costo_unitario_facturado * (p.exento_iva == 1 ? 0.00 : IVA)  | currency:'Bs. ' }}</td>
+					<td class="text-right">{{ (p.costo_unitario_facturado - p.costo_unitario_facturado * (p.exento_iva == 1 ? 0.00 : IVA)) * (p.nro_copias * p.nro_originales) | currency:'Bs. ' }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="row">
+			<div class="col-sm-6">
+				Forma de Pago &nbsp;&nbsp;&nbsp;<select class="selectpicker" data-live-search="true" title="" data-width="35%" ng-model="pago.metodo_pago" ng-options="d.id as d.nombre for d in condiciones_pago" name="cond_pago" required></select>
+			</div>
+
+			<div class="col-sm-6 info_pago">
+				<div class="row">
+					<div class="col-sm-6">
+						<p>
+							<strong style="color:red;">Monto</strong> <input type="number" name="monto" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" ng-model="pago.monto" />
+						</p>
+
+						<p>
+							<span style="color:red;">Cambio</span> {{ pago.monto - pago.total | currency:'Bs. ' }}
+						</p>
+					</div>
+
+					<div class="col-sm-6" ng-init="calcularDatos()">
+						<p>
+							Sub Total {{ pago.subtotal | currency:'Bs. ' }}
+						</p>
+
+						<p>
+							IVA {{ pago.iva | currency:'Bs. ' }}
+						</p>
+
+						<p>
+							<span style="color:red;">Total</span> {{ pago.total | currency:'Bs. ' }}
+						</p>
+
+						<br/><br/><br/>
+ 
+						<button class="btn btn-lg btn-danger pull-right">Cancelar</button> 
+						<button class="btn btn-lg btn-success pull-right" ng-click="procesarPago()" ng-disabled="pago.monto - pago.total < 0" style="margin-right: 5px;">Procesar</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
