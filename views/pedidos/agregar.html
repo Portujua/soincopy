@@ -15,13 +15,6 @@
 			<br/>
 		</div>
 
-		<div class="fila" ng-if="loginService.getCurrentUser().departamento == 'Caja' || loginService.getCurrentUser().departamento == null">
-			<p>Método de pago (*)</p>
-
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cond_pago" ng-options="d.id as d.nombre for d in condiciones_pago" name="cond_pago" required></select>
-			<br/>
-		</div>
-
 		<div class="fila">
 			<p>Observaciones</p>
 			<textarea name="observaciones" ng-model="pedido.observaciones"></textarea>
