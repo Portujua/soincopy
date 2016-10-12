@@ -3194,7 +3194,7 @@
                 ":cliente" => $post['cliente'],
                 ":cond_pago" => isset($post['cond_pago']) ? $post['cond_pago'] : null,
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
-                ":usuario" => $_SESSION['login_username'],
+                ":usuario" => $post['username'],
                 ":departamento" => isset($post['departamento']) ? $post['departamento'] : null
             ));
 

@@ -1,5 +1,5 @@
 <form class="agregar seccion" ng-controller="Pedido" name="agregar" ng-submit="registrar_pedido()">	
-	<div class="register-form" ng-init="pedido.departamento = loginService.getCurrentUser().departamento">
+	<div class="register-form" ng-init="pedido.departamento = loginService.getCurrentUser().departamento; pedido.username = loginService.getCurrentUser().username">
 		<p class="btn-volver">
 			<a class="btn btn-volver" href="./#/pedidos">&larr; Volver</a>
 		</p>
