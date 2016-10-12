@@ -973,6 +973,7 @@
 
         public function cancelar_pedidos_expirados()
         {
+            // Cambio el estado
             $query = $this->db->prepare("
                 update Pedido set
                     procesada=-1
@@ -982,6 +983,13 @@
             $query->execute(array(
                 ":duracion_pedido" => $this->duracion_pedido
             ));
+
+            // Borro del Stock_Temp todo lo que no este pendiente
+            $query = $this->db->prepare("
+                delete from Stock_Temp where pedido not in (select id from Pedido where procesada=0)
+            ");
+
+            $query->execute();
         }
 
         public function cargar_pedidos($post)
@@ -3163,7 +3171,7 @@
                         from Stock as s
                         where s.material=:mid and s.eliminado=0 and s.cantidad_disponible>0
                     ) td, (
-                        select sum(st.cantidad) as total
+                        select (case when sum(st.cantidad) is not null then sum(st.cantidad) else 0 end) as total
                         from Stock_Temp as st
                         where st.material=:mid
                     ) tr
