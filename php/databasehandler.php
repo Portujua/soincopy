@@ -3165,7 +3165,7 @@
             foreach ($materiales as $m)
             {
                 $query = $this->db->prepare("
-                    select *
+                    select (td.total - tr.total - ts.total) as cantidad_disponible
                     from (
                         select sum(s.cantidad_disponible) as total
                         from Stock as s
@@ -3602,6 +3602,16 @@
                     $query->execute(array(
                         ":stock" => $stock['id'],
                         ":pedido" => $post['pedido'],
+                        ":cantidad" => $cantidad_restar
+                    ));
+
+                    /* Actualizo la cantidad_disponible para no cambiar todos los query */
+                    $query = $this->db->prepare("
+                        update Stock set cantidad_disponible=(cantidad_disponible - :cantidad) where id=:stock
+                    ");
+
+                    $query->execute(array(
+                        ":stock" => $stock['id'],
                         ":cantidad" => $cantidad_restar
                     ));
 
