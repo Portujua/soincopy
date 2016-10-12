@@ -421,11 +421,13 @@ create table Pedido (
 	creado_por int not null,
 	cond_pago int,
 	cliente int not null,
+	departamento int not null comment 'departamento que crea el pedido',
 	fecha date comment 'Es la fecha de la orden introducida por el usuario',
 	primary key(id),
 	foreign key (creado_por) references Personal(id),
 	foreign key (cond_pago) references Condicion_Pago(id),
-	foreign key (cliente) references Cliente(id)
+	foreign key (cliente) references Cliente(id),
+	foreign key (departamento) references Departamento(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Pedido_Producto (

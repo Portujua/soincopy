@@ -3186,15 +3186,16 @@
             @session_start();
 
             $query = $this->db->prepare("
-                insert into Pedido (cliente, cond_pago, observaciones, creado_por, fecha_anadida, fecha_modificada)
-                values (:cliente, :cond_pago, :observaciones, (select id from Personal where usuario=:usuario), now(), now())
+                insert into Pedido (cliente, cond_pago, observaciones, creado_por, fecha_anadida, fecha_modificada, departamento)
+                values (:cliente, :cond_pago, :observaciones, (select id from Personal where usuario=:usuario), now(), now(), (select id from Departamento where nombre=:departamento))
             ");
 
             $query->execute(array(
                 ":cliente" => $post['cliente'],
                 ":cond_pago" => isset($post['cond_pago']) ? $post['cond_pago'] : null,
                 ":observaciones" => isset($post['observaciones']) ? $post['observaciones'] : null,
-                ":usuario" => $_SESSION['login_username']
+                ":usuario" => $_SESSION['login_username'],
+                ":departamento" => $post['departamento']
             ));
 
             $oid = $this->db->lastInsertId();
