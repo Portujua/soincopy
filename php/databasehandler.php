@@ -3162,8 +3162,12 @@
                         select sum(s.cantidad_disponible) as total
                         from Stock as s
                         where s.material=:mid and s.eliminado=0 and s.cantidad_disponible>0
-                    ) sc
-                    where sc.total>=:cantidad
+                    ) td, (
+                        select sum(st.cantidad) as total
+                        from Stock_Temp as st
+                        where st.material=:mid
+                    ) tr
+                    where (td.total - tr.total)>=:cantidad
                 ");
 
                 $query->execute(array(
@@ -3235,6 +3239,33 @@
                         ":nro_originales" => intval($p['nro_originales']),
                         ":costo_unitario_facturado" => isset($p['costo_unitario_facturado']) ? floatval($p['costo_unitario_facturado']) : 0
                     ));
+
+                    /* Pongo los materiales necesarios en hold */
+                    $query = $this->db->prepare("
+                        select pm.material as material, pm.cantidad as cantidad
+                        from Producto_Material as pm
+                        where pm.producto=:pid
+                    ");
+
+                    $query->execute(array(
+                        ":pid" => $p['producto']
+                    ));
+
+                    $materiales = $query->fetchAll();
+
+                    foreach ($materiales as $m)
+                    {
+                        $query = $this->db->prepare("
+                            insert into Stock_Temp (pedido, material, cantidad)
+                            values (:pedido, :material, :material)
+                        ");
+
+                        $query->execute(array(
+                            ":pedido" => $oid,
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":material" => $m['material']
+                        ));
+                    }
                 }
 
             return "ok";
@@ -3331,6 +3362,33 @@
                             ":nro_originales" => intval($p['nro_originales']),
                             ":precio_total" => floatval(floatval($p['costo_unitario_facturado']) * floatval(intval($p['nro_copias']) * intval($p['nro_originales']))),
                             ":precio_unitario" => floatval($p['costo_unitario_facturado'])
+                        ));
+                    }
+
+                    /* Pongo los materiales necesarios en hold */
+                    $query = $this->db->prepare("
+                        select pm.material as material, pm.cantidad as cantidad
+                        from Producto_Material as pm
+                        where pm.producto=:pid
+                    ");
+
+                    $query->execute(array(
+                        ":pid" => $p['producto']
+                    ));
+
+                    $materiales = $query->fetchAll();
+
+                    foreach ($materiales as $m)
+                    {
+                        $query = $this->db->prepare("
+                            insert into Stock_Temp (pedido, material, cantidad)
+                            values (:pedido, :material, :material)
+                        ");
+
+                        $query->execute(array(
+                            ":pedido" => $post['id'],
+                            ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
+                            ":material" => $m['material']
                         ));
                     }
                 }

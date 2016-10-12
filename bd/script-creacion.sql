@@ -472,6 +472,17 @@ create table Pago_Pedido (
 	foreign key (metodo_pago) references Condicion_Pago(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+# Esta tabla mantendrá el stock retenido mientras dura un pedido en estado PENDIENTE
+create table Stock_Temp (
+	id int not null auto_increment,
+	pedido int not null,
+	material int not null,
+	cantidad int not null,
+	primary key(id),
+	foreign key (pedido) references Pedido(id),
+	foreign key (material) references Material(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
