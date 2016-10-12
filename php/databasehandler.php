@@ -3165,7 +3165,7 @@
             foreach ($materiales as $m)
             {
                 $query = $this->db->prepare("
-                    select (td.total - tr.total - ts.total) as cantidad_disponible
+                    select (td.total - tr.total) as cantidad_disponible
                     from (
                         select sum(s.cantidad_disponible) as total
                         from Stock as s
@@ -3174,12 +3174,8 @@
                         select (case when sum(st.cantidad) is not null then sum(st.cantidad) else 0 end) as total
                         from Stock_Temp as st
                         where st.material=:mid
-                    ) tr, (
-                        select (case when sum(ss.cantidad) is not null then sum(ss.cantidad) else 0 end) as total
-                        from Stock_Salida as ss, Stock as s
-                        where ss.stock=s.id and s.material=:mid
-                    ) ts
-                    where (td.total - tr.total - ts.total)>=:cantidad
+                    ) tr
+                    where (td.total - tr.total)>=:cantidad
                 ");
 
                 $query->execute(array(
