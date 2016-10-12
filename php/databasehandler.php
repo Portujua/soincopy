@@ -3174,8 +3174,12 @@
                         select (case when sum(st.cantidad) is not null then sum(st.cantidad) else 0 end) as total
                         from Stock_Temp as st
                         where st.material=:mid
-                    ) tr
-                    where (td.total - tr.total)>=:cantidad
+                    ) tr, (
+                        select (case when sum(ss.cantidad) is not null then sum(ss.cantidad) else 0 end) as total
+                        from Stock_Salida as ss, Stock as s
+                        where ss.stock=s.id and s.material=:mid
+                    ) ts
+                    where (td.total - tr.total - ts.total)>=:cantidad
                 ");
 
                 $query->execute(array(
@@ -3265,7 +3269,7 @@
                     {
                         $query = $this->db->prepare("
                             insert into Stock_Temp (pedido, material, cantidad)
-                            values (:pedido, :material, :material)
+                            values (:pedido, :material, :cantidad)
                         ");
 
                         $query->execute(array(
@@ -3549,6 +3553,64 @@
 
         public function procesar_pago($post)
         {
+            /* Paso del stock_temp al stock_salida */
+            /* Obtengo el stock_temp asociado a este pedido */
+            $query = $this->db->prepare("
+                select *
+                from Stock_Temp as st
+                where st.pedido=:pedido
+            ");
+
+            $query->execute(array(
+                ":pedido" => $post['pedido']
+            ));
+
+            $stock_temp = $query->fetchAll();
+
+            foreach ($stock_temp as $st)
+            {
+                /* Obtengo todos los stocks y voy reduciendo de cada uno hasta completar la cantidad */
+                $cantidad_restante = intval($st['cantidad']);
+
+                while ($cantidad_restante > 0)
+                {
+                    /* Voy reduciendo del stock aplicando FIFO */
+                    $query = $this->db->prepare("
+                        select (s.cantidad - (select (case when sum(cantidad) is not null then sum(cantidad) else 0 end) from Stock_Salida where stock=s.id)) as cantidad, s.id as id
+                        from Stock as s
+                        where s.material=:material and s.eliminado=0 and (s.cantidad - (select (case when sum(cantidad) is not null then sum(cantidad) else 0 end) from Stock_Salida where stock=s.id))>0
+                        order by s.fecha_anadido asc
+                        limit 1
+                    ");
+
+                    $query->execute(array(
+                        ":material" => $st['material']
+                    ));
+
+                    $stock = $query->fetchAll();
+                    $stock = $stock[0];
+
+                    /* Calculo lo que voy a restar de este stock */
+                    $cantidad_restar = $cantidad_restante > intval($stock['cantidad']) ? intval($stock['cantidad']) : $cantidad_restante;
+
+                    /* Añado el registro de stock saliente con esa cantidad */
+                    $query = $this->db->prepare("
+                        insert into Stock_Salida (stock, pedido, cantidad, fecha)
+                        values (:stock, :pedido, :cantidad, now())
+                    ");
+
+                    $query->execute(array(
+                        ":stock" => $stock['id'],
+                        ":pedido" => $post['pedido'],
+                        ":cantidad" => $cantidad_restar
+                    ));
+
+                    /* Por ultimo resto la cantidad que deduje del stock para seguir el ciclo */
+                    $cantidad_restante -= $cantidad_restar;
+                }
+            }
+
+            /* Registro el pago */
             $query = $this->db->prepare("
                 insert into Pago_Pedido (pedido, creado_por, fecha_creado, monto, cambio, subtotal, iva, total, metodo_pago)
                 values (:pedido, (select id from Personal where usuario=:usuario), now(), :monto, :cambio, :subtotal, :iva, :total, :metodo_pago)

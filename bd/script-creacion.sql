@@ -483,6 +483,19 @@ create table Stock_Temp (
 	foreign key (material) references Material(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Stock_Salida (
+	id int not null auto_increment,
+	stock int not null,
+	pedido int,
+	orden int,
+	cantidad int not null,
+	fecha datetime not null,
+	primary key(id),
+	foreign key (stock) references Stock(id),
+	foreign key (pedido) references Pedido(id),
+	foreign key (orden) references Orden(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
