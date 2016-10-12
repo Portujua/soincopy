@@ -3136,6 +3136,51 @@
             return json_encode($json);
         }
 
+        public function chequear_disponibilidad($post)
+        {
+            $json = array();
+            $json["errores"] = array(); // Arreglo de materiales que no hay
+
+            // Obtenemos los materiales necesarios para este producto
+            $query = $this->db->prepare("
+                select pm.material as material, pm.cantidad as cantidad, m.nombre as material_nombre
+                from Producto_Material as pm, Material as m
+                where pm.producto=:pid and pm.material=m.id
+            ");
+
+            $query->execute(array(
+                ":pid" => $post['id']
+            ));
+
+            $materiales = $query->fetchAll();
+
+            foreach ($materiales as $m)
+            {
+                $query = $this->db->prepare("
+                    select *
+                    from (
+                        select sum(s.cantidad_disponible) as total
+                        from Stock as s
+                        where s.material=:mid and s.eliminado=0 and s.cantidad_disponible>0
+                    ) sc
+                    where sc.total>=:cantidad
+                ");
+
+                $query->execute(array(
+                    ":mid" => $m['material'],
+                    ":cantidad" => $post['cantidad']
+                ));
+
+                if ($query->rowCount() == 0)
+                    $json['errores'][] = array(
+                        "material" => $m['material_nombre'],
+                        "producto" => $post['id']
+                    );
+            }
+
+            return json_encode($json);
+        }
+
         public function agregar_pedido($post)
         {
             @session_start();

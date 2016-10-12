@@ -96,7 +96,7 @@
 		}
 
 		$scope.actualizar_costo_unitario = function(index){
-			if (!$scope.pedido.productos)
+			if (!$scope.pedido.productos || !$scope.productos)
 			{
 				$timeout(function(){
 					$scope.actualizar_costo_unitario(index);
@@ -319,6 +319,41 @@
 			        $scope.safeApply(function(){
 			        	$scope.periodos = $.parseJSON(data);
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+			        })
+			    }
+			});
+		}
+
+		$scope.chequear_disponibilidad = function(index){
+			var pid = null;
+			var cantidad = -1;
+
+			if (!$scope.productos)
+			{
+				$timeout(function(){
+					$scope.chequear_disponibilidad(index);
+				}, 200);
+				return;
+			}
+
+			for (var i = 0; i < $scope.productos.length; i++)
+				if ($scope.productos[i].id == $scope.pedido.productos[index].producto)
+				{
+					pid = parseInt($scope.productos[i].id);
+					cantidad = $scope.pedido.productos[index].nro_copias * $scope.pedido.productos[index].nro_originales;
+				}
+
+			if (pid == null || cantidad == -1) debugger;
+
+			$.ajax({
+			    url: "api/check/disponibilidad/producto/caja/" + pid + "/" + cantidad,
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	var json = $.parseJSON(data);
+			        	$scope.pedido.productos[index].errores = json.errores;
 			        })
 			    }
 			});

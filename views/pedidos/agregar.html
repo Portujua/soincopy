@@ -1,4 +1,4 @@
-<form class="agregar seccion" ng-controller="Pedido" name="agregar" ng-init="init_form_cache()" ng-submit="registrar_pedido()">	
+<form class="agregar seccion" ng-controller="Pedido" name="agregar" ng-submit="registrar_pedido()">	
 	<div class="register-form">
 		<p class="btn-volver">
 			<a class="btn btn-volver" href="./#/pedidos">&larr; Volver</a>
@@ -92,17 +92,25 @@
 				<tr ng-repeat="p in pedido.productos">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select ng-hide="pedido.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="pedido.productos[$index].producto" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1>
+						<select ng-hide="pedido.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="pedido.productos[$index].producto" ng-change="actualizar_costo_unitario($index); chequear_disponibilidad($index);" required ng-minlength=1>
 							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
 						</select>
 
 						<p ng-show="pedido.productos[$index].producto_nombre">{{ pedido.productos[$index].producto_nombre }}</p>
+
+						<p class="text-danger" ng-if="pedido.productos[$index].errores.length > 0">
+							Materiales insuficientes: 
+							<p class="text-danger" ng-repeat="e in pedido.productos[$index].errores">
+								{{ e.material }}
+							</p>
+							<input type="text" value="" name="check_disponibilidad_{{ $index }}" ng-minlength=1 ng-model="pedido.productos[$index].check_disponibilidad" ng-show="1==0" ng-if="pedido.productos[$index].errores.length > 0" required />
+						</p>
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="pedido.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="pedido.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="pedido.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="pedido.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
 					<td>
 						{{ pedido.productos[$index].nro_copias * pedido.productos[$index].nro_originales }}
