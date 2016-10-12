@@ -421,7 +421,7 @@ create table Pedido (
 	creado_por int not null,
 	cond_pago int,
 	cliente int not null,
-	departamento int not null comment 'departamento que crea el pedido',
+	departamento varchar(64) comment 'departamento que crea el pedido (como nombre por si es null del administrador)',
 	fecha date comment 'Es la fecha de la orden introducida por el usuario',
 	primary key(id),
 	foreign key (creado_por) references Personal(id),
