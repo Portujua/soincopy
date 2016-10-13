@@ -426,8 +426,7 @@ create table Pedido (
 	primary key(id),
 	foreign key (creado_por) references Personal(id),
 	foreign key (cond_pago) references Condicion_Pago(id),
-	foreign key (cliente) references Cliente(id),
-	foreign key (departamento) references Departamento(id)
+	foreign key (cliente) references Cliente(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
 create table Pedido_Producto (
