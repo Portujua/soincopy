@@ -13,7 +13,23 @@
 		};
 
 		$scope.cargar_reporte = function(){
-			SoincopyService.getReporte($scope, $routeParams.reporte);
+			SoincopyService.getReporte($scope, $routeParams.reporte, $scope.filtros);
+		}
+
+		$scope.exportar = function(){
+			var filtros = $scope.filtros;
+
+			$.ajax({
+			    url: "php/save.php",
+			    type: "POST",
+			    data: filtros,
+			    beforeSend: function(){},
+			    success: function(data){
+			    	$scope.safeApply(function(){
+			    		window.open("api/export/reporte/" + $routeParams.reporte, "_blank")
+			    	})			        
+			    }
+			});
 		}
 	};
 

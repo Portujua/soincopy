@@ -1,7 +1,22 @@
-<div class="seccion" ng-controller="Reportes" ng-init="cargar_reporte()">
+<div class="seccion" ng-controller="Reportes">
 	<h1 style="font-size: 20px;">Reportes &rarr; Pedidos</h1>
 
 	<div ng-show="loginService.getCurrentUser().reportes_pedidos">
+		<style type="text/css">
+			input[type=date] {
+				padding: 5px 5px;
+				border-radius: 5px;
+				border: 1px solid #333;
+			}
+		</style>
+
+		<p>
+			Desde&nbsp;&nbsp;<input type="date" name="desde" ng-model="filtros.desde" />&nbsp;&nbsp;&nbsp;&nbsp;
+			Hasta&nbsp;&nbsp;<input type="date" name="hasta" ng-model="filtros.hasta" />&nbsp;&nbsp;&nbsp;
+
+			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.desde || !filtros.hasta">Generar</button>
+		</p>
+
 		<div class="botones">
 			<div ng-show="o_">
 				<button class="btn btn-info" data-toggle="modal" data-target="#detalle">
@@ -10,13 +25,17 @@
 			</div>
 		</div>
 
-		<p>
-			<a href="./api/export/reporte/pedidos" target="_blank" class="btn btn-soincopy">Exportar a Excel</a>
+		<p ng-show="data">
+			<button class="btn btn-soincopy" style="font-size: 14px !important;" ng-click="exportar()">Exportar a Excel</button>
 		</p>
+
+		<h4 ng-if="!data">
+			Seleccione un rango de fechas y presione el botón GENERAR
+		</h4>
 
 		<br/><br/>
 
-		<table class="table table-stripped">
+		<table class="table table-stripped" ng-if="data">
 			<thead>
 				<th class="text-center"># Pedido</th>
 				<th class="text-center"># Factura</th>

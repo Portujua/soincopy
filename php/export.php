@@ -17,12 +17,7 @@
         }
     }
 
-	if ($_GET['t'] == "productos")
-		array_to_csv_download($dbh->csv_productos(), "productos.csv");
-
-	if ($_GET['t'] == "inventario")
-		array_to_csv_download($dbh->csv_inventario(), "inventario.csv");
-
-	if ($_GET['t'] == "reporte_pedidos")
-		array_to_csv_download($dbh->csv_reporte_pedidos(), "reporte_pedidos.csv");
+    $t = strval($_GET['t']);
+    $fn = "csv_" . $t;
+    array_to_csv_download($dbh->$fn(), $t . ".csv");
 ?>

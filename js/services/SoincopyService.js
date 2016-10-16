@@ -487,9 +487,27 @@
 
 
 
-			getReporte: function(s, r){
-				$http.get("api/reporte/" + r).then(function(obj){
-					s.data = obj.data;
+			/*
+			** s : Array = $scope
+			** r : String = Nombre del reporte
+			** f : Array = Filtros
+			*/
+			getReporte: function(s, r, f){
+				if (f.desde)
+					f.desde_ = f.desde.toJSON().slice(0,10);
+
+				if (f.hasta)
+					f.hasta_ = f.hasta.toJSON().slice(0,10);
+
+				$.ajax({
+				    url: "api/reporte/" + r,
+				    type: "POST",
+				    data: f,
+				    beforeSend: function(){},
+				    success: function(data){
+				        var json = $.parseJSON(data);
+				        s.data = json;
+				    }
 				});
 			},
 
