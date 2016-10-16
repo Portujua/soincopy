@@ -486,6 +486,14 @@
 			},
 
 
+
+			getReportePedidos: function(s){
+				$http.get("api/reporte/pedidos").then(function(obj){
+					s.data = obj.data;
+				});
+			},
+
+
 		};
 	})
 }());

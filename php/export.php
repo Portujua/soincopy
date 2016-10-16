@@ -22,4 +22,7 @@
 
 	if ($_GET['t'] == "inventario")
 		array_to_csv_download($dbh->csv_inventario(), "inventario.csv");
+
+	if ($_GET['t'] == "reporte_pedidos")
+		array_to_csv_download($dbh->csv_reporte_pedidos(), "reporte_pedidos.csv");
 ?>

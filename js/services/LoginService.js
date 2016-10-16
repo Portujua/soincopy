@@ -261,6 +261,13 @@
 
 				return $localStorage.user.caja_realizarcobro;
 			},
+			menuReportes: function(){
+				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
+
+				return $localStorage.user.reportes_pedidos;
+			},
 		};
 	})
 }());

@@ -295,5 +295,27 @@
 
             return json_encode($json);
         }
+
+        public function csv_reporte_pedidos()
+        {
+            $csv = array();
+            $csv[] = array("# Pedido", "# Factura", "Fecha", "Nombre", "Cedula/RIF", "Subtotal", "IVA", "Total");
+
+            $data = json_decode($this->reporte_pedidos(array()), true);
+            
+            foreach ($data as $d)
+                $csv[] = array(
+                    $d['id'],
+                    $d['id_factura'],
+                    $d['fecha_anadida'],
+                    $d['cliente_nombre'],
+                    $d['cliente_ni'],
+                    "Bs. " . number_format(floatval($d['subtotal']), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['iva']), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']), 2, ",", ".")
+                );
+
+            return $csv;
+        }
 	}
 ?>

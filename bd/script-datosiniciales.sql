@@ -295,3 +295,7 @@ insert into Producto_Material (producto, material, cantidad, creado_por, fecha_c
 insert into Permiso_Categoria (nombre) values ("Caja");
 
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("caja_realizarcobro", "Podrá realizar el cobro de cualquier pedido disponible en el sistema.", 10, 18);
+
+insert into Permiso_Categoria (nombre) values ("Reportes");
+
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("reportes_pedidos", "Podrá visualizar el reporte de pedidos.", 10, 19);

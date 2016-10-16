@@ -268,6 +268,12 @@
 			})
 
 
+
+			.when("/reportes/pedidos", {
+				templateUrl : "views/reportes/pedidos.html"
+			})
+
+
 			.otherwise({redirectTo : "/inicio"});
 	});
 }());
