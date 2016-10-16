@@ -499,6 +499,9 @@
 				if (f.hasta)
 					f.hasta_ = f.hasta.toJSON().slice(0,10);
 
+				if (f.dia)
+					f.dia_ = f.dia.toJSON().slice(0,10);
+
 				$.ajax({
 				    url: "api/reporte/" + r,
 				    type: "POST",

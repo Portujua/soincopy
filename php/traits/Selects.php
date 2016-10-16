@@ -1036,5 +1036,30 @@
 
             return json_encode($pedidos);
         }
+
+        public function reporte_cuadre_ventas_diarias($post)
+        {
+            @session_start();
+
+            $query = $this->db->prepare("
+                select 
+                    concat(p.nombre, ' ', p.apellido) as nombre_completo, 
+                    sum(pp.total) as total_facturado, 
+                    0 as devoluciones, 
+                    0 as nota_de_credito, 
+                    0 as retiro_de_caja
+                from Pago_Pedido as pp, Personal as p
+                where pp.creado_por=p.id and date(pp.fecha_creado)=:dia
+                group by p.id
+            ");
+
+            $query->execute(array(
+                ":dia" => isset($post['dia_']) ? $post['dia_'] : $_SESSION['dia_']
+            ));
+
+            $data = $query->fetchAll();
+
+            return json_encode($data);
+        }
 	}
 ?>
