@@ -296,12 +296,12 @@
             return json_encode($json);
         }
 
-        public function csv_reporte_pedidos($post)
+        public function csv_reporte_pedidos()
         {
             $csv = array();
             $csv[] = array("# Pedido", "# Factura", "Fecha", "Nombre", "Cedula/RIF", "Subtotal", "IVA", "Total");
 
-            $data = json_decode($this->reporte_pedidos($post), true);
+            $data = json_decode($this->reporte_pedidos(array()), true);
             
             foreach ($data as $d)
                 $csv[] = array(
