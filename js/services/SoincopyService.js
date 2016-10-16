@@ -487,8 +487,8 @@
 
 
 
-			getReportePedidos: function(s){
-				$http.get("api/reporte/pedidos").then(function(obj){
+			getReporte: function(s, r){
+				$http.get("api/reporte/" + r).then(function(obj){
 					s.data = obj.data;
 				});
 			},

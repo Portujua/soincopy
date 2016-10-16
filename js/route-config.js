@@ -269,8 +269,10 @@
 
 
 
-			.when("/reportes/pedidos", {
-				templateUrl : "views/reportes/pedidos.html"
+			.when("/reportes/:reporte", {
+				templateUrl : function(params){
+					return "views/reportes/" + params.reporte + ".html"
+				}
 			})
 
 

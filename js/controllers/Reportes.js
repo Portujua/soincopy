@@ -12,8 +12,8 @@
 		    }
 		};
 
-		$scope.reporte_pedidos = function(){
-			SoincopyService.getReportePedidos($scope);
+		$scope.cargar_reporte = function(){
+			SoincopyService.getReporte($scope, $routeParams.reporte);
 		}
 	};
 
