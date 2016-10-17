@@ -317,5 +317,26 @@
 
             return $csv;
         }
+
+        public function csv_reporte_cuadre_ventas_diarias()
+        {
+            $csv = array();
+            $csv[] = array("Usuario", "Monto Facturado", "Devoluciones", "Notas de Credito", "Retiros de Caja", "Diferencia en Caja", "Total Venta");
+
+            $data = json_decode($this->reporte_cuadre_ventas_diarias(array()), true);
+            
+            foreach ($data as $d)
+                $csv[] = array(
+                    $d['nombre_completo'],
+                    "Bs. " . number_format(floatval($d['total_facturado']), 2, ",", "."),                    
+                    "Bs. " . number_format(floatval($d['devoluciones']), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['nota_de_credito']), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['retiro_de_caja']), 2, ",", "."),                    
+                    "Bs. " . number_format(floatval($d['retiro_de_caja']) - floatval($d['total_facturado']), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['retiro_de_caja']), 2, ",", ".")
+                );
+
+            return $csv;
+        }
 	}
 ?>
