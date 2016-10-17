@@ -1024,7 +1024,7 @@
                 group by p.id
                 order by p.nombre asc
             ");
-            
+
             $query->execute();
 
             return json_encode($query->fetchAll());
@@ -1070,6 +1070,32 @@
 
             $query->execute(array(
                 ":dia" => isset($post['dia_']) ? $post['dia_'] : $_SESSION['dia_']
+            ));
+
+            $data = $query->fetchAll();
+
+            return json_encode($data);
+        }
+
+        public function reporte_venta_productos($post)
+        {
+            @session_start();
+
+            $query = $this->db->prepare("
+                select 
+                    sum(ppr.precio_total) as total,
+                    sum(ppr.cantidad) as cantidad,
+                    p.nombre as nombre, 
+                    concat(pf.id, p.id) as codigo,
+                    p.exento_iva as exento_iva,
+                    p.familia as familia
+                from Pago_Pedido as pp, Pedido_Producto as ppr, Producto as p, Producto_Familia as pf
+                where pp.creado_por=:cajero and pp.pedido=ppr.pedido and ppr.producto=p.id and p.familia=pf.id
+                group by p.id, p.familia
+            ");
+
+            $query->execute(array(
+                ":cajero" => isset($post['cajero']) ? $post['cajero'] : $_SESSION['cajero']
             ));
 
             $data = $query->fetchAll();

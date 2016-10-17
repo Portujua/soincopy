@@ -12,6 +12,14 @@
 		    }
 		};
 
+		$scope.cargar_cajeros = function(){
+			SoincopyService.getCajeros($scope);
+		}
+
+		$scope.cargar_familias = function(){
+			SoincopyService.getFamilias($scope);
+		}
+
 		$scope.cargar_reporte = function(){
 			SoincopyService.getReporte($scope, $routeParams.reporte, $scope.filtros);
 		}

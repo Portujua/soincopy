@@ -1,0 +1,110 @@
+<div class="seccion" ng-controller="Reportes" ng-init="cargar_cajeros()">
+	<h1 style="font-size: 20px;">Reportes &rarr; Ventas por Producto</h1>
+
+	<div ng-show="loginService.getCurrentUser().reportes_venta_productos">
+		<style type="text/css">
+			input[type=date] {
+				padding: 5px 5px;
+				border-radius: 5px;
+				border: 1px solid #333;
+			}
+		</style>
+
+		<p>
+			Usuario&nbsp;&nbsp;
+			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="filtros.cajero" name="cajero">
+				<option ng-repeat="c in cajeros" value="{{ c.id }}">{{ c.nombre_completo }}</option>
+			</select>
+			&nbsp;&nbsp;&nbsp;
+
+			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.cajero">Generar</button>
+		</p>
+
+		<p ng-init="cargar_familias()">
+			Familia de Productos <select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-init="filtros.familia = '-1'" ng-model="filtros.familia" name="familia">
+				<option ng-repeat="c in familias" value="{{ c.id }}">{{ c.nombre }}</option>
+			</select>
+		</p>
+
+		<div class="botones">
+			<div ng-show="o_">
+				<button class="btn btn-info" data-toggle="modal" data-target="#detalle">
+					<span class="glyphicon glyphicon-search" aria-hidden="true" ></span> Ver detalle
+				</button>
+			</div>
+		</div>
+
+		<p ng-show="data">
+			<button class="btn btn-soincopy" style="font-size: 14px !important;" ng-click="exportar()">Exportar a Excel</button>
+		</p>
+
+		<h4 ng-if="!data">
+			Seleccione un día y presione el botón GENERAR
+		</h4>
+
+		<br/><br/>
+
+		<table class="table table-stripped" ng-if="data">
+			<thead>
+				<th class="text-center">Código</th>
+				<th class="text-center">Producto</th>
+				<th class="text-center">Cantidad Vendida</th>
+				<th class="text-center">SubTotal</th>
+				<th class="text-center">IVA</th>
+				<th class="text-center">Total</th>
+			</thead>
+			<tbody ng-init="actual = 0;">
+				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual" ng-if="o.familia == filtros.familia || filtros.familia == -1">
+					<td class="text-center">{{ o.codigo }}</td>
+					<td class="text-center">{{ o.nombre }}</td>
+					<td class="text-center">{{ o.cantidad }}</td>
+					<td class="text-center">{{ o.total * (o.exento_iva == 1 ? 1 : (1.00 - IVA)) | currency:'Bs. ' }}</td>
+					<td class="text-center">{{ o.total * (o.exento_iva == 1 ? 0.00 : IVA) | currency:'Bs. ' }}</td>
+					<td class="text-center">{{ o.total | currency:'Bs. ' }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="text-center" ng-show="nroResultados < pedidos.length">
+			<ul class="pagination">
+				<li ng-repeat="i in paginationCount(nroResultados, pedidos.length)" class="{{ actual == i ? 'active' : '' }}">
+					<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<div id="detalle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: none; padding-bottom: 0px;">
+					<button type="button" class="close" data-dismiss="modal" style="font-size: 20px !important;">&times;</button>
+					<h4 class="modal-title">Pedido #{{ o_.id }}</h4>
+					<p>
+						Método de pago: {{ o_.metodo_pago }}<br/>
+						Fecha creada: {{ o_.fecha_anadida }}<br/>
+						Última vez modificada: {{ o_.fecha_modificada }}<br/>
+						<small>Observaciones: {{ o_.observaciones.length > 0 ? o_.observaciones : 'Ninguna' }}</small>
+					</p>
+				</div>
+
+				<div class="modal-body">
+					<table class="table table-striped">
+						<tr ng-repeat="p in o_.productos">
+							<td class="text-left">{{ p.producto_nombre }} <small>{{ p.fecha_anadido }}</small></td>
+							<td class="text-right">{{ p.copias * p.originales }} unidades</td>
+							<td class="text-right">{{ p.costo_unitario_facturado | currency:'Bs. ' }}</td>
+						</tr>
+						<tr>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-right"><strong>Total</strong></td>
+							<td class="text-right"><strong>{{ o_.costo_total | currency:'Bs. ' }}</strong></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>

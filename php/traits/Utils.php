@@ -338,5 +338,25 @@
 
             return $csv;
         }
+
+        public function csv_reporte_venta_productos()
+        {
+            $csv = array();
+            $csv[] = array("Codigo", "Producto", "Cantidad Vendida", "SubTotal", "IVA", "Total");
+
+            $data = json_decode($this->reporte_venta_productos(array()), true);
+            
+            foreach ($data as $d)
+                $csv[] = array(
+                    $d['codigo'],
+                    $d['nombre'],
+                    $d['cantidad'],
+                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 1 : (1.00 - 0.12)), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 0.00 : 0.12), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']), 2, ",", ".")
+                );
+
+            return $csv;
+        }
 	}
 ?>

@@ -244,7 +244,17 @@
 
 			getFamilias: function(s){
 				$http.get("api/productos/familias").then(function(obj){
-					s.familias = obj.data;
+					s.familias = [];
+
+					if (window.location.hash.indexOf("reportes") != -1)
+						s.familias.push({
+							id: -1,
+							nombre: "Todos"
+						});
+
+					for (var i = 0; i < obj.data.length; i++)
+						s.familias.push(obj.data[i]);
+
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
