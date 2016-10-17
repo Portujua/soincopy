@@ -1015,6 +1015,21 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_cajeros($post)
+        {
+            $query = $this->db->prepare("
+                select p.id as id, concat(p.nombre, ' ', p.apellido) as nombre_completo
+                from Personal as p, Pago_Pedido as pp
+                where pp.creado_por=p.id
+                group by p.id
+                order by p.nombre asc
+            ");
+            
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function reporte_pedidos($post)
         {
             @session_start();

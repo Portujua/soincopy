@@ -106,6 +106,13 @@
 				});
 			},
 
+			getCajeros: function(s){
+				$http.get("api/cajeros").then(function(obj){
+					s.cajeros = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+
 			getInventarioDanado: function(s){
 				$http.get("api/inventario/danado").then(function(obj){
 					s.material_danado = obj.data;
