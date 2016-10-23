@@ -361,14 +361,16 @@
             $csv[] = array("Codigo", "Producto", "Cantidad Vendida", "SubTotal", "IVA", "Total");
 
             $data = json_decode($this->reporte_venta_productos(array()), true);
+
+            $iva = $this->obtener_iva();
             
             foreach ($data as $d)
                 $csv[] = array(
                     $d['codigo'],
                     $d['nombre'],
                     $d['cantidad'],
-                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 1 : (1.00 - $this->obtener_iva())), 2, ",", "."),
-                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 0.00 : $this->obtener_iva()), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 1 : (1.00 - $iva)), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 0.00 : $iva), 2, ",", "."),
                     "Bs. " . number_format(floatval($d['total']), 2, ",", ".")
                 );
 
