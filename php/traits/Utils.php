@@ -296,6 +296,22 @@
             return json_encode($json);
         }
 
+        public function obtener_iva()
+        {
+            $query = $this->db->prepare("
+                select valor
+                from IVA
+                order by fecha desc
+                limit 1
+            ");
+
+            $query->execute();
+
+            $u = $query->fetchAll();
+
+            return floatval($u[0]['valor']);
+        }
+
         public function csv_reporte_pedidos()
         {
             $csv = array();
@@ -351,8 +367,8 @@
                     $d['codigo'],
                     $d['nombre'],
                     $d['cantidad'],
-                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 1 : (1.00 - 0.12)), 2, ",", "."),
-                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 0.00 : 0.12), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 1 : (1.00 - $this->obtener_iva())), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 0.00 : $this->obtener_iva()), 2, ",", "."),
                     "Bs. " . number_format(floatval($d['total']), 2, ",", ".")
                 );
 

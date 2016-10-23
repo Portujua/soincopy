@@ -495,6 +495,13 @@ create table Stock_Salida (
 	foreign key (orden) references Orden(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table IVA (
+	id int not null auto_increment,
+	valor float not null,
+	fecha datetime,
+	primary key(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as
