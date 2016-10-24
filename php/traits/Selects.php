@@ -1034,10 +1034,13 @@
         {
             @session_start();
 
+            $cajero = isset($post['cajero']) ? $post['cajero'] : $_SESSION['cajero'];
+
             $query = $this->db->prepare("
                 select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, o.cond_pago as cond_pago_, concat(p.nombre, ' ', p.apellido) as creado_por, TIMESTAMPDIFF(SECOND, o.fecha_anadida, now()) as tiempo_restante, (case when o.departamento is null then 'Administrador' else o.departamento end) as departamento, pp.total as total, pp.subtotal as subtotal, pp.iva as iva, pp.id as id_factura
                 from Pedido as o, Cliente as c, Personal as p, Pago_Pedido as pp
                 where o.cliente=c.id and o.creado_por=p.id and pp.pedido=o.id
+                    ".($cajero != "-1" ? "and pp.creado_por=" . $cajero . " " : "")."
                     and o.fecha_anadida between :desde and :hasta
                 order by o.id desc
             ");

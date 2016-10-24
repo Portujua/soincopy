@@ -10,11 +10,18 @@
 			}
 		</style>
 
+		<p ng-init="cargar_cajeros()">
+			Usuario&nbsp;&nbsp;
+			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="filtros.cajero" ng-init="filtros.cajero = '-1';" name="cajero">
+				<option ng-repeat="c in cajeros" value="{{ c.id }}">{{ c.nombre_completo }}</option>
+			</select>
+		</p>
+
 		<p>
 			Desde&nbsp;&nbsp;<input type="date" name="desde" ng-model="filtros.desde" />&nbsp;&nbsp;&nbsp;&nbsp;
 			Hasta&nbsp;&nbsp;<input type="date" name="hasta" ng-model="filtros.hasta" />&nbsp;&nbsp;&nbsp;
 
-			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.desde || !filtros.hasta">Generar</button>
+			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.desde || !filtros.hasta || !filtros.cajero">Generar</button>
 		</p>
 
 		<div class="botones">
@@ -30,7 +37,7 @@
 		</p>
 
 		<h4 ng-if="!data">
-			Seleccione un rango de fechas y presione el botón GENERAR
+			Seleccione un cajero, un rango de fechas y presione el botón GENERAR
 		</h4>
 
 		<br/><br/>

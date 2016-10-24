@@ -108,7 +108,17 @@
 
 			getCajeros: function(s){
 				$http.get("api/cajeros").then(function(obj){
-					s.cajeros = obj.data;
+					s.cajeros = [];
+
+					if (window.location.hash.indexOf("reportes") != -1)
+						s.cajeros.push({
+							id: -1,
+							nombre_completo: "Todos"
+						});
+
+					for (var i = 0; i < obj.data.length; i++)
+						s.cajeros.push(obj.data[i]);
+
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
