@@ -299,7 +299,7 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("caja_reali
 insert into Permiso_Categoria (nombre) values ("Reportes");
 
 insert into Permiso (nombre, descripcion, riesgo, categoria) values 
-	("reportes_pedidos", "Podrá visualizar el reporte de pedidos.", 10, 19),
+	("reportes_libro_de_ventas", "Podrá visualizar el reporte de libro de ventas.", 10, 19),
 	("reportes_cuadre_ventas_diarias", "Podrá visualizar el reporte de cuadre de ventas diarias.", 10, 19),
 	("reportes_venta_productos", "Podrá visualizar el reporte de ventas por productos.", 10, 19);
 

@@ -312,12 +312,12 @@
             return floatval($u[0]['valor']);
         }
 
-        public function csv_reporte_pedidos()
+        public function csv_reporte_libro_de_ventas()
         {
             $csv = array();
             $csv[] = array("# Pedido", "# Factura", "Fecha", "Nombre", "Cedula/RIF", "Subtotal", "IVA", "Total");
 
-            $data = json_decode($this->reporte_pedidos(array()), true);
+            $data = json_decode($this->reporte_libro_de_ventas(array()), true);
             
             foreach ($data as $d)
                 $csv[] = array(

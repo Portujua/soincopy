@@ -1030,7 +1030,7 @@
             return json_encode($query->fetchAll());
         }
 
-        public function reporte_pedidos($post)
+        public function reporte_libro_de_ventas($post)
         {
             @session_start();
 
