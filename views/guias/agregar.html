@@ -15,21 +15,25 @@
 
 		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carreras (*) <span class="badge" ng-show="loginService.getCurrentUser().carreras_agregar" ng-click="agregar_carrera()" title="Añadir nueva carrera">+</span></p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.carrera" name="carrera" ng-change="cargar_materias()" required>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.carrera" name="carrera" ng-change="cargar_materias()" required ts-select-fix>
 				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 
 		<div class="fila">
 			<p>Materias (*) <span class="badge" ng-show="loginService.getCurrentUser().materias_agregar" ng-click="agregar_materia()" title="Añadir nueva materia">+</span></p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.materia" name="materia" required ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias | quitarDeshabilitados" ng-init="cargar_materias()"></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.materia" name="materia" required ng-init="cargar_materias()" ts-select-fix>
+				<optgroup ng-repeat="g in materias | unique:'periodo'" label="{{ (g.periodo + (g.tipo_carrera == 'Semestral' ? ' semestre' : (g.tipo_carrera == 'Anual' ? ' año' : ''))) }}">
+					<option ng-repeat="m in materias" ng-if="m.periodo == g.periodo" ng-value="m.id">{{ m.nombre }}</option>
+				</optgroup>
+			</select>
 
 			<span ng-hide="guia.carrera">Seleccione una carrera</span>
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
 			<p>Profesor (*) <span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="anadir_profesor()" title="Añadir nuevo profesor">+</span></p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required ts-select-fix>
 				<option ng-repeat="p in profesores" ng-if="p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 		</div>
@@ -41,8 +45,9 @@
 
 		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.tipo" name="tipo" ng-options="t.id as t.nombre for t in tipos">
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.tipo" name="tipo" ts-select-fix>
 				<option value="">----- NO APLICA -----</option>
+				<option ng-repeat="t in tipos" ng-value="t.id">{{ t.nombre }}</option>
 			</select>
 		</div>
 

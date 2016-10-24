@@ -12,8 +12,8 @@
 
 		<p ng-init="cargar_cajeros()">
 			Usuario&nbsp;&nbsp;
-			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="filtros.cajero" ng-init="filtros.cajero = '-1';" name="cajero">
-				<option ng-repeat="c in cajeros" value="{{ c.id }}">{{ c.nombre_completo }}</option>
+			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="filtros.cajero" name="cajero" ts-select-fix>
+				<option ng-repeat="c in cajeros" ng-value="c.id">{{ c.nombre_completo }}</option>
 			</select>
 		</p>
 

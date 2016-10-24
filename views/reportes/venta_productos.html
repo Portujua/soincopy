@@ -24,13 +24,13 @@
 		</p>
 
 		<p ng-init="cargar_familias()">
-			Familia de Productos <select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-init="filtros.familia = '-1'" ng-model="filtros.familia" name="familia">
+			Familia de Productos <select class="selectpicker" data-live-search="true" title="" data-width="auto" ts-select-fix ng-model="filtros.familia" name="familia">
 				<option ng-repeat="c in familias" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</p>
 
 		<p ng-init="cargar_productos()">
-			Productos <select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-init="filtros.productos = []" ng-model="filtros.productos" name="productos" multiple>
+			Productos <select class="selectpicker" data-live-search="true" title="Selecciona uno o varios productos para agrupar" data-width="auto" ng-init="filtros.productos = []" ng-model="filtros.productos" name="productos" multiple>
 				<option ng-repeat="c in productos" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</p>

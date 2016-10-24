@@ -11,7 +11,9 @@
 		<div class="fila">
 			<p>Cliente (*) <span class="badge" ng-hide="pedido.agregarcliente" ng-click="agregar_cliente()" title="Añadir nuevo cliente">+</span></p>
 
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cliente" ng-init="pedido.cliente = pedido.did;" ng-hide="pedido.agregarcliente" ng-options="d.id as d.nombre for d in clientes | quitarDeshabilitados" name="cliente" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cliente" ng-init="pedido.cliente = pedido.did;" ng-hide="pedido.agregarcliente" name="cliente" required ng-minlength=1 ts-select-fix>
+				<option ng-repeat="c in clientes | quitarDeshabilitados" ng-value="c.id">{{ c.nombre }}</option>
+			</select>
 			<br/>
 		</div>
 
@@ -92,7 +94,7 @@
 				<tr ng-repeat="p in pedido.productos">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select ng-hide="pedido.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="pedido.productos[$index].producto" ng-change="actualizar_costo_unitario($index); chequear_disponibilidad($index);" required ng-minlength=1>
+						<select ng-hide="pedido.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="pedido.productos[$index].producto" ng-change="actualizar_costo_unitario($index); chequear_disponibilidad($index);" required ng-minlength=1 ts-select-fix>
 							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
 						</select>
 

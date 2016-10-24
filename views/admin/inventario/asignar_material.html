@@ -10,7 +10,9 @@
 
 		<div class="fila">
 			<p>Material (*)</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="material" ng-model="asignar.material" ng-options="pr.id as pr.nombre for pr in inventario | quitarDeshabilitados" ng-change="actualizar_max()" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="material" ng-model="asignar.material" ng-change="actualizar_max()" required ng-minlength=1 ts-select-fix>
+				<option ng-repeat="pr in inventario | quitarDeshabilitados" ng-value="pr.id">{{ pr.nombre }}</option>
+			</select>
 		</div>
 
 		<div class="fila">
@@ -21,7 +23,7 @@
 
 		<div class="fila">
 			<p>Personal (*)</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="asignar.personal" name="personal" ng-show="personal" required ng-minlength=1>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="asignar.personal" name="personal" ng-show="personal" required ng-minlength=1 ts-select-fix>
 				<option ng-repeat="p in personal" ng-if="p.id > 1 && p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
 		</div>
