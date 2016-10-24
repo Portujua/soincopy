@@ -266,7 +266,7 @@
 
 				if ($localStorage.user.username == "root") return true;
 
-				return $localStorage.user.reportes_pedidos;
+				return $localStorage.user.reportes_libro_de_ventas || $localStorage.user.reportes_cuadre_ventas_diarias || $localStorage.user.reportes_venta_productos;
 			},
 		};
 	})
