@@ -1088,14 +1088,16 @@
                     p.nombre as nombre, 
                     concat(pf.id, p.id) as codigo,
                     p.exento_iva as exento_iva,
-                    p.familia as familia
-                from Pago_Pedido as pp, Pedido_Producto as ppr, Producto as p, Producto_Familia as pf
-                where pp.creado_por=:cajero and pp.pedido=ppr.pedido and ppr.producto=p.id and p.familia=pf.id
+                    p.familia as familia,
+                    p.id as producto_id
+                from Pago_Pedido as pp, Pedido_Producto as ppr, Producto as p, Producto_Familia as pf, Pedido as o
+                where pp.pedido=ppr.pedido and pp.pedido=o.id and ppr.producto=p.id and p.familia=pf.id and o.fecha_anadida between :desde and :hasta
                 group by p.id, p.familia
             ");
 
             $query->execute(array(
-                ":cajero" => isset($post['cajero']) ? $post['cajero'] : $_SESSION['cajero']
+                ":desde" => isset($post['desde_']) ? $post['desde_'] : $_SESSION['desde_'],
+                ":hasta" => isset($post['hasta_']) ? $post['hasta_'] : $_SESSION['hasta_']
             ));
 
             $data = $query->fetchAll();

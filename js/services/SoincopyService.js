@@ -525,8 +525,15 @@
 				    data: f,
 				    beforeSend: function(){},
 				    success: function(data){
-				        var json = $.parseJSON(data);
-				        s.data = json;
+				    	try 
+				    	{
+				        	var json = $.parseJSON(data);
+				        	s.data = json;
+				        }
+				        catch (ex)
+				        {
+				        	console.log(data)
+				        }
 				    }
 				});
 			},

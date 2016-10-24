@@ -11,18 +11,27 @@
 		</style>
 
 		<p>
-			Usuario&nbsp;&nbsp;
+			<!--Usuario&nbsp;&nbsp;
 			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="filtros.cajero" name="cajero">
 				<option ng-repeat="c in cajeros" value="{{ c.id }}">{{ c.nombre_completo }}</option>
 			</select>
-			&nbsp;&nbsp;&nbsp;
+			&nbsp;&nbsp;&nbsp;-->
 
-			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.cajero">Generar</button>
+			Desde&nbsp;&nbsp;<input type="date" name="desde" ng-model="filtros.desde" />&nbsp;&nbsp;&nbsp;&nbsp;
+			Hasta&nbsp;&nbsp;<input type="date" name="hasta" ng-model="filtros.hasta" />&nbsp;&nbsp;&nbsp;
+
+			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.desde || !filtros.hasta">Generar</button>
 		</p>
 
 		<p ng-init="cargar_familias()">
 			Familia de Productos <select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-init="filtros.familia = '-1'" ng-model="filtros.familia" name="familia">
 				<option ng-repeat="c in familias" value="{{ c.id }}">{{ c.nombre }}</option>
+			</select>
+		</p>
+
+		<p ng-init="cargar_productos()">
+			Productos <select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-init="filtros.productos = []" ng-model="filtros.productos" name="productos" multiple>
+				<option ng-repeat="c in productos" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</p>
 
@@ -54,7 +63,7 @@
 				<th class="text-center">Total</th>
 			</thead>
 			<tbody ng-init="actual = 0;">
-				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual" ng-if="o.familia == filtros.familia || filtros.familia == -1">
+				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual" ng-if="(o.familia == filtros.familia || filtros.familia == -1) && (filtros.productos.contains(o.producto_id) || filtros.productos.length == 0)">
 					<td class="text-center">{{ o.codigo }}</td>
 					<td class="text-center">{{ o.nombre }}</td>
 					<td class="text-center">{{ o.cantidad }}</td>
@@ -92,7 +101,7 @@
 
 				<div class="modal-body">
 					<table class="table table-striped">
-						<tr ng-repeat="p in o_.productos">
+						<tr ng-repeat="p in o_.productos" ng-if="filtros.productos.contains(p.id) || filtros.productos.length == 0">
 							<td class="text-left">{{ p.producto_nombre }} <small>{{ p.fecha_anadido }}</small></td>
 							<td class="text-right">{{ p.copias * p.originales }} unidades</td>
 							<td class="text-right">{{ p.costo_unitario_facturado | currency:'Bs. ' }}</td>
