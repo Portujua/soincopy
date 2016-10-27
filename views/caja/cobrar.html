@@ -28,8 +28,8 @@
 					<td>{{ p.producto_nombre }}</td>
 					<td>{{ p.descripcion }}</td>
 					<td class="text-right">{{ p.nro_copias * p.nro_originales }}</td>
-					<td class="text-right">{{ p.costo_unitario_facturado - p.costo_unitario_facturado * (p.exento_iva == 1 ? 0.00 : IVA)  | currency:'Bs. ' }}</td>
-					<td class="text-right">{{ (p.costo_unitario_facturado - p.costo_unitario_facturado * (p.exento_iva == 1 ? 0.00 : IVA)) * (p.nro_copias * p.nro_originales) | currency:'Bs. ' }}</td>
+					<td class="text-right">{{ p.costo_unitario_facturado / (p.exento_iva == 1 ? 1.00 : 1.00 + IVA)  | currency:'Bs. ' }}</td>
+					<td class="text-right">{{ (p.costo_unitario_facturado / (p.exento_iva == 1 ? 1.00 : 1.00 + IVA)) * (p.nro_copias * p.nro_originales) | currency:'Bs. ' }}</td>
 				</tr>
 			</tbody>
 		</table>

@@ -369,8 +369,8 @@
                     $d['codigo'],
                     $d['nombre'],
                     $d['cantidad'],
-                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 1 : (1.00 - $iva)), 2, ",", "."),
-                    "Bs. " . number_format(floatval($d['total']) * ($d['exento_iva'] == '1' ? 0.00 : $iva), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']) / ($d['exento_iva'] == '1' ? 1 : (1.00 + $iva)), 2, ",", "."),
+                    "Bs. " . number_format(floatval($d['total']) - (floatval($d['total']) / ($d['exento_iva'] == '1' ? 1 : (1.00 + $iva))), 2, ",", "."),
                     "Bs. " . number_format(floatval($d['total']), 2, ",", ".")
                 );
 

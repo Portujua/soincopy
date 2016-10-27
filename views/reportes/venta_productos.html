@@ -67,8 +67,8 @@
 					<td class="text-center">{{ o.codigo }}</td>
 					<td class="text-center">{{ o.nombre }}</td>
 					<td class="text-center">{{ o.cantidad }}</td>
-					<td class="text-center">{{ o.total * (o.exento_iva == 1 ? 1 : (1.00 - IVA)) | currency:'Bs. ' }}</td>
-					<td class="text-center">{{ o.total * (o.exento_iva == 1 ? 0.00 : IVA) | currency:'Bs. ' }}</td>
+					<td class="text-center">{{ o.total / (o.exento_iva == 1 ? 1 : (1.00 + IVA)) | currency:'Bs. ' }}</td>
+					<td class="text-center">{{ (o.total * (o.exento_iva == 1 ? 0.00 : IVA)) / (o.exento_iva == 1 ? 1 : (1.00 + IVA)) | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.total | currency:'Bs. ' }}</td>
 				</tr>
 			</tbody>

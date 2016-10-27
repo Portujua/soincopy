@@ -42,12 +42,13 @@
 
 			for (var i = 0; i < productos.length; i++)
 			{
-				/*$scope.pago.subtotal += productos[i].costo_unitario_facturado / (1.00 + (productos[i].exento_iva == 1 ? 0.00 : $scope.$parent.IVA)) * (productos[i].nro_copias * productos[i].nro_originales);*/
+				$scope.pago.subtotal += productos[i].costo_unitario_facturado / (1.00 + (productos[i].exento_iva == 1 ? 0.00 : $scope.$parent.IVA)) * (productos[i].nro_copias * productos[i].nro_originales);
 				$scope.pago.total += productos[i].costo_unitario_facturado * (productos[i].nro_copias * productos[i].nro_originales);
-				$scope.pago.iva += productos[i].costo_unitario_facturado * (productos[i].exento_iva == 1 ? 0.00 : $scope.$parent.IVA) * (productos[i].nro_copias * productos[i].nro_originales);
+				/*$scope.pago.iva += productos[i].costo_unitario_facturado * (productos[i].exento_iva == 1 ? 0.00 : $scope.$parent.IVA) * (productos[i].nro_copias * productos[i].nro_originales);*/
 			}
 
 			//$scope.pago.total = $scope.pago.subtotal + $scope.pago.iva;
+			$scope.pago.iva = $scope.pago.total - $scope.pago.subtotal;
 			$scope.pago.subtotal = $scope.pago.total - $scope.pago.iva;
 		}
 
