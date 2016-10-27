@@ -32,6 +32,8 @@
 			</div>
 		</div>
 
+		<br>
+
 		<p ng-show="data">
 			<button class="btn btn-soincopy" style="font-size: 14px !important;" ng-click="exportar()">Exportar a Excel</button>
 		</p>
@@ -54,7 +56,7 @@
 				<th class="text-center">Total</th>
 			</thead>
 			<tbody ng-init="actual = 0;">
-				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual">
+				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual" class="{{ o_.id == o.id ? 'bg-selected' : '' }}">
 					<td class="text-center">{{ o.id }}</td>
 					<td class="text-center">{{ o.id_factura }}</td>
 					<td class="text-center">{{ o.fecha_anadida }}</td>

@@ -43,6 +43,10 @@
 			    }
 			});
 		}
+
+		$scope.seleccionar = function(o){
+			$scope.o_ = o;
+		}
 	};
 
 	angular.module("soincopy").controller("Reportes", Reportes);
