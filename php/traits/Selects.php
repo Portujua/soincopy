@@ -1041,7 +1041,7 @@
                 from Pedido as o, Cliente as c, Personal as p, Pago_Pedido as pp
                 where o.cliente=c.id and o.creado_por=p.id and pp.pedido=o.id
                     ".($cajero != "-1" ? "and pp.creado_por=" . $cajero . " " : "")."
-                    and o.fecha_anadida between :desde and :hasta
+                    and date(o.fecha_anadida) between :desde and :hasta
                 order by o.id desc
             ");
 
@@ -1094,7 +1094,7 @@
                     p.familia as familia,
                     p.id as producto_id
                 from Pago_Pedido as pp, Pedido_Producto as ppr, Producto as p, Producto_Familia as pf, Pedido as o
-                where pp.pedido=ppr.pedido and pp.pedido=o.id and ppr.producto=p.id and p.familia=pf.id and o.fecha_anadida between :desde and :hasta
+                where pp.pedido=ppr.pedido and pp.pedido=o.id and ppr.producto=p.id and p.familia=pf.id and date(o.fecha_anadida) between :desde and :hasta
                 group by p.id, p.familia
             ");
 
