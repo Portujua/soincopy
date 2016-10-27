@@ -63,7 +63,7 @@
 				<th class="text-center">Total</th>
 			</thead>
 			<tbody ng-init="actual = 0;">
-				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual" ng-if="(o.familia == filtros.familia || filtros.familia == -1) && (filtros.productos.contains(o.producto_id) || filtros.productos.length == 0)">
+				<tr ng-repeat="o in data | paginar:nroResultados+'|'+actual" ng-if="(o.familia == filtros.familia || filtros.familia == -1) && (filtros.productos.contains(o.producto_id) || filtros.productos.length == 0)">
 					<td class="text-center">{{ o.codigo }}</td>
 					<td class="text-center">{{ o.nombre }}</td>
 					<td class="text-center">{{ o.cantidad }}</td>

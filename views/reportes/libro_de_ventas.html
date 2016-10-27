@@ -66,6 +66,16 @@
 					<td class="text-center">{{ o.iva | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.total | currency:'Bs. ' }}</td>
 				</tr>
+				<tr ng-init="totalizar()">
+					<td class="text-center"></td>
+					<td class="text-center"></td>
+					<td class="text-center"></td>
+					<td class="text-center"></td>
+					<td class="text-center text-bold">Total</td>
+					<td class="text-center text-bold">{{ total.subtotal | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.iva | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.total | currency:'Bs. ' }}</td>
+				</tr>
 			</tbody>
 		</table>
 

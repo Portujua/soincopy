@@ -45,7 +45,7 @@
 				<th class="text-center">Total Venta</th>
 			</thead>
 			<tbody ng-init="actual = 0;">
-				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual">
+				<tr  ng-repeat="o in data | paginar:nroResultados+'|'+actual">
 					<td class="text-center">{{ o.nombre_completo }}</td>
 					<td class="text-center">{{ o.total_facturado | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.devoluciones | currency:'Bs. ' }}</td>
@@ -53,6 +53,15 @@
 					<td class="text-center">{{ o.retiro_de_caja | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.retiro_de_caja - o.total_facturado | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.retiro_de_caja | currency:'Bs. ' }}</td>
+				</tr>
+				<tr ng-init="totalizar()">
+					<td class="text-center text-bold">Total</td>
+					<td class="text-center text-bold">{{ total.total_facturado | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.devoluciones | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.nota_de_credito | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.retiro_de_caja | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.retiro_de_caja - total.total_facturado | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.retiro_de_caja | currency:'Bs. ' }}</td>
 				</tr>
 			</tbody>
 		</table>
