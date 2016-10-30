@@ -1117,7 +1117,7 @@
                     sum(pp.total) as total_facturado, 
                     0 as devoluciones, 
                     0 as nota_de_credito, 
-                    (case when (select sum(monto) from Retiro_Caja where personal=p.id) is not null then (select sum(monto) from Retiro_Caja where personal=p.id) else 0 end) as retiro_de_caja
+                    (case when (select sum(monto) from Retiro_Caja where personal=p.id and date(fecha)=date(pp.fecha_creado)) is not null then (select sum(monto) from Retiro_Caja where personal=p.id and date(fecha)=date(pp.fecha_creado)) else 0 end) as retiro_de_caja
                 from Pago_Pedido as pp, Personal as p
                 where pp.creado_por=p.id and date(pp.fecha_creado)=:dia
                 group by p.id
