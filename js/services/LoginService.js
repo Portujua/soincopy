@@ -177,6 +177,13 @@
 
 				return $localStorage.user.profesores_agregar || $localStorage.user.profesores_editar || $localStorage.user.profesores_deshabilitar;
 			},
+			menuAdminRetirosCaja: function(){
+				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
+
+				return $localStorage.user.retiroscaja_agregar;
+			},
 			menuAdminCarreras: function(){
 				if (!this.isLoggedIn()) return false;
 
@@ -245,7 +252,7 @@
 
 				if ($localStorage.user.username == "root") return true;
 
-				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminCuentaAbiertas() || this.menuAdminInventario() || this.menuAdminProductos() || this.menuAdminProveedores() || this.menuAdminClientes();
+				return this.menuAdminPersonal() || this.menuAdminProfesores() || this.menuAdminCarreras() || this.menuAdminMaterias() || this.menuAdminDepartamentosUCAB() || this.menuAdminDependencias() || this.menuAdminCuentaAbiertas() || this.menuAdminInventario() || this.menuAdminProductos() || this.menuAdminProveedores() || this.menuAdminClientes() || this.menuAdminRetirosCaja();
 			},
 			permisos: function(){
 				if (!this.isLoggedIn()) return false;

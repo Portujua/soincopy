@@ -502,6 +502,18 @@ create table IVA (
 	primary key(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Retiro_Caja (
+	id int not null auto_increment,
+	creado_por int not null comment 'el administrador que lo autorizo',
+	personal int not null comment 'El cajero',
+	fecha datetime not null,
+	monto float not null,
+	concepto text,
+	primary key(id),
+	foreign key (creado_por) references Personal(id),
+	foreign key (personal) references Personal(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

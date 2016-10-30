@@ -123,6 +123,17 @@
 				});
 			},
 
+			getCajerosActivos: function(s){
+				$http.get("api/cajeros/activos").then(function(obj){
+					s.cajeros = [];
+
+					for (var i = 0; i < obj.data.length; i++)
+						s.cajeros.push(obj.data[i]);
+
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+
 			getInventarioDanado: function(s){
 				$http.get("api/inventario/danado").then(function(obj){
 					s.material_danado = obj.data;
@@ -378,6 +389,30 @@
 						if (json[i].id == id)
 						{
 							s.departamento = json[i];
+							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+							return;
+						}
+				});
+			},
+
+
+
+
+
+			getRetirosCaja: function(s){
+				$http.get("api/caja/retiros").then(function(obj){
+					s.retiros = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+			getRetiroCaja: function(s, id){
+				$http.get("api/caja/retiros").then(function(obj){
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						if (json[i].id == id)
+						{
+							s.retiro = json[i];
 							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 							return;
 						}

@@ -1030,6 +1030,20 @@
             return json_encode($query->fetchAll());
         }
 
+        public function cargar_cajeros_activos($post)
+        {
+            $query = $this->db->prepare("
+                select p.id as id, concat(p.nombre, ' ', p.apellido) as nombre_completo
+                from Personal as p, Personal_Departamento as pd, Departamento as d
+                where pd.personal=p.id and pd.departamento=d.id and d.nombre='Caja'
+                order by p.nombre asc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
+        }
+
         public function reporte_libro_de_ventas($post)
         {
             @session_start();
@@ -1144,6 +1158,28 @@
             $data = $query->fetchAll();
 
             return json_encode($data);
+        }
+
+        public function cargar_retiros_de_caja($post)
+        {
+            $query = $this->db->prepare("
+                select 
+                    rc.id as id,
+                    rc.monto as monto, 
+                    rc.concepto as concepto, 
+                    date_format(rc.fecha, '%d/%m/%Y') as fecha,
+                    a.usuario as administrador,
+                    concat(a.nombre, ' ', a.apellido) as admin_nombre,
+                    c.id as cajero,
+                    concat(c.nombre, ' ', c.apellido) as cajero_nombre
+                from Retiro_Caja as rc, Personal as a, Personal as c
+                where rc.creado_por=a.id and rc.personal=c.id
+                order by rc.fecha desc
+            ");
+
+            $query->execute();
+
+            return json_encode($query->fetchAll());
         }
 	}
 ?>

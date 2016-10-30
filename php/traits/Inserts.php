@@ -762,5 +762,46 @@
 
             return json_encode($json);
         }
+
+        public function agregar_retiro_caja($post)
+        {
+            $json = array();
+
+            // Chequeo el usuario y la clave
+            $query = $this->db->prepare("
+                select * from Personal where usuario=:administrador and contrasena=:contrasena
+            ");
+
+            $query->execute(array(
+                ":administrador" => $post['administrador'],
+                ":contrasena" => $post['contrasena']
+            ));
+
+            if ($query->rowCount() > 0)
+            {
+                $query = $this->db->prepare("
+                    insert into Retiro_Caja (creado_por, personal, fecha, monto, concepto) 
+                    values ((select id from Personal where usuario=:administrador),
+                            :cajero, now(), :monto, :concepto)
+                ");
+
+                $query->execute(array(
+                    ":administrador" => $post['administrador'],
+                    ":cajero" => $post['cajero'],
+                    ":monto" => floatval($post['monto']),
+                    ":concepto" => $post['concepto']
+                ));
+
+                $json["msg"] = "Retiro de Caja añadido con éxito";
+                $json["success"] = 1;
+            }
+            else
+            {
+                $json["msg"] = "Los datos del administrador son inválidos";
+                $json["error"] = 1;
+            }
+
+            return json_encode($json);
+        }
 	}
 ?>

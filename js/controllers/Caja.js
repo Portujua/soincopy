@@ -23,8 +23,16 @@
 
 		SoincopyService.getCondicionesPago($scope);
 
+		$scope.cargar_retiros_de_caja = function(){
+			SoincopyService.getRetirosCaja($scope);
+		}
+
 		$scope.cargar_pedido = function(id){
 			SoincopyService.getPedido($scope, id);
+		}
+
+		$scope.cargar_cajeros = function(){
+			SoincopyService.getCajerosActivos($scope);
 		}
 
 		$scope.calcularDatos = function(){
@@ -89,7 +97,71 @@
 			})
 		}
 
-		$scope.cargar_pedido($scope.pid);
+		$scope.cargar_retiro_caja = function(id){
+			SoincopyService.getRetiroCaja($scope, id);
+		}
+
+		$scope.registrar_retiro_caja = function(){
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir este retiro de caja?',
+				confirm: function(){
+					var post = $scope.retiro;
+
+					var fn = "agregar_retiro_caja";
+					var msg = "Retiro de Caja añadido con éxito";
+
+					if ($routeParams.id)
+					{
+						fn = "editar_retiro_caja";
+						msg = "Retiro de Caja modificado con éxito";
+					}
+
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+					    	console.log(data)
+					    	var json = $.parseJSON(data);
+
+				        	$scope.safeApply(function(){
+				        		if (!json.error)
+				        		{
+				        			AlertService.showSuccess(json.msg);
+				        			$location.path("/");
+				        		}
+				        		else
+				        		{
+				        			$scope.retiro.contrasena = "";
+				        			AlertService.showError(json.msg);
+				        		}
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
+			});
+		}
+
+		$scope.cambiar_estado = function(id, estado){
+			$.ajax({
+			    url: "php/run.php?fn=cambiar_estado_retiro_caja",
+			    type: "POST",
+			    data: {id:id, estado:estado},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	SoincopyService.getRetirosCaja($scope);
+			        	$scope.o_ = null;
+			        })
+			    }
+			});
+		}
+
+		if ($routeParams.pid)
+			$scope.cargar_pedido($scope.pid);
 	};
 
 	angular.module("soincopy").controller("Caja", Caja);

@@ -268,6 +268,17 @@
 			})
 
 
+			.when("/caja/retiros", {
+				templateUrl : "views/caja/retiros_de_caja/buscar.html"
+			})
+			.when("/caja/retiros/agregar", {
+				templateUrl : "views/caja/retiros_de_caja/agregar.html"
+			})
+			.when("/caja/retiros/editar/:id", {
+				templateUrl : "views/caja/retiros_de_caja/agregar.html"
+			})
+
+
 
 			.when("/reportes/:reporte", {
 				templateUrl : function(params){
