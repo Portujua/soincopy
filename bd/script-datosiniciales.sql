@@ -308,4 +308,5 @@ insert into IVA (valor, fecha) values (0.12, now());
 
 
 insert into Permiso (nombre, descripcion, riesgo, categoria) values 
-	("reportescaja_agregar", "Podrá agregar retiros de caja. Nota: aun teniendo este permiso se necesita la aprobación de un administrador a la hora de realizar un retiro.", 10, 18);
+	("reportescaja_agregar", "Podrá agregar retiros de caja. Nota: aun teniendo este permiso se necesita la aprobación de un administrador a la hora de realizar un retiro.", 10, 18),
+	("notascredito_agregar", "Podrá agregar notas de crédito.", 10, 18);

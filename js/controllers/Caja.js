@@ -145,18 +145,38 @@
 			});
 		}
 
-		$scope.cambiar_estado = function(id, estado){
-			$.ajax({
-			    url: "php/run.php?fn=cambiar_estado_retiro_caja",
-			    type: "POST",
-			    data: {id:id, estado:estado},
-			    beforeSend: function(){},
-			    success: function(data){
-			        $scope.safeApply(function(){
-			        	SoincopyService.getRetirosCaja($scope);
-			        	$scope.o_ = null;
-			        })
-			    }
+		$scope.registrar_nota_credito = function(){
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea añadir esta nota de crédito?',
+				confirm: function(){
+					var post = $scope.nota;
+					post.creado_por = LoginService.getCurrentUser().username;
+
+					var fn = "agregar_nota_credito";
+
+					$.ajax({
+					    url: "php/run.php?fn=" + fn,
+					    type: "POST",
+					    data: post,
+					    beforeSend: function(){},
+					    success: function(data){
+					    	console.log(data)
+					    	var json = $.parseJSON(data);
+
+				        	$scope.safeApply(function(){
+				        		if (!json.error)
+				        		{
+				        			AlertService.showSuccess(json.msg);
+				        			$location.path("/");
+				        		}
+				        		else
+				        			AlertService.showError(json.msg);
+				        	})
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 

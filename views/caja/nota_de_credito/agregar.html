@@ -1,0 +1,28 @@
+<form class="agregar seccion" ng-controller="Caja" name="agregar" ng-submit="registrar_nota_credito()">	
+	<div class="register-form">
+		<h1 style="font-size: 20px;">Agregar Nota de Crédito</h1>
+
+		<p><small>(*) Campos obligatorios</small></p>
+
+		<div class="fila">
+			<p>Número de factura (*)</p>
+			<input type="text" name="nro_factura" ng-model="nota.nro_factura" required maxlength="128" exists-bd="factura" ng-model-options="{ updateOn: 'blur' }" />
+
+			<span ng-show="agregar.nro_factura.$error.unique && nota.nro_factura.length > 0">Número de factura inexistente</span>
+		</div>
+
+		<div class="fila">
+			<p>Número de control (*)</p>
+			<input type="text" name="admin" ng-model="nota.nro_control" required maxlength="128" />
+		</div>
+
+		<div class="fila">
+			<p>Total (*)</p>
+			<input name="total" id="total" type="number" ng-model="nota.total" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required />
+		</div>
+
+		<div class="fila text-center">
+			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid">Aceptar</button>
+		</div>
+	</div>
+</form>

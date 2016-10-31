@@ -516,6 +516,18 @@ create table Retiro_Caja (
 	foreign key (personal) references Personal(id)
 ) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
 
+create table Nota_Credito (
+	id int not null auto_increment,
+	creado_por int not null,
+	nro_factura varchar(128) not null,
+	nro_control varchar(128),
+	subtotal float,
+	iva float,
+	total float,
+	primary key(id),
+	foreign key (creado_por) references Personal(id)
+) ENGINE=InnoDB DEFAULT CHARACTER SET=utf8;
+
 
 /* Views */
 create view Lista_Pendientes_Por_Revision as

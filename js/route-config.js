@@ -278,6 +278,10 @@
 				templateUrl : "views/caja/retiros_de_caja/agregar.html"
 			})
 
+			.when("/caja/notas_credito/agregar", {
+				templateUrl : "views/caja/nota_de_credito/agregar.html"
+			})
+
 
 
 			.when("/reportes/:reporte", {

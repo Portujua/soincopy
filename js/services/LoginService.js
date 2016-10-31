@@ -184,6 +184,13 @@
 
 				return $localStorage.user.retiroscaja_agregar;
 			},
+			menuAdminNotasCredito: function(){
+				if (!this.isLoggedIn()) return false;
+
+				if ($localStorage.user.username == "root") return true;
+
+				return $localStorage.user.notascredito_agregar;
+			},
 			menuAdminCarreras: function(){
 				if (!this.isLoggedIn()) return false;
 

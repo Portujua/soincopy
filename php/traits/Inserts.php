@@ -803,5 +803,38 @@
 
             return json_encode($json);
         }
+
+        public function agregar_nota_credito($post)
+        {
+            $json = array();
+
+            $iva = $this->obtener_iva();
+
+            $query = $this->db->prepare("
+                insert into Nota_Credito (creado_por, nro_factura, nro_control, subtotal, iva, total)
+                values ((select id from Personal where usuario=:creado_por),
+                        :nro_factura,
+                        :nro_control,
+                        :subtotal,
+                        :iva,
+                        :total)
+            ");
+
+            $total = floatval($post['total']) < 0.00 ? (-1)*floatval($post['total']) : floatval($post['total']);
+
+            $query->execute(array(
+                ":creado_por" => $post['creado_por'],
+                ":nro_factura" => $post['nro_factura'],
+                ":nro_control" => $post['nro_control'],
+                ":subtotal" => $total / (1.00 + $iva),
+                ":iva" => $total - ($total / (1.00 + $iva)),
+                ":total" => $total
+            ));
+
+            $json["msg"] = "Nota de Crédito añadida con éxito";
+            $json["success"] = 1;
+
+            return json_encode($json);
+        }
 	}
 ?>
