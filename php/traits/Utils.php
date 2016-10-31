@@ -104,6 +104,25 @@
             return json_encode($json);
         }
 
+        public function check_factura($post)
+        {
+            $query = $this->db->prepare("
+                select *
+                from Pago_Pedido
+                where nro_factura=:nro
+            ");
+
+            $query->execute(array(
+                ":nro" => $post['nro']
+            ));
+
+            $json = array();
+            $json['existe'] = $query->rowCount() > 0 ? false : true;
+            $json['esValido'] = $query->rowCount() == 0 ? false : true;
+
+            return json_encode($json);
+        }
+
         public function check_nro_pedido($post)
         {
             $query = $this->db->prepare("
