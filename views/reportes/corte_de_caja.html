@@ -1,0 +1,108 @@
+<div class="seccion" ng-controller="Reportes">
+	<h1 style="font-size: 20px;">Reportes &rarr; Corte de Caja</h1>
+
+	<div ng-show="loginService.getCurrentUser().reportes_corte_de_caja">
+		<style type="text/css">
+			input[type=date] {
+				padding: 5px 5px;
+				border-radius: 5px;
+				border: 1px solid #333;
+			}
+		</style>
+
+		<p ng-init="cargar_cajeros()">
+			Usuario&nbsp;&nbsp;
+			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="filtros.cajero" name="cajero" ts-select-fix>
+				<option ng-repeat="c in cajeros" ng-value="c.id">{{ c.nombre_completo }}</option>
+			</select>
+
+			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.cajero">Generar</button>
+		</p>
+
+		<div class="botones">
+			<div ng-show="o_">
+				
+			</div>
+		</div>
+
+		<!--<p ng-show="data">
+			<button class="btn btn-soincopy" style="font-size: 14px !important;" ng-click="exportar()">Exportar a Excel</button>
+		</p>-->
+
+		<h4 ng-if="!data">
+			Seleccione un día y presione el botón GENERAR
+		</h4>
+
+		<br/><br/>
+
+		<table class="tabla_corte_caja" ng-if="data">
+			<tr>
+				<td class="text-bold">Usuario:</td>
+				<td>{{ data.nombre_completo }}</td>
+				<td class="text-bold">Fecha:</td>
+				<td>{{ data.fecha }}</td>
+				<td class="text-bold">Hora:</td>
+				<td>{{ data.hora }}</td>
+			</tr>
+		</table>
+
+		<table class="tabla_corte_caja" ng-if="data" style="border-top: none !important;">
+			<tr>
+				<td class="text-bold" style="border-top: none !important;">Total Facturado:</td>
+				<td class="text-right" style="border-top: none !important;">{{ data.total_facturado | currency:'Bs. ' }}</td>
+			</tr>
+			<tr>
+				<td class="text-bold">Total Notas de Crédito:</td>
+				<td class="text-right">{{ data.total_notas_credito | currency:'Bs. ' }}</td>
+			</tr>
+			<tr>
+				<td class="text-bold">Total en Devoluciones:</td>
+				<td class="text-right">{{ data.total_devoluciones | currency:'Bs. ' }}</td>
+			</tr>
+			<tr>
+				<td class="text-bold">Total en Caja:</td>
+				<td class="text-right">{{ data.total_facturado - data.total_notas_credito | currency:'Bs. ' }}</td>
+			</tr>
+		</table>
+
+		<table class="tabla_corte_caja" ng-if="data" style="margin-top: 15px; border-bottom: none !important;">
+			<tr>
+				<td class="text-bold" style="border-bottom: none !important;">Cobros</td>
+			</tr>
+		</table>
+
+		<table class="tabla_corte_caja" ng-if="data">
+			<tr>
+				<td class="text-bold text-center">Descripción</td>
+				<td class="text-bold text-center">Cantidad de Pagos</td>
+				<td class="text-bold text-center">Monto</td>
+			</tr>
+			<tr ng-repeat="cobro in data.cobros">
+				<td>{{ cobro.tipo_pago }}</td>
+				<td class="text-right">{{ cobro.cantidad }}</td>
+				<td class="text-right">{{ cobro.monto | currency:'Bs. ' }}</td>
+			</tr>
+		</table>
+
+		<table class="tabla_corte_caja" ng-if="data" style="margin-top: 15px; border-bottom: none !important;">
+			<tr>
+				<td class="text-bold" style="border-bottom: none !important;">Retiros de Caja</td>
+			</tr>
+		</table>
+
+		<table class="tabla_corte_caja" ng-if="data">
+			<tr>
+				<td class="text-bold text-center">Autorizado por</td>
+				<td class="text-bold text-center">Concepto</td>
+				<td class="text-bold text-center">Hora</td>
+				<td class="text-bold text-center">Monto</td>
+			</tr>
+			<tr ng-repeat="retiro in data.retiros">
+				<td>{{ retiro.autorizado_por }}</td>
+				<td>{{ retiro.concepto }}</td>
+				<td>{{ retiro.hora }}</td>
+				<td>{{ retiro.monto }}</td>
+			</tr>
+		</table>
+	</div>
+</div>

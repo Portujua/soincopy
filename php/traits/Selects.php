@@ -1181,5 +1181,114 @@
 
             return json_encode($query->fetchAll());
         }
+
+        public function reporte_corte_de_caja($post)
+        {
+            @session_start();
+
+            $query = $this->db->prepare("
+                select 
+                    concat(p.nombre, ' ', p.apellido) as nombre_completo,
+                    date_format(now(), '%d/%m/%Y') as fecha, 
+                    time_format(now(), '%h:%i:%s %p') as hora,
+                    sum(pp.total) as total_facturado,
+                    (case when (select sum(total) from Nota_Credito where nro_factura=pp.nro_factura) is not null then (select sum(total) from Nota_Credito where nro_factura=pp.nro_factura) else 0 end) as total_notas_credito,
+                    0 as total_devoluciones
+                from Personal as p, Pago_Pedido as pp
+                where p.id=:cajero and pp.creado_por=p.id and date(pp.fecha_creado)=date(now())
+                group by p.id
+            ");
+
+            $query->execute(array(
+                ":cajero" => isset($post['cajero']) ? $post['cajero'] : $_SESSION['cajero']
+            ));
+
+            $data = $query->fetchAll();
+
+            if (count($data) == 0)
+            {
+                $query = $this->db->prepare("
+                    select 
+                        concat(p.nombre, ' ', p.apellido) as nombre_completo,
+                        date_format(now(), '%d/%m/%Y') as fecha, 
+                        time_format(now(), '%h:%i:%s %p') as hora,
+                        0 as total_facturado,
+                        0 as total_notas_credito,
+                        0 as total_devoluciones
+                    from Personal as p
+                    where p.id=:cajero
+                ");
+
+                $query->execute(array(
+                    ":cajero" => isset($post['cajero']) ? $post['cajero'] : $_SESSION['cajero']
+                ));
+
+                $data = $query->fetchAll();
+            }
+
+            for ($i = 0; $i < count($data); $i++)
+            {
+                /* Aseguro los tipos de dato */
+                $data[$i]['total_facturado'] = floatval($data[$i]['total_facturado']);
+                $data[$i]['total_notas_credito'] = floatval($data[$i]['total_notas_credito']);
+                $data[$i]['total_devoluciones'] = floatval($data[$i]['total_devoluciones']);
+
+                /* Cargo los cobros */
+                $data[$i]['cobros'] = array();
+
+                $query = $this->db->prepare("
+                    select *
+                    from Condicion_Pago
+                ");
+
+                $query->execute();
+
+                $tipo_pago = $query->fetchAll();
+
+                foreach ($tipo_pago as $t)
+                {
+                    $query = $this->db->prepare("
+                        select 
+                            tp.nombre as tipo_pago,
+                            count(tp.id) as cantidad,
+                            sum(pp.total) as monto
+                        from Condicion_Pago as tp, Pago_Pedido as pp
+                        where pp.metodo_pago=tp.id and tp.id=:tid and date(pp.fecha_creado)=date(now())
+                        group by tp.id
+                    ");
+
+                    $query->execute(array(
+                        ":tid" => $t['id']
+                    ));
+
+                    $row = $query->fetchAll();
+
+                    if ($query->rowCount() > 0)
+                        $data[$i]['cobros'][] = $row[0];
+                }
+
+                /* Cargo los retiros */
+                $data[$i]['retiros'] = array();
+
+                $query = $this->db->prepare("
+                    select 
+                        concat(a.nombre, ' ', a.apellido) as autorizado_por,
+                        rc.concepto as concepto,
+                        date_format(rc.fecha, '%d/%m/%Y') as fecha, 
+                        time_format(rc.fecha, '%h:%i:%s %p') as hora,
+                        rc.monto as monto
+                    from Retiro_Caja as rc, Personal as a, Personal as p
+                    where rc.creado_por=a.id and rc.personal=p.id and rc.personal=:cajero and date(rc.fecha)=date(now())
+                ");
+
+                $query->execute(array(
+                    ":cajero" => isset($post['cajero']) ? $post['cajero'] : $_SESSION['cajero']
+                ));
+
+                $data[$i]['retiros'] = $query->fetchAll();
+            }
+
+            return count($data) > 0 ? json_encode($data[0]) : json_encode(array());
+        }
 	}
 ?>
