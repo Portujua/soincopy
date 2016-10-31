@@ -322,7 +322,7 @@
             foreach ($data as $d)
                 $csv[] = array(
                     $d['id'],
-                    $d['id_factura'],
+                    $d['nro_factura'],
                     $d['fecha_anadida'],
                     $d['cliente_nombre'],
                     $d['cliente_ni'],

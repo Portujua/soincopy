@@ -465,7 +465,9 @@ create table Pago_Pedido (
 	iva float not null,
 	total float not null,
 	metodo_pago int not null,
+	nro_factura varchar(128),
 	primary key(id),
+	unique(nro_factura),
 	foreign key (pedido) references Pedido(id),
 	foreign key (creado_por) references Personal(id),
 	foreign key (metodo_pago) references Condicion_Pago(id)

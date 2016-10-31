@@ -58,7 +58,7 @@
 			<tbody ng-init="actual = 0;">
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in data | paginar:nroResultados+'|'+actual" class="{{ o_.id == o.id ? 'bg-selected' : '' }}">
 					<td class="text-center">{{ o.id }}</td>
-					<td class="text-center">{{ o.id_factura }}</td>
+					<td class="text-center">{{ o.nro_factura }}</td>
 					<td class="text-center">{{ o.fecha_anadida }}</td>
 					<td class="text-center">{{ o.cliente_nombre }}</td>
 					<td class="text-center">{{ o.cliente_ni }}</td>
