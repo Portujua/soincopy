@@ -65,9 +65,9 @@
 			if (window.location.hash.indexOf('libro_de_ventas') != -1)
 				for (var i = 0; i < $scope.data.length; i++)
 				{
-					$scope.total.iva += parseFloat($scope.data[i].iva);
-					$scope.total.subtotal += parseFloat($scope.data[i].subtotal);
-					$scope.total.total += parseFloat($scope.data[i].total);
+					$scope.total.iva += parseFloat($scope.data[i].iva) - ($scope.data[i].nota_credito.iva ? parseFloat($scope.data[i].nota_credito.iva) : 0.00);
+					$scope.total.subtotal += parseFloat($scope.data[i].subtotal) - ($scope.data[i].nota_credito.subtotal ? parseFloat($scope.data[i].nota_credito.subtotal) : 0.00);
+					$scope.total.total += parseFloat($scope.data[i].total) - ($scope.data[i].nota_credito.total ? parseFloat($scope.data[i].nota_credito.total) : 0.00);
 				}
 			else if (window.location.hash.indexOf('cuadre_ventas_diarias') != -1)
 				for (var i = 0; i < $scope.data.length; i++)

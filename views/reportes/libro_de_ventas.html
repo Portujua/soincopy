@@ -60,11 +60,25 @@
 					<td class="text-center">{{ o.id }}</td>
 					<td class="text-center">{{ o.nro_factura }}</td>
 					<td class="text-center">{{ o.fecha_anadida }}</td>
-					<td class="text-center">{{ o.cliente_nombre }}</td>
-					<td class="text-center">{{ o.cliente_ni }}</td>
-					<td class="text-center">{{ o.subtotal | currency:'Bs. ' }}</td>
-					<td class="text-center">{{ o.iva | currency:'Bs. ' }}</td>
-					<td class="text-center">{{ o.total | currency:'Bs. ' }}</td>
+					<td class="text-center">
+						{{ o.cliente_nombre }}
+					</td>
+					<td class="text-center">
+						{{ o.cliente_ni }}
+						<p ng-if="o.nota_credito.subtotal" style="margin: 7px 0px 0px 0px !important;">Nota de crédito</p>
+					</td>
+					<td class="text-center">
+						{{ o.subtotal | currency:'Bs. ' }}
+						<p ng-if="o.nota_credito.subtotal" style="margin: 7px 0px 0px 0px !important;">{{ o.nota_credito.subtotal | currency:'Bs. ' }}</p>
+					</td>
+					<td class="text-center">
+						{{ o.iva | currency:'Bs. ' }}
+						<p ng-if="o.nota_credito.iva" style="margin: 7px 0px 0px 0px !important;">{{ o.nota_credito.iva | currency:'Bs. ' }}</p>
+					</td>
+					<td class="text-center">
+						{{ o.total | currency:'Bs. ' }}
+						<p ng-if="o.nota_credito.total" style="margin: 7px 0px 0px 0px !important;">{{ o.nota_credito.total | currency:'Bs. ' }}</p>
+					</td>
 				</tr>
 				<tr ng-init="totalizar()">
 					<td class="text-center"></td>

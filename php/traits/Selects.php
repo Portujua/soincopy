@@ -1102,6 +1102,28 @@
 
                     $pedidos[$i]['productos'][] = $nuevo;
                 }
+
+                /* Nota de credito */
+                $pedidos[$i]['nota_credito'] = array();
+
+                $query = $this->db->prepare("
+                    select sum(subtotal) as subtotal, sum(iva) as iva, sum(total) as total
+                    from Nota_Credito
+                    where nro_factura=:nro_factura
+                ");
+
+                $query->execute(array(
+                    ":nro_factura" => $pedidos[$i]['nro_factura']
+                ));
+
+                $nota_credito = $query->fetchAll();
+
+                if (count($nota_credito) > 0)
+                {
+                    $pedidos[$i]['nota_credito']['subtotal'] = $nota_credito[0]['subtotal'];
+                    $pedidos[$i]['nota_credito']['iva'] = $nota_credito[0]['iva'];
+                    $pedidos[$i]['nota_credito']['total'] = $nota_credito[0]['total'];
+                }
             }
 
             return json_encode($pedidos);
