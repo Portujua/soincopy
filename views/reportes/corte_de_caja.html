@@ -13,7 +13,7 @@
 		<p ng-init="cargar_cajeros()">
 			Usuario&nbsp;&nbsp;
 			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="filtros.cajero" name="cajero" ts-select-fix>
-				<option ng-repeat="c in cajeros" ng-value="c.id">{{ c.nombre_completo }}</option>
+				<option ng-repeat="c in cajeros" ng-if="c.id != -1" ng-value="c.id">{{ c.nombre_completo }}</option>
 			</select>
 
 			<button class="btn btn-soincopy" ng-click="cargar_reporte()" ng-disabled="!filtros.cajero">Generar</button>
