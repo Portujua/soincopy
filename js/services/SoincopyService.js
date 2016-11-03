@@ -573,6 +573,22 @@
 				    	try 
 				    	{
 				        	var json = $.parseJSON(data);
+
+				        	for (var i = 0; i < json.length; i++)
+				        	{
+				        		if (json[i].total_facturado)
+				        			json[i].total_facturado = parseFloat(json[i].total_facturado);
+
+				        		if (json[i].devoluciones)
+				        			json[i].devoluciones = parseFloat(json[i].devoluciones);
+
+				        		if (json[i].nota_de_credito)
+				        			json[i].nota_de_credito = parseFloat(json[i].nota_de_credito);
+
+				        		if (json[i].retiro_de_caja)
+				        			json[i].retiro_de_caja = parseFloat(json[i].retiro_de_caja);
+				        	}
+
 				        	s.data = json;
 				        }
 				        catch (ex)
