@@ -104,5 +104,16 @@
 				<td>{{ retiro.monto }}</td>
 			</tr>
 		</table>
+
+		<table class="tabla_corte_caja" ng-if="data" style="margin-top: 15px;">
+			<tr>
+				<td class="text-bold" style="border-top: none !important;">Total Retiros:</td>
+				<td class="text-right" style="border-top: none !important;">{{ data.total_retiros | currency:'Bs. ' }}</td>
+			</tr>
+			<tr>
+				<td class="text-bold">Diferencia en Caja</td>
+				<td class="text-right">{{ data.total_facturado - data.total_notas_credito - data.total_retiros | currency:'Bs. ' }}</td>
+			</tr>
+		</table>
 	</div>
 </div>
