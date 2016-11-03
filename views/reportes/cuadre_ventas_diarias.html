@@ -51,7 +51,7 @@
 					<td class="text-center">{{ o.devoluciones | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.nota_de_credito | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.retiro_de_caja | currency:'Bs. ' }}</td>
-					<td class="text-center">{{ o.retiro_de_caja - o.total_facturado | currency:'Bs. ' }}</td>
+					<td class="text-center">{{ o.total_facturado + o.nota_de_credito - o.retiro_de_caja | currency:'Bs. ' }}</td>
 					<td class="text-center">{{ o.retiro_de_caja | currency:'Bs. ' }}</td>
 				</tr>
 				<tr ng-init="totalizar()">
@@ -60,7 +60,7 @@
 					<td class="text-center text-bold">{{ total.devoluciones | currency:'Bs. ' }}</td>
 					<td class="text-center text-bold">{{ total.nota_de_credito | currency:'Bs. ' }}</td>
 					<td class="text-center text-bold">{{ total.retiro_de_caja | currency:'Bs. ' }}</td>
-					<td class="text-center text-bold">{{ total.retiro_de_caja - total.total_facturado | currency:'Bs. ' }}</td>
+					<td class="text-center text-bold">{{ total.total_facturado + total.nota_de_credito - total.retiro_de_caja | currency:'Bs. ' }}</td>
 					<td class="text-center text-bold">{{ total.retiro_de_caja | currency:'Bs. ' }}</td>
 				</tr>
 			</tbody>
