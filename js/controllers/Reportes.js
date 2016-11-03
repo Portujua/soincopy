@@ -80,13 +80,16 @@
 			else if (window.location.hash.indexOf('venta_productos') != -1)
 				for (var i = 0; i < $scope.data.length; i++)
 				{
-					$scope.total.cantidad += parseInt($scope.data[i].cantidad);
-					$scope.total.iva += (parseFloat($scope.data[i].total) * ($scope.data[i].exento_iva == 1 ? 0.00 : $scope.$parent.IVA)) / ($scope.data[i].exento_iva == 1 ? 1 : 1.00 + $scope.$parent.IVA);
-					$scope.total.subtotal += parseFloat($scope.data[i].total) / ($scope.data[i].exento_iva == 1 ? 1 : 1.00 + $scope.$parent.IVA);
-					$scope.total.total += parseFloat($scope.data[i].total);
+					if (($scope.data[i].familia == $scope.filtros.familia || $scope.filtros.familia == -1) && ($scope.filtros.productos.contains($scope.data[i].producto_id) || $scope.filtros.productos.length == 0))
+					{
+						$scope.total.cantidad += parseInt($scope.data[i].cantidad);
+						$scope.total.iva += (parseFloat($scope.data[i].total) * ($scope.data[i].exento_iva == 1 ? 0.00 : $scope.$parent.IVA)) / ($scope.data[i].exento_iva == 1 ? 1 : 1.00 + $scope.$parent.IVA);
+						$scope.total.subtotal += parseFloat($scope.data[i].total) / ($scope.data[i].exento_iva == 1 ? 1 : 1.00 + $scope.$parent.IVA);
+						$scope.total.total += parseFloat($scope.data[i].total);
+					}
 				}
 
-			$timeout($scope.totalizar, 1000);
+			$timeout($scope.totalizar, 500);
 		}
 	};
 
