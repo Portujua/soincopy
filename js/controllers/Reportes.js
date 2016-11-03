@@ -57,7 +57,9 @@
 				total_facturado: 0.00,
 				devoluciones: 0.00,
 				nota_de_credito: 0.00,
-				retiro_de_caja: 0.00
+				retiro_de_caja: 0.00,
+
+				cantidad: 0
 			}
 
 			if (window.location.hash.indexOf('libro_de_ventas') != -1)
@@ -74,6 +76,14 @@
 					$scope.total.devoluciones += parseFloat($scope.data[i].devoluciones);
 					$scope.total.nota_de_credito += parseFloat($scope.data[i].nota_de_credito);
 					$scope.total.retiro_de_caja += parseFloat($scope.data[i].retiro_de_caja);
+				}
+			else if (window.location.hash.indexOf('venta_productos') != -1)
+				for (var i = 0; i < $scope.data.length; i++)
+				{
+					$scope.total.cantidad += parseInt($scope.data[i].cantidad);
+					$scope.total.iva += (parseFloat($scope.data[i].total) * ($scope.data[i].exento_iva == 1 ? 0.00 : $scope.$parent.IVA)) / ($scope.data[i].exento_iva == 1 ? 1 : 1.00 + $scope.$parent.IVA);
+					$scope.total.subtotal += parseFloat($scope.data[i].total) / ($scope.data[i].exento_iva == 1 ? 1 : 1.00 + $scope.$parent.IVA);
+					$scope.total.total += parseFloat($scope.data[i].total);
 				}
 
 			$timeout($scope.totalizar, 1000);
