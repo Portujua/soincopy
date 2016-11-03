@@ -587,6 +587,17 @@
 
 				        		if (json[i].retiro_de_caja)
 				        			json[i].retiro_de_caja = parseFloat(json[i].retiro_de_caja);
+
+
+
+				        		if (json[i].total_facturado)
+				        			json[i].total_facturado = parseFloat(json[i].total_facturado);
+
+				        		if (json[i].total_devoluciones)
+				        			json[i].total_devoluciones = parseFloat(json[i].total_devoluciones);
+
+				        		if (json[i].total_notas_credito)
+				        			json[i].total_notas_credito = parseFloat(json[i].total_notas_credito);
 				        	}
 
 				        	s.data = json;
