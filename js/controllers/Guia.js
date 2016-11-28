@@ -360,7 +360,7 @@
 		$scope.agregar_guia = function(){
 			var post = $scope.guia;
 
-			post.recibida_por = $scope.$parent.login_form.username;
+			post.recibida_por = LoginService.getCurrentUser().username;
 
 			$.confirm({
 				title: 'Confirmar acción',
