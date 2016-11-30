@@ -46,7 +46,6 @@
 		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.tipo" name="tipo" ts-select-fix>
-				<option value="">----- NO APLICA -----</option>
 				<option ng-repeat="t in tipos" ng-value="t.id">{{ t.nombre }}</option>
 			</select>
 		</div>

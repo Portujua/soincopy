@@ -24,6 +24,7 @@ insert into Tipo_Materia(nombre) values ("Seminario");
 insert into Tipo_Guia(nombre) values ("Libro");
 insert into Tipo_Guia(nombre) values ("Revista");
 insert into Tipo_Guia(nombre) values ("Varios");
+insert into Tipo_Guia(nombre) values ("NO APLICA");
 
 insert into Departamento(nombre) values ("Originales");
 insert into Departamento(nombre) values ("Diseño");
