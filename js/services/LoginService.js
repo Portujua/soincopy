@@ -1,5 +1,13 @@
 (function(){
 	angular.module("soincopy").factory('LoginService', function($http, $location, AlertService, $localStorage, $interval){
+		var ver = "0.5";
+
+		if (typeof $localStorage.version == 'undefined')
+			$localStorage.version = ver;
+
+		if ($localStorage.version != ver)
+			$localStorage.$reset();
+
 		if (typeof $localStorage.user == 'undefined')
 			delete $localStorage.idle_time;
 
