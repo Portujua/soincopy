@@ -1,5 +1,5 @@
 (function(){
-	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
+	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval, LoginService)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -17,9 +17,12 @@
 		SoincopyService.getOrdenes($scope);
 		SoincopyService.getDependencias($scope);
 		SoincopyService.getDepartamentosUCAB($scope);
-		SoincopyService.getProductosOriginales($scope);
 		SoincopyService.getCuentaAbiertas($scope);
 		SoincopyService.getCondicionesPago($scope);
+
+		$scope.cargar_productos_venta = function(){
+			SoincopyService.getProductosVenta($scope);
+		}
 
 		$scope.init_form_cache = function(){
 			if (!$scope.orden && $localStorage.cache.orden)
@@ -93,7 +96,7 @@
 		}
 
 		$scope.actualizar_costo_unitario = function(index){
-			if (!$scope.orden.productos)
+			if (!$scope.orden.productos || !$scope.productos)
 			{
 				$timeout(function(){
 					$scope.actualizar_costo_unitario(index);
@@ -186,6 +189,42 @@
 				cancel: function(){
 					
 				}
+			});
+		}
+
+		$scope.chequear_disponibilidad = function(index){
+			var pid = null;
+			var cantidad = -1;
+
+			if (!$scope.productos)
+			{
+				$timeout(function(){
+					$scope.chequear_disponibilidad(index);
+				}, 200);
+				return;
+			}
+
+			for (var i = 0; i < $scope.productos.length; i++)
+				if ($scope.productos[i].id == $scope.orden.productos[index].producto)
+				{
+					pid = parseInt($scope.productos[i].id);
+					cantidad = $scope.orden.productos[index].nro_copias * $scope.orden.productos[index].nro_originales;
+				}
+
+			if (pid == null || cantidad == -1) debugger;
+
+			$.ajax({
+			    url: "api/check/disponibilidad/producto/" + pid + "/" + cantidad + "/" + LoginService.getCurrentUser().username,
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	var json = $.parseJSON(data);
+			        	console.log(json)
+			        	$scope.orden.productos[index].errores = json.errores;
+			        })
+			    }
 			});
 		}
 

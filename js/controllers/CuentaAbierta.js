@@ -1,5 +1,5 @@
 (function(){
-	var CuentaAbierta = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
+	var CuentaAbierta = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval, LoginService)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -15,7 +15,10 @@
 		$scope.editar = $routeParams.id;
 
 		SoincopyService.getCuentaAbiertas($scope);
-		SoincopyService.getProductos($scope);
+
+		$scope.cargar_productos_venta = function(){
+			SoincopyService.getProductosVenta($scope);
+		}
 
 		$scope.init_form_cache = function(){
 			if (!$scope.cuentaabierta && $localStorage.cache.cuentaabierta)
@@ -175,6 +178,42 @@
 				cancel: function(){
 					
 				}
+			});
+		}
+
+		$scope.chequear_disponibilidad = function(index){
+			var pid = null;
+			var cantidad = -1;
+
+			if (!$scope.productos)
+			{
+				$timeout(function(){
+					$scope.chequear_disponibilidad(index);
+				}, 200);
+				return;
+			}
+
+			for (var i = 0; i < $scope.productos.length; i++)
+				if ($scope.productos[i].id == $scope.cuentaabierta.productos[index].producto)
+				{
+					pid = parseInt($scope.productos[i].id);
+					cantidad = $scope.cuentaabierta.productos[index].nro_copias * $scope.cuentaabierta.productos[index].nro_originales;
+				}
+
+			if (pid == null || cantidad == -1) debugger;
+
+			$.ajax({
+			    url: "api/check/disponibilidad/producto/" + pid + "/" + cantidad + "/" + LoginService.getCurrentUser().username,
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			        $scope.safeApply(function(){
+			        	var json = $.parseJSON(data);
+			        	console.log(json)
+			        	$scope.cuentaabierta.productos[index].errores = json.errores;
+			        })
+			    }
 			});
 		}
 

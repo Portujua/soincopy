@@ -1,5 +1,5 @@
 (function(){
-	var Pedido = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval)
+	var Pedido = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval, LoginService)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -16,13 +16,16 @@
 
 		SoincopyService.getPedidos($scope);
 		SoincopyService.getDepartamentosUCAB($scope);
-		SoincopyService.getProductosOriginales($scope);
 		SoincopyService.getCuentaAbiertas($scope);
 		SoincopyService.getCondicionesPago($scope);
 		SoincopyService.getClientes($scope);
 
 		SoincopyService.getCarreras($scope);
 		SoincopyService.getProfesores($scope);
+
+		$scope.cargar_productos_venta = function(){
+			SoincopyService.getProductosVenta($scope);
+		}
 
 		$scope.init_form_cache = function(){
 			if (!$scope.pedido && $localStorage.cache.pedido)
@@ -346,13 +349,14 @@
 			if (pid == null || cantidad == -1) debugger;
 
 			$.ajax({
-			    url: "api/check/disponibilidad/producto/caja/" + pid + "/" + cantidad,
+			    url: "api/check/disponibilidad/producto/" + pid + "/" + cantidad + "/" + LoginService.getCurrentUser().username,
 			    type: "POST",
 			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	var json = $.parseJSON(data);
+			        	console.log(json)
 			        	$scope.pedido.productos[index].errores = json.errores;
 			        })
 			    }

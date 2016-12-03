@@ -309,7 +309,9 @@
                     p.estado as estado, 
                     d.nombre as departamento_nombre, 
                     d.id as departamento, 
-                    (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, pf.id as familia, pf.nombre as familia_nombre,
+                    (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, 
+                    pf.id as familia, 
+                    pf.nombre as familia_nombre,
                     (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0) as costo_materiales,
                     cast((select (
                             select sum(s.cantidad_disponible) as disponible
@@ -332,7 +334,7 @@
                 ");
 
                 $query->execute(array(
-                    ":login_username" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : ''
+                    ":login_username" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : $post['login_username']
                 ));
 
                 $productos = $query->fetchAll();
@@ -340,40 +342,49 @@
             else
             {
                 $query = $this->db->prepare("
-                    select 
-                        p.nombre as nombre, 
-                        p.nombre as nombre_viejo, 
-                        p.id as id,
-                        p.descripcion as descripcion, 
-                        p.estado as estado, 
-                        d.nombre as departamento_nombre, 
-                        d.id as departamento, 
-                        (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, 
-                        pf.id as familia, 
-                        pf.nombre as familia_nombre, 
-                        (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0) as costo_materiales, 
-                        cast((select (
-                                select sum(s.cantidad_disponible) as disponible
-                                from Stock as s
-                                where pm.material=s.material and s.eliminado=0
+                    select p.nombre as nombre, 
+                    p.nombre as nombre_viejo, 
+                    p.id as id, 
+                    p.descripcion as descripcion, 
+                    p.estado as estado, 
+                    d.nombre as departamento_nombre, 
+                    d.id as departamento, 
+                    (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, 
+                    pf.id as familia, 
+                    pf.nombre as familia_nombre,
+                    (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0) as costo_materiales,
+                    cast((select (
+                            case when (
+                                select sum(s.restante) as disponible
+                                from Stock_Personal as s
+                                where pm.material=s.material and s.eliminado=0 and s.personal=(select id from Personal where usuario=:login_username)
                                 group by s.material
-                            ) / pm.cantidad as disponibles
-                            from Producto_Material as pm
-                            where pm.producto=p.id
-                            order by disponibles asc
-                            limit 1) as unsigned
+                            ) is not null then (
+                                select sum(s.restante) as disponible
+                                from Stock_Personal as s
+                                where pm.material=s.material and s.eliminado=0 and s.personal=(select id from Personal where usuario=:login_username)
+                                group by s.material
+                            )
+                            else 0 end
+                        ) 
+                        / pm.cantidad as disponibles
+                        from Producto_Material as pm
+                        where pm.producto=p.id
+                        order by disponibles asc
+                        limit 1) as unsigned
                         ) as disponibles, 
                         p.exento_iva as exento_iva, 
                         concat(pf.id, p.id) as codigo, 
                         p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
-                    where p.departamento=d.id and p.familia=pf.id and d.id=:did
+                    where p.departamento=d.id and p.familia=pf.id
                     group by nombre
                     order by codigo asc
                 ");
 
                 $query->execute(array(
-                    ":did" => $post['did']
+                    ":did" => $post['did'],
+                    ":login_username" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : $post['login_username']
                 ));
 
                 $productos = $query->fetchAll();
@@ -381,6 +392,9 @@
 
             for ($i = 0; $i < count($productos); $i++)
             {
+                /* Cast a numero aquellos necesarios */
+                $productos[$i]['disponibles'] = intval($productos[$i]['disponibles']);
+
                 /* Historial de precios */
                 $productos[$i]['historial_costos'] = array();
 

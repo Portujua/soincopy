@@ -203,6 +203,7 @@
         {
             $json = array();
             $json["errores"] = array(); // Arreglo de materiales que no hay
+            $json["data"] = array();
 
             // Obtenemos los materiales necesarios para este producto
             $query = $this->db->prepare("
@@ -220,7 +221,10 @@
             foreach ($materiales as $m)
             {
                 $query = $this->db->prepare("
-                    select (td.total - tr.total) as cantidad_disponible
+                    select 
+                        (td.total - tr.total - ta.total) as cantidad_disponible,
+                        tm.total cantidad_disponible_mia,
+                        (select d.nombre from Personal as u, Personal_Departamento as pd, Departamento as d where u.usuario=:usuario and pd.departamento=d.id and pd.personal=u.id limit 1) as dpto
                     from (
                         select sum(s.cantidad_disponible) as total
                         from Stock as s
@@ -229,20 +233,56 @@
                         select (case when sum(st.cantidad) is not null then sum(st.cantidad) else 0 end) as total
                         from Stock_Temp as st
                         where st.material=:mid
-                    ) tr
-                    where (td.total - tr.total)>=:cantidad
+                    ) tr, (
+                        select (case when sum(st.restante) is not null then sum(st.restante) else 0 end) as total
+                        from Stock_Personal as st
+                        where st.material=:mid and st.personal!=(select id from Personal where usuario=:usuario)
+                    ) as ta, (
+                        select (case when sum(st.restante) is not null then sum(st.restante) else 0 end) as total
+                        from Stock_Personal as st
+                        where st.material=:mid and st.personal=(select id from Personal where usuario=:usuario)
+                    ) as tm
+                    where (td.total - tr.total - ta.total)>=:cantidad
                 ");
 
                 $query->execute(array(
                     ":mid" => $m['material'],
-                    ":cantidad" => $post['cantidad']
+                    ":cantidad" => $post['cantidad'],
+                    ":usuario" => $post['usuario']
                 ));
+
+                $data = $query->fetchAll();
 
                 if ($query->rowCount() == 0)
                     $json['errores'][] = array(
                         "material" => $m['material_nombre'],
                         "producto" => $post['id']
                     );
+                else
+                {
+                    $data = $data[0];
+
+                    if (
+                            ($data['dpto'] == null || $data['dpto'] == "Caja")
+                            &&
+                            (intval($data['cantidad_disponible']) < intval($post['cantidad']))
+                        )
+                        $json['errores'][] = array(
+                            "material" => $m['material_nombre'],
+                            "producto" => $post['id']
+                        );
+                    else if (
+                            ($data['dpto'] != null && $data['dpto'] != "Caja")
+                            &&
+                            (intval($data['cantidad_disponible_mia']) < intval($post['cantidad']))
+                        )
+                        $json['errores'][] = array(
+                            "material" => $m['material_nombre'],
+                            "producto" => $post['id']
+                        );
+                }
+
+                $json['data'][] = $data;
             }
 
             return json_encode($json);

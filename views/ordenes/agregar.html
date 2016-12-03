@@ -35,7 +35,7 @@
 			<textarea name="observaciones" ng-model="orden.observaciones"></textarea>
 		</div>
 
-		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small><small style="float: right;"><a href="" ng-click="requerir_autorizacion()">Hacer descuento</a></small></h2>
+		<h2 ng-init="cargar_productos_venta()">Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small><small style="float: right;"><a href="" ng-click="requerir_autorizacion()">Hacer descuento</a></small></h2>
 
 		<table class="table table-stripped" ng-init="orden.productos = orden.productos ? orden.productos : [];">
 			<thead>
@@ -51,15 +51,25 @@
 				<tr ng-repeat="p in orden.productos">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1 ts-select-fix>
-							<option ng-repeat="pr in productos | quitarDeshabilitados" ng-value="pr.id">{{ pr.nombre }}</option>
+						<select ng-hide="orden.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-change="actualizar_costo_unitario($index); chequear_disponibilidad($index);" required ng-minlength=1 ts-select-fix>
+							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
 						</select>
+
+						<p ng-show="orden.productos[$index].producto_nombre">{{ orden.productos[$index].producto_nombre }}</p>
+
+						<p class="text-danger" ng-if="orden.productos[$index].errores.length > 0">
+							Materiales insuficientes: 
+							<p class="text-danger" ng-repeat="e in orden.productos[$index].errores">
+								{{ e.material }}
+							</p>
+							<input type="text" value="" name="check_disponibilidad_{{ $index }}" ng-minlength=1 ng-model="orden.productos[$index].check_disponibilidad" ng-show="1==0" ng-if="orden.productos[$index].errores.length > 0" required />
+						</p>
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="orden.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="orden.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="orden.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="orden.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
 					<td>
 						{{ orden.productos[$index].nro_copias * orden.productos[$index].nro_originales }}
@@ -67,6 +77,7 @@
 					<td ng-init="actualizar_costo_unitario($index)">
 						<strong>{{ orden.productos[$index].costo_unitario | currency:'Bs. ' }}</strong><br/>
 						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se añadió este producto a esta orden el {{ orden.productos[$index].fecha_anadido }}">{{ orden.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
+
 						<input type="number" style="border: 1px solid red;" ng-model="orden.productos[$index].costo_unitario_facturado" name="costo_unitario_facturado" ng-show="autorizado" />
 					</td>
 					<td>

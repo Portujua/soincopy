@@ -48,7 +48,7 @@
 			</tbody>
 		</table>
 
-		<h2>Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small><small style="float: right;"><a href="" ng-click="requerir_autorizacion()">Hacer descuento</a></small></h2>
+		<h2 ng-init="cargar_productos_venta()">Productos <small><a href="" ng-click="anadir_producto()">Añadir producto</a></small><small style="float: right;"><a href="" ng-click="requerir_autorizacion()">Hacer descuento</a></small></h2>
 		<p ng-show="editar" style="font-size: 9px; font-weight: bold;">
 			Nota: Actualizar las cantidades no actualizará el costo unitario. Para actualizar el costo unitario debe eliminar el producto deseado y volverlo a agregar
 		</p>
@@ -67,28 +67,37 @@
 				<tr ng-repeat="p in cuentaabierta.productos">
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
-						<select class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="cuentaabierta.productos[$index].producto" ng-change="actualizar_costo_unitario($index)" required ng-minlength=1 ts-select-fix>
-							<option ng-repeat="pr in productos | quitarDeshabilitados" ng-value="pr.id">{{ pr.nombre }}</option>
+						<select ng-hide="cuentaabierta.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="cuentaabierta.productos[$index].producto" ng-change="actualizar_costo_unitario($index); chequear_disponibilidad($index);" required ng-minlength=1 ts-select-fix>
+							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
 						</select>
+
+						<p ng-show="cuentaabierta.productos[$index].producto_nombre">{{ cuentaabierta.productos[$index].producto_nombre }}</p>
+
+						<p class="text-danger" ng-if="cuentaabierta.productos[$index].errores.length > 0">
+							Materiales insuficientes: 
+							<p class="text-danger" ng-repeat="e in cuentaabierta.productos[$index].errores">
+								{{ e.material }}
+							</p>
+							<input type="text" value="" name="check_disponibilidad_{{ $index }}" ng-minlength=1 ng-model="cuentaabierta.productos[$index].check_disponibilidad" ng-show="1==0" ng-if="cuentaabierta.productos[$index].errores.length > 0" required />
+						</p>
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="cuentaabierta.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="cuentaabierta.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
 					<td>
-						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="cuentaabierta.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" />
+						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="cuentaabierta.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
 					<td>
 						{{ cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales }}
 					</td>
 					<td ng-init="actualizar_costo_unitario($index)">
-						<strong style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Costo unitario del producto hoy">{{ cuentaabierta.productos[$index].costo_unitario | currency:'Bs. ' }}</strong>
-						<br/>
-						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se añadió este producto a esta cuenta abierta el {{ cuentaabierta.productos[$index].fecha_anadido }}">{{ cuentaabierta.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
-						
+						<strong>{{ cuentaabierta.productos[$index].costo_unitario | currency:'Bs. ' }}</strong><br/>
+						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se añadió este producto a esta cuentaabierta el {{ cuentaabierta.productos[$index].fecha_anadido }}">{{ cuentaabierta.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
+
 						<input type="number" style="border: 1px solid red;" ng-model="cuentaabierta.productos[$index].costo_unitario_facturado" name="costo_unitario_facturado" ng-show="autorizado" />
 					</td>
 					<td>
-						<strong>{{ ((cuentaabierta.productos[$index].costo_unitario_facturado ? cuentaabierta.productos[$index].costo_unitario_facturado : cuentaabierta.productos[$index].costo_unitario) * (cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong>
+						<strong>{{ ((cuentaabierta.productos[$index].costo_unitario_facturado ? cuentaabierta.productos[$index].costo_unitario_facturado : cuentaabierta.productos[$index].costo_unitario) * (cuentaabierta.productos[$index].nro_copias * cuentaabierta.productos[$index].nro_originales)) | currency:'Bs. ' }}</strong><br/>
 
 						<script> $('[data-toggle="tooltip"]').tooltip(); </script>
 					</td>

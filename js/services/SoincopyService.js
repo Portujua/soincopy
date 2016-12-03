@@ -1,5 +1,5 @@
 (function(){
-	angular.module("soincopy").factory('SoincopyService', function($http, $timeout){
+	angular.module("soincopy").factory('SoincopyService', function($http, $timeout, LoginService){
 		return {
 			getCarreras: function(s){
 				$http.get("api/carreras").then(function(obj){
@@ -186,6 +186,15 @@
 			getProductos: function(s){
 				$http.get("api/productos").then(function(obj){
 					s.productos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+			getProductosVenta: function(s){
+				var resturl = "api/productos/" + (LoginService.getCurrentUser().departamento ? LoginService.getCurrentUser().departamento : "1") + "/" + LoginService.getCurrentUser().username;
+
+				$http.get(resturl).then(function(obj){
+					s.productos = obj.data;
+					console.log(obj.data)
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},

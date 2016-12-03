@@ -85,12 +85,18 @@
 					    data: data,
 					    beforeSend: function(){},
 					    success: function(data){
-					        var json = $.parseJSON(data);
+					    	try {
+						        var json = $.parseJSON(data);
 
-					        if (json.status == "ok")
-					        {
-					        	$location.path("/pedidos");
-					        }
+						        if (json.status == "ok")
+						        {
+						        	$location.path("/pedidos");
+						        }
+						    }
+						    catch (ex)
+						    {
+						    	console.log(data)
+						    }
 					    }
 					});
 				}

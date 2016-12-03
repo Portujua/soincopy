@@ -729,6 +729,43 @@
                     /* Por ultimo resto la cantidad que deduje del stock para seguir el ciclo */
                     $cantidad_restante -= $cantidad_restar;
                 }
+
+                /* Lo descuento del material asignado */
+                $cantidad_restante = intval($st['cantidad']);
+
+                $query = $this->db->prepare("
+                    select *
+                    from Stock_Personal as sp
+                    where personal=(select id from Personal where usuario=:usuario) and sp.restante>0 and sp.eliminado=0
+                    order by sp.fecha asc
+                ");
+
+                $query->execute(array(
+                    ":usuario" => $post['usuario']
+                ));
+
+                $stock_personal = $query->fetchAll();
+
+                foreach ($stock_personal as $stock_asignado)
+                {
+                    if ($cantidad_restante <= 0) break;
+
+                    $cantidad_restar = intval($stock_asignado['restante']) - $cantidad_restante >= 0 ? $cantidad_restante : intval($stock_asignado['restante']);
+
+                    $query = $this->db->prepare("
+                        update Stock_Personal 
+                        set 
+                            restante=:restante
+                        where personal=(select id from Personal where usuario=:usuario)
+                    ");
+
+                    $query->execute(array(
+                        ":usuario" => $post['usuario'],
+                        ":restante" => $cantidad_restar
+                    ));
+
+                    $cantidad_restante -= $cantidad_restar;
+                }
             }
 
             /* Registro el pago */
