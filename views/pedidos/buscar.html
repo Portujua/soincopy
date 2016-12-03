@@ -61,7 +61,7 @@
 						o.cliente_nombre.indexOf(buscador) != -1 ||
 						o.cliente_ni.indexOf(buscador) != -1 ||
 						o.costo_total.indexOf(buscador) != -1 ||
-						o.observaciones.indexOf(buscador) != -1)
+						o.departamento_nombre.indexOf(buscador) != -1)
 
 						&& (solo_pendientes == false || o.procesada == 0)"
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.procesada == -1 ? 'bg-danger' : (o.procesada == 1 ? 'bg-success' : '')) }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
