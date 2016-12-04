@@ -446,7 +446,12 @@
 			},
 			getMiInventarioAsignado: function(s){
 				$http.get("api/inventario/asignado/mio").then(function(obj){
-					s.mi_inventario_asignado = obj.data;
+					var json = obj.data;
+
+					for (var i = 0; i < json.length; i++)
+						json[i].restante = parseInt(json[i].restante);
+
+					s.mi_inventario_asignado = json;
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},

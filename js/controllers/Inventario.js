@@ -214,7 +214,10 @@
 				content: '¿Está seguro que desea asignar este material a la lista de materiales dañados?',
 				confirm: function(){
 					var post = $scope.material;
-					post.stock_id = post.stock.id;
+
+					for (var i = 0; i < $scope.mi_inventario_asignado.length; i++)
+						if ($scope.mi_inventario_asignado[i].id == $scope.material.stock)
+							post.restante = $scope.mi_inventario_asignado[i].restante;
 
 					var fn = "agregar_material_danado";
 					var msg = "Material asignado con éxito";
@@ -234,6 +237,12 @@
 				},
 				cancel: function(){}
 			});
+		}
+
+		$scope.actualizar_restante = function(){
+			for (var i = 0; i < $scope.mi_inventario_asignado.length; i++)
+				if ($scope.mi_inventario_asignado[i].id == $scope.material.stock)
+					$scope.material_restante = $scope.mi_inventario_asignado[i].restante;
 		}
 
 		if ($routeParams.id)

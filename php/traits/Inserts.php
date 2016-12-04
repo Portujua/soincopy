@@ -113,7 +113,7 @@
             $query = $this->db->prepare("insert into Stock_Personal_Danado (stock, cantidad, motivo, fecha) values (:stock, :cantidad, :motivo, now())");
 
             $query->execute(array(
-                ":stock" => $post['stock_id'],
+                ":stock" => $post['stock'],
                 ":cantidad" => $post['cantidad'],
                 ":motivo" => $post['motivo']
             ));
@@ -126,8 +126,8 @@
             ");
 
             $query->execute(array(
-                ":stock" => $post['stock_id'],
-                ":restante" => intval($post['stock']['restante']) - intval($post['cantidad'])
+                ":stock" => $post['stock'],
+                ":restante" => intval($post['restante']) - intval($post['cantidad'])
             ));
 
             return "ok";

@@ -10,14 +10,14 @@
 
 		<div class="fila">
 			<p>Stock asignado (*)</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="stock" ng-model="material.stock" required ts-select-fix>
-				<option ng-repeat="s in mi_inventario_asignado" ng-value="s">{{ ('[' + s.fecha + '] ' + s.material_nombre + ' (' + s.restante + ' restante)') }}</option>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="stock" ng-model="material.stock" ng-change="actualizar_restante()" required ts-select-fix>
+				<option ng-repeat="s in mi_inventario_asignado" ng-value="s.id">{{ ('[' + s.fecha + '] ' + s.material_nombre + ' (' + s.restante + ' restante)') }}</option>
 			</select>
 		</div>
 
 		<div class="fila">
 			<p>Cantidad (*)</p>
-			<input type="number" name="cantidad" ng-model="material.cantidad" required ng-min=1 ng-max="material.stock.restante" />
+			<input type="number" name="cantidad" ng-model="material.cantidad" required ng-min=1 ng-max="material_restante" />
 		</div>
 
 		<div class="fila">
