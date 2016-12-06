@@ -72,7 +72,7 @@
 
 			$scope.pago.usuario = LoginService.getCurrentUser().username;
 
-			var data = $scope.pago;
+			var data_pago = $scope.pago;
 
 			$.confirm({
 				title: "Confirmar acción",
@@ -82,7 +82,7 @@
 					$.ajax({
 					    url: "php/run.php?fn=procesar_pago",
 					    type: "POST",
-					    data: data,
+					    data: data_pago,
 					    beforeSend: function(){},
 					    success: function(data){
 					    	try {
@@ -91,6 +91,11 @@
 						        if (json.status == "ok")
 						        {
 						        	$location.path("/pedidos");
+
+						        	window.open(
+										"./factura/" + data_pago.pedido,
+										"_blank",
+										"menubar=no,status=no,toolbar=no,width=285,height=400");
 						        }
 						    }
 						    catch (ex)
