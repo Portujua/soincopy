@@ -790,8 +790,10 @@
                 update Pago_Pedido set nro_factura=:id where id=:id
             ");
 
+            $nro_factura = $this->db->lastInsertId();
+
             $query->execute(array(
-                ":id" => $this->db->lastInsertId()
+                ":id" => $nro_factura
             ));
 
             // Apruebo el pedido
@@ -805,6 +807,7 @@
 
             $json = array();
             $json['status'] = "ok";
+            $json['factura'] = $nro_factura;
 
             return json_encode($json);
         }

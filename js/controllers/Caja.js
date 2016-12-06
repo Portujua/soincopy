@@ -93,7 +93,7 @@
 						        	$location.path("/pedidos");
 
 						        	window.open(
-										"./factura/" + data_pago.pedido,
+										"./factura/" + json.factura,
 										"_blank",
 										"menubar=no,status=no,toolbar=no,width=285,height=400");
 						        }
