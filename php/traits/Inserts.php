@@ -785,6 +785,15 @@
                 ":metodo_pago" => $post['metodo_pago']
             ));
 
+            // Asigno el nro de factura igual al id
+            $query = $this->db->prepare("
+                update Pago_Pedido set nro_factura=:id where id=:id
+            ");
+
+            $query->execute(array(
+                ":id" => $this->db->lastInsertId()
+            ));
+
             // Apruebo el pedido
             $query = $this->db->prepare("
                 update Pedido set procesada=1 where id=:id

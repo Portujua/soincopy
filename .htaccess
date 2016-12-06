@@ -75,3 +75,5 @@ RewriteRule ^api/export/inventario$ /soincopy/php/export.php?t=inventario [QSA,L
 RewriteRule ^api/export/reporte/(.+)$ /soincopy/php/export.php?t=reporte_$1 [QSA,L]
 
 RewriteRule ^api/reporte/(.+)$ /soincopy/php/run.php?fn=reporte_$1 [QSA,L]
+
+RewriteRule ^factura/(.+)$ /soincopy/php/factura.php?factura=$1 [QSA,L]
