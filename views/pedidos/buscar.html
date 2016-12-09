@@ -23,7 +23,6 @@
 		</div>
 
 		Buscar <input type="text" class="input_busqueda" ng-model="buscador" ng-init="buscador = ''" placeholder="Use cualquier campo para buscar" data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
-		<input type="checkbox" style="margin-left: 20px;" ng-model="solo_pendientes" ng-init="solo_pendientes = true;" /> Ver solo pendientes
 
 		<script>
 			$(document).ready(function(){
@@ -75,7 +74,7 @@
 						)
 						)
 
-						&& (solo_pendientes == false || o.procesada == 0)"
+						&& (o.procesada == 0)"
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.procesada == -1 ? 'bg-danger' : (o.procesada == 1 ? 'bg-success' : '')) }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
 					<td class="text-center">{{ o.id }}</td>
 					<td class="text-center {{ o.procesada == 0 ? 'texto-warning' : (o.procesada == 1 ? 'texto-success' : 'texto-danger') }}">
