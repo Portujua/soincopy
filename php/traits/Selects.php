@@ -1028,7 +1028,7 @@
 
                 // Reemplazo por los valores de la foranea
                 $row["entregada_por"] = $this->cargar_profesor($row["profesor"]);
-                $row["profesor"] = $this->cargar_profesor($row["profesor"]);
+                $row["profesor"] = $row["entregada_por"];
                 $row["recibida_por"] = $this->cargar_personal_($row["recibida_por"]);
 
                 if ($row["status"] == -1)

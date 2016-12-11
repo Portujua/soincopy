@@ -98,7 +98,7 @@
 							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
 						</select>
 
-						<p ng-show="pedido.productos[$index].producto_nombre">{{ pedido.productos[$index].producto_nombre }}</p>
+						<p ng-show="pedido.productos[$index].producto_nombre"><span class="badge">E</span> {{ pedido.productos[$index].producto_nombre }}</p>
 
 						<p class="text-danger" ng-if="pedido.productos[$index].errores.length > 0">
 							Materiales insuficientes: 
