@@ -147,17 +147,21 @@
 			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
-			    	console.log(data)
-			    	var json = $.parseJSON(data);
-			    	json.precio = parseFloat(json.precio);
+			    	try 
+			    	{
+				    	var json = $.parseJSON(data);
+				    	json.precio = parseFloat(json.precio);
 
-			    	console.log(json)
-
-			        $scope.safeApply(function(){
-			        	$scope.guia = json;
-			        	$scope.guia_aux = json;
-			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
-			        })
+				        $scope.safeApply(function(){
+				        	$scope.guia = json;
+				        	$scope.guia_aux = json;
+				        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				        })
+				    }
+				    catch (ex)
+				    {
+				    	console.log(data);
+				    }
 			    }
 			});
 		}
