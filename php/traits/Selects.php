@@ -333,9 +333,7 @@
                     order by codigo asc
                 ");
 
-                $query->execute(array(
-                    ":login_username" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : $post['login_username']
-                ));
+                $query->execute();
 
                 $productos = $query->fetchAll();
             }
