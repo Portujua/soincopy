@@ -439,6 +439,8 @@ create table Pedido_Producto (
 	precio_unitario float not null,
 	precio_total float not null,
 	fecha_anadido datetime,
+	tapa varchar(16),
+	espiral varchar(16),
 	primary key(id),
 	foreign key (pedido) references Pedido(id),
 	foreign key (producto) references Producto(id)

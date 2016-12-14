@@ -551,7 +551,7 @@
                     }
 
                     $query = $this->db->prepare("
-                        insert into Pedido_Producto (pedido, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido)
+                        insert into Pedido_Producto (pedido, producto, cantidad, nro_copias, nro_originales, precio_unitario, precio_total, fecha_anadido, espiral, tapa)
                         values (
                             :pedido,
                             :producto,
@@ -560,7 +560,9 @@
                             :nro_originales,
                             ".$precio_unitario.",
                             ".$precio_total.",
-                            now()
+                            now(),
+                            :espiral,
+                            :tapa
                         )
                     ");
 
@@ -570,7 +572,9 @@
                         ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
                         ":nro_copias" => intval($p['nro_copias']),
                         ":nro_originales" => intval($p['nro_originales']),
-                        ":costo_unitario_facturado" => isset($p['costo_unitario_facturado']) ? floatval($p['costo_unitario_facturado']) : 0
+                        ":costo_unitario_facturado" => isset($p['costo_unitario_facturado']) ? floatval($p['costo_unitario_facturado']) : 0,
+                        ":espiral" => isset($p['espiral']) ? $p['espiral'] : null,
+                        ":tapa" => isset($p['tapa']) ? $p['tapa'] : null
                     ));
 
                     /* Pongo los materiales necesarios en hold */
