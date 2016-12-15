@@ -248,7 +248,12 @@
 			        		value: json[i].id
 			        	})
 
-			        	guias.push(json[i]);
+			        	for (var j = 0; j < self.productos.length; j++)
+							if (self.productos[j].nombre.indexOf(json[i].titulo) != -1)
+							{
+								json[i].idproducto = self.productos[j].id;
+								guias.push(json[i]);
+							}
 			        }
 
 			        $scope.safeApply(function(){
@@ -286,7 +291,8 @@
 				nro_originales: 1,
 				costo_unitario: 0,
 				producto: id,
-				producto_nombre: titulo
+				producto_nombre: titulo,
+				idproducto: id
 			});
 		}
 

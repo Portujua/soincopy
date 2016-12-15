@@ -568,7 +568,7 @@
 
                     $query->execute(array(
                         ":pedido" => $oid,
-                        ":producto" => $p['producto'],
+                        ":producto" => isset($p['idproducto']) ? $p['idproducto'] : $p['producto'],
                         ":cantidad" => intval($p['nro_copias']) * intval($p['nro_originales']),
                         ":nro_copias" => intval($p['nro_copias']),
                         ":nro_originales" => intval($p['nro_originales']),
@@ -585,7 +585,7 @@
                     ");
 
                     $query->execute(array(
-                        ":pid" => $p['producto']
+                        ":pid" => isset($p['idproducto']) ? $p['idproducto'] : $p['producto']
                     ));
 
                     $materiales = $query->fetchAll();
