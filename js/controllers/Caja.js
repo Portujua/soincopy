@@ -92,10 +92,10 @@
 						        {
 						        	$location.path("/pedidos");
 
-						        	window.open(
+						        	/*window.open(
 										"./factura/" + json.factura,
 										"_blank",
-										"menubar=no,status=no,toolbar=no,width=285,height=400");
+										"menubar=no,status=no,toolbar=no,width=285,height=400");*/
 						        }
 						    }
 						    catch (ex)
