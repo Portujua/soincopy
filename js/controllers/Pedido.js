@@ -411,6 +411,11 @@
 						        		$('#asignar_nro_factura').modal('hide');
 						        		AlertService.showSuccess(json.msg);
 						        		$scope.cargar_pedidos_sin_factura(true);
+
+						        		window.open(
+											"./factura/" + nro_factura,
+											"_blank",
+											"menubar=no,status=no,toolbar=no,width=285,height=400");
 						        	});
 					    		else
 					    			AlertService.showError(json.msg);
