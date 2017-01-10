@@ -780,10 +780,18 @@
                 $pedidos[$i]['productos'] = array();
 
                 $query = $this->db->prepare("
-                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado, op.id as opid, date_format(op.fecha_anadido, '%d/%m/%Y') as fecha_anadido, p.nombre as producto_nombre, p.descripcion as descripcion, p.exento_iva as exento_iva
-                    from Pedido_Producto as op, Producto as p
-                    where op.producto=p.id
-                    and op.pedido=:pedido
+                    select RR.*, Guia.pdf as pdf
+                    from (
+                        select R.*, Producto_Guia.guia as pg_guia
+                        from (
+                            select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado, op.id as opid, date_format(op.fecha_anadido, '%d/%m/%Y') as fecha_anadido, p.nombre as producto_nombre, p.descripcion as descripcion, p.exento_iva as exento_iva
+                            from Pedido_Producto as op, Producto as p
+                            where op.producto=p.id
+                            and op.pedido=:pedido
+                        ) R left join Producto_Guia
+                        on R.producto=Producto_Guia.producto
+                    ) RR left join Guia
+                    on RR.pg_guia=Guia.id
                 ");
 
                 $query->execute(array(
@@ -797,6 +805,7 @@
                     $nuevo = array();
 
                     $nuevo['producto'] = $p['producto'];
+                    $nuevo['pdf'] = isset($p['pdf']) ? $p['pdf'] : null;
                     $nuevo['producto_nombre'] = $p['producto_nombre'];
                     $nuevo['descripcion'] = $p['descripcion'];
                     $nuevo['exento_iva'] = $p['exento_iva'];

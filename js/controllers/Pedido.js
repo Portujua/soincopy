@@ -466,6 +466,14 @@
 			});
 		}
 
+		$scope.ver_guia = function(url){
+			window.open(
+				"php/pdf.php?u=" + LoginService.getCurrentUser().username +
+				"&f=" + url,
+				"_blank",
+				"menubar=no,status=no,toolbar=no");
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_pedido($routeParams.id);
