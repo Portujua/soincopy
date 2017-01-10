@@ -109,4 +109,37 @@
 			</div>
 		</div>	
 	</div>
+
+	<div id="detalle" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: none; padding-bottom: 0px;">
+					<button type="button" class="close" data-dismiss="modal" style="font-size: 20px !important;">&times;</button>
+					<h4 class="modal-title">Pedido #{{ o_.id }}</h4>
+					<p>
+						Método de pago: {{ o_.metodo_pago }}<br/>
+						Fecha creada: {{ o_.fecha_anadida }}<br/>
+						Última vez modificada: {{ o_.fecha_modificada }}<br/>
+						<small>Observaciones: {{ o_.observaciones.length > 0 ? o_.observaciones : 'Ninguna' }}</small>
+					</p>
+				</div>
+
+				<div class="modal-body">
+					<table class="table table-striped">
+						<tr ng-repeat="p in o_.productos">
+							<td class="text-left">{{ p.producto_nombre }} <small>{{ p.fecha_anadido }}</small></td>
+							<td class="text-right">{{ p.copias * p.originales }} unidades</td>
+							<td class="text-right">{{ p.costo_unitario_facturado | currency:'Bs. ' }}</td>
+						</tr>
+						<tr>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-right"><strong>Total</strong></td>
+							<td class="text-right"><strong>{{ o_.costo_total | currency:'Bs. ' }}</strong></td>
+						</tr>
+					</table>
+				</div>
+			</div>
+		</div>	
+	</div>
 </div>
