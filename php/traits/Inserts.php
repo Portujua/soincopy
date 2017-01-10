@@ -954,5 +954,25 @@
 
             return json_encode($json);
         }
+
+        public function modificar_iva($post)
+        {
+            $json = array();
+                
+            // Actualizo el pedido
+            $query = $this->db->prepare("
+                insert into IVA (valor, fecha)
+                values (:iva, now())
+            ");
+
+            $query->execute(array(
+                ":iva" => $post['iva']
+            ));
+
+            $json["msg"] = "IVA modificado con éxito";
+            $json["ok"] = true;
+
+            return json_encode($json);
+        }
 	}
 ?>

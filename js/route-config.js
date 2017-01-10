@@ -296,6 +296,10 @@
 				}
 			})
 
+			.when("/iva", {
+				templateUrl : "views/admin/iva/iva.html"
+			})
+
 
 			.otherwise({redirectTo : "/inicio"});
 	});

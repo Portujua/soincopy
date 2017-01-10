@@ -133,6 +133,10 @@
 		<a href="./#/caja/notas_credito/agregar" ng-show="loginService.menuAdminNotasCredito()">
 			<p>Notas de Crédito</p>
 		</a>
+
+		<a href="./#/iva" ng-show="loginService.getCurrentUser().es_admin">
+			<p>IVA</p>
+		</a>
 	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".pedidos"

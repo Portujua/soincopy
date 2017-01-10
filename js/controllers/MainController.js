@@ -6,7 +6,7 @@
 		$scope.express = window.location.hash.indexOf('express') != -1;
 
 		$scope.nroResultados = 100; 
-		$scope.IVA = 0.10;
+		$scope.IVA = null;
 		$scope.REFRESH_INTERVAL = 5000;
 
 		$interval(function(){
@@ -67,6 +67,43 @@
 		$scope.unset_session = function(){
 			LoginService.logout();
 		}
+
+		$scope.cargar_iva = function(){
+			$.ajax({
+			    url: "php/run.php?fn=obtener_iva",
+			    type: "POST",
+			    data: {},
+			    beforeSend: function(){},
+			    success: function(data){
+			    	$scope.IVA = parseFloat(data);
+			    	console.log("IVA cargado con éxito (" + $scope.IVA + ")");
+			    }
+			});
+		}
+
+		$scope.modificar_iva = function(){
+			var iva = parseFloat($scope.utils.iva);
+
+			$.confirm({
+				title: '',
+				content: '¿Está seguro que desea modificar el IVA a ' + (iva * 100) + '%?',
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=modificar_iva",
+					    type: "POST",
+					    data: {iva:iva},
+					    beforeSend: function(){},
+					    success: function(data){
+					    	$scope.IVA = iva;
+						    AlertService.showSuccess("IVA modificado con éxito!");
+					    }
+					});
+				},
+				cancel: function(){}
+			});
+		}
+
+		$scope.cargar_iva();
 	};
 
 	angular.module("soincopy").controller("MainController", MainController);
