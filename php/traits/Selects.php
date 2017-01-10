@@ -639,7 +639,7 @@
             return json_encode($ordenes);
         }
 
-        public function cargar_pedidos($post)
+        public function cargar_pedidos($post, $extra_query = "")
         {
             $this->cancelar_pedidos_expirados();
 
@@ -652,6 +652,66 @@
                     order by o.id desc
                 ) R left join Condicion_Pago as cp
                 on R.cond_pago_=cp.id
+                where 1=1
+                ".$extra_query."
+            ");
+            $query->execute();
+
+            $pedidos = $query->fetchAll();
+
+            for ($i = 0; $i < count($pedidos); $i++)
+            {
+                /* Productos */
+                $pedidos[$i]['productos'] = array();
+
+                $query = $this->db->prepare("
+                    select p.id as producto, op.nro_copias as nro_copias, op.nro_originales as nro_originales, (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, op.precio_unitario as costo_unitario_facturado, op.precio_total as costo_total_facturado, op.id as opid, date_format(op.fecha_anadido, '%d/%m/%Y') as fecha_anadido, p.nombre as producto_nombre, p.descripcion as descripcion, p.exento_iva as exento_iva
+                    from Pedido_Producto as op, Producto as p
+                    where op.producto=p.id
+                    and op.pedido=:pedido
+                ");
+
+                $query->execute(array(
+                    ":pedido" => $pedidos[$i]['id']
+                ));
+
+                $productos = $query->fetchAll();
+
+                foreach ($productos as $p)
+                {
+                    $nuevo = array();
+
+                    $nuevo['producto'] = $p['producto'];
+                    $nuevo['producto_nombre'] = $p['producto_nombre'];
+                    $nuevo['descripcion'] = $p['descripcion'];
+                    $nuevo['exento_iva'] = $p['exento_iva'];
+                    $nuevo['opid'] = $p['opid'];
+                    $nuevo['fecha_anadido'] = $p['fecha_anadido'];
+                    $nuevo['copias'] = intval($p['nro_copias']);
+                    $nuevo['originales'] = intval($p['nro_originales']);
+                    $nuevo['costo_unitario'] = floatval($p['costo_unitario']);
+                    $nuevo['costo_unitario_facturado'] = floatval($p['costo_unitario_facturado']);
+                    $nuevo['costo_total_facturado'] = floatval($p['costo_total_facturado']);
+
+                    $pedidos[$i]['productos'][] = $nuevo;
+                }
+            }
+
+            return json_encode($pedidos);
+        }
+
+        public function cargar_pedidos_sin_factura($post)
+        {
+            $query = $this->db->prepare("
+                select R.*, cp.id as cond_pago, cp.nombre as metodo_pago
+                from (
+                    select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, o.cond_pago as cond_pago_, concat(p.nombre, ' ', p.apellido) as creado_por, TIMESTAMPDIFF(SECOND, o.fecha_anadida, now()) as tiempo_restante, (case when o.departamento is null then 'Administrador' else (select nombre from Departamento where id=o.departamento) end) as departamento
+                    from Pedido as o, Cliente as c, Personal as p
+                    where o.cliente=c.id and o.creado_por=p.id and o.procesada=1
+                    order by o.id desc
+                ) R left join Condicion_Pago as cp
+                on R.cond_pago_=cp.id
+                where R.numero is null
             ");
             $query->execute();
 

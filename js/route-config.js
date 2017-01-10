@@ -253,6 +253,12 @@
 			.when("/pedidos/editar/:id", {
 				templateUrl : "views/pedidos/agregar.html"
 			})
+			.when("/pedidos/factura_faltante", {
+				templateUrl : "views/pedidos/factura_faltante.html"
+			})
+			.when("/pedidos/por_procesar", {
+				templateUrl : "views/pedidos/por_procesar.html"
+			})
 
 
 			

@@ -527,6 +527,18 @@
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
+			getPedidosSinFactura: function(s){
+				$http.get("api/pedidos/sinfactura").then(function(obj){
+					s.pedidos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
+			getPedidosPorProcesar: function(s){
+				$http.get("api/pedidos/porprocesar").then(function(obj){
+					s.pedidos = obj.data;
+					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+				});
+			},
 			getPedido: function(s, id){
 				$http.get("api/pedidos").then(function(obj){
 					var json = obj.data;

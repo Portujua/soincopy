@@ -889,5 +889,51 @@
 
             return json_encode($json);
         }
+
+        public function asignar_nro_factura($post)
+        {
+            $json = array();
+
+            // Chequeo si no existe ese numero de factura
+            $query = $this->db->prepare("
+                select numero 
+                from Pedido
+                where numero=:nro_factura
+            ");
+
+            $query->execute(array(
+                ":nro_factura" => $post['nro_factura']
+            ));
+
+            if ($query->rowCount() > 0)
+                $json["msg"] = "Error, número de factura ya existente";
+            else
+            {
+                // Actualizo el pedido
+                $query = $this->db->prepare("
+                    update Pedido set numero=:nro_factura where id=:pedido
+                ");
+
+                $query->execute(array(
+                    ":nro_factura" => $post['nro_factura'],
+                    ":pedido" => $post['pedido']
+                ));
+
+                // Actualizo el Pago_Pedido
+                $query = $this->db->prepare("
+                    update Pago_Pedido set nro_factura=:nro_factura where pedido=:pedido
+                ");
+
+                $query->execute(array(
+                    ":nro_factura" => $post['nro_factura'],
+                    ":pedido" => $post['pedido']
+                ));
+
+                $json["msg"] = "Número de factura asignado con éxito";
+                $json["ok"] = true;
+            }
+
+            return json_encode($json);
+        }
 	}
 ?>

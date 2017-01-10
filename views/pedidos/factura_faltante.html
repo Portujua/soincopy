@@ -1,0 +1,112 @@
+<div class="seccion" ng-controller="Pedido">
+	<h1 style="font-size: 20px;">Pedidos &rarr; Sin asignar número de factura</h1>
+
+	<div ng-show="loginService.getCurrentUser().pedidos_ver_falta_factura">
+		<div class="botones">
+			<div ng-show="o_">
+				<button class="btn btn-warning" data-toggle="modal" data-target="#asignar_nro_factura">
+					<span class="glyphicon glyphicon-certificate" aria-hidden="true" ></span> Asignar nro. de factura
+				</button>
+
+				<button class="btn btn-info" ng-show="loginService.getCurrentUser().pedidos_ver_detalle" data-toggle="modal" data-target="#detalle">
+					<span class="glyphicon glyphicon-search" aria-hidden="true" ></span> Ver detalle
+				</button>
+			</div>
+		</div>
+
+		Buscar <input type="text" class="input_busqueda" ng-model="buscador" ng-init="buscador = ''" placeholder="Use cualquier campo para buscar" data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
+
+		<script>
+			$(document).ready(function(){
+			    $('[data-toggle="tooltip"]').tooltip(); 
+			});
+		</script>
+
+		<br/><br/>
+
+		<table class="table table-stripped" ng-init="order = '+cliente_nombre'; cargar_pedidos_sin_factura()">
+			<thead>
+				<th class="text-center">Pedido</th>
+				<th class="text-center">Estado</th>
+				<th class="text-center">
+					Cliente
+					<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+cliente_nombre'" ng-show="order != '+cliente_nombre'" aria-hidden="true"></span> 
+					<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-cliente_nombre'" ng-show="order != '-cliente_nombre'" aria-hidden="true"></span>
+
+					<script>
+						$(document).ready(function(){
+						    $('[data-toggle="tooltip"]').tooltip(); 
+						});
+					</script>
+				</th>
+				<th class="text-center">Método de pago</th>
+				<th class="text-center">Fecha</th>
+				<th class="text-center">Costo total</th>
+				<th class="text-center">Departamento</th>
+				<th class="text-center">Observaciones</th>
+			</thead>
+			<tbody ng-init="actual = 0;">
+				<tr ng-click="seleccionar(o)"  ng-repeat="o in pedidos | orderBy:order | paginar:nroResultados+'|'+actual"
+					ng-if="
+						(o.id.indexOf(buscador) != -1 ||
+						o.cliente_nombre.toUpperCase().indexOf(buscador.toUpperCase()) != -1 ||
+						o.cliente_ni.indexOf(buscador) != -1 ||
+						o.costo_total.indexOf(buscador) != -1 ||
+						(
+							o.departamento_nombre 
+								? o.departamento_nombre.toUpperCase().indexOf(buscador.toUpperCase()) != -1
+								: false
+
+						) ||
+						(
+							o.observaciones 
+								? o.observaciones.toUpperCase().indexOf(buscador.toUpperCase()) != -1
+								: false
+
+						)
+						)
+
+						&& (o.procesada == 1)"
+					class="{{ o.estado == 0 ? 'bg-danger' : (o.procesada == -1 ? 'bg-danger' : (o.procesada == 1 ? 'bg-success' : '')) }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
+					<td class="text-center">{{ o.id }}</td>
+					<td class="text-center {{ o.procesada == 0 ? 'texto-warning' : (o.procesada == 1 ? 'texto-success' : 'texto-danger') }}">
+						{{ o.procesada == 0 ? 'PENDIENTE' : (o.procesada == 1 ? 'PAGO' : 'EXPIRADO') }}
+						<p style="margin-bottom: 0px !important;" ng-if="o.procesada == 0">Expira en {{ 60 - (o.tiempo_restante / 60) | number:0 }} min</p>
+					</td>
+					<td class="text-center">{{ o.cliente_nombre }} {{ o.cliente_ni }}</td>
+					<td class="text-center">{{ o.metodo_pago }}</td>
+					<td class="text-center">{{ o.fecha_anadida }}</td>
+					<td class="text-center">{{ o.costo_total | currency:'Bs. ' }}</td>
+					<td class="text-center">{{ o.departamento_nombre }}</td>
+					<td class="text-center">{{ o.observaciones }}</td>
+				</tr>
+			</tbody>
+		</table>
+
+		<div class="text-center" ng-show="nroResultados < pedidos.length">
+			<ul class="pagination">
+				<li ng-repeat="i in paginationCount(nroResultados, pedidos.length)" class="{{ actual == i ? 'active' : '' }}">
+					<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
+				</li>
+			</ul>
+		</div>
+	</div>
+
+
+	<div id="asignar_nro_factura" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+			<!-- Modal content-->
+			<div class="modal-content">
+				<div class="modal-header" style="border-bottom: none; padding-bottom: 0px;">
+					<h2>Asignar número de factura</h2>
+				</div>
+
+				<div class="modal-body">
+					<input style="padding: 10px 20px; border-radius: 5px; border: 1px solid #999;" type="number" ng-model="modal.nro_factura" placeholder="Número de factura" /> <br><br>
+
+					<button class="btn btn-primary" ng-click="asignar_nro_factura()">Asignar</button>
+				</div>
+			</div>
+		</div>	
+	</div>
+</div>

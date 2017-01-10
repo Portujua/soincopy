@@ -140,8 +140,10 @@ insert into Permiso_Categoria (nombre) values ("Pedidos");
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_agregar", "Podrá generar nuevos pedidos en el sistema", 6, 16);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_editar", "Podrá editar cualquier información de una orden disponible en el sistema", 8, 16);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_deshabilitar", "Podrá habilitar y deshabilitar pedidos disponibles en el sistema", 7, 16);
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver", "Podrá consultar las pedidos existentes en el sistema", 1, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver", "Podrá consultar los pedidos pendientes por pagar en el sistema", 1, 16);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_detalle", "Podrá consultar el detalle de las pedidos existentes en el sistema", 1, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_falta_factura", "Podrá consultar los pedidos a los que se le debe asignar el número de factura en el sistema", 10, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_por_procesar", "Podrá consultar los pedidos pendientes por procesar en el sistema", 10, 16);
 
 
 insert into Permiso_Categoria (nombre) values ("Clientes");

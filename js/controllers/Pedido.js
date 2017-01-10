@@ -23,6 +23,14 @@
 		SoincopyService.getCarreras($scope);
 		SoincopyService.getProfesores($scope);
 
+		$scope.cargar_pedidos_sin_factura = function(){
+			SoincopyService.getPedidosSinFactura($scope);
+		}
+
+		$scope.cargar_pedidos_por_procesar = function(){
+			SoincopyService.getPedidosPorProcesar($scope);
+		}
+
 		$scope.cargar_productos_venta = function(){
 			SoincopyService.getProductosVenta($scope);
 		}
@@ -366,6 +374,43 @@
 			        	$scope.pedido.productos[index].errores = json.errores;
 			        })
 			    }
+			});
+		}
+
+		$scope.asignar_nro_factura = function(){
+			var nro_factura = $scope.modal.nro_factura;
+			var id_pedido = $scope.o_.id;
+
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea asignar el número de factura ' + nro_factura + ' al pedido ' + id_pedido + '?',
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=asignar_nro_factura",
+					    type: "POST",
+					    data: {nro_factura:nro_factura, pedido:id_pedido},
+					    beforeSend: function(){},
+					    success: function(data){
+					    	try {
+					    		var json = $.parseJSON(data);
+
+					    		if (json.ok)
+					    			$scope.safeApply(function(){
+						        		$('#asignar_nro_factura').modal('hide');
+						        		AlertService.showSuccess(json.msg);
+						        		$scope.cargar_pedidos_sin_factura();
+						        	});
+					    		else
+					    			AlertService.showError(json.msg);
+					    	}
+					        catch (ex)
+					        {
+					        	console.log(data);
+					        }
+					    }
+					});
+				},
+				cancel: function(){}
 			});
 		}
 
