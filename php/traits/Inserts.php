@@ -935,5 +935,24 @@
 
             return json_encode($json);
         }
+
+        public function procesar_pedido($post)
+        {
+            $json = array();
+                
+            // Actualizo el pedido
+            $query = $this->db->prepare("
+                update Pedido set procesada=2 where id=:pedido
+            ");
+
+            $query->execute(array(
+                ":pedido" => $post['pedido']
+            ));
+
+            $json["msg"] = "Pedido procesado con éxito";
+            $json["ok"] = true;
+
+            return json_encode($json);
+        }
 	}
 ?>

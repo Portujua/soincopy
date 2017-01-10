@@ -414,6 +414,41 @@
 			});
 		}
 
+		$scope.procesar_pedido = function(){
+			var id_pedido = $scope.o_.id;
+
+			$.confirm({
+				title: 'Confirmar acción',
+				content: '¿Está seguro que desea procesar el pedido ' + id_pedido + '?',
+				confirm: function(){
+					$.ajax({
+					    url: "php/run.php?fn=procesar_pedido",
+					    type: "POST",
+					    data: {pedido:id_pedido},
+					    beforeSend: function(){},
+					    success: function(data){
+					    	try {
+					    		var json = $.parseJSON(data);
+
+					    		if (json.ok)
+					    			$scope.safeApply(function(){
+						        		AlertService.showSuccess(json.msg);
+						        		$scope.cargar_pedidos_por_procesar();
+						        	});
+					    		else
+					    			AlertService.showError(json.msg);
+					    	}
+					        catch (ex)
+					        {
+					        	console.log(data);
+					        }
+					    }
+					});
+				},
+				cancel: function(){}
+			});
+		}
+
 		if ($routeParams.id)
 		{
 			$scope.cargar_pedido($routeParams.id);
