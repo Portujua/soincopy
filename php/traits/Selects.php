@@ -829,7 +829,8 @@
                     pp.subtotal as subtotal,
                     pp.iva as iva,
                     pp.total as total,
-                    pp.nro_factura as nro_factura
+                    pp.nro_factura as nro_factura,
+                    pp.iva_usado as iva_usado
                 from Pedido as o, Cliente as c, Condicion_Pago as cp, Pago_Pedido as pp
                 where o.cliente=c.id and pp.metodo_pago=cp.id and pp.pedido=o.id and pp.nro_factura=:factura
                 order by o.id desc

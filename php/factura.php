@@ -65,7 +65,7 @@
 		Subtotal Bs. <?php echo number_format($factura['subtotal'], 2, ",", ""); ?>
 	</p>
 	<p style="text-align: right; font-size: 11px; font-weight: bold;">
-		IVA 12% Bs. <?php echo number_format($factura['iva'], 2, ",", ""); ?>
+		IVA <?php echo intval($factura['iva_usado'] * 100); ?>% Bs. <?php echo number_format($factura['iva'], 2, ",", ""); ?>
 	</p>
 	<p style="text-align: right; font-size: 11px; font-weight: bold;">
 		Total Bs. <?php echo number_format($factura['total'], 2, ",", ""); ?>

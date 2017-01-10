@@ -774,8 +774,8 @@
 
             /* Registro el pago */
             $query = $this->db->prepare("
-                insert into Pago_Pedido (pedido, creado_por, fecha_creado, monto, cambio, subtotal, iva, total, metodo_pago)
-                values (:pedido, (select id from Personal where usuario=:usuario), now(), :monto, :cambio, :subtotal, :iva, :total, :metodo_pago)
+                insert into Pago_Pedido (pedido, creado_por, fecha_creado, monto, cambio, subtotal, iva, total, metodo_pago, iva_usado)
+                values (:pedido, (select id from Personal where usuario=:usuario), now(), :monto, :cambio, :subtotal, :iva, :total, :metodo_pago, (select valor from IVA order by fecha desc limit 1))
             ");
 
             $query->execute(array(
