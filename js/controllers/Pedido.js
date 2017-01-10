@@ -14,7 +14,6 @@
 
 		$scope.editar = $routeParams.id;
 
-		SoincopyService.getPedidos($scope);
 		SoincopyService.getDepartamentosUCAB($scope);
 		SoincopyService.getCuentaAbiertas($scope);
 		SoincopyService.getCondicionesPago($scope);
@@ -23,12 +22,25 @@
 		SoincopyService.getCarreras($scope);
 		SoincopyService.getProfesores($scope);
 
-		$scope.cargar_pedidos_sin_factura = function(){
-			SoincopyService.getPedidosSinFactura($scope);
+		$scope.cargar_pedidos = function(no_timeout){
+			SoincopyService.getPedidos($scope);
+
+			if (!no_timeout)
+				$timeout($scope.cargar_pedidos, $scope.$parent.REFRESH_INTERVAL);
 		}
 
-		$scope.cargar_pedidos_por_procesar = function(){
+		$scope.cargar_pedidos_sin_factura = function(no_timeout){
+			SoincopyService.getPedidosSinFactura($scope);
+
+			if (!no_timeout)
+				$timeout($scope.cargar_pedidos_sin_factura, $scope.$parent.REFRESH_INTERVAL);
+		}
+
+		$scope.cargar_pedidos_por_procesar = function(no_timeout){
 			SoincopyService.getPedidosPorProcesar($scope);
+
+			if (!no_timeout)
+				$timeout($scope.cargar_pedidos_por_procesar, $scope.$parent.REFRESH_INTERVAL);
 		}
 
 		$scope.cargar_productos_venta = function(){
@@ -398,7 +410,7 @@
 					    			$scope.safeApply(function(){
 						        		$('#asignar_nro_factura').modal('hide');
 						        		AlertService.showSuccess(json.msg);
-						        		$scope.cargar_pedidos_sin_factura();
+						        		$scope.cargar_pedidos_sin_factura(true);
 						        	});
 					    		else
 					    			AlertService.showError(json.msg);
@@ -433,7 +445,7 @@
 					    		if (json.ok)
 					    			$scope.safeApply(function(){
 						        		AlertService.showSuccess(json.msg);
-						        		$scope.cargar_pedidos_por_procesar();
+						        		$scope.cargar_pedidos_por_procesar(true);
 						        	});
 					    		else
 					    			AlertService.showError(json.msg);
