@@ -306,7 +306,7 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values
 	("reportes_corte_de_caja", "Podrá generar el reporte de corte de caja.", 10, 19);
 
 
-insert into IVA (valor, fecha) values (0.12, now());
+insert into IVA (valor, fecha) values (0.10, now());
 
 
 insert into Permiso (nombre, descripcion, riesgo, categoria) values 

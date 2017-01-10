@@ -6,7 +6,7 @@
 		$scope.express = window.location.hash.indexOf('express') != -1;
 
 		$scope.nroResultados = 100; 
-		$scope.IVA = 0.12;
+		$scope.IVA = 0.10;
 
 		$interval(function(){
 			$scope.enInicio = window.location.hash.indexOf("inicio") != -1;
