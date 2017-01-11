@@ -25,21 +25,21 @@
 		$scope.cargar_pedidos = function(no_timeout){
 			SoincopyService.getPedidos($scope);
 
-			if (!no_timeout)
+			if (!no_timeout && window.location.hash.indexOf('factura_faltante') == -1 && window.location.hash.indexOf('por_procesar') == -1)
 				$timeout($scope.cargar_pedidos, $scope.$parent.REFRESH_INTERVAL);
 		}
 
 		$scope.cargar_pedidos_sin_factura = function(no_timeout){
 			SoincopyService.getPedidosSinFactura($scope);
 
-			if (!no_timeout)
+			if (!no_timeout && window.location.hash.indexOf('factura_faltante') != -1)
 				$timeout($scope.cargar_pedidos_sin_factura, $scope.$parent.REFRESH_INTERVAL);
 		}
 
 		$scope.cargar_pedidos_por_procesar = function(no_timeout){
 			SoincopyService.getPedidosPorProcesar($scope);
 
-			if (!no_timeout)
+			if (!no_timeout && window.location.hash.indexOf('por_procesar') != -1)
 				$timeout($scope.cargar_pedidos_por_procesar, $scope.$parent.REFRESH_INTERVAL);
 		}
 
