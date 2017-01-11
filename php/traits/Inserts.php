@@ -792,21 +792,25 @@
             $nro_factura = $this->db->lastInsertId();
 
             // Asigno el nro de factura igual al id
-            /*$query = $this->db->prepare("
+            $query = $this->db->prepare("
                 update Pago_Pedido set nro_factura=:id where id=:id
             ");
 
             $query->execute(array(
                 ":id" => $nro_factura
-            ));*/
+            ));
 
             // Apruebo el pedido
             $query = $this->db->prepare("
-                update Pedido set procesada=1 where id=:id
+                update Pedido set 
+                    procesada=1,
+                    numero=:nro_factura
+                where id=:id
             ");
 
             $query->execute(array(
-                ":id" => $post['pedido']
+                ":id" => $post['pedido'],
+                ":nro_factura" => $nro_factura
             ));
 
             $json = array();
