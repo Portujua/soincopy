@@ -291,7 +291,7 @@
         public function csv_productos()
         {
             $csv = array();
-            $csv[] = array("Código", "Nombre", "Descripción", "Familia", "Costo de venta", "Costo unitario", "Disponibles", "¿Incluye IVA?", "Estado");
+            $csv[] = array("Código", "Nombre", "Descripción", "Familia", "Costo de venta", "Costo unitario", "Disponibles", "Exento IVA", "Estado");
 
             $productos = json_decode($this->cargar_productos(array()), true);
             
