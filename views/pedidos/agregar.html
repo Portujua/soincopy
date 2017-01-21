@@ -23,8 +23,8 @@
 		</div>
 
 		<div ng-show="loginService.getCurrentUser().departamento == 'Caja' || loginService.getCurrentUser().departamento == 'Originales' || loginService.getCurrentUser().departamento == null">
-			<h2>Añadir guía</h2>
-			<div class="filtros">
+			<h2 style="cursor:pointer;" data-toggle="collapse" data-target=".filtros">[+] Añadir guía</h2>
+			<div class="filtros collapse" aria-expanded="false">
 				<div class="fila">
 					<span style="float:left;">Código&nbsp;&nbsp;&nbsp;&nbsp;</span>
 					<input type="number" name="codigo" ng-model="filtros.codigo" ng-change="cargar_guias();" />
