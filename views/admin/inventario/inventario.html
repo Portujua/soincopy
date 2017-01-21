@@ -43,6 +43,7 @@
 
 	<table class="table table-stripped" ng-init="order = '+nombre'">
 		<thead>
+			<th class="text-center">ID</th>
 			<th class="text-center">
 				Nombre
 				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
@@ -66,6 +67,7 @@
 					&& (solo_activos == false || p.estado == 1)
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == p.id ? 'bg-selected' : '' }}">
+				<td class="text-center">{{ p.id }}</td>
 				<td class="text-center">{{ p.nombre }}</td>
 				<td class="text-center">
 					{{ p.cantidad - p.cantidad_asignada }} disponible para asignar<br/>
