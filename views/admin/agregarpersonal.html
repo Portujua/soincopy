@@ -26,6 +26,14 @@
 		</div>
 
 		<div class="fila">
+			<p>Confirmar contraseña (*)</p>
+
+			<input type="password" ng-model="personal_nuevo.confirmar_contrasena" name="confirmar_contrasena" required placeholder="Confirmar contraseña" />
+
+			<span ng-show="personal_nuevo.contrasena != personal_nuevo.confirmar_contrasena">Las contraseñas no coinciden</span>
+		</div>
+
+		<div class="fila">
 			<p>Nombre (*)</p>
 			<input type="text" ng-model="personal_nuevo.nombre" name="nombre" ng-minlength=1 ng-maxlength=32 required placeholder="Nombre" />
 		</div>
@@ -80,7 +88,7 @@
 
 
 		<div class="fila text-center">
-			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid">Aceptar</button>
+			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid || personal_nuevo.contrasena != personal_nuevo.confirmar_contrasena">Aceptar</button>
 		</div>
 	</div>
 </form>
