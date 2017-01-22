@@ -46,16 +46,16 @@
 		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(p)" ng-repeat="p in profesores | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
-					(p.nombre_completo.indexOf(busqueda) != -1 ||
+					(p.nombre_completo.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
 					p.cedula.indexOf(busqueda) != -1 ||
 					p.telefono.indexOf(busqueda) != -1 ||
-					p.email.indexOf(busqueda) != -1)
+					p.email.toUpperCase().indexOf(busqueda.toUpperCase()) != -1)
 
 					&& (solo_activos == false || p.estado == 1)
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == p.id ? 'bg-selected' : '' }}">
 				<td class="text-center">{{ p.nombre_completo }}</td>
-				<td class="text-center">{{ p.cedula }}</td>
+				<td class="text-center">{{ p.cedula_ }}</td>
 				<td class="text-center">{{ p.telefono }}</td>
 				<td class="text-center">{{ p.email }}</td>
 				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>

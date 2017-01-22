@@ -15,7 +15,12 @@
 
 		<div class="fila">
 			<p>Cédula o RIF (*)</p>
-			<input type="text" ng-model="cliente.ni" required maxlength="128" />
+			<select style="width: 50px;" ng-model="cliente.tipo_ni" ts-select-fix>
+				<option>V</option>
+				<option>E</option>
+				<option>J</option>
+			</select>
+			<input type="text" ng-model="cliente.ni" required maxlength="128" style="width: calc(75% - 50px)" />
 		</div>
 
 		<div class="fila">

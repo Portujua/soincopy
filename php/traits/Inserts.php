@@ -45,7 +45,7 @@
         {
             try 
             {
-                $query = $this->db->prepare("call agregar_profesor(:nombre, :snombre, :apellido, :sapellido, :cedula, :tlfs, :email)");
+                $query = $this->db->prepare("call agregar_profesor(:nombre, :snombre, :apellido, :sapellido, :cedula, :tlfs, :email, :tipo_cedula)");
 
                 $query->execute(array(
                     ":nombre" => $post['nombre'],
@@ -54,7 +54,8 @@
                     ":sapellido" => isset($post['sapellido']) ? $post['sapellido'] : null,
                     ":cedula" => isset($post['cedula']) ? $post['cedula'] : null,
                     ":tlfs" => isset($post['tlfs']) ? $post['tlfs'] : null,
-                    ":email" => isset($post['email']) ? $post['email'] : null
+                    ":email" => isset($post['email']) ? $post['email'] : null,
+                    ":tipo_cedula" => isset($post['cedula']) ? $post['tipo_cedula'] : null,
                 ));
 
                 return "ok";
@@ -136,14 +137,15 @@
         public function agregar_proveedor($post)
         {
             $query = $this->db->prepare("
-                insert into Proveedor (nombre, ni, direccion) 
-                values (:nombre, :ni, :direccion)
+                insert into Proveedor (nombre, ni, direccion, tipo_ni) 
+                values (:nombre, :ni, :direccion, :tipo_ni)
             ");
 
             $query->execute(array(
                 ":nombre" => $post['nombre'],
                 ":ni" => $post['ni'],
-                ":direccion" => $post['direccion']
+                ":direccion" => $post['direccion'],
+                ":tipo_ni" => $post['tipo_ni']
             ));
 
             return "ok";
@@ -459,8 +461,8 @@
         public function agregar_personal($post)
         {
             $query = $this->db->prepare("
-                insert into Personal (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado)
-                values (:nombre, :snombre, :apellido, :sapellido, :cedula, :telefono, :email, :usuario, :contrasena, now())
+                insert into Personal (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado, tipo_cedula)
+                values (:nombre, :snombre, :apellido, :sapellido, :cedula, :telefono, :email, :usuario, :contrasena, now(), :tipo_cedula)
             ");
 
             $query->execute(array(
@@ -472,7 +474,8 @@
                 ":telefono" => $post['telefono'],
                 ":email" => $post['email'],
                 ":usuario" => $post['usuario'],
-                ":contrasena" => $post['contrasena']
+                ":contrasena" => $post['contrasena'],
+                ":tipo_cedula" => $post['tipo_cedula'],
             ));
 
             $uid = $this->db->lastInsertId();

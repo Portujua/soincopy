@@ -38,6 +38,7 @@ create table Profesor (
 	apellido varchar(32) not null,
 	segundo_apellido varchar(32),
 	cedula varchar(32),
+	tipo_cedula varchar(1),
 	telefono varchar(64),
 	email varchar(64),
 	estado tinyint(1) default 1,
@@ -57,6 +58,7 @@ create table Personal (
 	apellido varchar(32) not null,
 	segundo_apellido varchar(32),
 	cedula varchar(32),
+	tipo_cedula varchar(1),
 	telefono varchar(128),
 	email varchar(128),
 	usuario varchar(32) not null,
@@ -344,6 +346,7 @@ create table Proveedor (
 	id int not null auto_increment,
 	nombre varchar(128) not null,
 	ni varchar(32) not null comment 'Numero de identificacion: RIF o CI',
+	tipo_ni varchar(1),
 	direccion varchar(256),
 	estado tinyint(1) default 1,
 	primary key(id)
@@ -403,6 +406,7 @@ create table Cliente (
 	id int not null auto_increment,
 	nombre varchar(256) not null,
 	ni varchar(128) comment 'cedula o rif' not null,
+	tipo_ni varchar(1),
 	email varchar(128),
 	tlf varchar(32),
 	direccion varchar(256),
@@ -582,7 +586,7 @@ DROP PROCEDURE IF EXISTS obtener_profesor//
 create procedure obtener_profesor(in id_ int)
 comment 'Obtener profesor'
 begin
-	select id, nombre, apellido, cedula, telefono, concat(nombre, ' ', apellido) as nombre_completo
+	select id, nombre, apellido, tipo_cedula, cedula, concat(tipo_cedula, '-', cedula) as cedula_, telefono, concat(nombre, ' ', apellido) as nombre_completo
 	from Profesor
 	where id=id_;
 end//
@@ -631,11 +635,11 @@ begin
 end//
 
 DROP PROCEDURE IF EXISTS agregar_profesor//
-create procedure agregar_profesor(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32), in cedula_ varchar(32), in telefono_ varchar(64), in email_ varchar(64))
+create procedure agregar_profesor(in nombre_ varchar(32), in segundo_nombre_ varchar(32), in apellido_ varchar(32), in segundo_apellido_ varchar(32), in cedula_ varchar(32), in telefono_ varchar(64), in email_ varchar(64), in tipo_cedula_ varchar(1))
 comment 'añade un profesor'
 begin
-	insert into Profesor (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email)
-	values (nombre_, segundo_nombre_, apellido_, segundo_apellido_, cedula_, telefono_, email_);
+	insert into Profesor (nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, tipo_cedula)
+	values (nombre_, segundo_nombre_, apellido_, segundo_apellido_, cedula_, telefono_, email_, tipo_cedula_);
 
 	select id from Profesor order by id desc limit 1;
 end//

@@ -45,7 +45,7 @@
         public function cargar_proveedores($post)
         {
             $query = $this->db->prepare("
-                select p.*
+                select p.*, concat(p.tipo_ni, '-', p.ni) as ni_
                 from Proveedor as p
                 order by p.nombre asc
             ");
@@ -579,7 +579,7 @@
         public function cargar_profesores($post)
         {
             $query = $this->db->prepare("
-                select id, nombre, apellido, cedula, telefono, concat(nombre, ' ', apellido) as nombre_completo, estado, email
+                select id, nombre, apellido, tipo_cedula, cedula, concat(tipo_cedula, '-', cedula) as cedula_, telefono, concat(nombre, ' ', apellido) as nombre_completo, estado, email
                 from Profesor
                 order by nombre asc;
             ");
@@ -935,7 +935,7 @@
         public function cargar_personal($post)
         {
             $query = $this->db->prepare("
-                select *, concat(nombre, ' ', apellido) as nombre_completo
+                select *, concat(nombre, ' ', apellido) as nombre_completo, concat(tipo_cedula, '-', cedula) as cedula_
                 from Personal
                 order by nombre asc
             ");
@@ -1241,7 +1241,8 @@
         public function cargar_clientes($post)
         {
             $query = $this->db->prepare("
-                select * from Cliente
+                select *, concat(tipo_ni, '-', ni) as ni_
+                from Cliente
             ");
             $query->execute();
 

@@ -35,7 +35,12 @@
 
 		<div class="fila">
 			<p>Cédula</p>
-			<input type="text" ng-model="profesor.cedula" maxlength="32" placeholder="Cédula" />
+			<select style="width: 50px;" ng-model="profesor.tipo_cedula" ts-select-fix>
+				<option>V</option>
+				<option>E</option>
+				<option>J</option>
+			</select>
+			<input type="text" ng-model="profesor.cedula" maxlength="32" placeholder="Cédula" style="width: calc(75% - 50px)" />
 		</div>
 
 		<div class="fila">

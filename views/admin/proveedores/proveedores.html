@@ -35,15 +35,15 @@
 		<tbody>
 			<tr ng-click="seleccionar(p)" ng-repeat="p in proveedores" 
 				ng-if="
-					(p.nombre.indexOf(busqueda) != -1 ||
+					(p.nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
 					p.ni.indexOf(busqueda) != -1 ||
-					p.direccion.indexOf(busqueda) != -1)
+					p.direccion.toUpperCase().indexOf(busqueda.toUpperCase()) != -1)
 
 					&& (solo_activos == false || p.estado == 1)
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == p.id ? 'bg-selected' : '' }}">
 				<td class="text-center">{{ p.nombre }}</td>
-				<td class="text-center">{{ p.ni }}</td>
+				<td class="text-center">{{ p.ni_ }}</td>
 				<td class="text-center">{{ p.direccion }}</td>
 				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
 
