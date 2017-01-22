@@ -160,7 +160,7 @@
 
 				if ($localStorage.user.es_admin) return true;
 
-				return $localStorage.user.pedidos_agregar || $localStorage.user.ver_pedidos_web || $localStorage.user.pedidos_editar || $localStorage.user.pedidos_deshabilitar || $localStorage.user.pedidos_ver;
+				return $localStorage.user.pedidos_agregar || $localStorage.user.ver_pedidos_web || $localStorage.user.pedidos_editar || $localStorage.user.pedidos_deshabilitar || $localStorage.user.pedidos_ver || $localStorage.user.caja_realizarcobro;
 			},
 			menuPensum: function(){
 				if (!this.isLoggedIn()) return false;

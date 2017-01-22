@@ -149,7 +149,7 @@
 			<p>Agregar</p>
 		</a>
 
-		<a href="./#/pedidos" ng-show="loginService.getCurrentUser().pedidos_ver">
+		<a href="./#/pedidos" ng-show="loginService.getCurrentUser().pedidos_ver || loginService.getCurrentUser().caja_realizarcobro">
 			<p>Pendientes por pagar</p>
 		</a>
 
