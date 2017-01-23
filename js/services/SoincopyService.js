@@ -199,17 +199,23 @@
 				});
 			},
 			getProducto: function(s, id){
-				$http.get("api/productos").then(function(obj){
-					var json = obj.data;
+				$.ajax({
+				    url: "api/productos",
+				    type: "POST",
+				    data: {},
+				    beforeSend: function(){},
+				    success: function(data){
+				        var json = $.parseJSON(data);
 
-					for (var i = 0; i < json.length; i++)
-						if (json[i].id == id)
-						{
-							json[i].exento_iva = json[i].exento_iva == 1 ? true : false;
-							s.producto = json[i];
-							$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
-							return;
-						}
+						for (var i = 0; i < json.length; i++)
+							if (parseInt(json[i].id) == parseInt(id))
+							{
+								json[i].exento_iva = json[i].exento_iva == 1 ? true : false;
+								s.producto = json[i];
+								$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+								return;
+							}
+				    }
 				});
 			},
 			getProductosOriginales: function(s){

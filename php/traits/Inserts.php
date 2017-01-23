@@ -389,8 +389,8 @@
                     ":familia" => $post['familia'],
                     ":departamento" => $departamento,
                     ":tokens" => $post['tokens'],
-                    ":exento_iva" => $post['exento_iva'] ? $post['exento_iva'] : 0,
-                    ":estado" => $post['estado'] ? $post['estado'] : 1
+                    ":exento_iva" => isset($post['exento_iva']) ? $post['exento_iva'] : 0,
+                    ":estado" => isset($post['estado']) ? $post['estado'] : 1
                 ));
 
                 $pid = $this->db->lastInsertId();
