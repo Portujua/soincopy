@@ -112,7 +112,7 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("inventario
 
 
 
-INSERT INTO Personal (id, nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado, estado) VALUES (NULL, 'pablo', 'evelio', 'martinez', 'medina', '6892160', '4712038', 'pablomartinezmedina@gmail.com', 'pmartinez', '2323$$', '2016-07-21 10:35:02', '1'), (NULL, 'marcos', '', 'salazar', '', '15665702', '4123001280', 'salazarseijas@gmail.com', 'marcos', 'rootroot', '2016-07-25 15:44:43', '1');
+INSERT INTO Personal (id, nombre, segundo_nombre, apellido, segundo_apellido, cedula, telefono, email, usuario, contrasena, fecha_creado, estado, tipo_cedula) VALUES (NULL, 'pablo', 'evelio', 'martinez', 'medina', '6892160', '4712038', 'pablomartinezmedina@gmail.com', 'pmartinez', '2323$$', '2016-07-21 10:35:02', '1', 'V'), (NULL, 'marcos', '', 'salazar', '', '15665702', '4123001280', 'salazarseijas@gmail.com', 'marcos', 'rootroot', '2016-07-25 15:44:43', '1', 'V');
 
 
 
