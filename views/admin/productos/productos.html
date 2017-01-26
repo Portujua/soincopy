@@ -71,7 +71,12 @@
 		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(p)" ng-repeat="p in productos | orderBy:order | paginar:nroResultados+'|'+actual"
 				ng-if="
-					(p.nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1)
+					(p.nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
+					p.familia_nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
+					p.costo_unitario.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
+					(
+						p.descripcion ? p.descripcion.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 : false
+					))
 
 					&& (solo_activos == false || p.estado == 1)
 				"
