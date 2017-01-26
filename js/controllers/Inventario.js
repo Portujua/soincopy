@@ -68,6 +68,9 @@
 					var post = $scope.material.nuevo_stock;
 					post.material = $scope.material.id;
 
+					if (post.fecha_factura)
+						post.fecha_factura_ = post.fecha_factura.toJSON().slice(0,10);
+
 					var fn = "agregar_stock";
 					var msg = "Material añadido al inventario con éxito";
 

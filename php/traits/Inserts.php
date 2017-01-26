@@ -178,15 +178,17 @@
         public function agregar_stock($post)
         {
             $query = $this->db->prepare("
-                insert into Stock (cantidad, fecha_anadido, costo, material, proveedor, cantidad_disponible) 
-                values (:cantidad, now(), :costo, :material, :proveedor, :cantidad)
+                insert into Stock (cantidad, fecha_anadido, costo, material, proveedor, cantidad_disponible, fecha_factura, nro_factura) 
+                values (:cantidad, now(), :costo, :material, :proveedor, :cantidad, :fecha_factura, :nro_factura)
             ");
 
             $query->execute(array(
                 ":cantidad" => $post['cantidad'],
                 ":costo" => $post['costo'],
                 ":material" => $post['material'],
-                ":proveedor" => $post['proveedor']
+                ":proveedor" => $post['proveedor'],
+                ":fecha_factura" => $post['fecha_factura_'],
+                ":nro_factura" => $post['nro_factura']
             ));
 
             return "ok";

@@ -15,7 +15,13 @@
 		<label for="proveedor">Proveedor (*) <span class="badge" ng-show="loginService.getCurrentUser().proveedores_agregar" ng-click="agregar_proveedor()" title="Añadir nuevo proveedor">+</span></label>
 		<select class="selectpicker" data-live-search="true" title="" name="proveedor" id="proveedor" ng-model="$parent.material.nuevo_stock.proveedor" required ts-select-fix>
 			<option ng-repeat="p in proveedores | quitarDeshabilitados" ng-value="p.id">{{ p.nombre }}</option>
-		</select>
+		</select><br/>
+
+		<label for="nro_factura">Nro. Factura (*)</label>
+		<input name="nro_factura" id="nro_factura" type="number" ng-model="$parent.material.nuevo_stock.nro_factura" required />
+
+		<label for="fecha_factura">Fecha factura (*)</label>
+		<input name="fecha_factura" id="fecha_factura" type="date" ng-model="$parent.material.nuevo_stock.fecha_factura" required />
 
 		<button class="btn btn-soincopy" type="submit" ng-disabled="agregar.$invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar al stock</button>
 	</form>
