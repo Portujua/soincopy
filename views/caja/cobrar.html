@@ -36,7 +36,16 @@
 
 		<div class="row">
 			<div class="col-sm-6">
-				Forma de Pago &nbsp;&nbsp;&nbsp;<select class="selectpicker" data-live-search="true" title="" data-width="35%" ng-model="pago.metodo_pago" ng-options="d.id as d.nombre for d in condiciones_pago" name="cond_pago" required></select>
+				Forma de Pago &nbsp;&nbsp;&nbsp;<select class="selectpicker" data-live-search="true" title="" data-width="35%" ng-model="pago.metodo_pago" name="cond_pago" required>
+					<option ng-repeat="d in condiciones_pago" value="{{ d.id }}">{{ d.nombre }}</option>
+				</select><br/>
+				<p ng-if="pago.metodo_pago == 1" style="width: 100%; margin-top: 15px;">
+					Tipo de tarjeta <select ng-model="pago.tipo_tarjeta" name="cond_pago" required>
+						<option>VISA</option>
+						<option>Mastercard</option>
+						<option>American Express</option>
+					</select>
+				</p>
 			</div>
 
 			<div class="col-sm-6 info_pago">

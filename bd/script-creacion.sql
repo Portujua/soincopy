@@ -471,6 +471,7 @@ create table Pago_Pedido (
 	iva float not null,
 	total float not null,
 	metodo_pago int not null,
+	tipo_tarjeta_credito varchar(32),
 	nro_factura varchar(128),
 	iva_usado float,
 	primary key(id),

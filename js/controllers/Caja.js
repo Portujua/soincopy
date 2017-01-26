@@ -70,6 +70,15 @@
 				return;
 			}
 
+			if ($scope.pago.metodo_pago == 1 && !$scope.pago.tipo_tarjeta)
+			{
+				$.alert({
+					title: "Error",
+					content: "Debe seleccionar un tipo de tarjeta"
+				});
+				return;
+			}
+
 			$scope.pago.usuario = LoginService.getCurrentUser().username;
 
 			var data_pago = $scope.pago;

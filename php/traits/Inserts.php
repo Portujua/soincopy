@@ -777,8 +777,8 @@
 
             /* Registro el pago */
             $query = $this->db->prepare("
-                insert into Pago_Pedido (pedido, creado_por, fecha_creado, monto, cambio, subtotal, iva, total, metodo_pago, iva_usado)
-                values (:pedido, (select id from Personal where usuario=:usuario), now(), :monto, :cambio, :subtotal, :iva, :total, :metodo_pago, (select valor from IVA order by fecha desc limit 1))
+                insert into Pago_Pedido (pedido, creado_por, fecha_creado, monto, cambio, subtotal, iva, total, metodo_pago, iva_usado, tipo_tarjeta_credito)
+                values (:pedido, (select id from Personal where usuario=:usuario), now(), :monto, :cambio, :subtotal, :iva, :total, :metodo_pago, (select valor from IVA order by fecha desc limit 1), :tipo_tarjeta)
             ");
 
             $query->execute(array(
@@ -789,7 +789,8 @@
                 ":subtotal" => $post['subtotal'],
                 ":iva" => $post['iva'],
                 ":total" => $post['total'],
-                ":metodo_pago" => $post['metodo_pago']
+                ":metodo_pago" => $post['metodo_pago'],
+                ":tipo_tarjeta" => isset($post['tipo_tarjeta']) ? $post['tipo_tarjeta'] : null
             ));
 
             $nro_factura = $this->db->lastInsertId();
