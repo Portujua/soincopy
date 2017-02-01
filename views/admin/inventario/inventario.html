@@ -62,7 +62,8 @@
 		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(p)" ng-repeat="p in inventario | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
-					(p.nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1)
+					(p.nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
+					p.id.toUpperCase().indexOf(busqueda.toUpperCase()) != -1)
 
 					&& (solo_activos == false || p.estado == 1)
 				"
