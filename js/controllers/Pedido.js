@@ -179,7 +179,7 @@
 		$scope.agregar_cliente = function(){
 			var nw = window.open("./#/clientes/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=550");
 			nw.onbeforeunload = function(){
-				SoincopyService.getClientes($scope);
+				SoincopyService.getClientes($scope, true);
 			}
 		}
 

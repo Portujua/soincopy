@@ -24,8 +24,13 @@
 
 
 
-			getProveedores: function(s){
-				$http.get("api/proveedores").then(function(obj){
+			getProveedores: function(s, extra = false){
+				$http({
+					method: 'POST',
+					url: "api/proveedores", 
+					data: $.param(extra ? {extra: extra} : {}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function(obj){
 					s.proveedores = obj.data;
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
@@ -254,8 +259,13 @@
 
 
 
-			getClientes: function(s){
-				$http.get("api/clientes").then(function(obj){
+			getClientes: function(s, extra = false){
+				$http({
+					method: 'POST',
+					url: "api/clientes", 
+					data: $.param(extra ? {extra: extra} : {}),
+					headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+				}).then(function(obj){
 					s.clientes = obj.data;
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});

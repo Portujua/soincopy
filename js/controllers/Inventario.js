@@ -133,7 +133,7 @@
 		$scope.agregar_proveedor = function(){
 			var nw = window.open("./#/proveedores/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=350");
 			nw.onbeforeunload = function(){
-				SoincopyService.getProveedores($scope);
+				SoincopyService.getProveedores($scope, true);
 			}
 		}
 

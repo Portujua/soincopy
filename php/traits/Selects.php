@@ -1240,9 +1240,12 @@
 
         public function cargar_clientes($post)
         {
+            $extra = isset($post['extra']) ? "order by id desc" : "";
+
             $query = $this->db->prepare("
                 select *, concat(tipo_ni, '-', ni) as ni_
                 from Cliente
+                ".$extra."
             ");
             $query->execute();
 
