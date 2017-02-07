@@ -203,6 +203,7 @@
             $query = $this->db->prepare("
                 select m.id as id, m.nombre as nombre, m.estado as estado, (select (case when sum(cantidad_disponible) is not null then sum(cantidad_disponible) else 0 end) from Stock where material=m.id and eliminado=0) as cantidad, (select concat(date_format(fecha_anadido, '%d/%m/%Y'), ' a las ', time_format(fecha_anadido, '%h:%i:%s %p')) from Stock where material=m.id and eliminado=0 order by fecha_anadido desc limit 1) as fecha_ultimo_ingreso, (select (case when sum(restante) is not null then sum(restante) else 0 end) from Stock_Personal where material=m.id and agotado=0 and eliminado=0) as cantidad_asignada
                 from Material as m
+                order by m.id desc
             ");
 
             $query->execute();
@@ -312,7 +313,7 @@
                     (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, 
                     pf.id as familia, 
                     pf.nombre as familia_nombre,
-                    (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0) as costo_materiales,
+                    (select pm.cantidad * (s.costo / s.cantidad) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0 order by s.id desc limit 1) as costo_materiales,
                     cast((select (
                             select sum(s.cantidad_disponible) as disponible
                             from Stock as s
@@ -646,7 +647,23 @@
             $query = $this->db->prepare("
                 select R.*, cp.id as cond_pago, cp.nombre as metodo_pago
                 from (
-                    select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, o.cond_pago as cond_pago_, concat(p.nombre, ' ', p.apellido) as creado_por, TIMESTAMPDIFF(SECOND, o.fecha_anadida, now()) as tiempo_restante, (case when o.departamento is null then 'Administrador' else (select nombre from Departamento where id=o.departamento) end) as departamento
+                    select 
+                        o.id as id, 
+                        (o.id - (case when (select id from Pedido where fecha_anadida=date_sub(fecha_anadida, interval -1 day) order by id desc limit 1) is not null then (select id from Pedido where fecha_anadida=date_sub(fecha_anadida, interval -1 day) order by id desc limit 1) else 0 end)) as id_dia,
+                        o.numero as numero, 
+                        o.observaciones as observaciones, 
+                        o.estado as estado, 
+                        (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, 
+                        date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, 
+                        date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, 
+                        o.procesada as procesada, 
+                        c.id as cliente, 
+                        c.nombre as cliente_nombre, 
+                        c.ni as cliente_ni, 
+                        o.cond_pago as cond_pago_, 
+                        concat(p.nombre, ' ', p.apellido) as creado_por, 
+                        TIMESTAMPDIFF(SECOND, o.fecha_anadida, now()) as tiempo_restante, 
+                        (case when o.departamento is null then 'Administrador' else (select nombre from Departamento where id=o.departamento) end) as departamento
                     from Pedido as o, Cliente as c, Personal as p
                     where o.cliente=c.id and o.creado_por=p.id and o.procesada=0
                     order by o.id desc
@@ -654,6 +671,7 @@
                 on R.cond_pago_=cp.id
                 where 1=1
                 ".$extra_query."
+                order by R.id_dia desc
             ");
             $query->execute();
 
@@ -763,12 +781,30 @@
             $query = $this->db->prepare("
                 select R.*, cp.id as cond_pago, cp.nombre as metodo_pago
                 from (
-                    select o.id as id, o.numero as numero, o.observaciones as observaciones, o.estado as estado, (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, o.procesada as procesada, c.id as cliente, c.nombre as cliente_nombre, c.ni as cliente_ni, o.cond_pago as cond_pago_, concat(p.nombre, ' ', p.apellido) as creado_por, TIMESTAMPDIFF(SECOND, o.fecha_anadida, now()) as tiempo_restante, (case when o.departamento is null then 'Administrador' else (select nombre from Departamento where id=o.departamento) end) as departamento
+                    select 
+                        o.id as id,
+                        (o.id - (case when (select id from Pedido where fecha_anadida=date_sub(fecha_anadida, interval -1 day) order by id desc limit 1) is not null then (select id from Pedido where fecha_anadida=date_sub(fecha_anadida, interval -1 day) order by id desc limit 1) else 0 end)) as id_dia,
+                        o.numero as numero, 
+                        o.observaciones as observaciones, 
+                        o.estado as estado, 
+                        (select (case when sum(precio_total) is not null then sum(precio_total) else 0 end) as total from Pedido_Producto where pedido=o.id) as costo_total, 
+                        date_format(o.fecha_modificada, '%d/%m/%Y') as fecha_modificada, 
+                        date_format(o.fecha_anadida, '%d/%m/%Y') as fecha_anadida, 
+                        o.procesada as procesada, 
+                        c.id as cliente, 
+                        c.nombre as cliente_nombre, 
+                        c.ni as cliente_ni, 
+                        o.cond_pago as cond_pago_, 
+                        concat(p.nombre, ' ', p.apellido) as creado_por, TIMESTAMPDIFF(SECOND, o.fecha_anadida, now()) as tiempo_restante, 
+                        (case when o.departamento is null then 'Administrador' else (select nombre from Departamento where id=o.departamento) end) as departamento,
+                        (select d.nombre from Personal_Departamento as pd, Departamento as d where pd.departamento=d.id and pd.personal=p.id limit 1) as departamento_personal
                     from Pedido as o, Cliente as c, Personal as p
                     where o.cliente=c.id and o.creado_por=p.id and o.procesada=1 and o.numero is not null
                     order by o.id desc
                 ) R left join Condicion_Pago as cp
                 on R.cond_pago_=cp.id
+                where 1=1 ".($post['dpto'] != 'null' ? "and R.departamento_personal='".$post['dpto']."'" : "")."
+                order by R.id_dia desc
             ");
             $query->execute();
 
@@ -830,6 +866,7 @@
                 select 
                     o.id as id,
                     date_format(pp.fecha_creado, '%d/%m/%Y') as fecha, 
+                    time_format(pp.fecha_creado, '%h:%i:%s %p') as hora,
                     c.nombre as cliente, 
                     c.ni as cliente_ni,
                     cp.nombre as metodo_pago,

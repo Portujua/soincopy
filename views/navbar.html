@@ -158,7 +158,7 @@
 		</a>
 
 		<a href="./#/pedidos/por_procesar" ng-show="loginService.getCurrentUser().pedidos_ver_por_procesar">
-			<p>Pendientes por procesar</p>
+			<p>{{ loginService.getCurrentUser().departamento ? (loginService.getCurrentUser().departamento == 'Diseño' ? 'Cancelados' : 'Pendientes por procesar') : 'Pendientes por procesar o pagos' }}</p>
 		</a>
 	</div>
 

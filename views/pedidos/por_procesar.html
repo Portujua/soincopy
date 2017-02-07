@@ -1,11 +1,11 @@
 <div class="seccion" ng-controller="Pedido">
-	<h1 style="font-size: 20px;">Pedidos &rarr; Por procesar</h1>
+	<h1 style="font-size: 20px;">Pedidos &rarr; {{ loginService.getCurrentUser().departamento == 'Diseño' ? 'Por entregar' : 'Por procesar' }}</h1>
 
 	<div ng-show="loginService.getCurrentUser().pedidos_ver_por_procesar">
 		<div class="botones">
 			<div ng-show="o_">
 				<button class="btn btn-success" ng-click="procesar_pedido()">
-					<span class="glyphicon glyphicon-check" aria-hidden="true" ></span> Procesar
+					<span class="glyphicon glyphicon-check" aria-hidden="true" ></span> {{ loginService.getCurrentUser().departamento == 'Diseño' ? 'Entregar' : 'Procesar' }}
 				</button>
 
 				<button class="btn btn-info" ng-show="loginService.getCurrentUser().pedidos_ver_detalle" data-toggle="modal" data-target="#detalle">
@@ -48,7 +48,7 @@
 			<tbody ng-init="actual = 0;">
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in pedidos | orderBy:order | paginar:nroResultados+'|'+actual"
 					ng-if="
-						(o.id.indexOf(buscador) != -1 ||
+						(o.id_dia.indexOf(buscador) != -1 ||
 						o.cliente_nombre.toUpperCase().indexOf(buscador.toUpperCase()) != -1 ||
 						o.cliente_ni.indexOf(buscador) != -1 ||
 						o.costo_total.indexOf(buscador) != -1 ||
@@ -68,7 +68,7 @@
 
 						&& (o.procesada == 1)"
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.procesada == -1 ? 'bg-danger' : (o.procesada == 1 ? 'bg-success' : '')) }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
-					<td class="text-center">{{ o.id }}</td>
+					<td class="text-center">{{ o.id_dia }}</td>
 					<td class="text-center {{ o.procesada == 0 ? 'texto-warning' : (o.procesada == 1 ? 'texto-success' : 'texto-danger') }}">
 						{{ o.procesada == 0 ? 'PENDIENTE' : (o.procesada == 1 ? 'PAGO' : 'EXPIRADO') }}
 						<p style="margin-bottom: 0px !important;" ng-if="o.procesada == 0">Expira en {{ 60 - (o.tiempo_restante / 60) | number:0 }} min</p>
@@ -77,7 +77,7 @@
 					<td class="text-center">{{ o.metodo_pago }}</td>
 					<td class="text-center">{{ o.fecha_anadida }}</td>
 					<td class="text-center">{{ o.costo_total | currency:'Bs. ' }}</td>
-					<td class="text-center">{{ o.departamento_nombre }}</td>
+					<td class="text-center">{{ o.departamento }}</td>
 					<td class="text-center">{{ o.observaciones }}</td>
 				</tr>
 			</tbody>

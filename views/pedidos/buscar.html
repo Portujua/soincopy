@@ -56,7 +56,7 @@
 			<tbody ng-init="actual = 0;">
 				<tr ng-click="seleccionar(o)"  ng-repeat="o in pedidos | orderBy:order | paginar:nroResultados+'|'+actual"
 					ng-if="
-						(o.id.indexOf(buscador) != -1 ||
+						(o.id_dia.indexOf(buscador) != -1 ||
 						o.cliente_nombre.toUpperCase().indexOf(buscador.toUpperCase()) != -1 ||
 						o.cliente_ni.toUpperCase().indexOf(buscador.toUpperCase()) != -1 ||
 						o.costo_total.toUpperCase().indexOf(buscador.toUpperCase()) != -1 ||
@@ -76,7 +76,7 @@
 
 						&& (o.procesada == 0)"
 					class="{{ o.estado == 0 ? 'bg-danger' : (o.procesada == -1 ? 'bg-danger' : (o.procesada == 1 ? 'bg-success' : '')) }} {{ o_.id == o.id ? 'bg-selected' : '' }}">
-					<td class="text-center">{{ o.id }}</td>
+					<td class="text-center">{{ o.id_dia }}</td>
 					<td class="text-center {{ o.procesada == 0 ? 'texto-warning' : (o.procesada == 1 ? 'texto-success' : 'texto-danger') }}">
 						{{ o.procesada == 0 ? 'PENDIENTE' : (o.procesada == 1 ? 'PAGO' : 'EXPIRADO') }}
 						<p style="margin-bottom: 0px !important;" ng-if="o.procesada == 0">Expira en {{ 60 - (o.tiempo_restante / 60) | number:0 }} min</p>
@@ -85,7 +85,7 @@
 					<td class="text-center">{{ o.metodo_pago }}</td>
 					<td class="text-center">{{ o.fecha_anadida }}</td>
 					<td class="text-center">{{ o.costo_total | currency:'Bs. ' }}</td>
-					<td class="text-center">{{ o.departamento_nombre }}</td>
+					<td class="text-center">{{ o.departamento }}</td>
 					<td class="text-center">{{ o.observaciones }}</td>
 				</tr>
 			</tbody>

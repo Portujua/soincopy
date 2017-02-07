@@ -53,7 +53,7 @@ RewriteRule ^api/cajeros$ /soincopy/php/run.php?fn=cargar_cajeros [QSA,L]
 RewriteRule ^api/caja/retiros$ /soincopy/php/run.php?fn=cargar_retiros_de_caja [QSA,L]
 RewriteRule ^api/cajeros/activos$ /soincopy/php/run.php?fn=cargar_cajeros_activos [QSA,L]
 RewriteRule ^api/pedidos/sinfactura$ /soincopy/php/run.php?fn=cargar_pedidos_sin_factura [QSA,L]
-RewriteRule ^api/pedidos/porprocesar$ /soincopy/php/run.php?fn=cargar_pedidos_por_procesar [QSA,L]
+RewriteRule ^api/pedidos/porprocesar/(.+)$ /soincopy/php/run.php?fn=cargar_pedidos_por_procesar&dpto=$1 [QSA,L]
 
 RewriteRule ^api/guias/(.+)$ /soincopy/php/run.php?fn=cargar_guias&status=$1 [QSA,L]
 RewriteRule ^api/guia/(.+)$ /soincopy/php/run.php?fn=cargar_guia&codigo=$1 [QSA,L]

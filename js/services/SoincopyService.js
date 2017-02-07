@@ -549,9 +549,10 @@
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
-			getPedidosPorProcesar: function(s){
-				$http.get("api/pedidos/porprocesar").then(function(obj){
+			getPedidosPorProcesar: function(s, dpto){
+				$http.get(`api/pedidos/porprocesar/${dpto}`).then(function(obj){
 					s.pedidos = obj.data;
+					console.log(obj.data)
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},

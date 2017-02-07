@@ -10,10 +10,13 @@
 ?>
 
 <style type="text/css">
+	* {
+		font-family: "Segoe UI";
+	}
+
 	.factura {
 		display: inline-block;
 		width: 68mm;
-		border: 1px solid black;
 		padding: 5px 1mm;
 	}
 
@@ -25,12 +28,13 @@
 		width: 100%;
 		float: left;
 		height: 25px;
+		margin-bottom: 10px;
 	}
 
 	.nombre_producto {
-		font-size: 10px;
+		font-size: 11px;
 		text-align: left;
-		max-width: 60%;
+		max-width: 80%;
 		float: left;
 		height: 25px;
 	}
@@ -45,9 +49,18 @@
 </style>
 
 <div class="factura">
-	<center class="fecha"><?php echo $factura["fecha"]; ?></center>
-	<center>Factura #<?php echo $factura["nro_factura"]; ?></center>
-	<center><?php echo $factura["cliente"]; ?></center>
+	<center><strong>SENIAT</strong></center>
+	<center style="font-size: 13px;">Corporación Soincopy, C.A.</center>
+	<center style="font-size: 11px;">Av. Principal de Montalbán Edif. UCAB, módulo 4</center>
+	<center style="font-size: 11px;">piso PB. local-Urb. Montalbán. Zona Postal 1020</center>
+	<center style="font-size: 11px;">Teléfono: (0212) 4712038 / 4074133</center>
+	<span style="font-size: 11px;">RIF: J-31214470-0</span><br/>
+	<span style="font-size: 11px;"><?php echo $factura["fecha"]; ?> <?php echo $factura["hora"]; ?>&nbsp;&nbsp;&nbsp;&nbsp;COO: 173339 <strong>Factura: <?php echo $factura["nro_factura"]; ?></strong></span><br>
+	<center style="font-size: 13px;">-------Datos del Consumidor-------</center>
+	<span style="font-size: 12px;">NOMBRE: <?php echo $factura["cliente"]; ?></span><br>
+	<span style="font-size: 12px;">RIF: <?php echo $factura["cliente_ni"]; ?></span><br>
+	<hr>
+	<center><strong>FACTURA</strong></center>
 	<hr>
 	<?php foreach ($factura['productos'] as $p): ?>
 		<div class="producto">

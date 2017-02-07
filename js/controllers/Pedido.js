@@ -37,7 +37,7 @@
 		}
 
 		$scope.cargar_pedidos_por_procesar = function(no_timeout){
-			SoincopyService.getPedidosPorProcesar($scope);
+			SoincopyService.getPedidosPorProcesar($scope, LoginService.getCurrentUser().departamento);
 
 			if (!no_timeout && window.location.hash.indexOf('por_procesar') != -1)
 				$timeout($scope.cargar_pedidos_por_procesar, $scope.$parent.REFRESH_INTERVAL);
@@ -178,6 +178,17 @@
 
 		$scope.agregar_cliente = function(){
 			var nw = window.open("./#/clientes/agregar/express", "_blank", "menubar=no,status=no,toolbar=no,width=900,height=550");
+			nw.onbeforeunload = function(){
+				SoincopyService.getClientes($scope, true);
+			}
+		}
+
+		$scope.editar_cliente = function(){
+			var cid = $scope.pedido.cliente;
+
+			if (!cid) return;
+
+			var nw = window.open(`./#/clientes/editar/${cid}/express`, "_blank", "menubar=no,status=no,toolbar=no,width=900,height=550");
 			nw.onbeforeunload = function(){
 				SoincopyService.getClientes($scope, true);
 			}
@@ -436,7 +447,7 @@
 
 			$.confirm({
 				title: 'Confirmar acción',
-				content: '¿Está seguro que desea procesar el pedido ' + id_pedido + '?',
+				content: '¿Está seguro que desea realizar esta acción?',
 				confirm: function(){
 					$.ajax({
 					    url: "php/run.php?fn=procesar_pedido",
@@ -449,7 +460,7 @@
 
 					    		if (json.ok)
 					    			$scope.safeApply(function(){
-						        		AlertService.showSuccess(json.msg);
+						        		AlertService.showSuccess("Acción realizada con éxito");
 						        		$scope.cargar_pedidos_por_procesar(true);
 						        	});
 					    		else

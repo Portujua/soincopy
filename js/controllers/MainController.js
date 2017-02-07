@@ -5,7 +5,7 @@
 		$scope.enInicio = true;
 		$scope.express = window.location.hash.indexOf('express') != -1;
 
-		$scope.nroResultados = 100; 
+		$scope.nroResultados = 25; 
 		$scope.IVA = null;
 		$scope.REFRESH_INTERVAL = 5000;
 

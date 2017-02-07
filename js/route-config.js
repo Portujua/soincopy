@@ -115,6 +115,9 @@
 			.when("/clientes/editar/:id", {
 				templateUrl : "views/admin/clientes/agregar.html"
 			})
+			.when("/clientes/editar/:id/express", {
+				templateUrl : "views/admin/clientes/agregar.html"
+			})
 
 
 

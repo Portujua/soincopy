@@ -361,6 +361,8 @@ create table Stock (
 	eliminado tinyint(1) default 0 comment 'Para eliminar stock sin borrarlo del sistema',
 	proveedor int not null,
 	cantidad_disponible int,
+	fecha_factura date,
+	nro_factura varchar(64),
 	primary key(id),
 	foreign key (material) references Material(id),
 	foreign key (proveedor) references Proveedor(id)

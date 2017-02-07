@@ -9,10 +9,10 @@
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila">
-			<p>Cliente (*) <span class="badge" ng-hide="pedido.agregarcliente" ng-click="agregar_cliente()" title="Añadir nuevo cliente">+</span></p>
+			<p>Cliente (*) <span class="badge" ng-hide="pedido.agregarcliente" ng-click="agregar_cliente()" title="Añadir nuevo cliente">+</span> <span class="badge" ng-click="editar_cliente()">Editar</span></p>
 
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cliente" ng-init="pedido.cliente = pedido.did;" ng-hide="pedido.agregarcliente" name="cliente" required ng-minlength=1 ts-select-fix>
-				<option ng-repeat="c in clientes | quitarDeshabilitados" ng-value="c.id">{{ c.nombre }}</option>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cliente" ng-init="pedido.cliente = pedido.did;" ng-hide="pedido.agregarcliente" name="cliente" required ng-minlength=1>
+				<option ng-repeat="c in clientes | quitarDeshabilitados" ng-value="c.id">{{ c.nombre }} - {{ c.ni }}</option>
 			</select>
 			<br/>
 		</div>
@@ -84,8 +84,8 @@
 			<thead>
 				<th>&nbsp;</th>
 				<th>Producto (*)</th>
-				<th># Copias (*)</th>
-				<th># Originales (*)</th>
+				<!-- <th># Copias (*)</th>
+				<th># Originales (*)</th> -->
 				<th>Cantidad</th>
 				<th>Costo unitario</th>
 				<th>Costo total</th>
@@ -129,12 +129,12 @@
 					<td>
 						<input type="number" string-to-number name="nrocopias_{{ $index }}" ng-model="pedido.productos[$index].nro_copias" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
-					<td>
+					<td ng-show="false">
 						<input type="number" string-to-number name="nrooriginales_{{ $index }}" ng-model="pedido.productos[$index].nro_originales" ng-min=1 required ng-minlength=0 ng-pattern="/^[0-9]+$/" ng-model-options="{ updateOn: 'blur' }" ng-change="chequear_disponibilidad($index)" />
 					</td>
-					<td>
+					<!--<td>
 						{{ pedido.productos[$index].nro_copias * pedido.productos[$index].nro_originales }}
-					</td>
+					</td> -->
 					<td ng-init="actualizar_costo_unitario($index)">
 						<strong>{{ pedido.productos[$index].costo_unitario | currency:'Bs. ' }}</strong><br/>
 						<small style="cursor: help;" data-toggle="tooltip" data-placement="top" title="Es el costo asociado cuando se añadió este producto a esta pedido el {{ pedido.productos[$index].fecha_anadido }}">{{ pedido.productos[$index].costo_unitario_facturado | currency:'Bs. ' }}</small>
@@ -151,8 +151,8 @@
 					<td></td>
 					<td></td>
 					<td></td>
-					<td></td>
-					<td></td>
+					<!-- <td></td>
+					<td></td> -->
 					<td class="text-right" style="font-weight: bold;">Total</td>
 					<td style="font-weight: bold;">{{ pedido.productos | calcularTotalBsDeProductos | currency:'Bs. ' }}</td>
 				</tr>

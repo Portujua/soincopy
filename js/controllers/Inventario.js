@@ -80,6 +80,7 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
+					    	console.log(data)
 				        	$scope.safeApply(function(){
 				        		$scope.cargar_material($routeParams.id);
 				        		AlertService.showSuccess(msg);
