@@ -12,7 +12,7 @@
 			<p>Cliente (*) <span class="badge" ng-hide="pedido.agregarcliente" ng-click="agregar_cliente()" title="Añadir nuevo cliente">+</span> <span class="badge" ng-click="editar_cliente()">Editar</span></p>
 
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="pedido.cliente" ng-init="pedido.cliente = pedido.did;" ng-hide="pedido.agregarcliente" name="cliente" required ng-minlength=1>
-				<option ng-repeat="c in clientes | quitarDeshabilitados" ng-value="c.id">{{ c.nombre }} - {{ c.ni }}</option>
+				<option ng-repeat="c in clientes | quitarDeshabilitados" value="{{c.id}}">{{ c.nombre }} - {{ c.ni }}</option>
 			</select>
 			<br/>
 		</div>
