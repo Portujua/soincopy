@@ -43,7 +43,11 @@
 
 	<table class="table table-stripped" ng-init="order = '+nombre'">
 		<thead>
-			<th class="text-center">ID</th>
+			<th class="text-center">
+				ID 
+				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+id'" ng-show="order != '+id'" aria-hidden="true"></span> 
+				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-id'" ng-show="order != '-id'" aria-hidden="true"></span>
+			</th>
 			<th class="text-center">
 				Nombre
 				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
