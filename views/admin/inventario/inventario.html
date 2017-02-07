@@ -43,12 +43,12 @@
 
 	<table class="table table-stripped" ng-init="order = '+nombre'">
 		<thead>
-			<th class="text-center">
+			<th class="">
 				ID 
 				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+id'" ng-show="order != '+id'" aria-hidden="true"></span> 
 				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-id'" ng-show="order != '-id'" aria-hidden="true"></span>
 			</th>
-			<th class="text-center">
+			<th class="">
 				Nombre
 				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
 				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-nombre'" ng-show="order != '-nombre'" aria-hidden="true"></span>
@@ -59,9 +59,9 @@
 					});
 				</script>
 			</th>
-			<th class="text-center">Cantidad disponible</th>
-			<th class="text-center">Fecha de último ingreso</th>
-			<th class="text-center">Estado</th>
+			<th class="">Cantidad disponible</th>
+			<th class="">Fecha de último ingreso</th>
+			<th class="">Estado</th>
 		</thead>
 		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(p)" ng-repeat="p in inventario | orderBy:order | paginar:nroResultados+'|'+actual" 
@@ -72,15 +72,15 @@
 					&& (solo_activos == false || p.estado == 1)
 				"
 				class="{{ p.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == p.id ? 'bg-selected' : '' }}">
-				<td class="text-center">{{ p.id }}</td>
-				<td class="text-center">{{ p.nombre }}</td>
-				<td class="text-center">
+				<td class="">{{ p.id }}</td>
+				<td class="">{{ p.nombre }}</td>
+				<td class="">
 					{{ p.cantidad - p.cantidad_asignada }} disponible para asignar<br/>
 					{{ p.cantidad_asignada }} asignado <br/>
 					<strong>{{ p.cantidad }} en total</strong>
 				</td>
-				<td class="text-center">{{ p.fecha_ultimo_ingreso ? p.fecha_ultimo_ingreso : 'Nunca' }}</td>
-				<td class="text-center">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
+				<td class="">{{ p.fecha_ultimo_ingreso ? p.fecha_ultimo_ingreso : 'Nunca' }}</td>
+				<td class="">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
 			</tr>
 		</tbody>
 	</table>
