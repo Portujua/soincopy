@@ -3,13 +3,13 @@
 		<a class="btn btn-volver" href="./#/planesdeestudio">&larr; Volver</a>
 	</p>
 
-	<h1 style="font-size: 20px;">Planes de Estudio &rarr; {{ editar ? 'Editar' : 'Agregar' }}</h1>
+	<h1 style="font-size: 20px;">Planes de Estudio &rarr; {{ editar ? 'Editar' : 'Crear' }}</h1>
 
 	<div class="register-form">
 		<div class="fila" ng-hide="plan.para">
 			<h5>Por favor seleccione el método para agregar el pensum</h5>
-			<button type="button" class="btn btn-soincopy btn-lg" ng-click="plan.para = 'Materia'; refresh_selects();" style="font-size:14px !important;">Agregar por Materia</button>
-			<button type="button" class="btn btn-soincopy btn-lg" ng-click="plan.para = 'Carrera'; refresh_selects();" style="font-size:14px !important;">Agregar por Carrera</button>
+			<button type="button" class="btn btn-soincopy btn-lg" ng-click="plan.para = 'Materia'; refresh_selects();" style="font-size:14px !important;">Crear por Materia</button>
+			<button type="button" class="btn btn-soincopy btn-lg" ng-click="plan.para = 'Carrera'; refresh_selects();" style="font-size:14px !important;">Crear por Carrera</button>
 		</div>
 
 		<div ng-if="plan.para == 'Carrera'">

@@ -5,7 +5,7 @@
 
 	<h1 style="font-size: 20px;">Inventario &rarr; Stock de {{ material.nombre }}</h1>
 	<form class="agregar_stock" name="agregar" ng-submit="registrar_stock()" ng-if="loginService.getCurrentUser().inventario_agregar_stock">
-		<h2>Agregar nuevo stock</h2>
+		<h2>Crear nuevo stock</h2>
 		<label for="cantidad">Cantidad (*)</label>
 		<input name="cantidad" id="cantidad" type="number" ng-model="$parent.material.nuevo_stock.cantidad" required ng-min=1 ng-pattern="/^[0-9]+$/" />
 
@@ -23,7 +23,7 @@
 		<label for="fecha_factura">Fecha factura (*)</label>
 		<input name="fecha_factura" id="fecha_factura" type="date" ng-model="$parent.material.nuevo_stock.fecha_factura" required />
 
-		<button class="btn btn-soincopy" type="submit" ng-disabled="agregar.$invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Agregar al stock</button>
+		<button class="btn btn-soincopy" type="submit" ng-disabled="agregar.$invalid"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Crear al stock</button>
 	</form>
 
 	<hr/>
