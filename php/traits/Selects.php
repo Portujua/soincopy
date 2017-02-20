@@ -649,7 +649,7 @@
                 from (
                     select 
                         o.id as id, 
-                        (o.id - (case when (select id from Pedido where fecha_anadida=date_sub(fecha_anadida, interval -1 day) order by id desc limit 1) is not null then (select id from Pedido where fecha_anadida=date_sub(fecha_anadida, interval -1 day) order by id desc limit 1) else 0 end)) as id_dia,
+                        (o.id - (case when (select id from Pedido where date(fecha_anadida)=date(date_sub(now(), interval 1 day)) order by id desc limit 1) is not null then (select id from Pedido where date(fecha_anadida)=date(date_sub(o.fecha_anadida, interval 1 day)) order by id desc limit 1) else 0 end)) as id_dia,
                         o.numero as numero, 
                         o.observaciones as observaciones, 
                         o.estado as estado, 
@@ -669,7 +669,7 @@
                     order by o.id desc
                 ) R left join Condicion_Pago as cp
                 on R.cond_pago_=cp.id
-                where 1=1
+                where R.tiempo_restante>0
                 ".$extra_query."
                 order by R.id_dia desc
             ");
