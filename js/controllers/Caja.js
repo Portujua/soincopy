@@ -15,7 +15,7 @@
 		$scope.editar = $routeParams.id;
 		$scope.pid = $routeParams.pid;
 		$scope.pago = {
-			monto: 0.00,
+			monto: null,
 			subtotal: 0.00,
 			iva: 0.00,
 			total: 0.00,
