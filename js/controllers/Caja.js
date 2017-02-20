@@ -18,7 +18,8 @@
 			monto: 0.00,
 			subtotal: 0.00,
 			iva: 0.00,
-			total: 0.00
+			total: 0.00,
+			metodo_pago: '4'
 		}
 
 		SoincopyService.getCondicionesPago($scope);
