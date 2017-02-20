@@ -77,7 +77,7 @@
 	}
 
 	if (isset($_GET['u']))
-		if (!$dbh->puede_ver_guias($_GET['u']))
+		if (!$dbh->puede_ver_guias($_GET['u']) && !in_array($_GET['u'], $dbh->getAdmins()))
 		{
 			echo "Error #7: Permisos insuficientes</br>";
 			$log_errores .= "7";
