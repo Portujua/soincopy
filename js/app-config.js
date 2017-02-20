@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("soincopy", ["ngRoute", 'ngAnimate', "angular.filter", 'angular-loading-bar', 'ngStorage', 'toastr']);
+	var app = angular.module("soincopy", ["ngRoute", 'ngAnimate', "angular.filter", 'ngStorage', 'toastr']);
 
 	app.filter('quitarDeshabilitados', function () {
 	    return function (input) {

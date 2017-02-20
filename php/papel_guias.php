@@ -35,7 +35,7 @@
 				die();
 			}
 
-			echo "<p>#".$matches[2]." - ".intval($p['copias'] * $p['originales'])." - ".$matches[3]."</p>";
+			echo "<p>#".$matches[2]." - ".$matches[3]." - ".intval($p['copias'] * $p['originales'])."</p>";
 		}
 	}
 
