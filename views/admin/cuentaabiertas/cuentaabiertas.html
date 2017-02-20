@@ -101,7 +101,7 @@
 						<tr ng-repeat="p in p_.productos">
 							<td class="text-left">{{ p.producto_nombre }} <small>{{ p.fecha_anadido }}</small></td>
 							<td class="text-right">{{ p.copias * p.originales }} unidades</td>
-							<td class="text-right">{{ p.costo_unitario_facturado | currency:'Bs. ' }}</td>
+							<td class="text-right">{{ (p.costo_unitario_facturado / (1.00 + IVA)) | currency:'Bs. ' }}</td>
 						</tr>
 						<tr>
 							<td class="text-left">&nbsp;</td>
