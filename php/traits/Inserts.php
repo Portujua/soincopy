@@ -779,8 +779,8 @@
 
             /* Registro el pago */
             $query = $this->db->prepare("
-                insert into Pago_Pedido (pedido, creado_por, fecha_creado, monto, cambio, subtotal, iva, total, metodo_pago, iva_usado, tipo_tarjeta_credito)
-                values (:pedido, (select id from Personal where usuario=:usuario), now(), :monto, :cambio, :subtotal, :iva, :total, :metodo_pago, (select valor from IVA order by fecha desc limit 1), :tipo_tarjeta)
+                insert into Pago_Pedido (pedido, creado_por, fecha_creado, monto, cambio, subtotal, iva, total, metodo_pago, iva_usado, tipo_tarjeta_credito, nro_tarjeta_credito, nro_tarjeta_debito, nro_cheque, nro_transferencia, banco)
+                values (:pedido, (select id from Personal where usuario=:usuario), now(), :monto, :cambio, :subtotal, :iva, :total, :metodo_pago, (select valor from IVA order by fecha desc limit 1), :tipo_tarjeta, :nro_credito, :nro_debito, :nro_cheque, :nro_transferencia, :banco)
             ");
 
             $query->execute(array(
@@ -792,7 +792,12 @@
                 ":iva" => $post['iva'],
                 ":total" => $post['total'],
                 ":metodo_pago" => $post['metodo_pago'],
-                ":tipo_tarjeta" => isset($post['tipo_tarjeta']) ? $post['tipo_tarjeta'] : null
+                ":tipo_tarjeta" => isset($post['tipo_tarjeta']) ? $post['tipo_tarjeta'] : null,
+                ":nro_credito" => isset($post['nro_tarjeta_credito']) ? $post['nro_tarjeta_credito'] : null,
+                ":nro_debito" => isset($post['nro_tarjeta_debito']) ? $post['nro_tarjeta_debito'] : null,
+                ":nro_cheque" => isset($post['nro_cheque']) ? $post['nro_cheque'] : null,
+                ":nro_transferencia" => isset($post['nro_transferencia']) ? $post['nro_transferencia'] : null,
+                ":banco" => isset($post['banco']) ? $post['banco'] : null
             ));
 
             $nro_factura = $this->db->lastInsertId();

@@ -476,6 +476,13 @@ create table Pago_Pedido (
 	tipo_tarjeta_credito varchar(32),
 	nro_factura varchar(128),
 	iva_usado float,
+
+	nro_tarjeta_credito varchar(32),
+	nro_tarjeta_debito varchar(64),
+	nro_cheque varchar(64),
+	nro_transferencia varchar(64),
+	banco varchar(64),
+
 	primary key(id),
 	unique(nro_factura),
 	foreign key (pedido) references Pedido(id),

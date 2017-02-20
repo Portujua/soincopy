@@ -47,19 +47,33 @@
 					</select>
 				</p>
 
-				<p ng-show="pago.metodo_pago == 1" style="width: 100%; margin-top: 15px;">
-					Tipo de tarjeta <select class="selectpicker" data-live-search="true" title="" data-width="35%" ng-model="pago.tipo_tarjeta" name="cond_pago" required ts-select-fix>
-						<option>VISA</option>
-						<option>Mastercard</option>
-						<option>American Express</option>
-					</select>
+				<p ng-if="pago.metodo_pago == 1" style="width: 100%; margin-top: 15px;">
+					Número de tarjeta <input type="number" name="nro_tarjeta" ng-model="pago.nro_tarjeta_credito">
 				</p>
 
-				<p ng-show="pago.metodo_pago == 1" style="width: 100%; margin-top: 15px;">
-					Tipo de tarjeta <select class="selectpicker" data-live-search="true" title="" data-width="35%" ng-model="pago.tipo_tarjeta" name="cond_pago" required ts-select-fix>
-						<option>VISA</option>
-						<option>Mastercard</option>
-						<option>American Express</option>
+				<p ng-if="pago.metodo_pago == 2" style="width: 100%; margin-top: 15px;">
+					Número de tarjeta <input type="number" name="nro_tarjeta" ng-model="pago.nro_tarjeta_debito">
+				</p>
+
+				<p ng-if="pago.metodo_pago == 3" style="width: 100%; margin-top: 15px;">
+					Número de cheque <input type="number" name="nro_tarjeta" ng-model="pago.nro_cheque">
+				</p>
+
+				<p ng-if="pago.metodo_pago == 5" style="width: 100%; margin-top: 15px;">
+					Número de transferencia <input type="number" name="nro_tarjeta" ng-model="pago.nro_transferencia">
+				</p>
+
+				<p ng-show="pago.metodo_pago == 2 || pago.metodo_pago == 3" style="width: 100%; margin-top: 15px;">
+					Banco <select class="selectpicker" data-live-search="true" title="" data-width="35%" ng-model="pago.banco" name="cond_pago" required ts-select-fix>
+						<option>Banesco</option>
+						<option>Banco del Caribe</option>
+						<option>Banco de Venezuela</option>
+						<option>Banco Venezolano de Credito</option>
+						<option>Banco Mercantil</option>
+						<option>Banco Exterior</option>
+						<option>Banplus</option>
+						<option>Banco Provincial</option>
+						<option>Banco del Espiritu Santo</option>
 					</select>
 				</p>
 			</div>
