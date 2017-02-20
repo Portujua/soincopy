@@ -313,7 +313,7 @@
                     (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, 
                     pf.id as familia, 
                     pf.nombre as familia_nombre,
-                    (select pm.cantidad * (s.costo / s.cantidad) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0 order by s.id desc limit 1) as costo_materiales,
+                    (select pm.cantidad * (s.costo) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0 order by s.id desc limit 1) as costo_materiales,
                     cast((select (
                             select sum(s.cantidad_disponible) as disponible
                             from Stock as s
@@ -351,7 +351,7 @@
                     (select costo from Producto_Costo where producto=p.id and eliminado=0 order by fecha desc limit 1) as costo_unitario, 
                     pf.id as familia, 
                     pf.nombre as familia_nombre,
-                    (select sum(pm.cantidad * (s.costo / s.cantidad)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0) as costo_materiales,
+                    (select sum(pm.cantidad * (s.costo)) from Producto_Material as pm, Stock as s where pm.producto=p.id and pm.material=s.material and s.eliminado=0 and s.cantidad_disponible>0) as costo_materiales,
                     cast((select (
                             case when (
                                 select sum(s.restante) as disponible
