@@ -103,6 +103,16 @@
 						</tr>
 						<tr>
 							<td class="text-left">&nbsp;</td>
+							<td class="text-right"><strong>Base imponible</strong></td>
+							<td class="text-right"><strong>{{ (p_.total_cuenta / (1.00 + IVA)) | currency:'Bs. ' }}</strong></td>
+						</tr>
+						<tr>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-right"><strong>IVA</strong></td>
+							<td class="text-right"><strong>{{ p_.total_cuenta - (p_.total_cuenta / (1.00 + IVA)) | currency:'Bs. ' }}</strong></td>
+						</tr>
+						<tr>
+							<td class="text-left">&nbsp;</td>
 							<td class="text-right"><strong>Total</strong></td>
 							<td class="text-right"><strong>{{ p_.total_cuenta | currency:'Bs. ' }}</strong></td>
 						</tr>

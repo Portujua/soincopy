@@ -16,6 +16,25 @@
 
 		SoincopyService.getCuentaAbiertas($scope);
 
+		$scope.recalcular_iva = function(){
+			if ($scope.p_.total_cuenta == 0.00) {
+				$timeout($scope.recalcular_iva, 500);
+				return;
+			}
+
+			if ($scope.p_.total_cuenta >= 200000.00) {
+				$scope.$parent.IVA = 0.12;
+			}
+			else {
+				if ($scope.pago.metodo_pago == '4')
+					$scope.$parent.IVA = 0.12;
+				else
+					$scope.$parent.IVA = 0.10;
+			}
+
+			console.log("IVA Recalculado a:", $scope.$parent.IVA);
+		}
+
 		$scope.cargar_productos_venta = function(){
 			SoincopyService.getProductosVenta($scope);
 		}
@@ -144,6 +163,7 @@
 
 		$scope.seleccionar = function(p){
 			$scope.p_ = p;
+			$scope.recalcular_iva();
 		}
 
 		$scope.requerir_autorizacion = function(){
