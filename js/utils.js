@@ -35,3 +35,13 @@ Array.prototype.contains = function(obj){
     }
     return false;
 }
+
+Array.prototype.containsObject = function(search, key) {
+	for (var i = 0; i < this.length; i++) {
+        if (this[i][key].toUpperCase().indexOf(search.toUpperCase()) != -1) {
+            return true;
+        }
+    }
+    
+    return false;
+}

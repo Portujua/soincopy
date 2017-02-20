@@ -43,7 +43,10 @@
 		<tbody ng-init="actual = 0;">
 			<tr ng-repeat="p in material.stock | paginar:nroResultados+'|'+actual" 
 				ng-if="
-					(p.fecha_str.indexOf(busqueda) != -1)
+					(p.fecha_str.indexOf(busqueda) != -1 ||
+					p.proveedor_nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
+					p.costo.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
+					p.cantidad.toUpperCase().indexOf(busqueda.toUpperCase()) != -1)
 				">
 				<td ng-show="loginService.getCurrentUser().inventario_eliminar_stock" class="text-center">
 					<div class="btn-group">

@@ -50,7 +50,9 @@
 		<tbody ng-init="actual = 0;">
 			<tr ng-click="seleccionar(p)" ng-repeat="p in cuentaabiertas | orderBy:order | paginar:nroResultados+'|'+actual" 
 				ng-if="
-					(p.nombre.indexOf(busqueda) != -1)
+					(p.nombre.indexOf(busqueda) != -1 ||
+					p.personas.containsObject(busqueda, 'nombre_completo') ||
+					p.personas.containsObject(busqueda, 'cedula'))
 
 					&& (solo_activos == false || p.estado == 1)
 				"
