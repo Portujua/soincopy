@@ -104,6 +104,7 @@
 			$scope.pago.usuario = LoginService.getCurrentUser().username;
 
 			var data_pago = $scope.pago;
+			var pid = $scope.pid;
 
 			$.confirm({
 				title: "Confirmar acción",
@@ -124,9 +125,24 @@
 						        	$location.path("/pedidos");
 
 						        	window.open(
-										"./factura/" + json.factura,
-										"_blank",
-										"menubar=no,status=no,toolbar=no,width=285,height=400");
+												"./factura/" + json.factura,
+												"_blank",
+												"menubar=no,status=no,toolbar=no,width=285,height=400");
+
+						        	$.ajax({
+										    url: "php/papel_guias.php?pedido=" + pid + "&check",
+										    type: "POST",
+										    data: [],
+										    beforeSend: function(){
+										    },
+										    success: function(data){
+										    	if (data.indexOf('{"result":true}') > -1)
+										    		window.open(
+															"php/papel_guias.php?pedido=" + pid,
+															"_blank",
+															"menubar=no,status=no,toolbar=no,width=285,height=400");
+										    }
+										  });
 						        }
 						    }
 						    catch (ex)
