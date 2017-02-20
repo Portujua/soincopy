@@ -22,6 +22,12 @@
         private $session_duration = 3600;
         private $duracion_pedido = 3600;
         private $admin_usernames = "('root', 'pmartinez', 'marcos')";
+        private $admin_usernames_ = array('root', 'pmartinez', 'marcos');
+
+        public function getAdmins()
+        {
+            return $this->admin_usernames_;
+        }
 
         public function __construct()
         {
