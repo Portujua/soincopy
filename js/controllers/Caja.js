@@ -23,6 +23,27 @@
 
 		SoincopyService.getCondicionesPago($scope);
 
+		$scope.recalcular_iva = function(){
+			if ($scope.pago.iva == 0.00) {
+				$timeout($scope.recalcular_iva, 500);
+				return;
+			}
+
+			if ($scope.pago.subtotal >= 200000.00) {
+				$scope.$parent.IVA = 0.12;
+			}
+			else {
+				if ($scope.pago.metodo_pago == '4')
+					$scope.$parent.IVA = 0.12;
+				else
+					$scope.$parent.IVA = 0.10;
+			}
+
+			console.log("IVA Recalculado a:", $scope.$parent.IVA);
+
+			$scope.calcularDatos();
+		}
+
 		$scope.cargar_retiros_de_caja = function(){
 			SoincopyService.getRetirosCaja($scope);
 		}
