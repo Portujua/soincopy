@@ -604,11 +604,36 @@ a {
 		padding: 0px;
 	}
 
+	.seccion.hide_print {
+		& > table {
+			display: none;
+		}
+
+		& > input {
+			display: none;
+		}
+
+		& > h1 {
+			display: none;
+		}
+
+		& > p {
+			display: none;
+		}
+	}
+
 	.cerrar_seccion {
 		display: none;
 	}
 
 	.btn {
 		display: none;
+	}
+
+	.modal {
+		width: 100%;
+		margin: 0;
+		z-index: 999;
+		background-color: white;
 	}
 }
