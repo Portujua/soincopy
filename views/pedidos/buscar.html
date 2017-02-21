@@ -29,6 +29,16 @@
 		<br/><br/>
 
 		<table ng-table="tableParams" class="table table-striped" show-filter="true" ng-init="cargar_pedidos()">
+			<colgroup>
+				<col width="5%">
+				<col>
+				<col>
+				<col>
+				<col>
+				<col>
+				<col>
+				<col>
+			</colgroup>
 		    <tr ng-repeat="row in $data" class="{{ row.estado == 0 ? 'bg-danger' : (row.procesada == -1 ? 'bg-danger' : (row.procesada == 1 ? 'bg-success' : '')) }} {{ o_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)">
 		        <td title="'Pedido'" filter="{ id_dia: 'text'}" sortable="'id_dia'">
 		            {{ row.id_dia }}

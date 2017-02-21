@@ -683,6 +683,8 @@
 
             for ($i = 0; $i < count($pedidos); $i++)
             {
+                $pedidos[$i]['id'] = intval($pedidos[$i]['id']);
+                
                 /* Productos */
                 $pedidos[$i]['productos'] = array();
 

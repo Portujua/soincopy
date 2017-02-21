@@ -37,6 +37,13 @@
 	</p>
 
 	<table ng-table="tableParams" class="table table-striped" show-filter="true">
+		<colgroup>
+			<col width="5%">
+			<col width="">
+			<col width="">
+			<col width="">
+			<col width="10%">
+		</colgroup>
 	    <tr ng-repeat="row in $data" class="{{ row.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)">
 	        <td title="'Código'" filter="{ id: 'number'}" sortable="'id'">
 	            {{ row.id }}

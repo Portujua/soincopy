@@ -32,7 +32,7 @@
 
 	<table ng-table="tableParams" class="table table-striped" show-filter="true">
 	    <tr ng-repeat="row in $data" class="{{ row.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)">
-	        <td title="'Código'" filter="{ codigo: 'number'}" sortable="'codigo'">
+	        <td title="'Código'" filter="{ codigo: 'text'}" sortable="'codigo'">
 	            {{ row.codigo }}
 	        </td>
 
@@ -67,6 +67,7 @@
 
 	        <td title="'Estado'" sortable="'estado'">
 	            {{ row.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}
+	            toggle
 	        </td>
 	    </tr>
 	</table>
