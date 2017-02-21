@@ -1,5 +1,5 @@
 (function(){
-	var Pedido = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval, LoginService)
+	var Pedido = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval, LoginService, NgTableParams, $filter)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -23,7 +23,11 @@
 		SoincopyService.getProfesores($scope);
 
 		$scope.cargar_pedidos = function(no_timeout){
-			SoincopyService.getPedidos($scope);
+			SoincopyService.getPedidos().then((response) => {
+				$scope.pedidos = response.data;
+				var data = response.data;
+				$scope.tableParams = new NgTableParams({}, { dataset: data });
+			});
 
 			if (!no_timeout && window.location.hash.indexOf('factura_faltante') == -1 && window.location.hash.indexOf('por_procesar') == -1)
 				$timeout($scope.cargar_pedidos, $scope.$parent.REFRESH_INTERVAL);

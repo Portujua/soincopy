@@ -189,8 +189,7 @@
 
 
 			getProductos: function(s){
-				$http.get("api/productos").then(function(obj){
-					s.productos = obj.data;
+				return $http.get("api/productos").finally(() => {
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
@@ -448,9 +447,8 @@
 
 
 
-			getInventario: function(s){
-				$http.get("api/inventario").then(function(obj){
-					s.inventario = obj.data;
+			getInventario: function(){
+				return $http.get("api/inventario").finally(() => {
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},
@@ -537,11 +535,12 @@
 
 
 
-			getPedidos: function(s){
-				$http.get("api/pedidos").then(function(obj){
-					s.pedidos = obj.data;
-					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
-				});
+			getPedidos: function(){
+				return $http.get("api/pedidos")
+					.finally(() => {
+						//s.pedidos = obj.data;
+						$timeout(() => {$('.selectpicker').selectpicker('refresh');}, 500);
+					});
 			},
 			getPedidosSinFactura: function(s){
 				$http.get("api/pedidos/sinfactura").then(function(obj){

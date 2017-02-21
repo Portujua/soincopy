@@ -1,5 +1,5 @@
 (function(){
-	var Inventario = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var Inventario = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, NgTableParams, $filter)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -14,7 +14,6 @@
 
 		$scope.editar = $routeParams.id;
 
-		SoincopyService.getInventario($scope);
 		SoincopyService.getProveedores($scope);
 		SoincopyService.getPersonal($scope);
 		SoincopyService.getInventarioAsignado($scope);
@@ -22,6 +21,12 @@
 		SoincopyService.getInventarioDanado($scope);
 
 		$scope.motivos = ["Error", "Donación", "Uso interno"];
+
+		SoincopyService.getInventario().then((response) => {
+			$scope.inventario = response.data;
+			var data = response.data;
+			$scope.tableParams = new NgTableParams({}, { dataset: data });
+		});
 
 		$scope.cargar_material = function(id){
 			SoincopyService.getMaterial($scope, id);

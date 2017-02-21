@@ -27,82 +27,47 @@
 	</p>
 
 	<p>
-		Buscar producto <input type="text" class="input_busqueda" ng-model="busqueda" ng-init="busqueda = ''" placeholder="Use cualquier campo para buscar" /> 
-		<input type="checkbox" ng-model="solo_activos" ng-init="solo_activos = true;" /> Ver solo habilitados
-	</p>
-
-	<p>
 		<a href="./api/export/productos" target="_blank" class="btn btn-soincopy">Exportar a Excel</a>
 	</p>
 
-	<table class="table table-stripped" ng-init="order = '+codigo'">
-		<thead>
-			<th class="">
-				Código 
-				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+codigo'" ng-show="order != '+codigo'" aria-hidden="true"></span> 
-				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-codigo'" ng-show="order != '-codigo'" aria-hidden="true"></span>
+	<table ng-table="tableParams" class="table table-striped" show-filter="true">
+	    <tr ng-repeat="row in $data" class="{{ row.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)">
+	        <td title="'Código'" filter="{ codigo: 'number'}" sortable="'codigo'">
+	            {{ row.codigo }}
+	        </td>
 
-				<script>
-					$(document).ready(function(){
-					    $('[data-toggle="tooltip"]').tooltip(); 
-					});
-				</script>
-			</th>
-			<th class="">
-				Nombre
-				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+nombre'" ng-show="order != '+nombre'" aria-hidden="true"></span> 
-				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-nombre'" ng-show="order != '-nombre'" aria-hidden="true"></span>
+	        <td title="'Nombre'" filter="{ nombre: 'text' }" sortable="'nombre'">
+	            {{ row.nombre }}
+	        </td>
 
-				<script>
-					$(document).ready(function(){
-					    $('[data-toggle="tooltip"]').tooltip(); 
-					});
-				</script>
-			</th>
-			<th class="">Descripción</th>
-			<!--<th class="">Departamento</th>-->
-			<th class="">Familia</th>
-			<th class="">Costo de venta</th>
-			<th class="">Costo de compra</th>
-			<th class="">Disponibles</th>
-			<th class="">Exento IVA</th>
-			<th class="">Estado</th>
-		</thead>
-		<tbody ng-init="actual = 0;">
-			<tr ng-click="seleccionar(p)" ng-repeat="p in productos | orderBy:order | paginar:nroResultados+'|'+actual"
-				ng-if="
-					(p.codigo.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
-					p.nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
-					p.costo_materiales.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
-					p.disponibles.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
-					p.familia_nombre.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
-					p.costo_unitario.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 ||
-					(
-						p.descripcion ? p.descripcion.toUpperCase().indexOf(busqueda.toUpperCase()) != -1 : false
-					))
+	        <td title="'Descripción'" filter="{ descripcion: 'text' }" sortable="'descripcion'">
+	            {{ row.descripcion }}
+	        </td>
 
-					&& (solo_activos == false || p.estado == 1)
-				"
-				class="{{ p.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == p.id ? 'bg-selected' : '' }}">
-				<td class="">{{ p.codigo }}</td>
-				<td class="">{{ p.nombre }}</td>
-				<td class="">{{ p.descripcion }}</td>
-				<!--<td class="">{{ p.departamento_nombre }}</td>-->
-				<td class="">{{ p.familia_nombre }}</td>
-				<td class="">{{ p.costo_unitario | currency:'Bs. ' }}</td>
-				<td class="">{{ p.costo_materiales | currency:'Bs. ' }}</td>
-				<td class="">{{ p.disponibles }} unidades</td>
-				<td class="">{{ p.exento_iva == 1 ? 'Sí' : 'No' }}</td>
-				<td class="">{{ p.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}</td>
-			</tr>
-		</tbody>
+	        <td title="'Familia'" filter="{ familia_nombre: 'text' }" sortable="'familia_nombre'">
+	            {{ row.familia_nombre }}
+	        </td>
+
+	        <td title="'Costo de venta'" filter="{ costo_unitario: 'number' }" sortable="'costo_unitario'">
+	            {{ row.costo_unitario | currency:'Bs. ' }}
+	        </td>
+
+	        <td title="'Costo de compra'" filter="{ costo_materiales: 'number' }" sortable="'costo_materiales'">
+	            <span ng-if="row.costo_materiales > 0.00">{{ row.costo_materiales | currency:'Bs. ' }}</span>
+	            <span ng-if="row.costo_materiales == 0.00">Debe añadir STOCK al material asociado</span>
+	        </td>
+
+	        <td title="'Disponibles'" filter="{ disponibles: 'number' }" sortable="'disponibles'">
+	            {{ row.disponibles }} unidades
+	        </td>
+
+	        <td title="'Exento IVA'" sortable="'exento_iva'">
+	            {{ row.exento_iva == 1 ? 'Sí' : 'No' }}
+	        </td>
+
+	        <td title="'Estado'" sortable="'estado'">
+	            {{ row.estado == 1 ? 'Habilitado' : 'Deshabilitado' }}
+	        </td>
+	    </tr>
 	</table>
-
-	<div class="text-center" ng-show="nroResultados < productos.length">
-		<ul class="pagination">
-			<li ng-repeat="i in paginationCount(nroResultados, productos.length)" class="{{ actual == i ? 'active' : '' }}">
-				<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
-			</li>
-		</ul>
-	</div>
 </div>

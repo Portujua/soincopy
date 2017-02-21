@@ -7,7 +7,7 @@
 
 		$scope.nroResultados = 25; 
 		$scope.IVA = null;
-		$scope.REFRESH_INTERVAL = 5000;
+		$scope.REFRESH_INTERVAL = 10000;
 
 		$interval(function(){
 			$scope.enInicio = window.location.hash.indexOf("inicio") != -1;

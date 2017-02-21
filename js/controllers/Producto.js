@@ -1,5 +1,5 @@
 (function(){
-	var Producto = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService)
+	var Producto = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, NgTableParams, $filter)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -14,11 +14,16 @@
 
 		$scope.editar = $routeParams.id;
 
-		SoincopyService.getProductos($scope);
 		SoincopyService.getDepartamentos($scope);
 		SoincopyService.getInventario($scope);
 		SoincopyService.getFamilias($scope);
 		SoincopyService.getGuias($scope, 1);
+
+		SoincopyService.getProductos().then((response) => {
+			$scope.productos = response.data;
+			var data = response.data;
+			$scope.tableParams = new NgTableParams({}, { dataset: data });
+		});
 
 		$scope.cargar_producto = function(id){
 			SoincopyService.getProducto($scope, id);

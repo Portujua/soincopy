@@ -211,6 +211,8 @@
 
             for ($i = 0; $i < count($inventario); $i++)
             {
+                $inventario[$i]['id'] = intval($inventario[$i]['id']);
+                
                 $inventario[$i]['stock'] = array();
 
                 $query = $this->db->prepare("
@@ -326,7 +328,7 @@
                         limit 1) as unsigned
                         ) as disponibles, 
                         p.exento_iva as exento_iva, 
-                        concat(pf.id, p.id) as codigo, 
+                        concat(pf.id, '-', p.id) as codigo, 
                         p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
@@ -373,7 +375,7 @@
                         limit 1) as unsigned
                         ) as disponibles, 
                         p.exento_iva as exento_iva, 
-                        concat(pf.id, p.id) as codigo, 
+                        concat(pf.id, '-', p.id) as codigo, 
                         p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
                     where p.departamento=d.id and p.familia=pf.id
@@ -393,6 +395,8 @@
             {
                 /* Cast a numero aquellos necesarios */
                 $productos[$i]['disponibles'] = intval($productos[$i]['disponibles']);
+                $productos[$i]['costo_unitario'] = intval($productos[$i]['costo_unitario']);
+                $productos[$i]['costo_materiales'] = intval($productos[$i]['costo_materiales']);
 
                 /* Historial de precios */
                 $productos[$i]['historial_costos'] = array();
