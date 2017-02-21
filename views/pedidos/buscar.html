@@ -40,7 +40,7 @@
 				<col>
 			</colgroup>
 		    <tr ng-repeat="row in $data" class="{{ row.estado == 0 ? 'bg-danger' : (row.procesada == -1 ? 'bg-danger' : (row.procesada == 1 ? 'bg-success' : '')) }} {{ o_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)">
-		        <td title="'Pedido'" filter="{ id_dia: 'text'}" sortable="'id_dia'">
+		        <td title="'Pedido'" filter="{ id_dia: 'number'}" sortable="'id_dia'">
 		            {{ row.id_dia }}
 		        </td>
 
@@ -49,9 +49,8 @@
 					<p style="margin-bottom: 0px !important;" ng-if="row.procesada == 0">Expira en {{ 60 - (row.tiempo_restante / 60) | number:0 }} min</p>
 		        </td>
 
-		        <td title="'Cliente'" filter="{ cliente_nombre: 'text', cliente_ni: 'text'}" sortable="'cliente_nombre'">
-		            Nombre: {{ row.cliente_nombre }}<br>
-		            NI: {{ row.cliente_ni }}
+		        <td title="'Cliente'" filter="{ cliente_str: 'text' }" sortable="'cliente_str'">
+		            {{ row.cliente_str }}
 		        </td>
 
 		        <td title="'Método de pago'" filter="{ metodo_pago: 'text'}" sortable="'metodo_pago'">
