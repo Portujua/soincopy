@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("soincopy", ["ngRoute", 'ngAnimate', "angular.filter", 'ngStorage', 'toastr', 'ngTable']);
+	var app = angular.module("soincopy", ["ngRoute", 'ngAnimate', "angular.filter", 'ngStorage', 'toastr', 'ngTable', 'ui.toggle']);
 
 	app.filter('quitarDeshabilitados', function () {
 	    return function (input) {
@@ -14,6 +14,12 @@
 	    	return out;
 	    };
 	});
+
+	// app.run(['$templateCache',
+	//     function($templateCache) {
+	// 		$templateCache.put('ng-table/filters/text.html', '<input placeholder="{{ name }}" type="text" name="{{ name }}" ng-disabled="$filterRow.disabled" ng-model="params.filter()[name]" ng-if="filter == \'text\'" class="input-filter form-control" />');
+	// 		   }
+	//   ]);
 
 	app.filter('quitarGuias', function () {
 	    return function (input) {

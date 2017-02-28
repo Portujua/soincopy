@@ -327,7 +327,7 @@
                         order by disponibles asc
                         limit 1) as unsigned
                         ) as disponibles, 
-                        p.exento_iva as exento_iva, 
+                        (case when p.exento_iva=1 then 'Si' else 'No' end) as exento_iva, 
                         concat(pf.id, '-', p.id) as codigo, 
                         p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf
@@ -374,7 +374,7 @@
                         order by disponibles asc
                         limit 1) as unsigned
                         ) as disponibles, 
-                        p.exento_iva as exento_iva, 
+                        (case when p.exento_iva=1 then 'Si' else 'No' end) as exento_iva, 
                         concat(pf.id, '-', p.id) as codigo, 
                         p.tokens as tokens
                     from Producto as p, Departamento as d, Producto_Familia as pf

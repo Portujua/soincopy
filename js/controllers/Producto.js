@@ -22,7 +22,7 @@
 		SoincopyService.getProductos().then((response) => {
 			$scope.productos = response.data;
 			var data = response.data;
-			$scope.tableParams = new NgTableParams({}, { dataset: data });
+			$scope.tableParams = new NgTableParams({ group: 'familia_nombre' }, { dataset: data });
 		});
 
 		$scope.cargar_producto = function(id){
