@@ -1,5 +1,5 @@
 (function(){
-	var app = angular.module("soincopy", ["ngRoute", 'ngAnimate', "angular.filter", 'ngStorage', 'toastr', 'ngTable', 'ui.toggle']);
+	var app = angular.module("soincopy", ["ngRoute", 'ngAnimate', "angular.filter", 'ngStorage', 'toastr', 'ngTable', 'ui.toggle', 'mgcrea.ngStrap']);
 
 	app.filter('quitarDeshabilitados', function () {
 	    return function (input) {
@@ -13,6 +13,12 @@
 
 	    	return out;
 	    };
+	});
+
+	app.config(function($sceProvider) {
+	  // Completely disable SCE.  For demonstration purposes only!
+	  // Do not use in new projects.
+	  $sceProvider.enabled(false);
 	});
 
 	// app.run(['$templateCache',
@@ -78,6 +84,16 @@
 	    		items.push(_items[i]);
 
 			return items;
+	    };
+	});
+
+	app.filter('available', function () {
+	    return (input, attr) => {
+	      attr = attr || attr === '' ? attr : 'N/A';
+	      if (_.isString(input)) {
+	        input = input.trim();
+	      }
+	      return (_.isNull(input) || input.length == 0 || _.isUndefined(input)) ? attr : input;
 	    };
 	});
 

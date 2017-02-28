@@ -1,5 +1,5 @@
 (function(){
-	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService)
+	var Personal = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService, NgTableParams, $filter)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -44,6 +44,7 @@
 			    success: function(data){
 			        $scope.safeApply(function(){
 			        	$scope.personal = $.parseJSON(data);
+			        	$scope.tableParams = new NgTableParams({}, { dataset: $.parseJSON(data) });
 			        })
 			    }
 			});

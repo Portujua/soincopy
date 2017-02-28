@@ -25,7 +25,7 @@
 			<span ng-show="agregar.contrasena.$error.maxlength">Contraseña muy larga!</span>
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-if="!editar">
 			<p>Confirmar contraseña (*)</p>
 
 			<input type="password" ng-model="personal_nuevo.confirmar_contrasena" name="confirmar_contrasena" required placeholder="Confirmar contraseña" />
@@ -73,9 +73,12 @@
 			<input type="text" ng-model="personal_nuevo.telefono" name="tlf" ng-minlength=0 ng-maxlength=32 ng-init="personal_nuevo.telefono = ''" placeholder="Teléfono" />
 		</div>
 
-		<div class="fila">
+		<div class="fila" ng-if="departamentos">
 			<p>Departamento (*)</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="personal_nuevo.departamentos" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1 multiple></select>
+
+			<button type="button" class="btn btn-default" ng-model="personal_nuevo.departamentos" data-html="1" data-multiple="1" bs-options="d.id as d.nombre for d in departamentos" bs-select placeholder="Seleccione uno o mas departamentos.." required name="departamentos">
+				Action <span class="caret"></span>
+			</button>
 		</div>
 
 		<div ng-if="loginService.permisos()">
@@ -93,7 +96,7 @@
 
 
 		<div class="fila text-center">
-			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid || personal_nuevo.contrasena != personal_nuevo.confirmar_contrasena">Aceptar</button>
+			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid || (personal_nuevo.confirmar_contrasena ? personal_nuevo.contrasena != personal_nuevo.confirmar_contrasena : false)">Aceptar</button>
 			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
 		</div>
 	</div>

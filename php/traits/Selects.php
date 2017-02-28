@@ -1071,6 +1071,7 @@
             $query = $this->db->prepare("
                 select *, concat(nombre, ' ', apellido) as nombre_completo, concat(tipo_cedula, '-', cedula) as cedula_
                 from Personal
+                where id>1
                 order by nombre asc
             ");
 
@@ -1102,7 +1103,7 @@
 
                 /* Departamentos */
                 $ret[$i]["departamentos"] = array();
-                $ret[$i]["departamentos_str"] = array();
+                $ret[$i]["departamentos_str"] = "";
 
                 $query = $this->db->prepare("
                     select pd.departamento as departamento, d.nombre as departamento_nombre
@@ -1116,10 +1117,10 @@
 
                 $departamentos = $query->fetchAll();
 
-                foreach ($departamentos as $p)
+                for ($k = 0; $k < count($departamentos); $k++)
                 {
-                    $ret[$i]["departamentos"][] = $p['departamento'];
-                    $ret[$i]["departamentos_str"][] = $p['departamento_nombre'];
+                    $ret[$i]["departamentos"][] = $departamentos[$k]['departamento'];
+                    $ret[$i]["departamentos_str"] .= $departamentos[$k]['departamento_nombre'] . ($k + 1 < count($departamentos) ? ', ' : '');
                 }
             }
 
