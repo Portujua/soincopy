@@ -33,129 +33,50 @@
 		</div>
 	</div>
 
-	<div class="filtros" ng-show="false">
-		<h4>Filtros</h4>
-
-		<div class="fila" ng-init="cargar_carreras()">
-			<span>Carrera&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<select ng-model="filtros.carrera" ng-init="filtros.carrera = -1" name="carrera" ng-change="cargar_materias(); cargar_periodos();">
-				<option value="-1" selected>----- NO APLICA -----</option>
-				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
-			</select>
-		</div>
-
-		<div class="fila">
-			<span>Materia&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<select ng-model="filtros.materia" ng-init="filtros.materia = -1" name="materia" ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias | quitarDeshabilitados">
-				<option value="-1">----- NO APLICA -----</option>
-			</select>
-		</div>
-
-		<div class="fila">
-			<span>Período&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<select ng-model="filtros.periodo" ng-init="filtros.periodo = -1">
-				<option value="-1">----- NO APLICA -----</option>
-				<option ng-repeat="p in periodos" value="{{ p.periodo }}">{{ p.periodo + (p.tipo == 'Anual' ? ' año' : (p.tipo == 'Semestral' ? ' semestre' : '')) }}</option>
-			</select>
-		</div>
-
-		<div class="fila" ng-init="cargar_profesores()">
-			<span>Profesor&nbsp;&nbsp;&nbsp;&nbsp;</span>
-			<select name="profesor" ng-model="filtros.profesor" ng-init="filtros.profesor = -1">
-				<option value="-1">----- NO APLICA -----</option>
-				<option ng-repeat="p in profesores">{{ p.nombre_completo }}</option>
-			</select>
-		</div>
-	</div>
-
-	Buscar <input type="text" ng-model="buscador" ng-init="buscador = ''" placeholder="Ej. 19393, Pedro Perez, 19/03/2016, etc." data-toggle="tooltip" data-placement="top" title="Se puede filtrar la información usando cualquier campo" />
-
-	<script>
-		$(document).ready(function(){
-		    $('[data-toggle="tooltip"]').tooltip(); 
-		});
-	</script>
-
 	<p ng-hide="guias">Cargando guías..</p>
 
-	<table class="table table-stripped" ng-init="cargar_guias(); order = '+codigo';" ng-show="guias">
-		<thead>
-			<th class="text-center">
-				Código
-				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+codigo'" ng-show="order != '+codigo'" aria-hidden="true"></span> 
-				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-codigo'" ng-show="order != '-codigo'" aria-hidden="true"></span>
+	<table ng-table="tableParams" class="table table-striped table-hover" show-filter="true" ng-init="cargar_guias()">
+		<tr class="ng-table-group" ng-repeat-start="group in $groups">
+          <td colspan="3">
+            <a href="" ng-click="group.$hideRows = !group.$hideRows">
+              <span class="glyphicon" ng-class="{ 'glyphicon-chevron-right': group.$hideRows, 'glyphicon-chevron-down': !group.$hideRows }"></span>
+              <strong>{{ group.value }}</strong>
+            </a>
+          </td>
+        </tr>
 
-				<script>
-					$(document).ready(function(){
-					    $('[data-toggle="tooltip"]').tooltip(); 
-					});
-				</script>
-			</th>
-			<th class="text-center">
-				Título
-				<span class="glyphicon glyphicon-arrow-down order" data-toggle="tooltip" data-placement="top" title="Ordenar de menor a mayor" ng-click="order = '+titulo'" ng-show="order != '+titulo'" aria-hidden="true"></span> 
-				<span class="glyphicon glyphicon-arrow-up order" data-toggle="tooltip" data-placement="top" title="Ordenar de mayor a menor" ng-click="order = '-titulo'" ng-show="order != '-titulo'" aria-hidden="true"></span>
+	    <tr ng-hide="group.$hideRows" ng-repeat="row in group.data" class="{{ row.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)" ng-repeat-end>
+	        <td title="'Código'" filter="{ codigo: 'text'}" sortable="'codigo'">
+	            {{ row.codigo }}
+	        </td>
 
-				<script>
-					$(document).ready(function(){
-					    $('[data-toggle="tooltip"]').tooltip(); 
-					});
-				</script>
-			</th>
-			<th class="text-center">Precio</th>
-			<th class="text-center">
-				Profesor
-			</th>
-			<th class="text-center">Sección</th>
-			<th class="text-center">Tamaño</th>
-			<th class="text-center">Recibida por</th>
-			<th class="text-center">Fecha de entrega</th>
-		</thead>
-		<tbody ng-init="actual = 0;">
-			<tr ng-click="seleccionar(g)" ng-repeat="g in guias | orderBy:order | paginar:nroResultados+'|'+actual" 
-				ng-if="(!buscador || 
-						g.codigo.indexOf(buscador) != -1 ||
-						g.titulo.indexOf(buscador) != -1 ||
-						g.profesor.nombre_completo.indexOf(buscador) != -1 ||
-						g.seccion.indexOf(buscador) != -1 ||
-						g.carrera_nombre.indexOf(buscador) != -1 ||
-						g.materia_nombre.indexOf(buscador) != -1 ||
-						g.entregada_por.nombre_completo.indexOf(buscador) != -1 ||
-						g.recibida_por.nombre_completo.indexOf(buscador) != -1 ||
-						g.fecha.indexOf(buscador) != -1 ||
-						(g.numero_paginas + ' páginas, ' + g.numero_hojas + ' hojas').indexOf(buscador) != -1)
+	        <td title="'Título'" filter="{ titulo: 'text' }" sortable="'titulo'">
+	            {{ row.titulo }}
+	        </td>
 
-						&&
+	        <td title="'Precio'" filter="{ precio: 'number' }" sortable="'precio'">
+	            {{ row.precio | currency:'Bs. ' }}
+	        </td>
 
-						(
-							(g.carrera_id === filtros.carrera || filtros.carrera == -1) &&
-							(g.materia === filtros.materia || filtros.materia == -1) &&
-							(g.profesor.nombre_completo === filtros.profesor || filtros.profesor == -1) &&
-							(g.periodo === filtros.periodo || filtros.periodo == -1)
-						)
-						"
-				class="{{ g_.id == g.id ? 'bg-selected' : '' }}">
-				<td class="text-center">{{ g.codigo }}</td>
-				<td class="text-center">{{ g.titulo }}</td>
-				<td class="text-center">{{ g.precio | currency:'Bs. ' }}</td>
-				<td class="text-center">{{ g.profesor.nombre_completo }}</td>
-				<td class="text-center">{{ g.seccion }} de {{ g.materia_nombre }} ({{ g.carrera_nombre }})</td>
-				<!--<td class="text-center">{{ g.entregada_por.nombre_completo }}</td>-->
-				<td class="text-center">
-					<span ng-if="g.numero_paginas">{{ g.numero_paginas }} páginas, {{ g.numero_hojas }} hojas</span>
-					<span ng-if="!g.numero_paginas">Sin PDF</span>
-				</td>
-				<td class="text-center">{{ g.recibida_por.nombre_completo }}</td>
-				<td class="text-center">{{ g.fecha }} a las {{ g.hora }}</td>
-			</tr>
-		</tbody>
+	        <td title="'Profesor'" filter="{ profesor_nombre: 'text' }" sortable="'profesor_nombre'" groupable="'profesor_nombre'">
+	            {{ row.profesor_nombre }}
+	        </td>
+
+	        <td title="'Sección'" filter="{ seccion_str: 'text' }" sortable="'seccion_str'" groupable="'seccion'">
+	            {{ row.seccion_str }}
+	        </td>
+
+	        <td title="'Tamaño'" filter="{ tamano: 'text' }" sortable="'tamano'">
+	            {{ row.tamano }}
+	        </td>
+
+	        <td title="'Recibida por'" filter="{ recibida_por_nombre: 'text' }" sortable="'recibida_por_nombre'" groupable="'recibida_por_nombre'">
+	            {{ row.recibida_por_nombre }}
+	        </td>
+
+	        <td title="'Fecha de entrega'" filter="{ fecha_completa: 'text' }" sortable="'fecha_completa'">
+	            {{ row.fecha_completa }}
+	        </td>
+	    </tr>
 	</table>
-
-	<div class="text-center" ng-show="nroResultados < guias.length">
-		<ul class="pagination">
-			<li ng-repeat="i in paginationCount(nroResultados, guias.length)" class="{{ actual == i ? 'active' : '' }}">
-				<a href="" ng-click="$parent.actual = i;">{{ i + 1 }}</a>
-			</li>
-		</ul>
-	</div>
 </div>

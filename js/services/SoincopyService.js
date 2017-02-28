@@ -173,9 +173,8 @@
 
 
 
-			getGuias: function(s, status){
-				$http.get("api/guias/" + status).then(function(obj){
-					s.guias = obj.data;
+			getGuias: function(status){
+				return $http.get("api/guias/" + status).finally(() => {
 					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				});
 			},

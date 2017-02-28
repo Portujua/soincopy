@@ -1,5 +1,5 @@
 (function(){
-	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService, $localStorage, $interval)
+	var Guia = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, LoginService, $localStorage, $interval, NgTableParams, $filter)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -127,7 +127,19 @@
 		}
 
 		$scope.cargar_guias = function(){
-			SoincopyService.getGuias($scope, $scope.buscar_status);
+			SoincopyService.getGuias($scope.buscar_status)
+				.then((response) => {
+					$scope.guias = response.data;
+					var data = response.data;
+
+					var groupByCarrera = function(item) {
+				      return item.carrera_nombre;
+				    };
+				    groupByCarrera.title = "Carrera";
+				    groupByCarrera.sortDirection = "asc";
+
+					$scope.tableParams = new NgTableParams({ group: groupByCarrera }, { dataset: data });
+				})
 		}
 
 		$scope.cargar_guias_web = function(){

@@ -1285,11 +1285,18 @@
                 $carrera = $this->obtener_carrera_desde_materia($g['materia']);
                 $row["carrera_id"] = $carrera['id'];
                 $row["carrera_nombre"] = $carrera['nombre'];
+                $row["seccion_str"] = $g["seccion"] . " de " . $g["materia_nombre"] . " (" . $row["carrera_nombre"] . ")";
+                $row["precio"] = floatval($g["precio"]);
+                $row['tamano'] = isset($g["numero_paginas"]) ? ($g["numero_paginas"] . " páginas, " . $g["numero_hojas"] . " hojas") : "Sin PDF";
+                $row["fecha_completa"] = $g["fecha"] . " a las " . $g["hora"];
+                
 
                 // Reemplazo por los valores de la foranea
                 $row["entregada_por"] = $this->cargar_profesor($row["profesor"]);
                 $row["profesor"] = $row["entregada_por"];
+                $row["profesor_nombre"] = $row["profesor"]["nombre_completo"];
                 $row["recibida_por"] = $this->cargar_personal_($row["recibida_por"]);
+                $row["recibida_por_nombre"] = $row["recibida_por"]["nombre_completo"];
 
                 if ($row["status"] == -1)
                     $row["status_str"] = "rechazada";
