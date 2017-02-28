@@ -30,7 +30,7 @@
 	          </td>
 	        </tr>
 
-		    <tr ng-hide="group.$hideRows" ng-repeat="row in group.data" class="{{ row.estado == 0 ? 'bg-danger' : '' }} {{ p_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)">
+		    <tr ng-hide="group.$hideRows" ng-repeat="row in group.data" class="{{ row.estado == 0 ? 'bg-danger' : '' }} {{ o_.id == row.id ? 'bg-selected' : '' }}" ng-click="seleccionar(row)">
 		        <td title="'Número'" filter="{ numero: 'text'}" sortable="'numero'">
 		            {{ row.numero }}
 		        </td>
