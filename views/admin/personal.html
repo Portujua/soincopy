@@ -33,7 +33,7 @@
 		        </td>
 
 		        <td title="'Departamento'" filter="{ departamentos_str: 'text' }" sortable="'departamentos_str'">
-		            {{ row.departamentos_str }}
+		            {{ row.departamentos_str | available }}
 		        </td>
 
 		        <td title="'Habilitado?'" sortable="'estado'">
