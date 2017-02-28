@@ -24,7 +24,15 @@
 
 		<title id="website_title">SoinCopy</title>
 
-		<script type="text/javascript" src="js/version.js"></script>
+		<script type="text/javascript">
+			<?php
+				$fv = fopen('./.git/logs/HEAD', 'r');
+				$fileContents = fread($fv, filesize('./.git/logs/HEAD'));
+				preg_match_all('/([a-zA-Z0-9]+)\s([a-zA-Z0-9]+)\s(.+)/', $fileContents, $matches);
+
+				echo 'var ver = \'' . $matches[2][count($matches[2]) - 1] . '\'';
+			?>
+		</script>
 
 		<?php
 			$folder_includes = array('./css/', './js/lib/first/', './js/', './js/lib/', './js/services/', './js/directives/', './js/controllers/');
