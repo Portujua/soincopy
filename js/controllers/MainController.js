@@ -26,6 +26,16 @@
 
 		LoginService.startTimer();
 
+		$scope._sum = function(data, field) {
+			let sum = 0.0;
+
+			_.each(data, (value, key, list) => {
+				sum += parseFloat(value[field]);
+			});
+
+			return sum;
+		}
+
 		$scope.paginationCount = function(n, total){
 			var k = Math.ceil(total/n);
 			var a = [];

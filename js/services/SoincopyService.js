@@ -492,11 +492,8 @@
 
 
 
-			getOrdenes: function(s){
-				$http.get("api/ordenes").then(function(obj){
-					s.ordenes = obj.data;
-					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
-				});
+			getOrdenes: function(){
+				return $http.get("api/ordenes");
 			},
 			getOrden: function(s, id){
 				$http.get("api/ordenes").then(function(obj){

@@ -1,5 +1,5 @@
 (function(){
-	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval, LoginService)
+	var Orden = function($scope, $http, $location, $routeParams, $timeout, $window, AlertService, SoincopyService, $localStorage, $interval, LoginService, NgTableParams, $filter)
 	{		
 		$scope.safeApply = function(fn) {
 		    var phase = this.$root.$$phase;
@@ -14,11 +14,28 @@
 
 		$scope.editar = $routeParams.id;
 
-		SoincopyService.getOrdenes($scope);
 		SoincopyService.getDependencias($scope);
 		SoincopyService.getDepartamentosUCAB($scope);
 		SoincopyService.getCuentaAbiertas($scope);
 		SoincopyService.getCondicionesPago($scope);
+
+		SoincopyService.getOrdenes().then((response) => {
+			$scope.ordenes = response.data;
+			var data = response.data;
+
+			$scope.totalCosto = 0.0;
+
+			for (let i = 0; i < data.length; i++)
+				$scope.totalCosto += parseFloat(data[i].costo_total);
+
+			$scope.tableParams = new NgTableParams({ group: 'dependencia' }, { dataset: data });
+		});
+
+		$scope.isLastPage = () => {
+			if (!$scope.tableParams) return false;
+			
+			$scope.tableParams.page() === Math.ceil($scope.tableParams.total() / $scope.tableParams.count())
+		}
 
 		$scope.cargar_productos_venta = function(){
 			SoincopyService.getProductosVenta($scope);
