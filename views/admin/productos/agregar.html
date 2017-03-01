@@ -65,9 +65,9 @@
 
 		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
 			<p>Departamento (*)</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamentos" ng-if="producto.id == null" name="dpto" ng-options="c.id as c.nombre for c in departamentos" multiple required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamentos" ng-if="!editar" name="dpto" ng-options="c.id as c.nombre for c in departamentos" multiple required ng-minlength=1></select>
 
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamento" ng-if="producto.id != null" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamento" ng-if="editar" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
 		</div>
 
 		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
