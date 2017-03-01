@@ -8,6 +8,11 @@
 		$scope.nroResultados = 25; 
 		$scope.IVA = null;
 		$scope.REFRESH_INTERVAL = 10000;
+		$scope.currentVersion = null;
+
+		$timeout(() => {
+			$scope.currentVersion = ver;
+		}, 1000);
 
 		$interval(function(){
 			$scope.enInicio = window.location.hash.indexOf("inicio") != -1;
