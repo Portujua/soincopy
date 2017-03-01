@@ -1367,11 +1367,11 @@
                 $productos = json_decode($this->cargar_productos(array()), true);
 
                 foreach ($productos as $p)
-                    if ($p['id'] == $g['idmaterial'])
+                    if ($p['id'] == $g['idproducto'])
                     {
                         $row['producto'] = array();
-                        $row['producto']['id'] = $p['id'];
-                        $row['producto']['cantidad'] = $p['materiales'][0]['cantidad'];
+                        $row['producto']['id'] = $g['idmaterial'];
+                        $row['producto']['cantidad'] = intval($p['materiales'][0]['cantidad']);
                     }
 
                 $guias[] = $row;
