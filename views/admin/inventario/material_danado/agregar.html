@@ -11,7 +11,7 @@
 		<div class="fila">
 			<p>Stock asignado (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="stock" ng-model="material.stock" ng-change="actualizar_restante()" required ts-select-fix>
-				<option ng-repeat="s in mi_inventario_asignado" ng-value="s.id">{{ ('[' + s.fecha + '] ' + s.material_nombre + ' (' + s.restante + ' restante)') }}</option>
+				<option ng-repeat="s in mi_inventario_asignado" value="{{ s.id }}">{{ ('[' + s.fecha + '] ' + s.material_nombre + ' (' + s.restante + ' restante)') }}</option>
 			</select>
 		</div>
 
@@ -23,7 +23,7 @@
 		<div class="fila">
 			<p>Motivo (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="motivo" ng-model="material.motivo" required ts-select-fix>
-				<option ng-repeat="m in motivos" ng-value="m">{{ m }}</option>
+				<option ng-repeat="m in motivos" value="{{ m }}">{{ m }}</option>
 			</select>
 		</div>
 

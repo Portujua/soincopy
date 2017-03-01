@@ -16,14 +16,14 @@
 		<div class="fila" ng-if="!editar">
 			<p>Carrera (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-init="cargar_carreras()" ng-model="mencion.carrera" required ts-select-fix>
-				<option ng-repeat="c in carreras" ng-value="c.id">{{ c.nombre }}</option>
+				<option ng-repeat="c in carreras" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 
 		<div class="fila" ng-if="editar">
 			<p>Carrera (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-init="cargar_carreras()" ng-model="mencion.cid" required ts-select-fix>
-				<option ng-repeat="c in carreras" ng-value="c.id">{{ c.nombre }}</option>
+				<option ng-repeat="c in carreras" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 

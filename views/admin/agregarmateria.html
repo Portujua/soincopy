@@ -16,21 +16,21 @@
 		<div class="fila" ng-init="cargar_carreras()">
 			<p>Carrera (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="materia.carrera" required ng-change="cargar_periodos()" ts-select-fix>
-				<option ng-repeat="c in carreras" ng-value="c.id">{{ c.nombre }}</option>
+				<option ng-repeat="c in carreras" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 
 		<div class="fila">
 			<p>Período (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="materia.periodo" required ts-select-fix>
-				<option ng-repeat="p in periodos" ng-value="p.id">{{ (p.periodo + (p.tipo == 'Anual' ? ' año' : (p.tipo == 'Semestral' ? ' semestre' : ''))) }}</option>
+				<option ng-repeat="p in periodos" value="{{ p.id }}">{{ (p.periodo + (p.tipo == 'Anual' ? ' año' : (p.tipo == 'Semestral' ? ' semestre' : ''))) }}</option>
 			</select>
 		</div>
 
 		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="materia.tipo" ng-init="materia.tipo = 1;" required ts-select-fix>
-				<option ng-repeat="t in tipos" ng-value="t.id" ng-if="t.estado != 0">{{ t.nombre }}</option>
+				<option ng-repeat="t in tipos" value="{{ t.id }}" ng-if="t.estado != 0">{{ t.nombre }}</option>
 			</select>
 		</div>
 

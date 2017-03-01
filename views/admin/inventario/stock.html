@@ -14,7 +14,7 @@
 
 		<label for="proveedor">Proveedor (*) <span class="badge" ng-show="loginService.getCurrentUser().proveedores_agregar" ng-click="agregar_proveedor()" title="Añadir nuevo proveedor">+</span></label>
 		<select class="selectpicker" data-live-search="true" title="" name="proveedor" id="proveedor" ng-model="$parent.material.nuevo_stock.proveedor" required ts-select-fix>
-			<option ng-repeat="p in proveedores | quitarDeshabilitados" ng-value="p.id">{{ p.nombre }}</option>
+			<option ng-repeat="p in proveedores | quitarDeshabilitados" value="{{ p.id }}">{{ p.nombre }}</option>
 		</select><br/>
 
 		<label for="nro_factura">Nro. Factura (*)</label>

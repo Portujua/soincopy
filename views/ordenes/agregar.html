@@ -25,7 +25,7 @@
 			<p>Dependencia (*) <span class="badge" ng-hide="orden.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
 
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" name="dependencia" required ng-minlength=1 ts-select-fix>
-				<option ng-repeat="d in dependencias | quitarDeshabilitados" ng-value="d.id">{{ d.nombre }}</option>
+				<option ng-repeat="d in dependencias | quitarDeshabilitados" value="{{ d.id }}">{{ d.nombre }}</option>
 			</select>
 			<br/>
 		</div>

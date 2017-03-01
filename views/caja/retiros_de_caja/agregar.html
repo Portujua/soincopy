@@ -17,7 +17,7 @@
 		<div class="fila" ng-init="cargar_cajeros()">
 			<p>Cajero (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="auto" ng-model="retiro.cajero" name="cajero" ts-select-fix required>
-				<option ng-repeat="c in cajeros" ng-value="c.id">{{ c.nombre_completo }}</option>
+				<option ng-repeat="c in cajeros" value="{{ c.id }}">{{ c.nombre_completo }}</option>
 			</select>
 		</div>
 

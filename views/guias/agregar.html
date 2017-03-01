@@ -24,7 +24,7 @@
 			<p>Materias (*) <span class="badge" ng-show="loginService.getCurrentUser().materias_agregar" ng-click="agregar_materia()" title="Añadir nueva materia">+</span></p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.materia" name="materia" required ng-init="cargar_materias()" ts-select-fix>
 				<optgroup ng-repeat="g in materias | unique:'periodo'" label="{{ (g.periodo + (g.tipo_carrera == 'Semestral' ? ' semestre' : (g.tipo_carrera == 'Anual' ? ' año' : ''))) }}">
-					<option ng-repeat="m in materias" ng-if="m.periodo == g.periodo" ng-value="m.id">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias" ng-if="m.periodo == g.periodo" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 			</select>
 
@@ -46,7 +46,7 @@
 		<div class="fila" ng-init="cargar_tipos()">
 			<p>Tipo</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.tipo" name="tipo" ts-select-fix>
-				<option ng-repeat="t in tipos" ng-value="t.id">{{ t.nombre }}</option>
+				<option ng-repeat="t in tipos" value="{{ t.id }}">{{ t.nombre }}</option>
 			</select>
 		</div>
 

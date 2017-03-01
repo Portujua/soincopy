@@ -21,14 +21,14 @@
 			<div class="fila">
 				<p>Carreras (*)</p>
 				<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="plan.carrera" required ng-change="cargar_menciones()" ts-select-fix>
-					<option ng-repeat="c in carreras" ng-value="c.id">{{ c.nombre }}</option>
+					<option ng-repeat="c in carreras" value="{{ c.id }}">{{ c.nombre }}</option>
 				</select>
 			</div>
 
 			<div class="fila" ng-show="menciones.length > 1">
 				<p>Mención (*)</p>
 				<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="plan.mencion" ng-init="plan.mencion = -1;" ts-select-fix>
-					<option ng-repeat="m in menciones" ng-value="m.id">{{ m.nombre }}</option>
+					<option ng-repeat="m in menciones" value="{{ m.id }}">{{ m.nombre }}</option>
 				</select>
 			</div>
 
@@ -74,7 +74,7 @@
 			<div class="fila">
 				<p>Carreras (*)</p>
 				<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="plan.carrera" required ng-change="cargar_materias()" ts-select-fix>
-					<option ng-repeat="c in carreras" ng-value="c.id">{{ c.nombre }}</option>
+					<option ng-repeat="c in carreras" value="{{ c.id }}">{{ c.nombre }}</option>
 				</select>
 			</div>
 
@@ -82,7 +82,7 @@
 				<p>Materia (*)</p>
 				<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="plan.materia" required ts-select-fix>
 					<optgroup ng-repeat="g in materias | unique:'periodo'" label="{{ (g.periodo + (g.tipo_carrera == 'Semestral' ? ' semestre' : (g.tipo_carrera == 'Anual' ? ' año' : ''))) }}">
-					<option ng-repeat="m in materias" ng-if="m.periodo == g.periodo" ng-value="m.id">{{ m.nombre }}</option>
+					<option ng-repeat="m in materias" ng-if="m.periodo == g.periodo" value="{{ m.id }}">{{ m.nombre }}</option>
 				</optgroup>
 				</select>
 			</div>
@@ -91,7 +91,7 @@
 				<p>Tipo (*)</p>
 				
 				<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="plan.tipo" ng-init="plan.tipo = 'Semestral';" ts-select-fix>
-					<option ng-repeat="t in tipos" ng-value="t">{{ t }}</option>
+					<option ng-repeat="t in tipos" value="{{ t }}">{{ t }}</option>
 				</select>
 			</div>
 

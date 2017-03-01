@@ -11,7 +11,7 @@
 		<div class="fila">
 			<p>Material (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" name="material" ng-model="asignar.material" ng-change="actualizar_max()" required ng-minlength=1 ts-select-fix>
-				<option ng-repeat="pr in inventario | quitarDeshabilitados" ng-value="pr.id">{{ pr.nombre }}</option>
+				<option ng-repeat="pr in inventario | quitarDeshabilitados" value="{{ pr.id }}">{{ pr.nombre }}</option>
 			</select>
 		</div>
 

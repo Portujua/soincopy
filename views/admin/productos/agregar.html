@@ -31,7 +31,7 @@
 			</table>
 			<hr/>
 		</div>-->
-		
+
 		<p><small>(*) Campos obligatorios</small></p>
 
 		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
@@ -73,7 +73,7 @@
 		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
 			<p>Familia (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.familia" name="familia" required ng-minlength=1 ts-select-fix>
-				<option ng-repeat="f in familias | quitarDeshabilitados" ng-value="f.id">{{ f.nombre }}</option>
+				<option ng-repeat="f in familias | quitarDeshabilitados" value="{{ f.id }}">{{ f.nombre }}</option>
 			</select>
 		</div>
 
@@ -120,7 +120,7 @@
 						<span class="glyphicon glyphicon-remove" ng-click="eliminar_guia($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important; float: left;"></span>
 
 						<select class="selectpicker" data-live-search="true" title="" data-width="90%" name="guia_{{ $index }}" ng-model="producto.guias[$index].guia" required ng-minlength=1 ts-select-fix>
-							<option ng-repeat="g in guias" ng-value="g.id">{{ ('[' + g.codigo + '] ' + g.titulo + ' (' + g.numero_paginas + ' páginas, ' + g.numero_hojas + ' hojas)') }}</option>
+							<option ng-repeat="g in guias" value="{{ g.id }}">{{ ('[' + g.codigo + '] ' + g.titulo + ' (' + g.numero_paginas + ' páginas, ' + g.numero_hojas + ' hojas)') }}</option>
 						</select>
 					</td>
 				</tr>
