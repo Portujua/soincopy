@@ -29,6 +29,7 @@ insert into Tipo_Guia(nombre) values ("NO APLICA");
 insert into Departamento(nombre) values ("Originales");
 insert into Departamento(nombre) values ("Diseño");
 insert into Departamento(nombre) values ("Caja");
+insert into Departamento(nombre) values ("Archivo");
 
 insert into Permiso_Categoria (nombre) values ("Guías");
 insert into Permiso_Categoria (nombre) values ("Ordenes");
@@ -143,7 +144,7 @@ insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_de
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver", "Podrá consultar los pedidos pendientes por pagar en el sistema", 1, 16);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_detalle", "Podrá consultar el detalle de las pedidos existentes en el sistema", 1, 16);
 insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_falta_factura", "Podrá consultar los pedidos a los que se le debe asignar el número de factura en el sistema", 10, 16);
-insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_por_procesar", "Podrá consultar los pedidos pendientes por procesar en el sistema", 10, 16);
+insert into Permiso (nombre, descripcion, riesgo, categoria) values ("pedidos_ver_por_procesar", "Podrá consultar los pedidos pendientes por procesar o por entregar en el sistema", 10, 16);
 
 
 insert into Permiso_Categoria (nombre) values ("Clientes");
@@ -162,136 +163,13 @@ insert into Material (nombre) values ("Hojas carta"),
 insert into Producto_Familia (nombre) values ("Guías"), ("Impresiones");
 
 insert into Producto (nombre, descripcion, departamento, fecha_creado, familia, exento_iva, estado, tokens) values 
-	("Impresión de Guía B/N Hoja carta", "", 1, now(), 2, 0, 1, "impresion guia bn hoja carta"),
-	("Impresión de Guía B/N Hoja carta", "", 2, now(), 2, 0, 1, "impresion guia bn hoja carta"),
-	("Impresión de Guía B/N Hoja carta", "", 3, now(), 2, 0, 1, "impresion guia bn hoja carta"),
-
-	("Impresión de Guía COLOR Hoja carta", "", 1, now(), 2, 0, 1, "impresion guia color hoja carta"),
-	("Impresión de Guía COLOR Hoja carta", "", 2, now(), 2, 0, 1, "impresion guia color hoja carta"),
-	("Impresión de Guía COLOR Hoja carta", "", 3, now(), 2, 0, 1, "impresion guia color hoja carta"),
-
-	("Impresión de Guía B/N Hoja carta DOBLE CARA", "", 1, now(), 2, 0, 1, "impresion guia bn hoja carta doble cara"),
-	("Impresión de Guía B/N Hoja carta DOBLE CARA", "", 2, now(), 2, 0, 1, "impresion guia bn hoja carta doble cara"),
-	("Impresión de Guía B/N Hoja carta DOBLE CARA", "", 3, now(), 2, 0, 1, "impresion guia bn hoja carta doble cara"),
-
-	("Impresión de Guía COLOR Hoja carta DOBLE CARA", "", 1, now(), 2, 0, 1, "impresion guia color hoja carta doble cara"),
-	("Impresión de Guía COLOR Hoja carta DOBLE CARA", "", 2, now(), 2, 0, 1, "impresion guia color hoja carta doble cara"),
-	("Impresión de Guía COLOR Hoja carta DOBLE CARA", "", 3, now(), 2, 0, 1, "impresion guia color hoja carta doble cara"),
-
-
-
-	("Impresión de Guía B/N Hoja oficio", "", 1, now(), 2, 0, 1, "impresion guia bn hoja oficio"),
-	("Impresión de Guía B/N Hoja oficio", "", 2, now(), 2, 0, 1, "impresion guia bn hoja oficio"),
-	("Impresión de Guía B/N Hoja oficio", "", 3, now(), 2, 0, 1, "impresion guia bn hoja oficio"),
-
-	("Impresión de Guía COLOR Hoja oficio", "", 1, now(), 2, 0, 1, "impresion guia color hoja oficio"),
-	("Impresión de Guía COLOR Hoja oficio", "", 2, now(), 2, 0, 1, "impresion guia color hoja oficio"),
-	("Impresión de Guía COLOR Hoja oficio", "", 3, now(), 2, 0, 1, "impresion guia color hoja oficio"),
-
-	("Impresión de Guía B/N Hoja oficio DOBLE CARA", "", 1, now(), 2, 0, 1, "impresion guia bn hoja oficio doble cara"),
-	("Impresión de Guía B/N Hoja oficio DOBLE CARA", "", 2, now(), 2, 0, 1, "impresion guia bn hoja oficio doble cara"),
-	("Impresión de Guía B/N Hoja oficio DOBLE CARA", "", 3, now(), 2, 0, 1, "impresion guia bn hoja oficio doble cara"),
-
-	("Impresión de Guía COLOR Hoja oficio DOBLE CARA", "", 1, now(), 2, 0, 1, "impresion guia color hoja oficio doble cara"),
-	("Impresión de Guía COLOR Hoja oficio DOBLE CARA", "", 2, now(), 2, 0, 1, "impresion guia color hoja oficio doble cara"),
-	("Impresión de Guía COLOR Hoja oficio DOBLE CARA", "", 3, now(), 2, 0, 1, "impresion guia color hoja oficio doble cara"),
-
-
-
-	("Impresión de Guía B/N Hoja transparencia", "", 1, now(), 2, 0, 1, "impresion guia bn hoja transparencia"),
-	("Impresión de Guía B/N Hoja transparencia", "", 2, now(), 2, 0, 1, "impresion guia bn hoja transparencia"),
-	("Impresión de Guía B/N Hoja transparencia", "", 3, now(), 2, 0, 1, "impresion guia bn hoja transparencia"),
-
-	("Impresión de Guía COLOR Hoja transparencia", "", 1, now(), 2, 0, 1, "impresion guia color hoja transparencia"),
-	("Impresión de Guía COLOR Hoja transparencia", "", 2, now(), 2, 0, 1, "impresion guia color hoja transparencia"),
-	("Impresión de Guía COLOR Hoja transparencia", "", 3, now(), 2, 0, 1, "impresion guia color hoja transparencia"),
-
-
-	("Impresión de Guía B/N Hoja transparencia DOBLE CARA", "", 1, now(), 2, 0, 1, "impresion guia bn hoja transparencia doble cara"),
-	("Impresión de Guía B/N Hoja transparencia DOBLE CARA", "", 2, now(), 2, 0, 1, "impresion guia bn hoja transparencia doble cara"),
-	("Impresión de Guía B/N Hoja transparencia DOBLE CARA", "", 3, now(), 2, 0, 1, "impresion guia bn hoja transparencia doble cara"),
-
-	("Impresión de Guía COLOR Hoja transparencia DOBLE CARA", "", 1, now(), 2, 0, 1, "impresion guia color hoja transparencia doble cara"),
-	("Impresión de Guía COLOR Hoja transparencia DOBLE CARA", "", 2, now(), 2, 0, 1, "impresion guia color hoja transparencia doble cara"),
-	("Impresión de Guía COLOR Hoja transparencia DOBLE CARA", "", 3, now(), 2, 0, 1, "impresion guia color hoja transparencia doble cara");
+	("Impresion de Guia", "", 1, now(), 2, 0, 1, "impresion guia hoja carta");
 
 insert into Producto_Costo (producto, costo, fecha) values 
-	(1, 1, now()),
-	(2, 1, now()),
-	(3, 1, now()),
-	(4, 1, now()),
-	(5, 1, now()),
-	(6, 1, now()),
-	(7, 1, now()),
-	(8, 1, now()),
-	(9, 1, now()),
-	(10, 1, now()),
-	(11, 1, now()),
-	(12, 1, now()),
-	(13, 1, now()),
-	(14, 1, now()),
-	(15, 1, now()),
-	(16, 1, now()),
-	(17, 1, now()),
-	(18, 1, now()),
-	(19, 1, now()),
-	(20, 1, now()),
-	(21, 1, now()),
-	(22, 1, now()),
-	(23, 1, now()),
-	(24, 1, now()),
-	(25, 1, now()),
-	(26, 1, now()),
-	(27, 1, now()),
-	(28, 1, now()),
-	(29, 1, now()),
-	(30, 1, now()),
-	(31, 1, now()),
-	(32, 1, now()),
-	(33, 1, now()),
-	(34, 1, now()),
-	(35, 1, now()),
-	(36, 1, now());
+	(1, 1, now());
 
 insert into Producto_Material (producto, material, cantidad, creado_por, fecha_creado) values 
-	(1, 1, 1, 'root', now()),
-	(2, 1, 1, 'root', now()),
-	(3, 1, 1, 'root', now()),
-	(4, 1, 1, 'root', now()),
-	(5, 1, 1, 'root', now()),
-	(6, 1, 1, 'root', now()),
-	(7, 1, 1, 'root', now()),
-	(8, 1, 1, 'root', now()),
-	(9, 1, 1, 'root', now()),
-	(10, 1, 1, 'root', now()),
-	(11, 1, 1, 'root', now()),
-	(12, 1, 1, 'root', now()),
-
-	(13, 2, 1, 'root', now()),
-	(14, 2, 1, 'root', now()),
-	(15, 2, 1, 'root', now()),
-	(16, 2, 1, 'root', now()),
-	(17, 2, 1, 'root', now()),
-	(18, 2, 1, 'root', now()),
-	(19, 2, 1, 'root', now()),
-	(20, 2, 1, 'root', now()),
-	(21, 2, 1, 'root', now()),
-	(22, 2, 1, 'root', now()),
-	(23, 2, 1, 'root', now()),
-	(24, 2, 1, 'root', now()),
-
-	(25, 3, 1, 'root', now()),
-	(26, 3, 1, 'root', now()),
-	(27, 3, 1, 'root', now()),
-	(28, 3, 1, 'root', now()),
-	(29, 3, 1, 'root', now()),
-	(30, 3, 1, 'root', now()),
-	(31, 3, 1, 'root', now()),
-	(32, 3, 1, 'root', now()),
-	(33, 3, 1, 'root', now()),
-	(34, 3, 1, 'root', now()),
-	(35, 3, 1, 'root', now()),
-	(36, 3, 1, 'root', now());
+	(1, 1, 1, 'root', now());
 
 
 

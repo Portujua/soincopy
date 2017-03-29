@@ -58,11 +58,11 @@
                     ":tipo_cedula" => isset($post['cedula']) ? $post['tipo_cedula'] : null,
                 ));
 
-                return "ok";
+                return json_encode(['ok' => true], JSON_PRETTY_PRINT);
             }
             catch (Exception $e)
             {
-                return "error";
+                return json_encode(['ok' => false], JSON_PRETTY_PRINT);
             }
         }
 
@@ -79,23 +79,22 @@
                 }
 
             $query = $this->db->prepare("
-                insert into Plan_de_Estudio (titulo, carrera, materia, tipo, comentario, pdf, paginas, hojas, para, fecha".$mencion_campo.")
-                values (:titulo, :carrera, :materia, :tipo, :comentario, :pdf, :paginas, :hojas, :para, now()".$mencion_valor.")
+                insert into Plan_de_Estudio (titulo, carrera, materia, tipo, comentario, pdf, paginas, hojas, fecha".$mencion_campo.")
+                values (:titulo, :carrera, :materia, :tipo, :comentario, :pdf, :paginas, :hojas, now()".$mencion_valor.")
             ");
 
             $query->execute(array(
                 ":titulo" => $post['titulo'],
                 ":carrera" => $post['carrera'],
                 ":tipo" => $post['tipo'],
-                ":comentario" => $post['comentario'],
+                ":comentario" => isset($post['comentario']) ? $post['comentario'] : '',
                 ":pdf" => $post['pdf'],
                 ":paginas" => $post['paginas'],
                 ":hojas" => $post['hojas'],
-                ":para" => $post['para'],
                 ":materia" => isset($post['materia']) ? $post['materia'] : null
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_dependencia($post)
@@ -106,7 +105,7 @@
                 ":nombre" => $post['nombre']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_material_danado($post)
@@ -131,7 +130,7 @@
                 ":restante" => intval($post['restante']) - intval($post['cantidad'])
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_proveedor($post)
@@ -144,11 +143,11 @@
             $query->execute(array(
                 ":nombre" => $post['nombre'],
                 ":ni" => $post['ni'],
-                ":direccion" => $post['direccion'],
+                ":direccion" => isset($post['direccion']) ? $post['direccion'] : null,
                 ":tipo_ni" => $post['tipo_ni']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_familia($post)
@@ -159,7 +158,7 @@
                 ":nombre" => $post['nombre']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_material($post)
@@ -172,7 +171,7 @@
                 ":nombre" => $post['nombre']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_stock($post)
@@ -191,7 +190,7 @@
                 ":nro_factura" => $post['nro_factura']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_carrera($post)
@@ -205,11 +204,11 @@
                     ":tipo" => $post['tipo']
                 ));
 
-                return "ok";
+                return json_encode(['ok' => true], JSON_PRETTY_PRINT);
             }
             catch (Exception $e)
             {
-                return "error";
+                return json_encode(['ok' => false], JSON_PRETTY_PRINT);
             }
         }
 
@@ -224,7 +223,7 @@
                 ":nombre" => $post['nombre']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_orden($post)
@@ -283,7 +282,7 @@
                     ));
                 }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_materia($post)
@@ -299,7 +298,7 @@
                 ":tipo" => $post['tipo']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_cuentaabierta($post)
@@ -370,7 +369,7 @@
                     ));
                 }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_producto($post)
@@ -442,7 +441,7 @@
                     }
             }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_mencion($post)
@@ -457,7 +456,7 @@
                 ":carrera" => $post['carrera']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_personal($post)
@@ -520,7 +519,7 @@
                 }
             }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_pedido($post)
@@ -553,6 +552,11 @@
                     {
                         $precio_unitario = ":costo_unitario_facturado";
                         $precio_total = ":costo_unitario_facturado * :cantidad";
+                    }
+
+                    if (isset($p['idproducto'])) {
+                        $precio_unitario = "(select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1)";
+                        $precio_total = "(select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1) * :cantidad";
                     }
 
                     $query = $this->db->prepare("
@@ -610,7 +614,7 @@
                     }
                 }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function agregar_cliente($post)
@@ -628,7 +632,7 @@
                 ":direccion" => $post['direccion']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function asignar_material($post)
@@ -644,7 +648,7 @@
                 ":asignado_por" => $_SESSION['login_username']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function registrar_vista_guia($username, $archivo, $resultado, $errores)
@@ -663,11 +667,11 @@
                     ":archivo" => $archivo
                 ));
 
-                return "ok";
+                return json_encode(['ok' => true], JSON_PRETTY_PRINT);
             }
             catch (Exception $e)
             {
-                return "error";
+                return json_encode(['ok' => false], JSON_PRETTY_PRINT);
             }
         }
 
@@ -857,7 +861,7 @@
                     ":administrador" => $post['administrador'],
                     ":cajero" => $post['cajero'],
                     ":monto" => floatval($post['monto']),
-                    ":concepto" => $post['concepto']
+                    ":concepto" => isset($post['concepto']) ? $post['concepto'] : ''
                 ));
 
                 $json["msg"] = "Retiro de Caja añadido con éxito";

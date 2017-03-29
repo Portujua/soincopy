@@ -82,14 +82,13 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
-					    	console.log(data)
-					        if (data == "ok")
-					        	$scope.safeApply(function(){
-					        		$scope.orden = {};
-					        		$localStorage.cache.orden = $scope.orden;
-					        		AlertService.showSuccess(msg);
-					        		$location.path("/ordenes");
-					        	})
+				        if (data.ok)
+				        	$scope.safeApply(function(){
+				        		$scope.orden = {};
+				        		$localStorage.cache.orden = $scope.orden;
+				        		AlertService.showSuccess(msg);
+				        		$location.path("/ordenes");
+				        	})
 					    }
 					});
 				},
@@ -189,9 +188,7 @@
 					    data: {password:pwd},
 					    beforeSend: function(){},
 					    success: function(data){
-					        var json = $.parseJSON(data);
-
-					        if (json.resultado)
+					        if (data.resultado)
 					        	$scope.safeApply(function(){
 					        		$scope.autorizado = true;
 					        	});
@@ -236,11 +233,9 @@
 			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
-			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
-			        	console.log(json)
-			        	$scope.orden.productos[index].errores = json.errores;
-			        })
+		        $scope.safeApply(function(){
+		        	$scope.orden.productos[index].errores = data.errores;
+		        })
 			    }
 			});
 		}

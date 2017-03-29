@@ -1,10 +1,10 @@
-<form class="agregar agregar_dependencia" ng-controller="Dependencia" ng-submit="registrar_dependencia()">
+<form class="agregar agregar_dependencia" name="form" ng-controller="Dependencia" ng-submit="registrar_dependencia()">
 	<div class="register-form">
 		<p class="btn-volver" ng-show="!express">
-			<a class="btn btn-link" href="./#/dependencias">&larr; Volver</a>
+			<a class="btn btn-link" href="./#/dependencias"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Dependencias &rarr; Crear</h1>
+		<h1 style="font-size: 20px;">Dependencias <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Crear</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 
@@ -14,8 +14,8 @@
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary" type="submit">Aceptar</button>
-			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
+			<button class="btn btn-primary" type="submit" ng-disabled="form.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
 		</div>
 	</div>
 </form>

@@ -1,10 +1,10 @@
-<form class="agregar agregar_mencion" ng-controller="Mencion" ng-submit="registrar_mencion()">
+<form class="agregar agregar_mencion" name="form" ng-controller="Mencion" ng-submit="registrar_mencion()">
 	<div class="register-form">
 		<p class="btn-volver">
-			<a class="btn btn-volver" href="./#/menciones">&larr; Volver</a>
+			<a class="btn btn-volver" href="./#/menciones"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Menciones &rarr; {{ editar ? 'Editar' : 'Crear' }}</h1>
+		<h1 style="font-size: 20px;">Menciones <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> {{ editar ? 'Editar' : 'Crear' }}</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 
@@ -13,14 +13,14 @@
 			<input type="text" ng-model="mencion.nombre" required maxlength="64" placeholder="Ej. Audiovisual" />
 		</div>
 
-		<div class="fila" ng-if="!editar">
+		<div class="fila" ng-show="!editar">
 			<p>Carrera (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-init="cargar_carreras()" ng-model="mencion.carrera" required ts-select-fix>
 				<option ng-repeat="c in carreras" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 
-		<div class="fila" ng-if="editar">
+		<div class="fila" ng-show="editar">
 			<p>Carrera (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-init="cargar_carreras()" ng-model="mencion.cid" required ts-select-fix>
 				<option ng-repeat="c in carreras" value="{{ c.id }}">{{ c.nombre }}</option>
@@ -28,8 +28,8 @@
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary" type="submit">Aceptar</button>
-			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
+			<button class="btn btn-primary" type="submit" ng-disabled="form.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
 		</div>
 	</div>
 </form>

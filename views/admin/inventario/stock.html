@@ -1,9 +1,9 @@
 <div class="seccion" ng-controller="Inventario">
 	<p class="btn-volver">
-		<a class="btn btn-volver" href="./#/inventario">&larr; Volver</a>
+		<a class="btn btn-volver" href="./#/inventario"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 	</p>
 
-	<h1 style="font-size: 20px;">Inventario &rarr; Stock de {{ material.nombre }}</h1>
+	<h1 style="font-size: 20px;">Inventario <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Stock de {{ material.nombre }}</h1>
 	<form class="agregar_stock" name="agregar" ng-submit="registrar_stock()" ng-if="loginService.getCurrentUser().inventario_agregar_stock">
 		<h2>Crear nuevo stock</h2>
 		<label for="cantidad">Cantidad (*)</label>
@@ -12,7 +12,7 @@
 		<label for="costo">Costo de compra (*)</label>
 		<input name="costo" id="costo" type="number" ng-model="$parent.material.nuevo_stock.costo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" required /><br/>
 
-		<label for="proveedor">Proveedor (*) <span class="badge" ng-show="loginService.getCurrentUser().proveedores_agregar" ng-click="agregar_proveedor()" title="Añadir nuevo proveedor">+</span></label>
+		<label for="proveedor">Proveedor (*) <span class="badge" ng-show="loginService.getCurrentUser().proveedores_agregar" ng-click="agregar_proveedor()" title="Añadir nuevo proveedor"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></label>
 		<select class="selectpicker" data-live-search="true" title="" name="proveedor" id="proveedor" ng-model="$parent.material.nuevo_stock.proveedor" required ts-select-fix>
 			<option ng-repeat="p in proveedores | quitarDeshabilitados" value="{{ p.id }}">{{ p.nombre }}</option>
 		</select><br/>

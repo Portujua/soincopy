@@ -37,7 +37,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.planes = $.parseJSON(data);
+			        	$scope.planes = data;
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
@@ -61,11 +61,9 @@
 			    data: {cid:cid},
 			    beforeSend: function(){},
 			    success: function(data){
-			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
-			        	
-			        	for (var i = 0; i < json.length; i++)
-			        		$scope.menciones.push(json[i]);
+			        $scope.safeApply(function(){			        	
+			        	for (var i = 0; i < data.length; i++)
+			        		$scope.menciones.push(data[i]);
 
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })

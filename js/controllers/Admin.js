@@ -21,8 +21,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.carreras = $.parseJSON(data);
-			        	console.log($scope.carreras)
+			        	$scope.carreras = data;
 			        })
 			    }
 			});
@@ -53,7 +52,7 @@
 			    },
 			    beforeSend: function(){},
 			    success: function(data){
-			        if (data == "ok")
+			        if (data.ok)
 			        	$scope.safeApply(function(){
 			        		AlertService.showSuccess("Carrera registrada con éxito");
 			        		$location.path("/inicio");
@@ -89,7 +88,7 @@
 			    },
 			    beforeSend: function(){},
 			    success: function(data){
-			        if (data == "ok")
+			        if (data.ok)
 			        	$scope.safeApply(function(){
 			        		AlertService.showSuccess("Materia registrada con éxito");
 			        		$location.path("/inicio");

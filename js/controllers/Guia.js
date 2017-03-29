@@ -68,7 +68,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.tipos = $.parseJSON(data);
+			        	$scope.tipos = data;
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
@@ -95,7 +95,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.periodos = $.parseJSON(data);
+			        	$scope.periodos = data;
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
@@ -161,12 +161,11 @@
 			    success: function(data){
 			    	try 
 			    	{
-				    	var json = $.parseJSON(data);
-				    	json.precio = parseFloat(json.precio);
+				    	data.precio = parseFloat(data.precio);
 
 				        $scope.safeApply(function(){
-				        	$scope.guia = json;
-				        	$scope.guia_aux = json;
+				        	$scope.guia = data;
+				        	$scope.guia_aux = data;
 				        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 				        })
 				    }
@@ -203,7 +202,7 @@
 					    data: {file:pdf},
 					    beforeSend: function(){},
 					    success: function(data){
-					        if (data == "ok")
+					        if (data.ok)
 					        {
 					        	$scope.safeApply(function(){
 					        		$scope.guia.pdf = null;
@@ -299,6 +298,10 @@
 				    			$scope.guia.numero_paginas = json.pages;
 				    			$scope.guia.numero_hojas = Math.floor(json.pages / 2) + (json.pages % 2);
 			    			}
+
+			    			$timeout(() => {
+			    				$scope.modificar_guia();
+			    			}, 500)
 			    		})
 			    	}
 			    }
@@ -327,13 +330,11 @@
 					    data: {status:s, codigo:codigo},
 					    beforeSend: function(){},
 					    success: function(data){
-					    	var json = $.parseJSON(data);
-
-					    	if (json.code == -1)
+					    	if (data.code == -1)
 					    	{
-					    		AlertService.showError(json.response);
+					    		AlertService.showError(data.response);
 					    	}
-					        else if (json.code == 1)
+					        else if (data.code == 1)
 					        {
 					        	$scope.safeApply(function(){
 					        		if (id)
@@ -478,7 +479,7 @@
 					    success: function(data){
 					    	console.log(data);
 
-					        if (data == "ok")
+					        if (data.ok)
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess("Guía modificada con éxito");
 

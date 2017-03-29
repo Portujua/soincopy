@@ -66,7 +66,7 @@
                 $tokens .= "Seccion: " . $g['seccion'] . " ";
             }
 
-            return $tokens;
+            return strtolower($tokens);
         }
 
         public function puede_ver_guias($username)
@@ -101,7 +101,7 @@
             $json['existe'] = $query->rowCount() > 0 ? true : false;
             $json['esValido'] = $query->rowCount() == 0 ? true : false;
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function check_factura($post)
@@ -120,7 +120,7 @@
             $json['existe'] = $query->rowCount() > 0 ? false : true;
             $json['esValido'] = $query->rowCount() == 0 ? false : true;
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function check_nro_pedido($post)
@@ -139,7 +139,7 @@
             $json['existe'] = $query->rowCount() > 0 ? true : false;
             $json['esValido'] = $query->rowCount() == 0 ? true : false;
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function check_usuario($post)
@@ -158,7 +158,7 @@
             $json['existe'] = $query->rowCount() > 0 ? true : false;
             $json['esValido'] = $query->rowCount() == 0 ? true : false;
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function check_producto($post)
@@ -177,7 +177,7 @@
             $json['existe'] = $query->rowCount() > 0 ? true : false;
             $json['esValido'] = $query->rowCount() == 0 ? true : false;
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function check_cuentaabierta($post)
@@ -196,7 +196,7 @@
             $json['existe'] = $query->rowCount() > 0 ? true : false;
             $json['esValido'] = $query->rowCount() == 0 ? true : false;
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function chequear_disponibilidad($post)
@@ -285,7 +285,7 @@
                 $json['data'][] = $data;
             }
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function csv_productos()
@@ -352,7 +352,7 @@
             $json = array();
             $json['resultado'] = $query->rowCount() > 0 ? true : false;
 
-            return json_encode($json);
+            return json_encode($json, JSON_PRETTY_PRINT);
         }
 
         public function obtener_iva()

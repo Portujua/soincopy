@@ -1,10 +1,10 @@
 <form class="agregar_guia" name="agregar" ng-controller="Guia" ng-init="init_form_cache()" ng-submit="agregar_guia()" novalidate>
 	<div class="register-form">
 		<p class="btn-volver">
-			<a class="btn btn-volver" href="./#/buscarguias">&larr; Volver</a>
+			<a class="btn btn-volver" href="./#/buscarguias"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Guías &rarr; Crear</h1>
+		<h1 style="font-size: 20px;">Guías <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Crear</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 
@@ -14,14 +14,14 @@
 		</div>
 
 		<div class="fila" ng-init="cargar_carreras()">
-			<p>Carreras (*) <span class="badge" ng-show="loginService.getCurrentUser().carreras_agregar" ng-click="agregar_carrera()" title="Añadir nueva carrera">+</span></p>
+			<p>Carreras (*) <span class="badge" ng-show="loginService.getCurrentUser().carreras_agregar" ng-click="agregar_carrera()" title="Añadir nueva carrera"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.carrera" name="carrera" ng-change="cargar_materias()" required ts-select-fix>
 				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
 			</select>
 		</div>
 
 		<div class="fila">
-			<p>Materias (*) <span class="badge" ng-show="loginService.getCurrentUser().materias_agregar" ng-click="agregar_materia()" title="Añadir nueva materia">+</span></p>
+			<p>Materias (*) <span class="badge" ng-show="loginService.getCurrentUser().materias_agregar" ng-click="agregar_materia()" title="Añadir nueva materia"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.materia" name="materia" required ng-init="cargar_materias()" ts-select-fix>
 				<optgroup ng-repeat="g in materias | unique:'periodo'" label="{{ (g.periodo + (g.tipo_carrera == 'Semestral' ? ' semestre' : (g.tipo_carrera == 'Anual' ? ' año' : ''))) }}">
 					<option ng-repeat="m in materias" ng-if="m.periodo == g.periodo" value="{{ m.id }}">{{ m.nombre }}</option>
@@ -32,7 +32,7 @@
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
-			<p>Profesor (*) <span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="anadir_profesor()" title="Añadir nuevo profesor">+</span></p>
+			<p>Profesor (*) <span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="anadir_profesor()" title="Añadir nuevo profesor"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required ts-select-fix>
 				<option ng-repeat="p in profesores" ng-if="p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
 			</select>
@@ -68,8 +68,8 @@
 		</div>
 
 		<div class="fila text-center">
-			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid">Aceptar</button>
-			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
+			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
 		</div>
 	</div>
 </form>

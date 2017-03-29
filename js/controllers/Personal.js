@@ -25,11 +25,9 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
-
-			        	for (var i = 0; i < json.length; i++)
-			        		if (json[i].id == id)
-			        			$scope.personal_nuevo = json[i];
+			        	for (var i = 0; i < data.length; i++)
+			        		if (data[i].id == id)
+			        			$scope.personal_nuevo = data[i];
 			        })
 			    }
 			});
@@ -43,8 +41,8 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.personal = $.parseJSON(data);
-			        	$scope.tableParams = new NgTableParams({}, { dataset: $.parseJSON(data) });
+			        	$scope.personal = data;
+			        	$scope.tableParams = new NgTableParams({}, { dataset: data });
 			        })
 			    }
 			});
@@ -58,7 +56,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.permisos = $.parseJSON(data);
+			        	$scope.permisos = data;
 			        })
 			    }
 			});
@@ -141,7 +139,7 @@
 					    beforeSend: function(){},
 					    success: function(data){
 					    	console.log(data);
-					        if (data == "ok")
+					        if (data.ok)
 					        	$scope.safeApply(function(){
 					        		AlertService.showSuccess(msg);
 					        		$location.path("/personal");

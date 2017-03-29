@@ -1,10 +1,10 @@
 <form class="agregar agregar_material" ng-controller="Inventario" name="agregar" ng-submit="asignar_material()" ng-init="asignar.max = 9999999;">
 	<div class="register-form">
 		<p class="btn-volver">
-			<a class="btn btn-volver" href="./#/inventario/asignar/material">&larr; Volver</a>
+			<a class="btn btn-volver" href="./#/inventario/asignar/material"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Inventario &rarr; Asignar material &rarr; Asignar</h1>
+		<h1 style="font-size: 20px;">Inventario <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Asignar material <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Asignar</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 
@@ -29,7 +29,7 @@
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Aceptar</button>
+			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
 		</div>
 	</div>
 </form>

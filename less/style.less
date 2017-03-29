@@ -25,6 +25,8 @@ button, input[type=submit] {
 
 .badge {
 	cursor: pointer;
+	background-color: #333;
+	border-radius: 1px;
 }
 
 .status-aprobada {
@@ -298,31 +300,20 @@ h2 {
 	padding: 20px 25px;
 	margin-top: 50px;
 
+	button[type=submit] {
+		font-size: 14px !important;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 40px;
+	}
+
 	.login_alert {
 		color: red;
 	}
 
 	img {
 		margin-bottom: 20px;
-	}
-
-	input {
-		width: 100%;
-		padding: 6px 10px;
-		background-color: white;
-		border: none;
-		border-bottom: 1px solid #ccc;
-		border-radius: 5px;
-		outline: none !important;
-		margin-bottom: 25px;
-
-		&:focus {
-			border-bottom: 1px solid #333;
-		}
-	}
-
-	button {
-		width: 100% !important;
 	}
 }
 

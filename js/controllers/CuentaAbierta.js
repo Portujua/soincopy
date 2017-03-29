@@ -181,9 +181,7 @@
 					    data: {password:pwd},
 					    beforeSend: function(){},
 					    success: function(data){
-					        var json = $.parseJSON(data);
-
-					        if (json.resultado)
+					        if (data.resultado)
 					        	$scope.safeApply(function(){
 					        		$scope.autorizado = true;
 					        	});
@@ -229,9 +227,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
-			        	console.log(json)
-			        	$scope.cuentaabierta.productos[index].errores = json.errores;
+			        	$scope.cuentaabierta.productos[index].errores = data.errores;
 			        })
 			    }
 			});

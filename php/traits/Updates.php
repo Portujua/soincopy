@@ -255,7 +255,7 @@
                     }
                 }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_mencion($post)
@@ -273,7 +273,7 @@
                 ":id" => $post['id']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_producto($post)
@@ -415,7 +415,7 @@
                 }
             }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_cuentaabierta($post)
@@ -536,7 +536,7 @@
                     }
                 }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_departamento_ucab($post)
@@ -552,7 +552,7 @@
                 ":id" => $post['id']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_dependencia($post)
@@ -568,7 +568,7 @@
                 ":id" => $post['id']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_proveedor($post)
@@ -588,7 +588,7 @@
                 ":id" => $post['id']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_familia($post)
@@ -604,7 +604,7 @@
                 ":id" => $post['id']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_material($post)
@@ -620,7 +620,7 @@
                 ":id" => $post['id']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_materia($post)
@@ -642,7 +642,7 @@
                     ":id" => $post['id']
                 ));
 
-                return "ok";
+                return json_encode(['ok' => true], JSON_PRETTY_PRINT);
             }
             catch (Exception $e)
             {
@@ -770,7 +770,7 @@
                     ));
                 }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function cambiar_estado($post)
@@ -841,7 +841,7 @@
                     recibida_por=:recibida_por, 
                     numero_hojas=:nro_hojas, 
                     numero_paginas=:nro_paginas,
-                    idmaterial=:idmaterial
+                    idmaterial=(select id from Producto where nombre='Impresion de Guia')
                 where codigo=:codigo;
 
             ");
@@ -857,8 +857,7 @@
                 ":entregada_por" => $post['entregada_por'],
                 ":recibida_por" => $post['recibida_por'],
                 ":nro_hojas" => $post['hojas'],
-                ":nro_paginas" => $post['paginas'],
-                ":idmaterial" => isset($post['producto']) ? $post['producto']['id'] : null
+                ":nro_paginas" => $post['paginas']
             ));
 
             $tokens = $this->generar_tokens_guia($post['codigo']);
@@ -878,12 +877,10 @@
             if (isset($post['producto']))
             {
                 $query = $this->db->prepare("
-                    select costo from Producto_Costo where producto=:pid and eliminado=0 order by fecha desc limit 1
+                    select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1
                 ");
 
-                $query->execute(array(
-                    ":pid" => $post['producto']['id']
-                ));
+                $query->execute();
 
                 $res = $query->fetchAll();
                 $costo = floatval($res[0]['costo']) * floatval($post['producto']['cantidad']);
@@ -906,12 +903,10 @@
                 $qmat = $this->db->prepare("
                     select m.id as material, pm.cantidad as cantidad
                     from Producto_Material as pm, Material as m
-                    where pm.material=m.id and pm.producto=:pid
+                    where pm.material=m.id and pm.producto=(select id from Producto where nombre='Impresion de Guia')
                 ");
 
-                $qmat->execute(array(
-                    ":pid" => $post['producto']['id']
-                ));
+                $qmat->execute();
 
                 $mat = $qmat->fetchAll();
                 $mat = $mat[0];
@@ -949,7 +944,7 @@
                 }
             }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function editar_pedido($post)
@@ -1074,7 +1069,7 @@
                     }
                 }
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function cambiar_estado_pedido($post)
@@ -1110,7 +1105,7 @@
                 ":direccion" => $post['direccion']
             ));
 
-            return "ok";
+            return json_encode(['ok' => true], JSON_PRETTY_PRINT);
         }
 
         public function cambiar_estado_cliente($post)

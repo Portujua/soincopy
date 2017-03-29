@@ -118,14 +118,12 @@
 					    beforeSend: function(){},
 					    success: function(data){
 					    	try {
-						        var json = $.parseJSON(data);
-
-						        if (json.status == "ok")
+						        if (data.status == "ok")
 						        {
 						        	$location.path("/pedidos");
 
 						        	window.open(
-												"./factura/" + json.factura,
+												"./factura/" + data.factura,
 												"_blank",
 												"menubar=no,status=no,toolbar=no,width=285,height=400");
 
@@ -136,7 +134,7 @@
 										    beforeSend: function(){
 										    },
 										    success: function(data){
-										    	if (data.indexOf('{"result":true}') > -1)
+										    	if (data.result)
 										    		window.open(
 															"php/papel_guias.php?pedido=" + pid,
 															"_blank",
@@ -182,18 +180,17 @@
 					    beforeSend: function(){},
 					    success: function(data){
 					    	console.log(data)
-					    	var json = $.parseJSON(data);
 
 				        	$scope.safeApply(function(){
-				        		if (!json.error)
+				        		if (!data.error)
 				        		{
-				        			AlertService.showSuccess(json.msg);
+				        			AlertService.showSuccess(data.msg);
 				        			$location.path("/");
 				        		}
 				        		else
 				        		{
 				        			$scope.retiro.contrasena = "";
-				        			AlertService.showError(json.msg);
+				        			AlertService.showError(data.msg);
 				        		}
 				        	})
 					    }
@@ -219,17 +216,14 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
-					    	console.log(data)
-					    	var json = $.parseJSON(data);
-
 				        	$scope.safeApply(function(){
-				        		if (!json.error)
+				        		if (!data.error)
 				        		{
-				        			AlertService.showSuccess(json.msg);
+				        			AlertService.showSuccess(data.msg);
 				        			$location.path("/");
 				        		}
 				        		else
-				        			AlertService.showError(json.msg);
+				        			AlertService.showError(data.msg);
 				        	})
 					    }
 					});

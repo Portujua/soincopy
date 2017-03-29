@@ -15,9 +15,12 @@
 		$scope.editar = $routeParams.id;
 
 		SoincopyService.getDepartamentos($scope);
-		SoincopyService.getInventario($scope);
 		SoincopyService.getFamilias($scope);
 		SoincopyService.getGuias($scope, 1);
+
+		SoincopyService.getInventario().then((response) => {
+			$scope.inventario = response.data;
+		})
 
 		SoincopyService.getProductos().then((response) => {
 			$scope.productos = response.data;
@@ -25,8 +28,31 @@
 			$scope.tableParams = new NgTableParams({ group: 'familia_nombre' }, { dataset: data });
 		});
 
+		$scope.esGuia = () => {
+			if (!$scope.producto) {
+				return false;
+			}
+
+			if (!$scope.producto.nombre) {
+				return false;
+			}
+
+			return $scope.producto.nombre.indexOf('Guía') > -1
+		}
+
 		$scope.cargar_producto = function(id){
-			SoincopyService.getProducto($scope, id);
+			if (!$scope.productos) {
+				$timeout(() => { $scope.cargar_producto(id); }, 300);
+				return;
+			}
+
+			for (let i = 0; i < $scope.productos.length; i++) {
+				if (parseInt($scope.productos[i]['id']) == parseInt(id)) {
+					$scope.producto = $scope.productos[i];
+					$scope.producto.exento_iva = $scope.producto.exento_iva == 1;
+					return;
+				}
+			}
 		}
 
 		$scope.registrar_producto = function(){
@@ -56,11 +82,10 @@
 					    data: post,
 					    beforeSend: function(){},
 					    success: function(data){
-					    	console.log(data)
-				        	$scope.safeApply(function(){
-				        		$location.path("/productos");
-				        		AlertService.showSuccess(msg);
-				        	})
+			        	$scope.safeApply(function(){
+			        		$location.path("/productos");
+			        		AlertService.showSuccess(msg);
+			        	})
 					    }
 					});
 				},

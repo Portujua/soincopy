@@ -9,13 +9,19 @@
 	include_once("databasehandler.php");
 	$dbHandler = new DatabaseHandler();
 
-    $filePath = "../../soincopy_files/guias/";
+    $filePath = "../../soincopy_files/guias";
 
     if (isset($_GET['tipo']))
     {
         if ($_GET['tipo'] == "plan")
-            $filePath = "../../soincopy_files/planesdeestudio/";
+            $filePath = "../../soincopy_files/planesdeestudio";
     }
+
+    if (!file_exists($filePath)) {
+        mkdir($filePath);
+    }
+
+    $filePath .= '/';
 
     if ($_GET['action'] == "upload")
     {

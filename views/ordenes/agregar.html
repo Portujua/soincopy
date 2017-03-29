@@ -1,10 +1,10 @@
 <form class="agregar seccion" ng-controller="Orden" name="agregar" ng-init="init_form_cache()" ng-submit="registrar_orden()">	
 	<div class="register-form">
 		<p class="btn-volver">
-			<a class="btn btn-volver" href="./#/ordenes">&larr; Volver</a>
+			<a class="btn btn-volver" href="./#/ordenes"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Ordenes &rarr; {{ editar ? 'Editar' : 'Crear' }}</h1>
+		<h1 style="font-size: 20px;">Ordenes <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> {{ editar ? 'Editar' : 'Crear' }}</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 
@@ -22,7 +22,7 @@
 		</div>
 
 		<div class="fila">
-			<p>Dependencia (*) <span class="badge" ng-hide="orden.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia">+</span></p>
+			<p>Dependencia (*) <span class="badge" ng-hide="orden.agregardependencia" ng-click="agregar_dependencia()" title="Añadir nueva dependencia"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></p>
 
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="orden.dependencia" ng-init="orden.dependencia = orden.did;" ng-hide="orden.agregardependencia" name="dependencia" required ng-minlength=1 ts-select-fix>
 				<option ng-repeat="d in dependencias | quitarDeshabilitados" value="{{ d.id }}">{{ d.nombre }}</option>
@@ -52,7 +52,7 @@
 					<td><span class="glyphicon glyphicon-remove" ng-click="eliminar_producto($index)" aria-hidden="true" title="Eliminar" style="color: #c9302c !important;"></span></td>
 					<td>
 						<select ng-hide="orden.productos[$index].producto_nombre" class="selectpicker" data-live-search="true" title="" name="producto_{{ $index }}" ng-model="orden.productos[$index].producto" ng-change="actualizar_costo_unitario($index); chequear_disponibilidad($index);" required ng-minlength=1 ts-select-fix>
-							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
+							<option ng-repeat="pr in productos | quitarDeshabilitados | quitarGuias | quitarCableados" data-tokens="{{ pr.tokens }}" value="{{ pr.id }}">{{ pr.nombre }}</option>
 						</select>
 
 						<p ng-show="orden.productos[$index].producto_nombre">{{ orden.productos[$index].producto_nombre }}</p>
@@ -99,8 +99,8 @@
 		</table>
 
 		<div class="fila text-center">
-			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid">Aceptar</button>
-			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
+			<button type="submit" class="btn btn-primary" ng-disabled="agregar.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
 		</div>
 	</div>
 </form>

@@ -1,5 +1,5 @@
 <div class="seccion" ng-controller="Reportes">
-	<h1 style="font-size: 20px;">Reportes &rarr; Corte de Caja</h1>
+	<h1 style="font-size: 20px;">Reportes <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Corte de Caja</h1>
 
 	<div ng-show="loginService.getCurrentUser().reportes_corte_de_caja">
 		<style type="text/css">
@@ -26,7 +26,7 @@
 		</div>
 
 		<p ng-show="data">
-			<button class="btn btn-soincopy" style="font-size: 14px !important;" onclick="window.print()">Imprimir</button>
+			<button class="btn btn-soincopy" style="font-size: 14px !important;" onclick="window.print()"> <i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
 		</p>
 
 		<h4 ng-if="!data">

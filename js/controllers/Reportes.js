@@ -20,9 +20,9 @@
 			SoincopyService.getFamilias($scope);
 		}
 
-		$scope.cargar_productos = function(){
-			SoincopyService.getProductos($scope);
-		}
+		SoincopyService.getProductos().then((response) => {
+			$scope.productos = response.data;
+		})
 
 		$scope.cargar_reporte = function(){
 			SoincopyService.getReporte($scope, $routeParams.reporte, $scope.filtros);

@@ -41,6 +41,20 @@
 	    };
 	});
 
+	app.filter('quitarCableados', function () {
+	    return function (input) {
+	    	if (!input) return null;
+	    	
+	    	var out = [];
+
+	    	for (var i = 0; i < input.length; i++)
+	    		if (input[i].nombre != 'Impresion de Guia')
+	    			out.push(input[i]);
+
+	    	return out;
+	    };
+	});
+
 	app.filter('soloCategorias', function () {
 	    return function (items_) {
 	    	if (!items_) return null;

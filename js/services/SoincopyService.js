@@ -208,17 +208,15 @@
 				    data: {},
 				    beforeSend: function(){},
 				    success: function(data){
-				        var json = $.parseJSON(data);
-
-						for (var i = 0; i < json.length; i++)
-							if (parseInt(json[i].id) == parseInt(id))
-							{
-								json[i].exento_iva = json[i].exento_iva == 1 ? true : false;
-								s.producto = json[i];
-								$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
-								return;
-							}
-				    }
+							for (var i = 0; i < data.length; i++)
+								if (parseInt(data[i].id) == parseInt(id))
+								{
+									data[i].exento_iva = data[i].exento_iva == 1 ? true : false;
+									s.producto = data[i];
+									$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
+									return;
+								}
+					    }
 				});
 			},
 			getProductosOriginales: function(s){
@@ -538,18 +536,19 @@
 						$timeout(() => {$('.selectpicker').selectpicker('refresh');}, 500);
 					});
 			},
-			getPedidosSinFactura: function(s){
-				$http.get("api/pedidos/sinfactura").then(function(obj){
-					s.pedidos = obj.data;
-					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
-				});
+			getPedidosSinFactura: function(){
+				return $http.get("api/pedidos/sinfactura")
+					.finally(() => {
+						//s.pedidos = obj.data;
+						$timeout(() => {$('.selectpicker').selectpicker('refresh');}, 500);
+					});
 			},
-			getPedidosPorProcesar: function(s, dpto){
-				$http.get(`api/pedidos/porprocesar/${dpto}`).then(function(obj){
-					s.pedidos = obj.data;
-					console.log(obj.data)
-					$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
-				});
+			getPedidosPorProcesar: function(dpto){
+				return $http.get(`api/pedidos/porprocesar/${dpto}`)
+					.finally(() => {
+						//s.pedidos = obj.data;
+						$timeout(() => {$('.selectpicker').selectpicker('refresh');}, 500);
+					});
 			},
 			getPedido: function(s, id){
 				$http.get("api/pedidos").then(function(obj){
@@ -610,35 +609,33 @@
 				    success: function(data){
 				    	try 
 				    	{
-				        	var json = $.parseJSON(data);
-
-				        	for (var i = 0; i < json.length; i++)
+				        	for (var i = 0; i < data.length; i++)
 				        	{
-				        		if (json[i].total_facturado)
-				        			json[i].total_facturado = parseFloat(json[i].total_facturado);
+				        		if (data[i].total_facturado)
+				        			data[i].total_facturado = parseFloat(data[i].total_facturado);
 
-				        		if (json[i].devoluciones)
-				        			json[i].devoluciones = parseFloat(json[i].devoluciones);
+				        		if (data[i].devoluciones)
+				        			data[i].devoluciones = parseFloat(data[i].devoluciones);
 
-				        		if (json[i].nota_de_credito)
-				        			json[i].nota_de_credito = parseFloat(json[i].nota_de_credito);
+				        		if (data[i].nota_de_credito)
+				        			data[i].nota_de_credito = parseFloat(data[i].nota_de_credito);
 
-				        		if (json[i].retiro_de_caja)
-				        			json[i].retiro_de_caja = parseFloat(json[i].retiro_de_caja);
+				        		if (data[i].retiro_de_caja)
+				        			data[i].retiro_de_caja = parseFloat(data[i].retiro_de_caja);
 
 
 
-				        		if (json[i].total_facturado)
-				        			json[i].total_facturado = parseFloat(json[i].total_facturado);
+				        		if (data[i].total_facturado)
+				        			data[i].total_facturado = parseFloat(data[i].total_facturado);
 
-				        		if (json[i].total_devoluciones)
-				        			json[i].total_devoluciones = parseFloat(json[i].total_devoluciones);
+				        		if (data[i].total_devoluciones)
+				        			data[i].total_devoluciones = parseFloat(data[i].total_devoluciones);
 
-				        		if (json[i].total_notas_credito)
-				        			json[i].total_notas_credito = parseFloat(json[i].total_notas_credito);
+				        		if (data[i].total_notas_credito)
+				        			data[i].total_notas_credito = parseFloat(data[i].total_notas_credito);
 				        	}
 
-				        	s.data = json;
+				        	s.data = data;
 				        }
 				        catch (ex)
 				        {

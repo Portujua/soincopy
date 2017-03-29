@@ -1,10 +1,10 @@
 <form class="agregar agregar_cuentaabierta" name="agregar" ng-init="init_form_cache()" ng-controller="CuentaAbierta" ng-submit="registrar_cuentaabierta()">
 	<div class="register-form">
 		<p class="btn-volver">
-			<a class="btn btn-link" href="./#/cuentaabiertas">&larr; Volver</a>
+			<a class="btn btn-link" href="./#/cuentaabiertas"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Cuentas abiertas &rarr; {{ editar ? 'Editar' : 'Crear' }}</h1>
+		<h1 style="font-size: 20px;">Cuentas abiertas <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> {{ editar ? 'Editar' : 'Crear' }}</h1>
 
 		<p><small>(*) Campos obligatorios</small></p>
 
@@ -115,8 +115,8 @@
 		</table>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Aceptar</button>
-			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
+			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
 		</div>
 	</div>
 </form>

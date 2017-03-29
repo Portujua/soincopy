@@ -13,7 +13,7 @@
                 ":cid" => $post['cid']
             ));
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_materias($post)
@@ -26,7 +26,7 @@
             ");
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_menciones($post)
@@ -39,7 +39,7 @@
             ");
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_proveedores($post)
@@ -52,7 +52,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_menciones_de($post)
@@ -68,7 +68,7 @@
                 ":cid" => $post['cid']
             ));
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_carreras($post)
@@ -100,7 +100,7 @@
                 $carreras[$i]['tipo'] = $tipo;
             }
 
-            return json_encode($carreras);
+            return json_encode($carreras, JSON_PRETTY_PRINT);
         }
 
         public function cargar_tipos_materias($post)
@@ -113,7 +113,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_condiciones_pago($post)
@@ -126,7 +126,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_cuentaabiertas($post)
@@ -195,7 +195,7 @@
                 }
             }
 
-            return json_encode($cuentas);
+            return json_encode($cuentas, JSON_PRETTY_PRINT);
         }
 
         public function cargar_inventario($post)
@@ -246,7 +246,7 @@
                 $inventario[$i]['inventario_asignado'] = $query->fetchAll();
             }
 
-            return json_encode($inventario);
+            return json_encode($inventario, JSON_PRETTY_PRINT);
         }
 
         public function cargar_materiales_guias($post)
@@ -277,9 +277,6 @@
 
                 $inventario[$i]['stock'] = $query->fetchAll();
 
-
-
-
                 $inventario[$i]['inventario_asignado'] = array();
 
                 $query = $this->db->prepare("
@@ -295,7 +292,7 @@
                 $inventario[$i]['inventario_asignado'] = $query->fetchAll();
             }
 
-            return json_encode($inventario);
+            return json_encode($inventario, JSON_PRETTY_PRINT);
         }
 
         public function cargar_productos($post)
@@ -395,8 +392,8 @@
             {
                 /* Cast a numero aquellos necesarios */
                 $productos[$i]['disponibles'] = intval($productos[$i]['disponibles']);
-                $productos[$i]['costo_unitario'] = intval($productos[$i]['costo_unitario']);
-                $productos[$i]['costo_materiales'] = intval($productos[$i]['costo_materiales']);
+                $productos[$i]['costo_unitario'] = floatval($productos[$i]['costo_unitario']);
+                $productos[$i]['costo_materiales'] = floatval($productos[$i]['costo_materiales']);
 
                 /* Historial de precios */
                 $productos[$i]['historial_costos'] = array();
@@ -413,6 +410,18 @@
                 ));
 
                 $productos[$i]['historial_costos'] = $query->fetchAll();
+
+                /* Si es guia */
+                if (strpos($productos[$i]['nombre'], 'Guía') !== false) {
+                    $qc = $this->db->prepare("
+                        select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1 
+                    ");
+
+                    $qc->execute();
+                    $qcr = $qc->fetchAll();
+
+                    $productos[$i]['costo_unitario'] = floatval($qcr[0]['costo']);
+                }
 
                 /* Materiales */
                 $productos[$i]['materiales'] = array();
@@ -464,7 +473,7 @@
                 }
             }
 
-            return json_encode($productos);
+            return json_encode($productos, JSON_PRETTY_PRINT);
         }
 
         public function cargar_departamentos($post)
@@ -477,7 +486,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_materiales_asignados($post)
@@ -514,7 +523,7 @@
                     $ret[$i]["departamentos"][] = $p['departamento_nombre'];
             }
 
-            return json_encode($ret);
+            return json_encode($ret, JSON_PRETTY_PRINT);
         }
 
         public function cargar_mis_materiales_asignados($post)
@@ -533,7 +542,7 @@
                 ":usuario" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : 'root'
             ));
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_materiales_danados($post)
@@ -552,7 +561,7 @@
                 ":usuario" => isset($_SESSION['login_username']) ? $_SESSION['login_username'] : 'root'
             ));
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_departamentos_ucab($post)
@@ -565,7 +574,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_tipos_guias($post)
@@ -578,7 +587,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_profesores($post)
@@ -590,7 +599,7 @@
             ");
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_ordenes($post)
@@ -607,6 +616,7 @@
 
             for ($i = 0; $i < count($ordenes); $i++)
             {
+                $ordenes[$i]['total_cuenta'] = 0.0;
                 /* Productos */
                 $ordenes[$i]['productos'] = array();
 
@@ -637,11 +647,13 @@
                     $nuevo['costo_unitario_facturado'] = floatval($p['costo_unitario_facturado']);
                     $nuevo['costo_total_facturado'] = floatval($p['costo_total_facturado']);
 
+                    $ordenes[$i]['total_cuenta'] += floatval($p['costo_total_facturado']);
+
                     $ordenes[$i]['productos'][] = $nuevo;
                 }
             }
 
-            return json_encode($ordenes);
+            return json_encode($ordenes, JSON_PRETTY_PRINT);
         }
 
         public function cargar_pedidos($post, $extra_query = "")
@@ -687,6 +699,8 @@
                 $pedidos[$i]['id'] = intval($pedidos[$i]['id']);
                 $pedidos[$i]['id_dia'] = intval($pedidos[$i]['id_dia']);
 
+                $pedidos[$i]['total_cuenta'] = 0.0;
+
                 /* Productos */
                 $pedidos[$i]['productos'] = array();
 
@@ -719,11 +733,13 @@
                     $nuevo['costo_unitario_facturado'] = floatval($p['costo_unitario_facturado']);
                     $nuevo['costo_total_facturado'] = floatval($p['costo_total_facturado']);
 
+                    $pedidos[$i]['total_cuenta'] += floatval($p['costo_total_facturado']);
+
                     $pedidos[$i]['productos'][] = $nuevo;
                 }
             }
 
-            return json_encode($pedidos);
+            return json_encode($pedidos, JSON_PRETTY_PRINT);
         }
 
         public function cargar_todos_pedidos($post, $extra_query = "")
@@ -808,7 +824,7 @@
                 $pedido['productos'][] = $nuevo;
             }
 
-            return json_encode($pedido);
+            return json_encode($pedido, JSON_PRETTY_PRINT);
         }
 
         public function cargar_pedidos_sin_factura($post)
@@ -866,7 +882,7 @@
                 }
             }
 
-            return json_encode($pedidos);
+            return json_encode($pedidos, JSON_PRETTY_PRINT);
         }
 
         public function cargar_pedidos_por_procesar($post)
@@ -897,7 +913,7 @@
                     order by o.id desc
                 ) R left join Condicion_Pago as cp
                 on R.cond_pago_=cp.id
-                where 1=1 ".($post['dpto'] != 'null' ? "and R.departamento_personal='".$post['dpto']."'" : "")."
+                where 1=1 ".($post['dpto'] != 'null' && $post['dpto'] != 'Archivo' ? "and R.departamento_personal='".$post['dpto']."'" : "")." ".($post['dpto'] == 'Archivo' ? 'and (R.departamento_personal is null or R.departamento_personal="Caja" or R.departamento_personal="Originales")' : '')."
                 order by R.id_dia desc
             ");
             $query->execute();
@@ -954,7 +970,7 @@
                 }
             }
 
-            return json_encode($pedidos);
+            return json_encode($pedidos, JSON_PRETTY_PRINT);
         }
 
         public function cargar_factura($post)
@@ -987,7 +1003,7 @@
             {
                 $json = array();
                 $json["error"] = "Número de factura inexistente.";
-                return json_encode($json);
+                return json_encode($json, JSON_PRETTY_PRINT);
             }
 
             $pedido = $query->fetchAll();
@@ -1037,7 +1053,7 @@
             ");
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_familias($post)
@@ -1047,7 +1063,7 @@
             ");
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_periodos($post)
@@ -1063,7 +1079,7 @@
                 ":cid" => $post['cid']
             ));
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_personal($post)
@@ -1124,7 +1140,7 @@
                 }
             }
 
-            return json_encode($ret);
+            return json_encode($ret, JSON_PRETTY_PRINT);
         }
 
         public function cargar_permisos($post)
@@ -1137,7 +1153,7 @@
             ");
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_profesor($id)
@@ -1197,7 +1213,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_planes_de_estudio($post)
@@ -1256,7 +1272,7 @@
                 $planes[$i]['materia'] = count($m) > 0 ? $m[0]['nombre'] : null;
             }
 
-            return json_encode($planes);
+            return json_encode($planes, JSON_PRETTY_PRINT);
         }
 
         public function cargar_guias($post)
@@ -1320,7 +1336,7 @@
                 $guias[] = $row;
             }
 
-            return json_encode($guias);
+            return json_encode($guias, JSON_PRETTY_PRINT);
         }
 
         public function cargar_guia($post)
@@ -1377,7 +1393,7 @@
                 $guias[] = $row;
             }
 
-            return json_encode($guias[0]);
+            return json_encode($guias[0], JSON_PRETTY_PRINT);
         }
 
         public function cargar_clientes($post)
@@ -1391,7 +1407,7 @@
             ");
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_cajeros($post)
@@ -1406,7 +1422,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function cargar_cajeros_activos($post)
@@ -1420,7 +1436,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function reporte_libro_de_ventas($post)
@@ -1505,7 +1521,7 @@
                 }
             }
 
-            return json_encode($pedidos);
+            return json_encode($pedidos, JSON_PRETTY_PRINT);
         }
 
         public function reporte_cuadre_ventas_diarias($post)
@@ -1530,7 +1546,7 @@
 
             $data = $query->fetchAll();
 
-            return json_encode($data);
+            return json_encode($data, JSON_PRETTY_PRINT);
         }
 
         public function reporte_venta_productos($post)
@@ -1558,7 +1574,7 @@
 
             $data = $query->fetchAll();
 
-            return json_encode($data);
+            return json_encode($data, JSON_PRETTY_PRINT);
         }
 
         public function cargar_retiros_de_caja($post)
@@ -1580,7 +1596,7 @@
 
             $query->execute();
 
-            return json_encode($query->fetchAll());
+            return json_encode($query->fetchAll(), JSON_PRETTY_PRINT);
         }
 
         public function reporte_corte_de_caja($post)
@@ -1692,7 +1708,7 @@
                     $data[$i]['retiros'] = $query->fetchAll();
                 }
 
-            return count($data) > 0 ? json_encode($data[0]) : json_encode(array());
+            return count($data) > 0 ? json_encode($data[0]) : json_encode(array(), JSON_PRETTY_PRINT);
         }
 	}
 ?>

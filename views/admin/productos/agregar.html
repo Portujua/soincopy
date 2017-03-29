@@ -1,10 +1,10 @@
 <form class="agregar agregar_producto" ng-controller="Producto" name="agregar" ng-submit="registrar_producto()">
 	<div class="register-form">
 		<p class="btn-volver">
-			<a class="btn btn-volver" href="./#/productos">&larr; Volver</a>
+			<a class="btn btn-volver" href="./#/productos"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 		</p>
 
-		<h1 style="font-size: 20px;">Inventario &rarr; Productos &rarr; {{ editar ? 'Editar' : 'Crear' }}</h1>
+		<h1 style="font-size: 20px;">Inventario <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Productos <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> {{ editar ? 'Editar' : 'Crear' }}</h1>
 
 		<!--<div ng-if="editar">
 			<h2>Historial de precios</h2>
@@ -34,7 +34,7 @@
 
 		<p><small>(*) Campos obligatorios</small></p>
 
-		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar && !esGuia() && !editar">
 			<p>Nombre (*)</p>
 			<input type="text" name="nombre" ng-model="producto.nombre" required ng-minlength=1 ng-maxlength=64 ng-model-options="{ updateOn: 'blur' }" unique-bd="producto" autocomplete="off" />
 		</div>
@@ -53,7 +53,7 @@
 			</script>
 		</div>
 
-		<div class="fila" ng-if="editar" ng-show="loginService.getCurrentUser().productos_nuevos_precios">
+		<div class="fila" ng-if="editar" ng-show="loginService.getCurrentUser().productos_nuevos_precios && !esGuia()">
 			<p>Nuevo costo de venta <small style="font-weight: bold; cursor:pointer;" title="Debe incluir IVA" data-toggle="tooltip" data-placement="top">[?]</small></p>
 			<input type="number" name="costo" ng-model="producto.costo_nuevo" ng-pattern="/^[0-9]+(\.[0-9]{1,2})?$/" step="0.01" />
 			<strong>* En caso de mantener el precio deje este campo en blanco</strong>
@@ -63,14 +63,14 @@
 			</script>
 		</div>
 
-		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar && !esGuia()">
 			<p>Departamento (*)</p>
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamentos" ng-if="!editar" name="dpto" ng-options="c.id as c.nombre for c in departamentos" multiple required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamentos" ng-if="!editar" name="dpto" ng-options="c.id as c.nombre for c in departamentos" multiple required></select>
 
-			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamento" ng-if="editar" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required ng-minlength=1></select>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.departamento" ng-if="editar" name="dpto" ng-options="c.id as c.nombre for c in departamentos" required></select>
 		</div>
 
-		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar">
+		<div class="fila" ng-show="loginService.getCurrentUser().productos_editar && !esGuia()">
 			<p>Familia (*)</p>
 			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="producto.familia" name="familia" required ng-minlength=1 ts-select-fix>
 				<option ng-repeat="f in familias | quitarDeshabilitados" value="{{ f.id }}">{{ f.nombre }}</option>
@@ -82,9 +82,9 @@
 			<input type="checkbox" name="exento" ng-model="producto.exento_iva" style="width: 15px;" />
 		</div>
 
-		<h2 ng-show="loginService.getCurrentUser().productos_editar">Materiales <small><a href="" ng-click="anadir_material()">Añadir material</a></small></h2>
+		<h2 ng-show="loginService.getCurrentUser().productos_editar && !esGuia()">Materiales <small><a href="" ng-click="anadir_material()">Añadir material</a></small></h2>
 
-		<table class="table table-stripped" ng-init="producto.materiales = producto.materiales ? producto.materiales : [];" ng-show="loginService.getCurrentUser().productos_editar">
+		<table class="table table-stripped" ng-init="producto.materiales = producto.materiales ? producto.materiales : [];" ng-show="loginService.getCurrentUser().productos_editar && !esGuia()">
 			<thead>
 				<th>&nbsp;</th>
 				<th>Material (*)</th>
@@ -107,10 +107,10 @@
 
 		<hr/>
 
-		<h2 ng-show="loginService.getCurrentUser().productos_editar">Guías <small><a href="" ng-click="anadir_guia()">Añadir guía</a></small></h2>
-		<p><small><strong>(*) Es necesario añadir manualmente el material necesario para producir la(s) guía(s)</strong></small></p>
+		<h2 ng-if="loginService.getCurrentUser().productos_editar && !esGuia()">Guías <small><a href="" ng-click="anadir_guia()">Añadir guía</a></small></h2>
+		<p ng-if="!esGuia()"><small><strong>(*) Es necesario añadir manualmente el material necesario para producir la(s) guía(s)</strong></small></p>
 
-		<table class="table table-stripped" ng-init="producto.guias = producto.guias ? producto.guias : [];" ng-show="loginService.getCurrentUser().productos_editar">
+		<table class="table table-stripped" ng-init="producto.guias = producto.guias ? producto.guias : [];" ng-if="loginService.getCurrentUser().productos_editar && !esGuia()">
 			<thead>
 				<th>Guía (*)</th>
 			</thead>
@@ -128,8 +128,8 @@
 		</table>
 
 		<div class="fila text-center" style="margin-top: 20px;">
-			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid">Aceptar</button>
-			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
+			<button class="btn btn-primary" type="submit" ng-disabled="agregar.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
 		</div>
 	</div>
 </form>

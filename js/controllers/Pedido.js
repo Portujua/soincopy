@@ -34,14 +34,22 @@
 		}
 
 		$scope.cargar_pedidos_sin_factura = function(no_timeout){
-			SoincopyService.getPedidosSinFactura($scope);
+			SoincopyService.getPedidosSinFactura().then((response) => {
+				$scope.pedidos = response.data;
+				var data = response.data;
+				$scope.tableParams = new NgTableParams({}, { dataset: data });
+			})
 
 			if (!no_timeout && window.location.hash.indexOf('factura_faltante') != -1)
 				$timeout($scope.cargar_pedidos_sin_factura, $scope.$parent.REFRESH_INTERVAL);
 		}
 
 		$scope.cargar_pedidos_por_procesar = function(no_timeout){
-			SoincopyService.getPedidosPorProcesar($scope, LoginService.getCurrentUser().departamento);
+			SoincopyService.getPedidosPorProcesar(LoginService.getCurrentUser().departamento).then((response) => {
+				$scope.pedidos = response.data;
+				var data = response.data;
+				$scope.tableParams = new NgTableParams({}, { dataset: data });
+			})
 
 			if (!no_timeout && window.location.hash.indexOf('por_procesar') != -1)
 				$timeout($scope.cargar_pedidos_por_procesar, $scope.$parent.REFRESH_INTERVAL);
@@ -93,7 +101,7 @@
 					    beforeSend: function(){},
 					    success: function(data){
 					    	console.log(data)
-					        if (data == "ok")
+					        if (data.ok)
 					        	$scope.safeApply(function(){
 					        		$scope.pedido = {};
 					        		delete $localStorage.cache.pedido;
@@ -132,8 +140,14 @@
 			}
 
 			for (var i = 0; i < $scope.productos.length; i++)
-				if ($scope.productos[i].id == $scope.pedido.productos[index].producto)
+				if (parseInt($scope.productos[i].id) == parseInt($scope.pedido.productos[index].producto)) {
+					console.log('asignando', parseFloat($scope.productos[i].costo_unitario), 'porque....')
+					console.log($scope.productos[i])
+					console.log($scope.pedido.productos[index])
+					console.log()
 					$scope.pedido.productos[index].costo_unitario = parseFloat($scope.productos[i].costo_unitario);
+					break;
+				}
 		}
 
 		$scope.anadir_producto = function(){
@@ -217,9 +231,7 @@
 					    data: {password:pwd},
 					    beforeSend: function(){},
 					    success: function(data){
-					        var json = $.parseJSON(data);
-
-					        if (json.resultado)
+					        if (data.resultado)
 					        	$scope.safeApply(function(){
 					        		$scope.autorizado = true;
 					        	});
@@ -247,53 +259,51 @@
 			    data: {},
 			    beforeSend: function(){},
 			    success: function(data){
-			        var json = $.parseJSON(data);
 			        var guias = [];
 
 			        var availableTags = [];
 
-			        for (var i = 0; i < json.length; i++)
+			        for (var i = 0; i < data.length; i++)
 			        {
-			        	if (json[i].status != 1)
+			        	if (data[i].status != 1)
 			        		continue;
 
-		        		if (self.filtros.carrera != json[i].carrera_id && self.filtros.carrera != -1)
+		        		if (self.filtros.carrera != data[i].carrera_id && self.filtros.carrera != -1)
 		        			continue;
 
-		        		if (self.filtros.materia != json[i].materia_id && self.filtros.materia != -1)
+		        		if (self.filtros.materia != data[i].materia_id && self.filtros.materia != -1)
 		        			continue;
 
-		        		if (self.filtros.periodo != json[i].periodo && self.filtros.periodo != -1)
+		        		if (self.filtros.periodo != data[i].periodo && self.filtros.periodo != -1)
 		        			continue;
 
-		        		if (self.filtros.profesor != json[i].profesor.nombre_completo && self.filtros.profesor != -1)
+		        		if (self.filtros.profesor != data[i].profesor.nombre_completo && self.filtros.profesor != -1)
 		        			continue;
 
 		        		if (self.filtros.nro_paginas)
-		        			if (self.filtros.nro_paginas != json[i].numero_paginas && self.filtros.nro_paginas > 0)
+		        			if (self.filtros.nro_paginas != data[i].numero_paginas && self.filtros.nro_paginas > 0)
 		        				continue;
 
 		        		if (self.filtros.codigo)
-		        			if (self.filtros.codigo != json[i].codigo && self.filtros.codigo > 0)
+		        			if (self.filtros.codigo != data[i].codigo && self.filtros.codigo > 0)
 		        				continue;
 
 
 			        	availableTags.push({
-			        		label: json[i].tokens,
-			        		value: json[i].id
+			        		label: data[i].tokens,
+			        		value: data[i].id
 			        	})
 
 			        	for (var j = 0; j < self.productos.length; j++)
-							if (self.productos[j].nombre.indexOf(json[i].titulo) != -1)
+							if (self.productos[j].nombre.indexOf(data[i].titulo) != -1)
 							{
-								json[i].idproducto = self.productos[j].id;
-								guias.push(json[i]);
+								data[i].idproducto = self.productos[j].id;
+								guias.push(data[i]);
 							}
 			        }
 
 			        $scope.safeApply(function(){
 			        	$scope.guias = guias;
-			        	console.log($scope.guias)
 			        })
 
 					$( "input[name=guia]" ).autocomplete({
@@ -321,14 +331,18 @@
 		}
 
 		$scope.agregar_guia = function(id, titulo){
+			let idx = $scope.pedido.productos.length;
+
 			$scope.pedido.productos.push({
 				nro_copias: 1,
 				nro_originales: 1,
 				costo_unitario: 0,
-				producto: id,
+				producto: parseInt(id),
 				producto_nombre: titulo,
 				idproducto: id
 			});
+
+			// $scope.actualizar_costo_unitario(idx);
 		}
 
 		$scope.cargar_materias = function(){
@@ -361,7 +375,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.periodos = $.parseJSON(data);
+			        	$scope.periodos = data;
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
@@ -396,9 +410,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	var json = $.parseJSON(data);
-			        	console.log(json)
-			        	$scope.pedido.productos[index].errores = json.errores;
+			        	$scope.pedido.productos[index].errores = data.errores;
 			        })
 			    }
 			});
@@ -419,12 +431,10 @@
 					    beforeSend: function(){},
 					    success: function(data){
 					    	try {
-					    		var json = $.parseJSON(data);
-
-					    		if (json.ok)
+					    		if (data.ok)
 					    			$scope.safeApply(function(){
 						        		$('#asignar_nro_factura').modal('hide');
-						        		AlertService.showSuccess(json.msg);
+						        		AlertService.showSuccess(data.msg);
 						        		$scope.cargar_pedidos_sin_factura(true);
 
 						        		window.open(
@@ -433,7 +443,7 @@
 											"menubar=no,status=no,toolbar=no,width=285,height=400");
 						        	});
 					    		else
-					    			AlertService.showError(json.msg);
+					    			AlertService.showError(data.msg);
 					    	}
 					        catch (ex)
 					        {
@@ -460,15 +470,13 @@
 					    beforeSend: function(){},
 					    success: function(data){
 					    	try {
-					    		var json = $.parseJSON(data);
-
-					    		if (json.ok)
+					    		if (data.ok)
 					    			$scope.safeApply(function(){
 						        		AlertService.showSuccess("Acción realizada con éxito");
 						        		$scope.cargar_pedidos_por_procesar(true);
 						        	});
 					    		else
-					    			AlertService.showError(json.msg);
+					    			AlertService.showError(data.msg);
 					    	}
 					        catch (ex)
 					        {

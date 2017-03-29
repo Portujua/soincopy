@@ -9,7 +9,7 @@
 		<div class="botones">
 			<div ng-show="o_">
 				<a class="btn btn-warning" ng-show="loginService.getCurrentUser().caja_realizarcobro && o_.procesada == 0" href="./#/caja/cobrar/{{ o_.id }}">
-					<span class="glyphicon glyphicon-usd" aria-hidden="true"></span> Realizar Cobro
+					<i class="fa fa-money fa-fw" aria-hidden="true"></i> Realizar Cobro
 				</a>
 
 				<button class="btn btn-info" ng-show="loginService.getCurrentUser().pedidos_ver_detalle" data-toggle="modal" data-target="#detalle">
@@ -23,7 +23,7 @@
 		</div>
 
 		<p>
-			<button class="btn btn-soincopy" style="font-size: 14px !important;" onclick="window.print()">Imprimir</button>
+			<button class="btn btn-soincopy" style="font-size: 14px !important;" onclick="window.print()"> <i class="fa fa-print" aria-hidden="true"></i> Imprimir</button>
 		</p>
 
 		<br/><br/>
@@ -97,12 +97,30 @@
 						<tr ng-repeat="p in o_.productos">
 							<td class="text-left">{{ p.producto_nombre }} <small>{{ p.fecha_anadido }}</small></td>
 							<td class="text-right">{{ p.copias * p.originales }} unidades</td>
+							<td class="text-right">{{ (p.costo_unitario_facturado / (1.00 + IVA)) | currency:'Bs. ' }}</td>
+							<td class="text-right">{{ p.costo_unitario_facturado - (p.costo_unitario_facturado / (1.00 + IVA)) | currency:'Bs. ' }}</td>
 							<td class="text-right">{{ p.costo_unitario_facturado | currency:'Bs. ' }}</td>
 						</tr>
 						<tr>
 							<td class="text-left">&nbsp;</td>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-right"><strong>Subtotal</strong></td>
+							<td class="text-right"><strong>{{ (o_.total_cuenta / (1.00 + IVA)) | currency:'Bs. ' }}</strong></td>
+						</tr>
+						<tr>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-right"><strong>IVA</strong></td>
+							<td class="text-right"><strong>{{ o_.total_cuenta - (o_.total_cuenta / (1.00 + IVA)) | currency:'Bs. ' }}</strong></td>
+						</tr>
+						<tr>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-left">&nbsp;</td>
+							<td class="text-left">&nbsp;</td>
 							<td class="text-right"><strong>Total</strong></td>
-							<td class="text-right"><strong>{{ o_.costo_total | currency:'Bs. ' }}</strong></td>
+							<td class="text-right"><strong>{{ o_.total_cuenta | currency:'Bs. ' }}</strong></td>
 						</tr>
 					</table>
 				</div>

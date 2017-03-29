@@ -1,9 +1,9 @@
 <form class="modificar" ng-controller="Guia" name="agregar" ng-submit="modificar_guia()">
 	<p class="btn-volver">
-		<a class="btn btn-volver" href="./#/buscarguias">&larr; Volver</a>
+		<a class="btn btn-volver" href="./#/buscarguias"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 	</p>
 
-	<h1 style="font-size: 20px;">Guías &rarr; Editar</h1>
+	<h1 style="font-size: 20px;">Guías <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> Editar</h1>
 
 	<h2>
 		Guía {{ guia.codigo }} 
@@ -27,23 +27,29 @@
 			<input type="text" ng-model="guia.titulo" maxlength="128" placeholder="Título" />
 		</div>
 
-		<div class="fila" ng-init="cargar_materias()">
-			<p>Carreras (*)</p>
-			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre for c in carreras" ng-model="guia.carrera_id" ng-change="cargar_materias()"></select>
+		<div class="fila" ng-init="cargar_carreras()">
+			<p>Carreras (*) <span class="badge" ng-show="loginService.getCurrentUser().carreras_agregar" ng-click="agregar_carrera()" title="Añadir nueva carrera"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.carrera" name="carrera" ng-change="cargar_materias()" required ts-select-fix>
+				<option ng-repeat="c in carreras" ng-if="c.estado == 1" value="{{ c.id }}">{{ c.nombre }}</option>
+			</select>
 		</div>
 
 		<div class="fila">
-			<p>Materias (*)</p>
-			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre group by (c.periodo + (c.tipo_carrera == 'Semestral' ? ' semestre' : (c.tipo_carrera == 'Anual' ? ' año' : ''))) for c in materias" ng-model="guia.materia" ng-show="materias"></select>
+			<p>Materias (*) <span class="badge" ng-show="loginService.getCurrentUser().materias_agregar" ng-click="agregar_materia()" title="Añadir nueva materia"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-model="guia.materia" name="materia" required ng-init="cargar_materias()" ts-select-fix>
+				<optgroup ng-repeat="g in materias | unique:'periodo'" label="{{ (g.periodo + (g.tipo_carrera == 'Semestral' ? ' semestre' : (g.tipo_carrera == 'Anual' ? ' año' : ''))) }}">
+					<option ng-repeat="m in materias" ng-if="m.periodo == g.periodo" value="{{ m.id }}">{{ m.nombre }}</option>
+				</optgroup>
+			</select>
 
-			<span ng-hide="guia.carrera_id">Seleccione una carrera</span>
+			<span ng-hide="guia.carrera">Seleccione una carrera</span>
 		</div>
 
 		<div class="fila" ng-init="cargar_profesores()">
-			<p>Profesor (*)</p>
-			<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre_completo for c in profesores" ng-model="guia.profesor_id" ng-show="profesores"></select>
-
-			<span ng-hide="profesores">Cargando...</span>
+			<p>Profesor (*) <span class="badge" ng-show="loginService.getCurrentUser().profesores_agregar" ng-hide="guia.agregarprofesor" ng-click="anadir_profesor()" title="Añadir nuevo profesor"><i class="fa fa-plus fa-fw" aria-hidden="true"></i></span></p>
+			<select class="selectpicker" data-live-search="true" title="" data-width="75%" ng-hide="guia.agregarprofesor" name="profesor" ng-model="guia.profesor" ng-show="profesores" required ts-select-fix>
+				<option ng-repeat="p in profesores" ng-if="p.estado == 1" value="{{ p.id }}">{{ p.nombre_completo }}</option>
+			</select>
 		</div>
 
 		<div class="fila">
@@ -78,24 +84,13 @@
 			<h5>{{ guia.numero_paginas }} páginas, {{ guia.numero_hojas }} hojas</h5>
 
 			<div class="fila">
-				<p>Producto asociado (*)</p>
-				<select class="selectpicker show-tick" data-live-search="true" title="" data-width="75%" ng-options="c.id as c.nombre for c in productos" ng-model="guia.producto.id" required></select>
-
-				<script type="text/javascript">
-					setTimeout(function(){
-						$('.selectpicker').selectpicker('refresh');
-					}, 500);
-				</script>
-			</div>
-
-			<div class="fila">
 				<p>Número de hojas (*)</p>
 				<input type="number" name="producto_cantidad" ng-model="guia.producto.cantidad" ng-min=1 required />
 			</div>
 		</div>
 
 		<div class="fila text-center">
-			<button class="btn btn-primary btn-lg" type="submit" ng-disabled="agregar.$invalid">Aceptar</button>
+			<button class="btn btn-primary btn-lg" type="submit" ng-disabled="agregar.$invalid"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
 		</div>
 	</div>
 </form>

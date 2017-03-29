@@ -44,7 +44,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.periodos = $.parseJSON(data);
+			        	$scope.periodos = data;
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }
@@ -59,7 +59,7 @@
 			    beforeSend: function(){},
 			    success: function(data){
 			        $scope.safeApply(function(){
-			        	$scope.tipos = $.parseJSON(data);
+			        	$scope.tipos = data;
 			        	$timeout(function(){$('.selectpicker').selectpicker('refresh');}, 500);
 			        })
 			    }

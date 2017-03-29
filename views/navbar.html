@@ -2,193 +2,195 @@
 	<img src="img/LOGOTIPO 370X99.png" />
 	<p style="color: white; text-align: center; margin-left: -10px; font-size: 14px; text-transform: uppercase;">{{ loginService.getCurrentUser().departamento ? loginService.getCurrentUser().departamento : 'administrador' }}</p>
 
-	<p style="color: white;"><strong>{{ loginService.getCurrentUser().nombre + " " + loginService.getCurrentUser().apellido }}</strong> <span class="glyphicon glyphicon-off pull-right" ng-click="logout()" style="color: #c9302c !important; border: none;" aria-hidden="true" title="Cerrar sesión"></span></p>
+	<p style="color: white;"><strong>{{ loginService.getCurrentUser().nombre + " " + loginService.getCurrentUser().apellido }}</strong> <i class="fa fa-sign-out fa-2x fa-fw pull-right" ng-click="logout()" style="color: #c9302c !important; border: none; cursor: pointer;" aria-hidden="true" title="Cerrar sesión"></i></p>
 	<p style="color: white;"><small>Última visita: {{ loginService.getCurrentUser().ultima_visita.fecha.length > 0 ? loginService.getCurrentUser().ultima_visita.fecha + ' a las ' + loginService.getCurrentUser().ultima_visita.hora : 'Nunca' }}</small></p>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".guias"
 		ng-show="loginService.menuGuias()">
-		Guías
+		<i class="fa fa-book fa-fw" aria-hidden="true"></i> Guías
 	</p>
 
 	<div class="guias collapse" aria-expanded="false">
 		<a href="./#/agregarguia" ng-show="loginService.getCurrentUser().anadir_guias">
-			<p>Crear</p>
+			<p><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Crear</p>
 		</a>
 
 		<a href="./#/buscarguias"  ng-show="loginService.getCurrentUser().buscar_guias">
-			<p>Buscar</p>
+			<p><i class="fa fa-search fa-fw" aria-hidden="true"></i> Buscar</p>
 		</a>
 	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".ordenes"
 		ng-show="loginService.menuOrdenes()">
-		Ordenes
+		<i class="fa fa-edit fa-fw" aria-hidden="true"></i> Ordenes
 	</p>
 
 	<div class="ordenes collapse" aria-expanded="false">
 		<a href="./#/ordenes/agregar" ng-show="loginService.getCurrentUser().ordenes_agregar">
-			<p>Crear</p>
+			<p><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Crear</p>
 		</a>
 
 		<a href="./#/ordenes" ng-show="loginService.getCurrentUser().ordenes_ver">
-			<p>Buscar</p>
+			<p><i class="fa fa-search fa-fw" aria-hidden="true"></i> Buscar</p>
 		</a>
 
 		<hr/>
 
 		<a href="./#/buscar_web" ng-show="loginService.getCurrentUser().ver_ordenes_web">
-			<p>Ver ordenes web</p>
+			<p><i class="fa fa-globe fa-fw" aria-hidden="true"></i> Ver ordenes web</p>
 		</a>
 	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".cuentasabiertas"
 		ng-show="loginService.menuAdminCuentaAbiertas()">
-		Cuentas Abiertas
+		<i class="fa fa-file-o fa-fw" aria-hidden="true"></i> Cuentas Abiertas
 	</p>
 
 	<div class="cuentasabiertas collapse" aria-expanded="false">
 		<a href="./#/cuentaabiertas/agregar" ng-show="loginService.getCurrentUser().cuentaabiertas_agregar">
-			<p>Crear</p>
+			<p><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Crear</p>
 		</a>
 
 		<a href="./#/cuentaabiertas" ng-show="loginService.getCurrentUser().cuentaabiertas_editar || loginService.getCurrentUser().cuentaabiertas_deshabilitar">
-			<p>Buscar</p>
+			<p><i class="fa fa-search fa-fw" aria-hidden="true"></i> Buscar</p>
 		</a>
 	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".plandeestudio"
 		ng-show="loginService.menuPensum()">
-		Programas y Pensum
+		<i class="fa fa-list-alt fa-fw" aria-hidden="true"></i> Programas y Pensum
 	</p>
 
 	<div class="plandeestudio collapse" aria-expanded="false">
 		<a href="./#/agregarplandeestudios" ng-show="loginService.getCurrentUser().plandeestudios_agregar">
-			<p>Crear</p>
+			<p><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Crear</p>
 		</a>
 
 		<a href="./#/planesdeestudio" ng-show="loginService.getCurrentUser().plandeestudios_buscar">
-			<p>Buscar</p>
+			<p><i class="fa fa-search fa-fw" aria-hidden="true"></i> Buscar</p>
 		</a>
 	</div>
 
-	<p class="titulo_seccion" data-toggle="collapse" data-target=".controlequipo">Control de equipo</p>
+	<p class="titulo_seccion" data-toggle="collapse" data-target=".controlequipo">
+		<i class="fa fa-desktop fa-fw" aria-hidden="true"></i> Control de equipo
+	</p>
 
 	<div class="controlequipo collapse" aria-expanded="false">
 	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".admin"
 		ng-show="loginService.menuAdmin()">
-		Administración
+		<i class="fa fa-cogs fa-fw" aria-hidden="true"></i> Administración
 	</p>
 
 	<div class="admin collapse" aria-expanded="false">
 		<a href="./#/personal" ng-show="loginService.menuAdminPersonal()">
-			<p>Personal</p>
+			<p><i class="fa fa-users fa-fw" aria-hidden="true"></i> Personal</p>
 		</a>
 
 		<a href="./#/profesores" ng-show="loginService.menuAdminProfesores()">
-			<p>Profesores</p>
+			<p><i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i> Profesores</p>
 		</a>
 
 		<a href="./#/carreras" ng-show="loginService.menuAdminCarreras()">
-			<p>Carreras</p>
+			<p><i class="fa fa-th-list fa-fw" aria-hidden="true"></i> Carreras</p>
 		</a>
 
 		<a href="./#/menciones" ng-show="loginService.menuAdminCarreras()">
-			<p>Menciones</p>
+			<p><i class="fa fa-th-list fa-fw" aria-hidden="true"></i> Menciones</p>
 		</a>
 
 		<a href="./#/materias" ng-show="loginService.menuAdminMaterias()">
-			<p>Materias</p>
+			<p><i class="fa fa-th-list fa-fw" aria-hidden="true"></i> Materias</p>
 		</a>
 
 		<a href="./#/departamentos/ucab" ng-show="loginService.menuAdminDepartamentosUCAB()">
-			<p>Departamentos UCAB</p>
+			<p><i class="fa fa-building fa-fw" aria-hidden="true"></i> Departamentos UCAB</p>
 		</a>
 
 		<a href="./#/dependencias" ng-show="loginService.menuAdminDependencias()">
-			<p>Dependencias</p>
+			<p><i class="fa fa-building-o fa-fw" aria-hidden="true"></i> Dependencias</p>
 		</a>
 
 		<a href="./#/inventario" ng-show="loginService.menuAdminInventario() || loginService.menuAdminProductos()">
-			<p>Inventario</p>
+			<p><i class="fa fa-archive fa-fw" aria-hidden="true"></i> Inventario</p>
 		</a>
 
 		<a href="./#/proveedores" ng-show="loginService.menuAdminProveedores()">
-			<p>Proveedores</p>
+			<p><i class="fa fa-product-hunt fa-fw" aria-hidden="true"></i> Proveedores</p>
 		</a>
 
 		<a href="./#/inventario/material/danado">
-			<p>Material dañado</p>
+			<p><i class="fa fa-user-times fa-fw" aria-hidden="true"></i> Material dañado</p>
 		</a>
 
 		<a href="./#/clientes" ng-show="loginService.menuAdminClientes()">
-			<p>Clientes</p>
+			<p><i class="fa fa-user-circle-o fa-fw" aria-hidden="true"></i> Clientes</p>
 		</a>
 
 		<a href="./#/caja/retiros/agregar" ng-show="loginService.menuAdminRetirosCaja()">
-			<p>Retiro de Caja</p>
+			<p><i class="fa fa-money fa-fw" aria-hidden="true"></i> Retiro de Caja</p>
 		</a>
 
 		<a href="./#/caja/notas_credito/agregar" ng-show="loginService.menuAdminNotasCredito()">
-			<p>Notas de Crédito</p>
+			<p><i class="fa fa-credit-card-alt fa-fw" aria-hidden="true"></i> Notas de Crédito</p>
 		</a>
 
 		<a href="./#/iva" ng-show="loginService.getCurrentUser().es_admin">
-			<p>IVA</p>
+			<p><i class="fa fa-magic fa-fw" aria-hidden="true"></i> IVA</p>
 		</a>
 	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".pedidos"
 		ng-show="loginService.menuPedidos()">
-		Pedidos
+		<i class="fa fa-file-text-o fa-fw" aria-hidden="true"></i> Pedidos
 	</p>
 
 	<div class="pedidos collapse" aria-expanded="false">
 		<a href="./#/pedidos/agregar" ng-show="loginService.getCurrentUser().pedidos_agregar">
-			<p>Crear</p>
+			<p><i class="fa fa-plus fa-fw" aria-hidden="true"></i> Crear</p>
 		</a>
 
 		<a href="./#/pedidos" ng-show="loginService.getCurrentUser().pedidos_ver || loginService.getCurrentUser().caja_realizarcobro">
-			<p>Pendientes por pagar</p>
+			<p><i class="fa fa-file-text fa-fw" aria-hidden="true"></i> Pendientes por pagar</p>
 		</a>
 
 		<a href="./#/pedidos/factura_faltante" ng-show="loginService.getCurrentUser().pedidos_ver_falta_factura">
-			<p>Pendientes por asignar factura</p>
+			<p><i class="fa fa-file-text fa-fw" aria-hidden="true"></i> Pendientes por asignar factura</p>
 		</a>
 
 		<a href="./#/pedidos/por_procesar" ng-show="loginService.getCurrentUser().pedidos_ver_por_procesar">
-			<p>{{ loginService.getCurrentUser().departamento ? (loginService.getCurrentUser().departamento == 'Diseño' ? 'Cancelados' : 'Pendientes por procesar') : 'Pendientes por procesar o pagos' }}</p>
+			<p><i class="fa fa-file-text fa-fw" aria-hidden="true"></i> {{ loginService.getCurrentUser().departamento ? (loginService.getCurrentUser().departamento == 'Diseño' ? 'Cancelados' : 'Pendientes por procesar') : 'Pendientes por procesar o pagos' }}</p>
 		</a>
 	</div>
 
 	<p class="titulo_seccion" data-toggle="collapse" data-target=".reportes"
 		ng-show="loginService.menuReportes()">
-		Reportes
+		<i class="fa fa-line-chart fa-fw" aria-hidden="true"></i> Reportes
 	</p>
 
 	<div class="reportes collapse" aria-expanded="false">
 		<a href="./#/reportes/libro_de_ventas" ng-show="loginService.getCurrentUser().reportes_libro_de_ventas">
-			<p>Libro de Ventas</p>
+			<p><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Libro de Ventas</p>
 		</a>
 
 		<a href="./#/reportes/cuadre_ventas_diarias" ng-show="loginService.getCurrentUser().reportes_cuadre_ventas_diarias">
-			<p>Cuadre de Ventas Diarias</p>
+			<p><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Cuadre de Ventas Diarias</p>
 		</a>
 
 		<a href="./#/reportes/venta_productos" ng-show="loginService.getCurrentUser().reportes_venta_productos">
-			<p>Ventas por Productos</p>
+			<p><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Ventas por Productos</p>
 		</a>
 
 		<a href="./#/reportes/corte_de_caja" ng-show="loginService.getCurrentUser().reportes_corte_de_caja">
-			<p>Corte de Caja</p>
+			<p><i class="fa fa-bar-chart fa-fw" aria-hidden="true"></i> Corte de Caja</p>
 		</a>
 	</div>
 
 	<p class="current-version">
-		Versión:<br>
+		<i class="fa fa-code-fork fa-fw" aria-hidden="true"></i> Versión:<br>
 		{{ currentVersion }}
 	</p>
 </div>
 
-<a href="" ng-click="cerrar_seccion()" class="cerrar_seccion" ng-show="!enInicio && !express"><span aria-hidden="true">&times;</span></a>
+<a href="" ng-click="cerrar_seccion()" class="cerrar_seccion" ng-show="!enInicio && !express"><i class="fa fa-times fa-fw fa-2x" aria-hidden="true"></i></a>

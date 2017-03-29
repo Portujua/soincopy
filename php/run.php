@@ -1,6 +1,7 @@
 <?php
 	require_once("databasehandler.php");
 	$dbh = new DatabaseHandler();
+	header('Content-Type: application/json');
 
 	$dbh->actualizar_hora_sesion();
 

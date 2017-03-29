@@ -1,9 +1,9 @@
 <form class="agregar_guia" ng-controller="PlanDeEstudios" ng-submit="registrar_plan()">
 	<p class="btn-volver">
-		<a class="btn btn-volver" href="./#/planesdeestudio">&larr; Volver</a>
+		<a class="btn btn-volver" href="./#/planesdeestudio"><i class="fa fa-arrow-left fa-fw" aria-hidden="true"></i> Volver</a>
 	</p>
 
-	<h1 style="font-size: 20px;">Planes de Estudio &rarr; {{ editar ? 'Editar' : 'Crear' }}</h1>
+	<h1 style="font-size: 20px;">Planes de Estudio <i class="fa fa-arrow-right fa-fw" aria-hidden="true"></i> {{ editar ? 'Editar' : 'Crear' }}</h1>
 
 	<div class="register-form">
 		<div class="fila" ng-hide="plan.para">
@@ -114,8 +114,8 @@
 		</div>
 
 		<div class="fila text-center" ng-show="plan.para">
-			<button type="submit" class="btn btn-primary">Aceptar</button>
-			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()">Cancelar</button> 
+			<button type="submit" class="btn btn-primary"><i class="fa fa-check" aria-hidden="true"></i> Aceptar</button>
+			<button class="btn btn-sm btn-danger" ng-click="cerrar_seccion()"><i class="fa fa-times" aria-hidden="true"></i> Cancelar</button> 
 		</div>
 	</div>
 </form>
