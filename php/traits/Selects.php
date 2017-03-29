@@ -420,7 +420,9 @@
                     $qc->execute();
                     $qcr = $qc->fetchAll();
 
-                    $productos[$i]['costo_unitario'] = floatval($qcr[0]['costo']);
+                    preg_match_all('/^Guía ".+" \(Código: .+\) \[([0-9]+) hojas\]/', $productos[$i]['nombre'], $matches);
+
+                    $productos[$i]['costo_unitario'] = floatval($qcr[0]['costo']) * intval($matches[1][0]);
                 }
 
                 /* Materiales */

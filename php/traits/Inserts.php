@@ -555,8 +555,14 @@
                     }
 
                     if (isset($p['idproducto'])) {
-                        $precio_unitario = "(select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1)";
-                        $precio_total = "(select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1) * :cantidad";
+                        $pn = $this->db->prepare("select nombre from Producto where id=:id");
+                        $pn->execute([":id" => $p['producto']]);
+                        $_pn = $pn->fetchAll();
+
+                        preg_match_all('/^Guía ".+" \(Código: .+\) \[([0-9]+) hojas\]/', $_pn[0]['nombre'], $matches);
+
+                        $precio_unitario = "(select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1) * ".(intval($matches[1][0]));
+                        $precio_total = "(select costo from Producto_Costo where producto=(select id from Producto where nombre='Impresion de Guia') and eliminado=0 order by fecha desc limit 1) * ".(intval($matches[1][0]))." * :cantidad";
                     }
 
                     $query = $this->db->prepare("
