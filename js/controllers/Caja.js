@@ -122,10 +122,19 @@
 						        {
 						        	$location.path("/pedidos");
 
-						        	window.open(
-												"./factura/" + data.factura,
+						      //   	window.open(
+												// "./factura/" + data.factura,
+												// "_blank",
+												// "menubar=no,status=no,toolbar=no,width=285,height=400");
+
+						        	var ventanaImpresion = window.open(
+												"http://localhost:6666?factura=" + data.factura,
 												"_blank",
 												"menubar=no,status=no,toolbar=no,width=285,height=400");
+
+						        	setTimeout(() => {
+						        		ventanaImpresion.close();
+						        	}, 1000);
 
 						        	$.ajax({
 										    url: "php/papel_guias.php?pedido=" + pid + "&check",
