@@ -134,7 +134,7 @@
 
 						        	setTimeout(() => {
 						        		ventanaImpresion.close();
-						        	}, 1000);
+						        	}, 2000);
 
 						        	$.ajax({
 										    url: "php/papel_guias.php?pedido=" + pid + "&check",
